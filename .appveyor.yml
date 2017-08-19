@@ -68,15 +68,18 @@ install:
   - "%PYTHON%\\python.exe -m pip install wheel twine"
   - "%PYTHON%\\python.exe -m pip install -e ."
 
-build: off
+build:
+
+  # Install wheel-building support
+  - "%PYTHON%\\python.exe setup.py bdist_wheel"
 
 test_script:
   - "epab pytest"
 
-on_success:
-
   # Install wheel-building support
   - "%PYTHON%\\python.exe setup.py bdist_wheel"
+
+on_success:
 
   # Deploy a wheel (only actually do this for tags). NB That breaking this line
   # with Unix line-endings causes the windows command interpreter to barf so
