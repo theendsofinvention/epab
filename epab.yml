@@ -1,0 +1,9 @@
+package: 'epab'
+
+doc:
+  repo: 'https://github.com/132nd-etcher/epab-doc.git'
+  folder: './epab-doc'
+
+test:
+  runner: 'pytest'
+  av_runner: 'pytest --long'
