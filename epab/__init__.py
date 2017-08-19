@@ -19,6 +19,12 @@ import click
 import yaml
 from pkg_resources import DistributionNotFound, get_distribution
 
+try:
+    __version__ = get_distribution('emiz').version
+except DistributionNotFound:  # pragma: no cover
+    # package is not installed
+    __version__ = 'not installed'
+
 with open('epab.yml') as config_file:
     CONFIG = yaml.load(config_file)
 
@@ -294,7 +300,7 @@ def _print_version(ctx: click.Context, _, value):
 
     ensure_repo()
 
-    click.secho(_get_version(), fg='green')
+    click.secho(__version__, fg='green')
     exit(0)
 
 
@@ -314,10 +320,7 @@ def cli(ctx):
     Just activate your venv and type the following in whatever shell you fancy:
     """
     ensure_repo()
-    ctx.obj = {
-        'version': _get_version()
-    }
-    click.secho(ctx.obj['version'], fg='green')
+    click.secho(f'EPAB {__version__}', fg='green')
 
 
 @cli.command()
