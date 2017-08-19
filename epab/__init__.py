@@ -372,11 +372,14 @@ def chglog(ctx):
     Returns:
         bool: returns true if changes have been committed to the repository
     """
-    ensure_module(ctx, 'gitchangelog')
-    find_executable('git')
-    changelog = do(ctx, ['gitchangelog'], mute_stdout=True)
-    with open('CHANGELOG.rst', mode='w') as handle:
-        handle.write(re.sub(r'(\s*\r\n){2,}', '\r\n', changelog))
+    if CONFIG.get('disabled_changelog'):
+        click.secho('Skipping changelog', fg='green')
+    else:
+        ensure_module(ctx, 'gitchangelog')
+        find_executable('git')
+        changelog = do(ctx, ['gitchangelog'], mute_stdout=True)
+        with open('CHANGELOG.rst', mode='w') as handle:
+            handle.write(re.sub(r'(\s*\r\n){2,}', '\r\n', changelog))
 
 
 @cli.command()
