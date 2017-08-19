@@ -7,3 +7,5 @@ doc:
 test:
   runner: 'pytest'
   av_runner: 'pytest --long'
+
+disabled_changelog: 1

@@ -71,12 +71,12 @@ install:
 build: off
 
 test_script:
-  - "pytest --long"
-
-on_success:
+  - "epab pytest"
 
   # Install wheel-building support
   - "%PYTHON%\\python.exe setup.py bdist_wheel"
+
+on_success:
 
   # Deploy a wheel (only actually do this for tags). NB That breaking this line
   # with Unix line-endings causes the windows command interpreter to barf so
