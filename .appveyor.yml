@@ -68,10 +68,7 @@ install:
   - "%PYTHON%\\python.exe -m pip install wheel twine"
   - "%PYTHON%\\python.exe -m pip install -e ."
 
-build:
-
-  # Install wheel-building support
-  - "%PYTHON%\\python.exe setup.py bdist_wheel"
+build: off
 
 test_script:
   - "epab pytest"
