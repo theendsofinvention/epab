@@ -71,7 +71,7 @@ install:
 build: off
 
 test_script:
-  - "pytest --long"
+  - "epab pytest"
 
 on_success:
 
