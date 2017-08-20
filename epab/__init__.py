@@ -332,6 +332,7 @@ def reqs(ctx: click.Context, prod, test, dev):
     """
     Write requirements files
     """
+    ensure_module(ctx, 'pip-tools', 'piptools')
     if not find_executable('pip-compile'):
         click.secho('Missing module "pip-tools".\n'
                     'Install it manually with: "pip install pip-tools"\n'
@@ -522,7 +523,6 @@ def build_wheel(ctx, publish):
     if publish:
         ensure_module(ctx, 'twine')
         do(ctx, ['twine', 'upload', '--skip-existing', 'dist/*'])
-
 
 
 @cli.command()
