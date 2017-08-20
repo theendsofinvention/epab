@@ -332,35 +332,40 @@ def reqs(ctx: click.Context, prod, test, dev):
     """
     Write requirements files
     """
+    ensure_module(ctx, 'pip-tools', 'piptools')
     if not find_executable('pip-compile'):
         click.secho('Missing module "pip-tools".\n'
                     'Install it manually with: "pip install pip-tools"\n'
                     'Or install all dependencies with: "pip install -r requirements-dev.txt"',
                     err=True, fg='red')
         exit(-1)
-    if prod:
-        from setup import install_requires
-        _write_requirements(
-            ctx,
-            packages_list=install_requires,
-            outfile='requirements.txt'
-        )
-    if test:
-        from setup import test_requires
-        _write_requirements(
-            ctx,
-            packages_list=test_requires,
-            outfile='requirements-test.txt',
-            prefix_list=['-r requirements.txt']
-        )
-    if dev:
-        from setup import dev_requires
-        _write_requirements(
-            ctx,
-            packages_list=dev_requires,
-            outfile='requirements-dev.txt',
-            prefix_list=['-r requirements.txt', '-r requirements-test.txt']
-        )
+    try:
+        sys.path.insert(0, '.')
+        if prod:
+            from setup import install_requires
+            _write_requirements(
+                ctx,
+                packages_list=install_requires,
+                outfile='requirements.txt'
+            )
+        if test:
+            from setup import test_requires
+            _write_requirements(
+                ctx,
+                packages_list=test_requires,
+                outfile='requirements-test.txt',
+                prefix_list=['-r requirements.txt']
+            )
+        if dev:
+            from setup import dev_requires
+            _write_requirements(
+                ctx,
+                packages_list=dev_requires,
+                outfile='requirements-dev.txt',
+                prefix_list=['-r requirements.txt', '-r requirements-test.txt']
+            )
+    finally:
+        sys.path.pop(0)
 
 
 @cli.command()
@@ -509,11 +514,16 @@ def doc(ctx, show, clean, publish):
 
 @cli.command()
 @click.pass_context
-def build_wheel(ctx):
+@click.option('-p', '--publish', is_flag=True, help='Publish on Pypi')
+def build_wheel(ctx, publish):
     """
     Builds wheels
     """
     do(ctx, [sys.executable, 'setup.py', 'bdist_wheel'])
+    if publish:
+        ensure_module(ctx, 'twine')
+        do(ctx, ['twine', 'upload', '--skip-existing', 'dist/*'])
+
 
 
 @cli.command()
