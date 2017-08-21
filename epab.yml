@@ -2,10 +2,8 @@ package: 'epab'
 
 doc:
   repo: 'https://github.com/132nd-etcher/epab-doc.git'
-  folder: './epab-doc'
+  folder: './doc'
 
 test:
   runner: 'pytest'
   av_runner: 'pytest --long'
-
-disabled_changelog: 1
