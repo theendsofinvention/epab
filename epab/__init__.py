@@ -14,6 +14,7 @@ import sys
 import typing
 import webbrowser
 from contextlib import contextmanager
+from setuptools_scm import get_version
 
 import click
 import yaml
@@ -53,6 +54,10 @@ def repo_is_dirty(ctx) -> bool:
     """
     out, _, _ = do_ex(ctx, ['git', 'status', '--porcelain', '--untracked-files=no'])
     return bool(out)
+
+
+def repo_get_branch(ctx) -> str:
+    return do(ctx, 'git rev-parse --abbrev-ref HEAD', mute_stdout=True)
 
 
 def ensure_repo():
@@ -513,16 +518,45 @@ def doc(ctx, show, clean, publish):
 
 
 @cli.command()
+def clean():
+    """
+    Cleans up build dir
+    """
+    folders_to_cleanup = [
+        '.eggs',
+        f'{CONFIG["package"]}.egg-info'
+    ]
+    for folder in folders_to_cleanup:
+        if os.path.exists(folder):
+            click.secho(f'Removing: {folder}', fg='green')
+            shutil.rmtree(folder)
+
+
+@cli.command()
 @click.pass_context
-@click.option('-p', '--publish', is_flag=True, help='Publish on Pypi')
-def build_wheel(ctx, publish):
+def wheel(ctx):
     """
     Builds wheels
     """
-    do(ctx, [sys.executable, 'setup.py', 'bdist_wheel'])
-    if publish:
-        ensure_module(ctx, 'twine')
-        do(ctx, ['twine', 'upload', '--skip-existing', 'dist/*'])
+    if repo_is_dirty(ctx):
+        click.secho('Repository is dirty', err=True, fg='red')
+        return
+    if repo_get_branch(ctx) != 'master':
+        click.secho('Not on master branch', err=True, fg='red')
+        return
+    tag = do(ctx, 'git describe --tags --always', mute_stdout=True)
+    click.secho(f'Git tag: {tag}', fg='green')
+    if '-g' in tag:
+        click.secho('No tag on this commit', err=True, fg='red')
+        return
+    version = get_version()
+    if '+' in version:
+        click.secho(f'Invalid version tag: {tag}', err=True, fg='red')
+        return
+    click.secho(f'Version: {version}', fg='green')
+    do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel')
+    ctx.invoke(clean)
+    do(ctx, 'twine upload dist/* --skip-existing', mute_stdout=True, mute_stderr=True)
 
 
 @cli.command()
