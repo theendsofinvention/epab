@@ -534,7 +534,7 @@ def clean():
 
 @cli.command()
 @click.pass_context
-def wheel(ctx):
+def build(ctx):
     """
     Builds wheels
     """
@@ -554,7 +554,7 @@ def wheel(ctx):
         click.secho(f'Invalid version tag: {tag}', err=True, fg='red')
         return
     click.secho(f'Version: {version}', fg='green')
-    do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel')
+    do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel sdist')
     ctx.invoke(clean)
     do(ctx, 'twine upload dist/* --skip-existing', mute_stdout=True, mute_stderr=True)
 
