@@ -525,7 +525,8 @@ def clean():
     """
     folders_to_cleanup = [
         '.eggs',
-        f'{CONFIG["package"]}.egg-info'
+        'build',
+        f'{CONFIG["package"]}.egg-info',
     ]
     for folder in folders_to_cleanup:
         if os.path.exists(folder):
