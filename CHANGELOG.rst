@@ -2,8 +2,20 @@ Changelog
 =========
 
 
+0.1.6 (2017-08-24)
+------------------
+- Add pre_build, wheel, sdist and upload commands. [132nd-etcher]
+- Clean build folder. [132nd-etcher]
+- Add ctx obj. [132nd-etcher]
+
+
 0.1.5 (2017-08-24)
 ------------------
+- Merge branch 'master' into develop. [132nd-etcher]
+- Rename wheel -> build and add sdist command. [132nd-etcher]
+- Rename wheel -> build and add sdist command. [132nd-etcher]
+- Update changelog. [132nd-etcher]
+- Update requirements. [132nd-etcher]
 - Rename wheel -> build and add sdist command. [132nd-etcher]
 
 
