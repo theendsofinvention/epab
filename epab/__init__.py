@@ -324,6 +324,7 @@ def cli(ctx):
 
     Just activate your venv and type the following in whatever shell you fancy:
     """
+    ctx.obj = {}
     ensure_repo()
     click.secho(f'EPAB {__version__}', fg='green')
 
