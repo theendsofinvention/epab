@@ -536,28 +536,56 @@ def clean():
 
 @cli.command()
 @click.pass_context
-def build(ctx):
-    """
-    Builds wheels
-    """
+def pre_build(ctx):
+    if ctx.obj.get('pre_build'):
+        exit(1)
     if repo_is_dirty(ctx):
         click.secho('Repository is dirty', err=True, fg='red')
-        return
+        exit(1)
     if repo_get_branch(ctx) != 'master':
         click.secho('Not on master branch', err=True, fg='red')
-        return
+        exit(1)
     tag = do(ctx, 'git describe --tags --always', mute_stdout=True)
     click.secho(f'Git tag: {tag}', fg='green')
     if '-g' in tag:
         click.secho('No tag on this commit', err=True, fg='red')
-        return
+        exit(1)
     version = get_version()
     if '+' in version:
         click.secho(f'Invalid version tag: {tag}', err=True, fg='red')
-        return
+        exit(1)
     click.secho(f'Version: {version}', fg='green')
-    do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel sdist')
+    ctx.obj['pre_build'] = 'done'
+
+
+@cli.command()
+@click.pass_context
+def wheel(ctx):
+    """
+    Builds wheels
+    """
+    ctx.invoke(pre_build)
+    do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel')
     ctx.invoke(clean)
+
+
+@cli.command()
+@click.pass_context
+def sdist(ctx):
+    """
+    Builds wheels
+    """
+    ctx.invoke(pre_build)
+    do(ctx, sys.executable.replace('\\', '/') + ' setup.py sdist')
+    ctx.invoke(clean)
+
+
+@cli.command()
+@click.pass_context
+def upload(ctx):
+    """
+    Builds wheels
+    """
     do(ctx, 'twine upload dist/* --skip-existing', mute_stdout=True, mute_stderr=True)
 
 
