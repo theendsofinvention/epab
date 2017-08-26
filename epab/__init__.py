@@ -419,6 +419,16 @@ def flake8(ctx):
 
 @cli.command()
 @click.pass_context
+def isort(ctx):
+    """
+    Runs Flake8 (http://flake8.pycqa.org/en/latest/)
+    """
+    ensure_module(ctx, 'isort')
+    do(ctx, ['isort', '-rc', '.'])
+
+
+@cli.command()
+@click.pass_context
 def prospector(ctx):
     """
     Runs Landscape.io's Prospector (https://github.com/landscapeio/prospector)
@@ -473,11 +483,11 @@ def autopep8(ctx):
 @click.option('-c', '--clean', is_flag=True, help='Clean build')
 @click.option('-p', '--publish', is_flag=True, help='Upload doc')
 @click.pass_context
-def doc(ctx, show, clean, publish):
+def doc(ctx, show, clean_, publish):
     """
     Builds the documentation using Sphinx (http://www.sphinx-doc.org/en/stable)
     """
-    if clean and os.path.exists('./doc/html'):
+    if clean_ and os.path.exists('./doc/html'):
         shutil.rmtree('./doc/html')
     if os.path.exists('./doc/api'):
         shutil.rmtree('./doc/api')
@@ -595,10 +605,13 @@ def pre_push(ctx):
     """
     This is meant to be used as a Git pre-push hook
     """
+    ctx.invoke(clean)
     ctx.invoke(autopep8)
+    ctx.invoke(isort)
+    ctx.invoke(flake8)
+    ctx.invoke(pylint)
     ctx.invoke(reqs)
     ctx.invoke(chglog)
-    ctx.invoke(flake8)
     ctx.invoke(safety)
     if repo_is_dirty(ctx):
         click.secho('Repository is dirty', err=True, fg='red')
