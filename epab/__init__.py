@@ -548,7 +548,7 @@ def clean():
 @click.pass_context
 def pre_build(ctx):
     if ctx.obj.get('pre_build'):
-        exit(1)
+        return
     if repo_is_dirty(ctx):
         click.secho('Repository is dirty', err=True, fg='red')
         exit(1)
