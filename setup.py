@@ -54,7 +54,7 @@ setup_requires = [
 
 entry_points = '''
 [console_scripts]
-epab=epab:cli
+epab=epab.cli:cli
 '''
 
 if __name__ == '__main__':
