@@ -47,7 +47,6 @@ def release(ctx, new_version):
 
     write_reqs(ctx)
     repo_commit(ctx, 'chg: dev: update requirements [auto]')
-    exit(0)
 
     new_version = bump_version(ctx, new_version)
     _info(f'New version: {new_version}')
@@ -55,6 +54,7 @@ def release(ctx, new_version):
     ctx.invoke(chglog)
     repo_commit(ctx, 'chg: dev: update changelog [auto]')
     repo_remove_tag(ctx, new_version)
+    exit(0)
 
     repo_checkout(ctx, 'master')
     repo_merge(ctx, 'develop')
