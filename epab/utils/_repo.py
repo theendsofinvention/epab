@@ -89,7 +89,7 @@ def repo_push(ctx: click.Context):
     _info('Pushing repo to origin')
     if dry_run(ctx):
         return
-    do(ctx, ['git', 'push'])
+    do(ctx, ['git', 'push', '--tags'])
 
 
 def repo_is_dirty(ctx: click.Context) -> bool:
