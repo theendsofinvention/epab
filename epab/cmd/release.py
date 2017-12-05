@@ -73,7 +73,8 @@ def release(ctx, new_version):
         repo_checkout(ctx, 'develop')
         repo_push(ctx)
 
-        do(ctx, 'pip install -e .')
+        if ctx.obj["CONFIG"]["package"] != 'epab':
+            do(ctx, 'pip install -e .')
         _info('All good!')
 
     except SystemExit:

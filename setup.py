@@ -67,7 +67,7 @@ if __name__ == '__main__':
         platforms=['win32'],
         url=r'https://github.com/132nd-etcher/EPAB',
         download_url=r'https://github.com/132nd-etcher/EPAB/releases',
-        description='Set of tools for the DCS mission builder',
+        description="I'll do you for that.",
         license='GPLv3',
         long_description=read_local_files('README.rst'),
         packages=['epab'],
