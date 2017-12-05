@@ -3,6 +3,7 @@ EMIZ
 
 Etcher's Python Application Builder
 
+
 |OSI|
 
 |license|
