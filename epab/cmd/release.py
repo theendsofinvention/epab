@@ -7,7 +7,7 @@ import click
 from epab.cmd import chglog, write_reqs
 from epab.linters import lint
 from epab.utils import (_error, _info, bump_version, do, dry_run, repo_checkout, repo_commit, repo_get_current_branch,
-                        repo_merge, repo_remove_tag, repo_tag)
+                        repo_merge, repo_remove_tag, repo_tag, repo_push)
 
 
 def _clean(ctx):
@@ -54,7 +54,6 @@ def release(ctx, new_version):
     ctx.invoke(chglog)
     repo_commit(ctx, 'chg: dev: update changelog [auto]')
     repo_remove_tag(ctx, new_version)
-    exit(0)
 
     repo_checkout(ctx, 'master')
     repo_merge(ctx, 'develop')
@@ -67,5 +66,10 @@ def release(ctx, new_version):
         return
     do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel')
     do(ctx, 'twine upload dist/* --skip-existing', mute_stdout=True, mute_stderr=True)
+
+    repo_push(ctx)
+    repo_checkout(ctx, 'develop')
+    repo_push(ctx)
+
     do(ctx, 'pip install -e .')
     _info('All good!')
