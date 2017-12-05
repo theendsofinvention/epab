@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.10 (2017-12-05)
+-------------------
+
+Changes
+~~~~~~~
+- Add check so EPAB does not try reinstalling itself. [132nd-etcher]
+
+
 0.1.9 (2017-09-02)
 ------------------
 
