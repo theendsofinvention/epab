@@ -2,6 +2,7 @@
 
 import os
 
+import versioneer
 from setuptools import setup
 
 
@@ -24,33 +25,33 @@ def read_local_files(*file_paths: str) -> str:
     return '\n' + '\n\n'.join(map(_read_single_file, file_paths))
 
 
-dependency_links = []
-
-# noinspection SpellCheckingInspection
-install_requires = [
-    'pyyaml',
-    'click',
-    'setuptools_scm',
-]
-
-# noinspection SpellCheckingInspection
-test_requires = [
-    'pytest',
-    'coverage',
-    'hypothesis',
-    'pytest-cache',
-    'pytest-catchlog',
-    'pytest-cov',
-    'pytest-mock',
-    'pytest-pep8',
-    'pytest-pycharm',
-]
-
-dev_requires = []
-
-setup_requires = [
-    'setuptools_scm',
-]
+# dependency_links = []
+#
+# # noinspection SpellCheckingInspection
+# install_requires = [
+#     'pyyaml',
+#     'click',
+#     'setuptools_scm',
+# ]
+#
+# # noinspection SpellCheckingInspection
+# test_requires = [
+#     'pytest',
+#     'coverage',
+#     'hypothesis',
+#     'pytest-cache',
+#     'pytest-catchlog',
+#     'pytest-cov',
+#     'pytest-mock',
+#     'pytest-pep8',
+#     'pytest-pycharm',
+# ]
+#
+# dev_requires = []
+#
+# setup_requires = [
+#     'setuptools_scm',
+# ]
 
 entry_points = '''
 [console_scripts]
@@ -71,12 +72,13 @@ if __name__ == '__main__':
         long_description=read_local_files('README.rst'),
         packages=['epab'],
         include_package_data=True,
-        install_requires=install_requires,
+        # install_requires=install_requires,
         entry_points=entry_points,
-        tests_require=test_requires,
-        use_scm_version=True,
-        setup_requires=setup_requires,
-        dependency_links=dependency_links,
+        # tests_require=test_requires,
+        version=versioneer.get_version(),
+        cmdclass=versioneer.get_cmdclass(),
+        # setup_requires=setup_requires,
+        # dependency_links=dependency_links,
         python_requires='>=3.6',
         classifiers=[
             'Development Status :: 3 - Alpha',

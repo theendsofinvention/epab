@@ -7,14 +7,14 @@ Yes, this is shameful...
 
 import glob
 
-import pytest
-
 import epab
+
+import pytest
 
 
 @pytest.fixture(autouse=True)
 def patch_version(monkeypatch):
-    monkeypatch.setattr(epab.cli, '__version__', '0.0.0')
+    monkeypatch.setattr(epab, '__version__', '0.0.0')
 
 
 # noinspection PyUnresolvedReferences,PyProtectedMember

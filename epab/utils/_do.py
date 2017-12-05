@@ -6,6 +6,7 @@ import sys
 import typing
 
 import click
+from epab.utils import _cmd, _error, _info, _out
 
 
 def find_executable(executable: str, path: str = None) -> typing.Union[str, None]:  # noqa: C901
@@ -26,6 +27,8 @@ def find_executable(executable: str, path: str = None) -> typing.Union[str, None
         executable: executable name to look for
         path: root path to examine (defaults to system PATH)
 
+    Returns: executable path as string or None
+
     """
 
     if not executable.endswith('.exe'):
@@ -34,7 +37,7 @@ def find_executable(executable: str, path: str = None) -> typing.Union[str, None
     if executable in find_executable.known_executables:  # type: ignore
         return find_executable.known_executables[executable]  # type: ignore
 
-    click.secho(f'looking for executable: {executable}', fg='green', nl=False)
+    _info(f'Looking for executable: {executable}', nl=False)
 
     if path is None:
         path = os.environ['PATH']
@@ -47,11 +50,11 @@ def find_executable(executable: str, path: str = None) -> typing.Union[str, None
             if os.path.isfile(executable_path):
                 break
         else:
-            click.secho(f' -> not found', fg='red', err=True)
+            _error(f' -> not found')
             return None
 
     find_executable.known_executables[executable] = executable_path  # type: ignore
-    click.secho(f' -> {click.format_filename(executable_path)}', fg='green')
+    _info(f' -> {click.format_filename(executable_path)}')
     return executable_path
 
 
@@ -103,16 +106,16 @@ def do_ex(ctx: click.Context, cmd: typing.List[str], cwd: str = '.') -> typing.T
         if isinstance(str_or_bytes, str):
             return '\n'.join(str_or_bytes.strip().splitlines())
 
-        return '\n'.join(str_or_bytes.decode('utf-8', 'surogate_escape').strip().splitlines())
+        return '\n'.join(str_or_bytes.decode('utf-8', 'replace').strip().splitlines())
 
     exe = find_executable(cmd.pop(0))
     if not exe:
         exit(-1)
     cmd.insert(0, exe)
-    click.secho(f'{cmd}', nl=False, fg='magenta')
+    _cmd(f'{cmd}', nl=False)
     process = _popen_pipes(cmd, cwd)
     out, err = process.communicate()
-    click.secho(f' -> {process.returncode}', fg='magenta')
+    _cmd(f' -> {process.returncode}')
     return _ensure_stripped_str(ctx, out), _ensure_stripped_str(ctx, err), process.returncode
 
 
@@ -158,10 +161,10 @@ def do(  # pylint: disable=too-many-arguments,invalid-name
 
     out, err, ret = do_ex(ctx, cmd, cwd)
     if out and not mute_stdout:
-        click.secho(f'{_filter_output(out)}', fg='cyan')
+        _out(f'{_filter_output(out)}')
     if err and not mute_stderr:
-        click.secho(f'{_filter_output(err)}', fg='red')
+        _cmd(f'{_filter_output(err)}')
     if ret:
-        click.secho(f'command failed: {cmd}', err=True, fg='red')
+        _error(f'command failed: {cmd}')
         exit(ret)
     return out
