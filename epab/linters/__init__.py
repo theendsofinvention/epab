@@ -2,9 +2,7 @@
 
 import click
 
-import click
-from epab.utils import do
-from epab.utils import _info
+from epab.utils import _info, do
 
 
 @click.command()
@@ -86,11 +84,11 @@ def safety(ctx):
 
 @click.command()
 @click.pass_context
-@click.option('-c', '--auto-commit', default=True)
-def lint(ctx: click.Context, auto_commit: bool):
+def lint(ctx: click.Context):
     _info('Running all linters')
+    ctx.invoke(autopep8)
+    ctx.invoke(isort)
     ctx.invoke(flake8)
     ctx.invoke(pylint)
-    ctx.invoke(autopep8)
     # ctx.invoke(prospector)
     ctx.invoke(safety)

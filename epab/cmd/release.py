@@ -2,11 +2,12 @@
 import os
 import shutil
 import sys
+
 import click
-from epab.linters import lint
-from epab.utils import _info, bump_version, do, repo_get_current_branch, _error, repo_tag, repo_commit,\
-    repo_remove_tag, repo_checkout, repo_merge, repo_push
 from epab.cmd import chglog, write_reqs
+from epab.linters import lint
+from epab.utils import (_error, _info, bump_version, do, dry_run, repo_checkout, repo_commit, repo_get_current_branch,
+                        repo_merge, repo_remove_tag, repo_tag)
 
 
 def _clean(ctx):
@@ -14,6 +15,8 @@ def _clean(ctx):
     Cleans up build dir
     """
     _info(f'Cleaning project directory...')
+    if dry_run(ctx):
+        return
     folders_to_cleanup = [
         '.eggs',
         'build',
@@ -44,6 +47,7 @@ def release(ctx, new_version):
 
     write_reqs(ctx)
     repo_commit(ctx, 'chg: dev: update requirements [auto]')
+    exit(0)
 
     new_version = bump_version(ctx, new_version)
     _info(f'New version: {new_version}')
@@ -56,8 +60,11 @@ def release(ctx, new_version):
     repo_merge(ctx, 'develop')
     repo_tag(ctx, new_version)
 
-
     _clean(ctx)
+
+    if dry_run(ctx):
+        _info('DRYRUN: All good!')
+        return
     do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel')
     do(ctx, 'twine upload dist/* --skip-existing', mute_stdout=True, mute_stderr=True)
     do(ctx, 'pip install -e .')

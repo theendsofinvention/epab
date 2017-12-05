@@ -5,19 +5,15 @@
 Collections of tools to build a python app
 """
 import os
-import re
 import shutil
-import sys
 import webbrowser
 
 import click
 import yaml
-
 from epab import __version__
-from epab.cmd import release, reqs, chglog
-from epab.linters import autopep8, flake8, isort, lint, pep, pep8, prospector, pylint, safety
-from epab.utils import (_info, do, ensure_exe, ensure_module, repo_ensure,
-                        repo_get_current_branch, repo_is_dirty, temporary_working_dir, write_reqs)
+from epab.cmd import chglog, release, reqs
+from epab.linters import autopep8, flake8, isort, lint, pep, pep8, prospector, safety
+from epab.utils import _info, do, ensure_module, repo_ensure, repo_is_dirty, temporary_working_dir
 
 with open('epab.yml') as config_file:
     CONFIG = yaml.load(config_file)

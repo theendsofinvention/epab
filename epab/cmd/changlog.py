@@ -1,10 +1,10 @@
 # coding=utf-8
 
 
-import click
 import re
 
-from epab.utils import do, ensure_exe, _info
+import click
+from epab.utils import _info, do, ensure_exe
 
 
 @click.command()
@@ -20,7 +20,7 @@ def chglog(ctx):
         _info('Skipping changelog update')
     else:
         ensure_exe('git')
-        ensure_exe('githchangelog')
+        ensure_exe('gitchangelog')
         _info('Writing changelog')
         changelog = do(ctx, ['gitchangelog'], mute_stdout=True)
         with open('CHANGELOG.rst', mode='w') as stream:

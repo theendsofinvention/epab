@@ -126,7 +126,7 @@ def do(  # pylint: disable=too-many-arguments,invalid-name
         mute_stdout: bool = False,
         mute_stderr: bool = False,
         # @formatter:off
-        filter_output: typing.Union[None, typing.Iterable[str]]=None
+        filter_output: typing.Union[None, typing.Iterable[str]] = None
         # @formatter:on
 ) -> str:
     """
