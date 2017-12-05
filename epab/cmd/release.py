@@ -7,7 +7,7 @@ import click
 from epab.cmd import chglog, write_reqs
 from epab.linters import lint
 from epab.utils import (_error, _info, bump_version, do, dry_run, repo_checkout, repo_commit, repo_get_current_branch,
-                        repo_merge, repo_remove_tag, repo_tag, repo_push)
+                        repo_merge, repo_push, repo_remove_tag, repo_tag)
 
 
 def _clean(ctx):
@@ -59,17 +59,26 @@ def release(ctx, new_version):
     repo_merge(ctx, 'develop')
     repo_tag(ctx, new_version)
 
-    _clean(ctx)
+    try:
 
-    if dry_run(ctx):
-        _info('DRYRUN: All good!')
-        return
-    do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel')
-    do(ctx, 'twine upload dist/* --skip-existing', mute_stdout=True, mute_stderr=True)
+        _clean(ctx)
 
-    repo_push(ctx)
-    repo_checkout(ctx, 'develop')
-    repo_push(ctx)
+        if dry_run(ctx):
+            _info('DRYRUN: All good!')
+            return
+        do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel')
+        do(ctx, 'twine upload dist/* --skip-existing', mute_stdout=True, mute_stderr=True)
 
-    do(ctx, 'pip install -e .')
-    _info('All good!')
+        repo_push(ctx)
+        repo_checkout(ctx, 'develop')
+        repo_push(ctx)
+
+        do(ctx, 'pip install -e .')
+        _info('All good!')
+
+    except SystemExit:
+        repo_checkout(ctx, 'develop')
+        _clean(ctx)
+        repo_remove_tag(ctx, new_version)
+        do(ctx, 'pip install -e .')
+        raise
