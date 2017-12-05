@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.12 (2017-12-05)
+-------------------
+
+Changes
+~~~~~~~
+- Automatically push tags to remote. [132nd-etcher]
+
+
 0.1.10 (2017-12-05)
 -------------------
 
