@@ -1,4 +1,4 @@
-EMIZ
+EPAB
 ----
 
 Etcher's Python Application Builder
@@ -16,6 +16,6 @@ Etcher's Python Application Builder
 .. |license| image:: https://img.shields.io/github/license/132nd-etcher/EPAB.svg
     :target: https://www.gnu.org/licenses/gpl-3.0.en.html
 .. |av_master| image:: https://img.shields.io/appveyor/ci/132nd-etcher/epab/master.svg?label=master
-    :target: https://ci.appveyor.com/project/132nd-etcher/emiz
+    :target: https://ci.appveyor.com/project/132nd-etcher/epab
 .. |av_develop| image:: https://img.shields.io/appveyor/ci/132nd-etcher/epab/develop.svg?label=develop
-    :target: https://ci.appveyor.com/project/132nd-etcher/emiz
+    :target: https://ci.appveyor.com/project/132nd-etcher/epab
