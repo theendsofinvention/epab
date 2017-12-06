@@ -2,8 +2,15 @@
 
 import os
 
-import versioneer
+from pipenv.project import Project
+from pipenv.utils import convert_deps_to_pip
 from setuptools import setup
+
+import versioneer
+
+pfile = Project(chdir=False).parsed_pipfile
+requirements = convert_deps_to_pip(pfile['packages'], r=False)
+test_requirements = convert_deps_to_pip(pfile['dev-packages'], r=False)
 
 
 def read_local_files(*file_paths: str) -> str:
@@ -25,34 +32,6 @@ def read_local_files(*file_paths: str) -> str:
     return '\n' + '\n\n'.join(map(_read_single_file, file_paths))
 
 
-# dependency_links = []
-#
-# # noinspection SpellCheckingInspection
-# install_requires = [
-#     'pyyaml',
-#     'click',
-#     'setuptools_scm',
-# ]
-#
-# # noinspection SpellCheckingInspection
-# test_requires = [
-#     'pytest',
-#     'coverage',
-#     'hypothesis',
-#     'pytest-cache',
-#     'pytest-catchlog',
-#     'pytest-cov',
-#     'pytest-mock',
-#     'pytest-pep8',
-#     'pytest-pycharm',
-# ]
-#
-# dev_requires = []
-#
-# setup_requires = [
-#     'setuptools_scm',
-# ]
-
 entry_points = '''
 [console_scripts]
 epab=epab.cli:cli
@@ -72,9 +51,9 @@ if __name__ == '__main__':
         long_description=read_local_files('README.rst'),
         packages=['epab'],
         include_package_data=True,
-        # install_requires=install_requires,
+        install_requires=requirements,
         entry_points=entry_points,
-        # tests_require=test_requires,
+        tests_require=test_requirements,
         version=versioneer.get_version(),
         cmdclass=versioneer.get_cmdclass(),
         # setup_requires=setup_requires,
