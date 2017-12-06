@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.15 (2017-12-06)
+-------------------
+
+Fix
+~~~
+- Apparently, --all and --tags are incompatible ... [132nd-etcher]
+
+
 0.1.14 (2017-12-06)
 -------------------
 
