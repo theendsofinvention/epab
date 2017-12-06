@@ -69,7 +69,6 @@ def release(ctx, new_version):
         do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel')
         do(ctx, 'twine upload dist/* --skip-existing', mute_stdout=True, mute_stderr=True)
 
-        repo_push(ctx)
         repo_checkout(ctx, 'develop')
         repo_push(ctx)
 
