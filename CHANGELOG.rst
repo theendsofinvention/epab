@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.13 (2017-12-06)
+-------------------
+
+Changes
+~~~~~~~
+- Using pipenv to declare setup.py deps. [132nd-etcher]
+
+
 0.1.12 (2017-12-05)
 -------------------
 
