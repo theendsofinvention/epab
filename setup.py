@@ -2,11 +2,11 @@
 
 import os
 
+import versioneer
 from pipenv.project import Project
 from pipenv.utils import convert_deps_to_pip
-from setuptools import setup
 
-import versioneer
+from setuptools import setup
 
 pfile = Project(chdir=False).parsed_pipfile
 requirements = convert_deps_to_pip(pfile['packages'], r=False)
