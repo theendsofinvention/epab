@@ -61,8 +61,9 @@ def _print_version(ctx: click.Context, _, value):
               is_flag=True, is_eager=True, expose_value=False, callback=_print_version, default=False,
               help='Print version and exit')
 @click.option('-n', '--dry-run', is_flag=True, default=False, help='Dry run')
+@click.option('-d', '--dirty', is_flag=True, default=False, help='Allow dirty repository')
 @click.pass_context
-def cli(ctx, dry_run):
+def cli(ctx, dry_run, dirty):
     """
     This is a tool that handles all the tasks to build a Python application
 
@@ -75,7 +76,7 @@ def cli(ctx, dry_run):
     ctx.obj['dry_run'] = dry_run
     _info(f'EPAB {__version__}')
     repo_ensure(ctx)
-    if repo_is_dirty(ctx):
+    if not dirty and repo_is_dirty(ctx):
         click.secho('Repository is dirty', err=True, fg='red')
         exit(-1)
 
