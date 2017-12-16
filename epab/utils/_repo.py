@@ -27,7 +27,7 @@ def repo_remove_tag(ctx: click.Context, tag: str):
 
 
 def repo_get_latest_tag(ctx) -> str:
-    return do(ctx, 'git describe --dirty --tags --long', mute_stdout=True)
+    return do(ctx, 'git describe --tags', mute_stdout=True)
 
 
 def repo_ensure(ctx):
