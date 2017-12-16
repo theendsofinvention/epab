@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7f75a1f49912c02223a8bf16d2404f212ad6b2f942b4effc04f38ff73a31ae8f"
+            "sha256": "71402680e71829de25d31ce9d86299d8f8aa38892afddfbaada62ea383b2b9d2"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -365,13 +365,6 @@
             ],
             "version": "==3.42.2"
         },
-        "pep8": {
-            "hashes": [
-                "sha256:b22cfae5db09833bb9bd7c8463b53e1a9c9b39f12e304a8d0bba729c501827ee",
-                "sha256:fe249b52e20498e59e0b5c5256aa52ee99fc295b26ec9eaa85776ffdb9fe6374"
-            ],
-            "version": "==1.7.1"
-        },
         "pluggy": {
             "hashes": [
                 "sha256:7f8ae7f5bdf75671a718d2daf0a64b7885f74510bcd98b1a0bb420eb9a9d0cff"
@@ -411,12 +404,6 @@
                 "sha256:920d1167af5c2c2ad3fa0717d0c6c52e97e97810160c15721ac895cac53abb1c"
             ],
             "version": "==1.6.3"
-        },
-        "pytest-pep8": {
-            "hashes": [
-                "sha256:032ef7e5fa3ac30f4458c73e05bb67b0f036a8a5cb418a534b3170f89f120318"
-            ],
-            "version": "==1.0.6"
         },
         "pytest-pycharm": {
             "hashes": [
