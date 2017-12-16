@@ -2,6 +2,16 @@ Changelog
 =========
 
 
+0.1.21 (2017-12-16)
+-------------------
+
+Changes
+~~~~~~~
+- Remove bogus av file. [132nd-etcher]
+- Release only on develop. [132nd-etcher]
+- Update AV build number. [132nd-etcher]
+
+
 0.1.20 (2017-12-16)
 -------------------
 
