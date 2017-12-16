@@ -2,7 +2,9 @@
 
 
 import click
+
 from epab.utils import write_reqs
+
 
 @click.command()
 @click.option('-c', '--auto-commit', is_flag=True, help='Commit the changes')

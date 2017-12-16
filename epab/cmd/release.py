@@ -5,11 +5,12 @@ import sys
 
 import click
 
-from .changelog import chglog
-from .requirements import write_reqs
 from epab.linters import lint
 from epab.utils import (_error, _info, bump_version, do, dry_run, repo_checkout, repo_get_current_branch, repo_merge,
                         repo_push, repo_remove_tag, repo_tag)
+
+from .changelog import chglog
+from .requirements import write_reqs
 
 
 def _clean(ctx):
