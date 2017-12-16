@@ -88,13 +88,7 @@ def install_linters(ctx):
     """
     Runs Pyup's Safety tool (https://pyup.io/safety/)
     """
-    for linter in [
-        'autopep8',
-        'isort',
-        'flake8',
-        'pylint',
-        'safety',
-    ]:
+    for linter in ['autopep8', 'isort', 'flake8', 'pylint', 'safety']:
         do(ctx, ['pip', 'install', '--upgrade', linter])
 
 
