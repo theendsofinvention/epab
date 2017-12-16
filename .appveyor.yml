@@ -64,14 +64,14 @@ cache:
 install:
   - "%PYTHON%\\python.exe -m pip install --disable-pip-version-check --user --upgrade pip setuptools"
   - "%PYTHON%\\python.exe -m pip install --upgrade pipenv"
-  - cmd: pipenv install --system -d .
+  - cmd: pipenv install -d .
 
 build: off
 
 test_script:
-  - cmd: pytest test
+  - cmd: pipenv run pytest test
 
-#  - cmd: pip install -e .
+  - cmd: pip install -e .
   - cmd: epab install_linters
   - cmd: epab release
 
