@@ -8,7 +8,6 @@ Yes, this is shameful...
 import glob
 
 import epab
-
 import pytest
 
 
