@@ -65,7 +65,7 @@ cache:
 
 
 install:
-  - "%PYTHON%\\python.exe -m pip install --disable-pip-version-check --user --upgrade pip setuptools wheel"
+  - "%PYTHON%\\python.exe -m pip install --disable-pip-version-check --user --upgrade pip setuptools"
   - "%PYTHON%\\python.exe -m pip install --upgrade pipenv"
   - cmd: pip install gitchangelog
   - cmd: pipenv install -d .
@@ -77,7 +77,6 @@ test_script:
   - "%PYTHON%/Scripts/pip.exe install codacy-coverage"
   - "%PYTHON%/Scripts/python-codacy-coverage.exe -r coverage.xml & exit 0"
   - cmd: pip install -e .
-  - cmd: epab install_linters
   - cmd: epab release
 
 

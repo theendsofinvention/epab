@@ -16,6 +16,13 @@ click = ">=6"
 pyyaml = ">=3"
 versioneer = "*"
 semver = "*"
+wheel = "*"
+twine = "*"
+"autopep8" = "*"
+pylint = "*"
+isort = "*"
+safety = "*"
+"flake8" = "*"
 
 
 [dev-packages]

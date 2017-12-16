@@ -84,16 +84,6 @@ def safety(ctx):
 
 @click.command()
 @click.pass_context
-def install_linters(ctx):
-    """
-    Runs Pyup's Safety tool (https://pyup.io/safety/)
-    """
-    for linter in ['autopep8', 'isort', 'flake8', 'pylint', 'safety']:
-        do(ctx, ['pip', 'install', '--upgrade', linter])
-
-
-@click.command()
-@click.pass_context
 @click.option('-c', '--auto-commit', is_flag=True, help='Commit the changes')
 def lint(ctx: click.Context, auto_commit: bool):
     _info('Running all linters')
