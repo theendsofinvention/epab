@@ -2,7 +2,7 @@
 
 import click
 
-from epab.utils import write_reqs
+from epab.utils import write_reqs, repo_commit
 from .changlog import chglog
 from .release import release
 
@@ -14,3 +14,4 @@ def reqs(ctx: click.Context):
     Write requirements files
     """
     write_reqs(ctx)
+    repo_commit(ctx, 'chg: dev: update requirements [skip ci]')
