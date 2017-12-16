@@ -77,5 +77,7 @@ def release(ctx, new_version):
         repo_checkout(ctx, 'develop')
         _clean(ctx)
         repo_remove_tag(ctx, new_version)
-        do(ctx, 'pip install -e .')
+
+        if ctx.obj["CONFIG"]["package"] != 'epab':
+            do(ctx, 'pip install -e .')
         raise
