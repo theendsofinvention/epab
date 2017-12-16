@@ -57,15 +57,14 @@ init:
   - cmd: echo %APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%
 
 cache:
-  - C:\Users\appveyor\AppData\Local\pip\cache -> requirements.txt
+  - C:\Users\appveyor\AppData\Local\pip\cache -> Pipfile
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
 
 install:
   - "%PYTHON%\\python.exe -m pip install --disable-pip-version-check --user --upgrade pip setuptools"
-  - "%PYTHON%\\python.exe -m pip install -r requirements-dev.txt"
-  - "%PYTHON%\\python.exe -m pip install wheel twine"
-  - "%PYTHON%\\python.exe -m pip install -e ."
+  - "%PYTHON%\\python.exe -m pip install --upgrade pipenv"
+  - cmd: pipenv install -d .
 
 build: off
 
