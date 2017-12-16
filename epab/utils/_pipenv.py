@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Manages pipenv operations
+"""
 import importlib
 
 from ._console import _error, _info
@@ -26,12 +29,6 @@ def ensure_module(ctx, module_name: str, import_name: str = None):
         do(ctx, ['pip', 'install', module_name])
 
 
-@run_once
-def update_env(ctx):
-    _info('Updating environment')
-    do(ctx, ['pipenv', 'update', '-d'])
-
-
 def _write_reqs(ctx, cmd, file_path):
     _info(f'Writing {file_path}')
     reqs, err, code = do_ex(ctx, cmd)
@@ -45,10 +42,18 @@ def _write_reqs(ctx, cmd, file_path):
 
 @run_once
 def write_reqs(ctx, auto_commit: bool):
+    """
+    Writes the requirement files
+
+    Args:
+        auto_commit: whether or not to commit the changes
+    """
     _info('Writing requirements')
     base_cmd = ['pipenv', 'lock', '-r']
     _write_reqs(ctx, base_cmd, 'requirements.txt')
     _write_reqs(ctx, base_cmd + ['-d'], 'requirements-dev.txt')
     if auto_commit:
-        files_to_add = ['Pipfile', 'Pipfile.lock', 'requirements.txt', 'requirements-dev.txt']
-        repo_commit(ctx, 'chg: dev: update requirements [auto] [skip ci]', files_to_add=files_to_add)
+        files_to_add = ['Pipfile', 'Pipfile.lock',
+                        'requirements.txt', 'requirements-dev.txt']
+        repo_commit(
+            ctx, 'chg: dev: update requirements [auto] [skip ci]', files_to_add=files_to_add)

@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Manages commands
+"""
 
 from .appveyor import appveyor
 from .changelog import chglog

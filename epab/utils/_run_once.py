@@ -1,10 +1,17 @@
 # coding=utf-8
+"""
+Simple decorator to ensure a function is ran only once
+"""
 
 from ._console import _info
 
 
 def run_once(func):
-    def inner(ctx, *args, **kwargs):
+    """
+    Simple decorator to ensure a function is ran only once
+    """
+
+    def _inner(ctx, *args, **kwargs):
         if func.__name__ in ctx.obj['run_once']:
             _info(f'RUN_ONCE: skipping {func.__name__}')
             return ctx.obj['run_once'][func.__name__]
@@ -14,4 +21,4 @@ def run_once(func):
         ctx.obj['run_once'][func.__name__] = result
         return result
 
-    return inner
+    return _inner

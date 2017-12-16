@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Manages the release process on Appveyor
+"""
 
 import os
 
@@ -23,12 +26,16 @@ def _appveyor_build():
 
 
 def _appveyor_update_build(ctx: click.Context, version: str):
-    do(ctx, ['appveyor', 'UpdateBuild', '-Version', f'{version}-{_appveyor_build()}-{_appveyor_commit()}'])
+    do(ctx, ['appveyor', 'UpdateBuild', '-Version',
+             f'{version}-{_appveyor_build()}-{_appveyor_commit()}'])
 
 
 @click.command()
 @click.pass_context
 def appveyor(ctx: click.Context):
+    """
+    Manages the release process on Appveyor
+    """
     _info('RUNNING APPVEYOR RELEASE')
     _info(f'Current version: {__version__}')
     _info(f'Latest tag: {repo_get_latest_tag(ctx)}')

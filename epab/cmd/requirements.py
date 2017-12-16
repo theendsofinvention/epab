@@ -1,5 +1,7 @@
 # coding=utf-8
-
+"""
+Click command to write the requirements
+"""
 
 import click
 

@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Creates a wheel from a Github repo
+"""
 import os
 import shutil
 import sys
@@ -11,6 +14,7 @@ from epab.utils import (_error, _info, bump_version, do, dry_run, repo_checkout,
 
 from .changelog import chglog
 from .requirements import write_reqs
+from .test_runner import pytest
 
 
 def _clean(ctx):
@@ -40,13 +44,16 @@ def release(ctx, new_version):
     """
     current_branch = repo_get_current_branch(ctx)
     if 'develop' not in [current_branch, os.getenv('APPVEYOR_REPO_BRANCH')]:
-        _error(f'Not on develop; skipping release (current branch: {current_branch})')
+        _error(
+            f'Not on develop; skipping release (current branch: {current_branch})')
         exit(0)
 
     if current_branch == 'HEAD' and os.getenv('APPVEYOR_REPO_BRANCH') == 'develop':
         repo_checkout(ctx, 'develop')
 
     _info('Making new release')
+
+    ctx.invoke(pytest)
 
     ctx.invoke(lint, auto_commit=True)
 
@@ -70,7 +77,8 @@ def release(ctx, new_version):
             _info('DRYRUN: All good!')
             return
         do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel')
-        do(ctx, 'twine upload dist/* --skip-existing', mute_stdout=True, mute_stderr=True)
+        do(ctx, 'twine upload dist/* --skip-existing',
+           mute_stdout=True, mute_stderr=True)
 
         repo_checkout(ctx, 'develop')
         repo_push(ctx)

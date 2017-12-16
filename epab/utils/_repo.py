@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Manages the local Git repo
+"""
 import os
 
 import click
@@ -9,10 +12,19 @@ from ._dry_run import dry_run
 
 
 def repo_get_current_branch(ctx) -> str:
+    """
+    Returns: current branch as a string
+    """
     return do(ctx, 'git rev-parse --abbrev-ref HEAD', mute_stdout=True)
 
 
 def repo_tag(ctx: click.Context, tag: str):
+    """
+    Tags the repo
+
+    Args:
+        tag: tag as a string
+    """
     _info(f'Tagging repo: {tag}')
     if dry_run(ctx):
         return
@@ -20,6 +32,12 @@ def repo_tag(ctx: click.Context, tag: str):
 
 
 def repo_remove_tag(ctx: click.Context, tag: str):
+    """
+    Deletes a tag from the repo
+
+    Args:
+        tag: tag to remove
+    """
     _info(f'Removing tag: {tag}')
     if dry_run(ctx):
         return
@@ -27,6 +45,9 @@ def repo_remove_tag(ctx: click.Context, tag: str):
 
 
 def repo_get_latest_tag(ctx) -> str:
+    """
+    Returns: latest tag on the repo in the form TAG+[DISTANCE+[DIRTY]]
+    """
     return do(ctx, 'git describe --tags', mute_stdout=True)
 
 
@@ -46,6 +67,14 @@ def repo_ensure(ctx):
 
 
 def repo_commit(ctx: click.Context, message: str, extended: str = None, files_to_add: list = None):
+    """
+    Commits changes to the repo
+
+    Args:
+        message: first line of the message
+        extended: optional extended message
+        files_to_add: optional list of files to commit
+    """
     if extended:
         message = f'{message}\n\n{extended}'
     _info(f'Committing all changes with message: {message}')
@@ -68,6 +97,12 @@ def repo_commit(ctx: click.Context, message: str, extended: str = None, files_to
 
 
 def repo_checkout(ctx: click.Context, ref_name: str):
+    """
+    Checks out a branch in the repo
+
+    Args:
+        ref_name: branch to check out
+    """
     if repo_is_dirty(ctx):
         _error(f'Repository is dirty; cannot checkout "{ref_name}"')
         exit(-1)
@@ -78,6 +113,12 @@ def repo_checkout(ctx: click.Context, ref_name: str):
 
 
 def repo_merge(ctx: click.Context, ref_name: str):
+    """
+    Merges two refs
+
+    Args:
+        ref_name: ref to merge in the current one
+    """
     if repo_is_dirty(ctx):
         _error(f'Repository is dirty; cannot merge "{ref_name}"')
         exit(-1)
@@ -89,6 +130,9 @@ def repo_merge(ctx: click.Context, ref_name: str):
 
 
 def repo_push(ctx: click.Context):
+    """
+    Pushes all refs (branches and tags) to origin
+    """
     _info('Pushing repo to origin')
     if dry_run(ctx):
         return
@@ -102,7 +146,8 @@ def repo_is_dirty(ctx: click.Context) -> bool:
 
     Returns: true if the repository is clean
     """
-    out, _, _ = do_ex(ctx, ['git', 'status', '--porcelain', '--untracked-files=no'])
+    out, _, _ = do_ex(
+        ctx, ['git', 'status', '--porcelain', '--untracked-files=no'])
     result = bool(out)
     if dry_run(ctx) and result:
         _info('Repo was dirty; DRYRUN')

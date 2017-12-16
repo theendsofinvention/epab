@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Manages output functions
+"""
 
 import click
 

@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Context to temporarily change the working directory
+"""
 
 
 import os

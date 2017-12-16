@@ -12,9 +12,9 @@ import click
 import yaml
 
 from epab import __version__
-from epab.cmd import appveyor, chglog, release, reqs, pytest
-from epab.linters import autopep8, flake8, isort, lint, pep, pep8, prospector, safety, pylint
-from epab.utils import _info, do, ensure_module, repo_ensure, repo_is_dirty, temporary_working_dir
+from epab.cmd import appveyor, chglog, pytest, release, reqs
+from epab.linters import flake8, isort, lint, pep8, prospector, pylint, safety
+from epab.utils import _info, do, repo_ensure, repo_is_dirty, temporary_working_dir
 
 with open('epab.yml') as config_file:
     CONFIG = yaml.load(config_file)
@@ -113,7 +113,8 @@ def doc(ctx, show, clean_, publish):
         'doc/html'
     ])
     if show:
-        webbrowser.open_new_tab(f'file://{os.path.abspath("./doc/html/index.html")}')
+        webbrowser.open_new_tab(
+            f'file://{os.path.abspath("./doc/html/index.html")}')
     if publish:
         output_filter = [
             'warning: LF will be replaced by CRLF',
@@ -121,14 +122,16 @@ def doc(ctx, show, clean_, publish):
             'Checking out files:'
         ]
         if not os.path.exists(f'./{CONFIG["package"]}-doc'):
-            do(ctx, ['git', 'clone', CONFIG['doc_repo']], filter_output=output_filter)
+            do(ctx, ['git', 'clone', CONFIG['doc_repo']],
+               filter_output=output_filter)
         with temporary_working_dir(CONFIG['doc_folder']):
             do(ctx, ['git', 'pull'])
             if os.path.exists('./docs'):
                 shutil.rmtree('./docs')
             shutil.copytree('../doc/html', './docs')
             do(ctx, ['git', 'add', '.'], filter_output=output_filter)
-            do(ctx, ['git', 'commit', '-m', 'automated doc build'], filter_output=output_filter)
+            do(ctx, ['git', 'commit', '-m', 'automated doc build'],
+               filter_output=output_filter)
             do(ctx, ['git', 'push'], filter_output=output_filter)
 
 
@@ -149,8 +152,6 @@ def doc(ctx, show, clean_, publish):
 #     click.secho('All good!', fg='green')
 
 
-cli.add_command(autopep8)
-cli.add_command(pep)
 cli.add_command(pep8)
 cli.add_command(flake8)
 cli.add_command(isort)

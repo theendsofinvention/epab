@@ -1,15 +1,16 @@
 # coding=utf-8
-
-
+"""
+Manages the test suite
+"""
 import os
 from pathlib import Path
 
 import click
 
-from epab.utils import do
+from epab.utils import _info, do
 
 
-COVERAGE_CONFIG = """
+COVERAGE_CONFIG = r"""
 ## http://coverage.readthedocs.io/en/latest/config.html
 [run]
 #timid = True
@@ -55,6 +56,7 @@ def pytest(ctx):
     """
     Runs Pytest (https://docs.pytest.org/en/latest/)
     """
+    _info('Running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'
     coverage_rc = Path('.coveragerc')
     coverage_rc.write_text(COVERAGE_CONFIG)

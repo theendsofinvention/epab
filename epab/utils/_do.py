@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Runs external applications
+"""
 import os
 import shlex
 import subprocess
@@ -42,7 +45,8 @@ def find_executable(executable: str, path: str = None) -> typing.Union[str, None
 
     if path is None:
         path = os.environ['PATH']
-    paths = [os.path.abspath(os.path.join(sys.exec_prefix, 'Scripts'))] + path.split(os.pathsep)
+    paths = [os.path.abspath(os.path.join(
+        sys.exec_prefix, 'Scripts'))] + path.split(os.pathsep)
     if os.path.isfile(executable):
         executable_path = os.path.abspath(executable)
     else:
@@ -54,7 +58,8 @@ def find_executable(executable: str, path: str = None) -> typing.Union[str, None
             _error(f' -> not found')
             return None
 
-    find_executable.known_executables[executable] = executable_path  # type: ignore
+    # type: ignore
+    find_executable.known_executables[executable] = executable_path
     _info(f' -> {click.format_filename(executable_path)}')
     return executable_path
 

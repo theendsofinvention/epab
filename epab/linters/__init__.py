@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Manages linters
+"""
 
 import click
 
@@ -7,23 +10,11 @@ from epab.utils import _info, do, repo_commit
 
 @click.command()
 @click.pass_context
-def autopep8(ctx):
+def pep8(ctx):
     """
     Runs Pyup's Safety tool (https://pyup.io/safety/)
     """
     do(ctx, ['autopep8', '-r', '--in-place', '.'])
-
-
-@click.command()
-@click.pass_context
-def pep(ctx):
-    ctx.invoke(autopep8)
-
-
-@click.command()
-@click.pass_context
-def pep8(ctx):
-    ctx.invoke(autopep8)
 
 
 @click.command()
@@ -75,6 +66,7 @@ def pylint(ctx, src, reports):
     # noinspection SpellCheckingInspection
     ignore = ['--ignore=CVS,versioneer.py,_versioneer.py,_version.py']
     ignore_patterns = ['--ignore-patterns=ignore-patterns=_.*_version']
+    line_length = ['--max-line-length=120']
     jobs = ['-j', '2']
     persistent = ['--persistent=y']
     disable = ['-d', 'disable=missing-docstring,logging-format-interpolation,unpacking-in-except,old-raise-syntax,'
@@ -90,7 +82,8 @@ def pylint(ctx, src, reports):
                      'range-builtin-not-iterating,filter-builtin-not-iterating,using-cmp-argument,eq-without-hash,'
                      'div-method,idiv-method,rdiv-method,exception-message-attribute,invalid-str-codec,sys-max-int,'
                      'bad-python3-import,deprecated-string-function,deprecated-str-translate-call']
-    evaluation = ['--evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)']
+    evaluation = [
+        '--evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)']
     output = ['--output-format=text']
     report = ['--reports=n']
     score = ['--score=n']
@@ -99,7 +92,8 @@ def pylint(ctx, src, reports):
     cmd = ['pylint', src]
     if reports:
         report = ['--reports=y']
-    do(ctx, cmd + ignore + ignore_patterns + jobs + persistent + disable + evaluation + output + report + score)
+    do(ctx, cmd + ignore + ignore_patterns + line_length + jobs + persistent +
+       disable + evaluation + output + report + score)
 
 
 @click.command()
@@ -115,8 +109,13 @@ def safety(ctx):
 @click.pass_context
 @click.option('-c', '--auto-commit', is_flag=True, help='Commit the changes')
 def lint(ctx: click.Context, auto_commit: bool):
+    """
+    Runs all linters
+    Args:
+        auto_commit: whether or not to commit results
+    """
     _info('Running all linters')
-    ctx.invoke(autopep8)
+    ctx.invoke(pep8)
     ctx.invoke(isort)
     ctx.invoke(flake8)
     ctx.invoke(pylint)
