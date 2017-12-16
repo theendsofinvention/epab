@@ -3,13 +3,14 @@
 import os
 
 import versioneer
-from pipenv.project import Project
-from pipenv.utils import convert_deps_to_pip
 from setuptools import setup
 
-pfile = Project(chdir=False).parsed_pipfile
-requirements = convert_deps_to_pip(pfile['packages'], r=False)
-test_requirements = convert_deps_to_pip(pfile['dev-packages'], r=False)
+from pip.req import parse_requirements
+
+requirements = [str(r.req) for r in
+                parse_requirements('requirements.txt', session=False)]
+test_requirements = [str(r.req) for r in
+                     parse_requirements('requirements-test.txt', session=False)]
 
 
 def read_local_files(*file_paths: str) -> str:
