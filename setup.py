@@ -10,7 +10,7 @@ from pip.req import parse_requirements
 requirements = [str(r.req) for r in
                 parse_requirements('requirements.txt', session=False)]
 test_requirements = [str(r.req) for r in
-                     parse_requirements('requirements-test.txt', session=False)]
+                     parse_requirements('requirements-dev.txt', session=False)]
 
 
 def read_local_files(*file_paths: str) -> str:
