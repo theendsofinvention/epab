@@ -12,7 +12,7 @@ import click
 import yaml
 from epab import __version__
 from epab.cmd import chglog, release, reqs
-from epab.linters import autopep8, flake8, isort, lint, pep, pep8, prospector, safety
+from epab.linters import autopep8, flake8, isort, lint, pep, pep8, prospector, safety, install_linters
 from epab.utils import _info, do, ensure_module, repo_ensure, repo_is_dirty, temporary_working_dir
 
 with open('epab.yml') as config_file:
@@ -170,6 +170,7 @@ cli.add_command(isort)
 cli.add_command(prospector)
 cli.add_command(safety)
 cli.add_command(lint)
+cli.add_command(install_linters)
 
 cli.add_command(reqs)
 cli.add_command(release)
