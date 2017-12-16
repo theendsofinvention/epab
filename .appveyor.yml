@@ -7,6 +7,8 @@ skip_commits:
     - '**/*.html'
   message: /.*\[nobuild\].*/
 
+skip_tags: true
+
 environment:
   GIT_DAEMON_PATH:   "C:\\Program Files\\Git\\mingw64\\libexec\\git-core"
   CYGWIN_GIT_PATH:   "C:\\cygwin\\bin;%GIT_DAEMON_PATH%"
@@ -60,6 +62,8 @@ init:
   - cmd: echo %APPVEYOR_REPO_COMMIT_TIMESTAMP%
   - cmd: echo %APPVEYOR_REPO_COMMIT_MESSAGE%
   - cmd: echo %APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%
+  - cmd: for /f "delims=" %%i in ('git describe --tags') do set __VERSION__=%%i
+  - cmd: appveyor UpdateBuild -Version "%__VERSION__%-%APPVEYOR_BUILD_NUMBER%-%APPVEYOR_REPO_COMMIT%"
 
 cache:
   - C:\Users\appveyor\AppData\Local\pip\cache -> Pipfile
