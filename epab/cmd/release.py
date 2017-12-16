@@ -36,7 +36,7 @@ def release(ctx, new_version):
     This is meant to be used as a Git pre-push hook
     """
     current_branch = repo_get_current_branch(ctx)
-    if current_branch != 'develop':
+    if 'develop' not in [current_branch, os.getenv('APPVEYOR_REPO_BRANCH')]:
         _error(f'Not on develop; skipping release (current branch: {current_branch})')
         exit(0)
 
