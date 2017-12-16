@@ -8,8 +8,7 @@ import io
 
 
 def _sanitize(input_: str):
-    in_stream = input_.encode('utf8')
-    return in_stream.decode(errors='replace')
+    return input_.encode('ascii', 'ignore').decode()
 
 
 def _info(txt: str, **args):
