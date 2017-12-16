@@ -72,15 +72,7 @@ test_script:
   - cmd: pipenv run pytest test
 
   # Install wheel-building support
-  - "%PYTHON%\\python.exe setup.py bdist_wheel"
-
-on_success:
-
-  # Deploy a wheel (only actually do this for tags). NB That breaking this line
-  # with Unix line-endings causes the windows command interpreter to barf so
-  # this is given as one-line to make this script less fragile when edited on
-  # other OSes.
-  # - ps: If ($env:APPVEYOR_REPO_TAG -eq "true") { Invoke-Expression "twine upload -u 132nd-etcher -p $env:PYPI_PWD --skip-existing dist/*" } Else { write-output "Not on a tag, won't deploy to pypi"}
+  - cmd: pipenv run epab release
 
 artifacts:
   - path: dist\*
