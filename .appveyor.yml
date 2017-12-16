@@ -6,7 +6,6 @@ skip_commits:
     - docs/*
     - '**/*.html'
   message: /.*\[nobuild\].*/
-
 skip_tags: true
 
 environment:
@@ -84,7 +83,7 @@ test_script:
   - "%PYTHON%/Scripts/pip.exe install codacy-coverage"
   - "%PYTHON%/Scripts/python-codacy-coverage.exe -r coverage.xml & exit 0"
   - cmd: pip install -e .
-  - cmd: epab release
+  - cmd: IF /I "%APPVEYOR_REPO_BRANCH%"=="develop" (epab release) ELSE (echo "Not on develop, skipping release")
 
 
 artifacts:
