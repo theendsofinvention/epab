@@ -75,7 +75,7 @@ install:
   - "%PYTHON%\\python.exe -m pip install --upgrade pipenv"
   - cmd: pip install gitchangelog
 
-build:
+build_script:
   - cmd: pipenv install -d .
 
 test_script:
