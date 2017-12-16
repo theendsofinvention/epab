@@ -61,8 +61,8 @@ init:
   - cmd: echo %APPVEYOR_REPO_COMMIT_TIMESTAMP%
   - cmd: echo %APPVEYOR_REPO_COMMIT_MESSAGE%
   - cmd: echo %APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%
-  - cmd: for /f "delims=" %%i in ('git describe --tags') do set __VERSION__=%%i
-  - cmd: appveyor UpdateBuild -Version "%__VERSION__%-%APPVEYOR_BUILD_NUMBER%-%APPVEYOR_REPO_COMMIT%"
+  - cmd: for /f "delims=" %%i in ('git describe --tags') do set CVERSION=%%i
+  - cmd: appveyor UpdateBuild -Version "%CVERSION%-%APPVEYOR_BUILD_NUMBER%-%APPVEYOR_REPO_COMMIT%"
 
 cache:
   - C:\Users\appveyor\AppData\Local\pip\cache -> Pipfile
@@ -84,6 +84,8 @@ test_script:
   - "%PYTHON%/Scripts/python-codacy-coverage.exe -r coverage.xml & exit 0"
   - cmd: pip install -e .
   - cmd: IF /I "%APPVEYOR_REPO_BRANCH%"=="develop" (epab release) ELSE (echo "Not on develop, skipping release")
+  - cmd: for /f "delims=" %%i in ('git describe --tags') do set CVERSION=%%i
+  - cmd: appveyor UpdateBuild -Version "%CVERSION%-%APPVEYOR_BUILD_NUMBER%-%APPVEYOR_REPO_COMMIT%"
 
 
 artifacts:
