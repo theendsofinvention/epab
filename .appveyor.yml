@@ -22,6 +22,10 @@ environment:
     secure: hyFFOoK6WbxtLxy2jOGlOPbRJ33Al8E1B0QeT+qUqJ8=
   PYPI_PWD:
     secure: sVfnGb1FQyKRJg6kD9c6aQ==
+  TWINE_USERNAME:
+    secure: X+bBVQdggCzIpfy5LX85tg==
+  TWINE_PASSWORD :
+    secure: sVfnGb1FQyKRJg6kD9c6aQ==
   CODACY_PROJECT_TOKEN:
     secure: 8NtBChggmm7dA/ByyOI1vd7MuwVBzADLwjo1Cbyqpowbw8STm75reTX52spXU6au
 
