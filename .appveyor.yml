@@ -72,6 +72,7 @@ test_script:
   - cmd: pipenv run pytest test
 
   - cmd: pip install -e .
+  - cmd: epab install_linters
   - cmd: epab release
 
 artifacts:
