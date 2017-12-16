@@ -9,6 +9,7 @@ import click
 
 from epab import __version__
 from epab.utils import _info, do, repo_get_latest_tag
+from .test_runner import pytest
 
 from .release import release
 
@@ -48,7 +49,7 @@ def appveyor(ctx: click.Context):
     do(ctx, ['pipenv', 'install', '-d', '.'])
 
     _info('Running tests')
-    do(ctx, ['pipenv', 'run', 'pytest', 'test'])
+    ctx.invoke(pytest)
 
     _info('Uploading coverage info')
     do(ctx, ['pip', 'install', '--upgrade', 'codacy-coverage'])
