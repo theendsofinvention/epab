@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.22 (2017-12-16)
+-------------------
+
+Changes
+~~~~~~~
+- Rename AV build after succesfull release. [132nd-etcher]
+
+
 0.1.21 (2017-12-16)
 -------------------
 
