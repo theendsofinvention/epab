@@ -12,8 +12,8 @@ python_version = "3.6"
 
 [packages]
 
-click = ">=6"
-pyyaml = ">=3"
+click = "*"
+pyyaml = "*"
 versioneer = "*"
 semver = "*"
 wheel = "*"
@@ -27,11 +27,11 @@ safety = "*"
 
 [dev-packages]
 
-coverage = ">=4"
-hypothesis = ">=3.23"
+coverage = "*"
+hypothesis = "*"
 pytest-cache = "*"
 pytest-cov = "*"
 pytest-mock = "*"
 "pytest-pep8" = "*"
 pytest-pycharm = "*"
-pytest = ">=3"
+pytest = "*"
