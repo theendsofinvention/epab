@@ -72,7 +72,7 @@ cache:
 
 
 install:
-  - "%PYTHON%\\python.exe -m pip install --disable-pip-version-check --user --upgrade pip setuptools"
+  - "%PYTHON%\\python.exe -m pip install --disable-pip-version-check --user --upgrade pip setuptools pipenv"
   - cmd: pipenv run pip install epab
   - cmd: pipenv run pip install -e .
 
