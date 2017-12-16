@@ -62,7 +62,7 @@ def pytest(ctx):
     coverage_rc.write_text(COVERAGE_CONFIG)
     cmd = ['pytest', 'test']
     if os.environ.get('APPVEYOR') and ctx.obj['CONFIG']['test']['av_runner_options']:
-        cmd = cmd + ctx.obj['CONFIG']['test']['av_runner']
+        cmd = cmd + ctx.obj['CONFIG']['test']['av_runner_options']
     elif ctx.obj['CONFIG']['test']['runner_options']:
         cmd = cmd + ctx.obj['CONFIG']['test']['runner_options']
     options = [f'--cov={ctx.obj["CONFIG"]["package"]}', '--cov-report', 'xml', '--cov-report', 'html', '--durations=10',
