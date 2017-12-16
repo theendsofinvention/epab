@@ -44,18 +44,18 @@ def appveyor(ctx: click.Context):
     _info('Installing GitChangelog')
     do(ctx, ['pip', 'install', '--upgrade', 'gitchangelog'])
 
-    _info('Installing current package dependencies')
+    _info('Installing current package')
     do(ctx, ['pipenv', 'install', '-d', '.'])
 
     _info('Running tests')
-    do(ctx, ['pipenv', 'install', '-d', '.'])
+    do(ctx, ['pipenv', 'run', 'pytest', 'test'])
 
     _info('Uploading coverage info')
     do(ctx, ['pip', 'install', '--upgrade', 'codacy-coverage'])
     do(ctx, ['python-codacy-coverage', '-r', 'coverage.xml'])
 
     _info('Installing current package in editable mode')
-    do(ctx, ['pip', 'install', '-e', '.'])
+    do(ctx, ['pipenv', 'run', 'pip', 'install', '-e', '.'])
 
     if os.path.exists('appveyor.yml'):
         _info('Removing leftover "appveyor.yml" file')
