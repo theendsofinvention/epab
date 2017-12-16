@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "10ade3dc115bfb475f5cd3e77cd0e580fda13a54e635238b6f1be38f96a61111"
+            "sha256": "2737dbc18bf17733b2ff992fb2b67a42855d68152d62876392588a34a78312fe"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -146,11 +146,11 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:2636d207048679d7f59f89741fca85df71a7c435f57459a86d3db142f99bcf22",
-                "sha256:4a5e91afe1d595898221d2b9adf9e189c43c2097d4ce3ad54d2a99aafad08d94",
-                "sha256:ab63b408904ce5f31a2279f3ad46b890d95b72f7d68ea059355a63171e7720a7"
+                "sha256:76527e2328ac61bb6db5d3f46246d7fe88b1d2b548e96de5d57ce2822b284ec4",
+                "sha256:18c59bde89b66b79613e61e49c8c21ef2986944e27917e61e0d35d794ac28ef9",
+                "sha256:51c3b057832e18595dc28ecd645c8a099d72fbc477a556db36c5514cb0470b42"
             ],
-            "version": "==3.40.1"
+            "version": "==3.42.2"
         },
         "pep8": {
             "hashes": [
@@ -174,23 +174,16 @@
         },
         "pytest": {
             "hashes": [
-                "sha256:72186b294cc88322a4427225fdb9240c95e3f01cc53c1ea4f4f79ffe39ff1955",
-                "sha256:6db1c070aa412c30647b6aeb13c55670f900cf00fbafa003cdde560c3f4a8d76"
+                "sha256:ae4a2d0bae1098bbe938ecd6c20a526d5d47a94dc42ad7331c9ad06d0efe4962",
+                "sha256:cf8436dc59d8695346fcd3ab296de46425ecab00d64096cebe79fb51ecb2eb93"
             ],
-            "version": "==3.3.0"
+            "version": "==3.3.1"
         },
         "pytest-cache": {
             "hashes": [
                 "sha256:be7468edd4d3d83f1e844959fd6e3fd28e77a481440a7118d430130ea31b07a9"
             ],
             "version": "==1.0"
-        },
-        "pytest-catchlog": {
-            "hashes": [
-                "sha256:a692966da726b918197cabd20dc0ad4da5503fbdc99baaa192e62579c8a45773",
-                "sha256:4be15dc5ac1750f83960897f591453040dff044b5966fe24a91c2f7d04ecfcf0"
-            ],
-            "version": "==1.2.2"
         },
         "pytest-cov": {
             "hashes": [
