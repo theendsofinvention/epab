@@ -39,7 +39,7 @@ def _install_pyinstaller(ctx: click.Context, force: bool = False):
 def _initiliaze_context_object():
     return {
         'CONFIG': CONFIG,
-        'run_once': [],
+        'run_once': {},
         'dry': False,
     }
 
