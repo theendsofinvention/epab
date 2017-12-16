@@ -71,7 +71,7 @@ build: off
 test_script:
   - cmd: pipenv run pytest test
 
-  # Install wheel-building support
+  - cmd: pip install -e .
   - cmd: epab release
 
 artifacts:
