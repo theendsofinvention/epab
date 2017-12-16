@@ -73,22 +73,11 @@ cache:
 
 install:
   - "%PYTHON%\\python.exe -m pip install --disable-pip-version-check --user --upgrade pip setuptools"
-  - "%PYTHON%\\python.exe -m pip install --upgrade pipenv"
-  - cmd: pip install gitchangelog
+  - cmd: pipenv run pip install epab
+  - cmd: pipenv run pip install -e .
 
 build_script:
-  - cmd: pipenv install -d .
-
-test_script:
-  - cmd: pipenv run pytest test
-  - "%PYTHON%/Scripts/pip.exe install codacy-coverage"
-  - "%PYTHON%/Scripts/python-codacy-coverage.exe -r coverage.xml & exit 0"
-  - cmd: del appveyor.yml
-  - cmd: pipenv run pip install -e .
-  - cmd: IF /I "%APPVEYOR_REPO_BRANCH%"=="develop" (pipenv run epab release) ELSE (echo "Not on develop, skipping release")
-  - cmd: for /f "delims=" %%i in ('git describe --tags') do set CVERSION=%%i
-  - cmd: echo "Version %CVERSION%"
-  - cmd: appveyor UpdateBuild -Version "%CVERSION%-%APPVEYOR_BUILD_NUMBER%-%APPVEYOR_REPO_COMMIT%"
+  - cmd: pipenv run epab appveyor
 
 
 artifacts:
