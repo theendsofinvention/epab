@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.17 (2017-12-16)
+-------------------
+
+Changes
+~~~~~~~
+- Add auto-commit after requirements update. [132nd-etcher]
+
+
 0.1.16 (2017-12-06)
 -------------------
 
