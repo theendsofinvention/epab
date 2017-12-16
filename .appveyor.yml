@@ -84,6 +84,7 @@ test_script:
   - "%PYTHON%/Scripts/pip.exe install codacy-coverage"
   - "%PYTHON%/Scripts/python-codacy-coverage.exe -r coverage.xml & exit 0"
   - cmd: pip install -e .
+  - cmd: del appveyor.yml
   - cmd: IF /I "%APPVEYOR_REPO_BRANCH%"=="develop" (epab release) ELSE (echo "Not on develop, skipping release")
   - cmd: for /f "delims=" %%i in ('git describe --tags') do set CVERSION=%%i
   - cmd: echo "Version %CVERSION%"
