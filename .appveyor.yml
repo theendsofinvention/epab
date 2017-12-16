@@ -72,7 +72,7 @@ test_script:
   - cmd: pipenv run pytest test
 
   # Install wheel-building support
-  - cmd: pipenv run epab release
+  - cmd: epab release
 
 artifacts:
   - path: dist\*
