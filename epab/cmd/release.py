@@ -40,6 +40,9 @@ def release(ctx, new_version):
         _error(f'Not on develop; skipping release (current branch: {current_branch})')
         exit(0)
 
+    if current_branch == 'HEAD' and os.getenv('APPVEYOR_REPO_BRANCH') == 'develop':
+        repo_checkout(ctx, 'develop')
+
     _info('Making new release')
 
     ctx.invoke(lint, auto_commit=True)
