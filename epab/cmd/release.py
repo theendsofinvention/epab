@@ -37,7 +37,7 @@ def release(ctx, new_version):
     """
     current_branch = repo_get_current_branch(ctx)
     if current_branch != 'develop':
-        _error(f'Not on develop; skipping release')
+        _error(f'Not on develop; skipping release (current branch: {current_branch})')
         exit(0)
 
     _info('Making new release')
