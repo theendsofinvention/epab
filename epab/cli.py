@@ -12,8 +12,8 @@ import click
 import yaml
 
 from epab import __version__
-from epab.cmd import appveyor, chglog, release, reqs
-from epab.linters import autopep8, flake8, isort, lint, pep, pep8, prospector, safety
+from epab.cmd import appveyor, chglog, release, reqs, pytest
+from epab.linters import autopep8, flake8, isort, lint, pep, pep8, prospector, safety, pylint
 from epab.utils import _info, do, ensure_module, repo_ensure, repo_is_dirty, temporary_working_dir
 
 with open('epab.yml') as config_file:
@@ -80,20 +80,6 @@ def cli(ctx, dry_run, dirty):
     if not dirty and repo_is_dirty(ctx):
         click.secho('Repository is dirty', err=True, fg='red')
         exit(-1)
-
-
-@cli.command()
-@click.pass_context
-def pytest(ctx):
-    """
-    Runs Pytest (https://docs.pytest.org/en/latest/)
-    """
-    ensure_module(ctx, 'pytest')
-    if os.environ.get('APPVEYOR'):
-        runner = CONFIG['test']['av_runner']
-    else:
-        runner = CONFIG['test']['runner']
-    do(ctx, runner)
 
 
 @cli.command()
@@ -168,6 +154,7 @@ cli.add_command(pep)
 cli.add_command(pep8)
 cli.add_command(flake8)
 cli.add_command(isort)
+cli.add_command(pylint)
 cli.add_command(prospector)
 cli.add_command(safety)
 cli.add_command(lint)
@@ -176,3 +163,4 @@ cli.add_command(reqs)
 cli.add_command(release)
 cli.add_command(chglog)
 cli.add_command(appveyor)
+cli.add_command(pytest)

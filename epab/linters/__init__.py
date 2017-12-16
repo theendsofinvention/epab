@@ -64,7 +64,7 @@ def isort(ctx):
 
 @click.command()
 @click.pass_context
-@click.argument('src', type=click.Path(exists=True), default=None)
+@click.argument('src', type=click.Path(exists=True), default=None, required=False)
 @click.option('-r', '--reports', is_flag=True, help='Display full report')
 def pylint(ctx, src, reports):
     """
@@ -72,12 +72,34 @@ def pylint(ctx, src, reports):
 
     Default module: CONFIG['package']
     """
+    # noinspection SpellCheckingInspection
+    ignore = ['--ignore=CVS,versioneer.py,_versioneer.py,_version.py']
+    ignore_patterns = ['--ignore-patterns=ignore-patterns=_.*_version']
+    jobs = ['-j', '2']
+    persistent = ['--persistent=y']
+    disable = ['-d', 'disable=missing-docstring,logging-format-interpolation,unpacking-in-except,old-raise-syntax,'
+                     'backtick,long-suffix,old-ne-operator,old-octal-literal,raw-checker-failed,bad-inline-option,'
+                     'locally-disabled,locally-enabled,file-ignored,suppressed-message,useless-suppression,'
+                     'deprecated-pragma,apply-builtin,basestring-builtin,buffer-builtin,cmp-builtin,coerce-builtin,'
+                     'execfile-builtin,file-builtin,long-builtin,raw_input-builtin,reduce-builtin,'
+                     'standarderror-builtin,unicode-builtin,xrange-builtin,coerce-method,delslice-method,'
+                     'getslice-method,setslice-method,no-absolute-import,old-division,dict-iter-method,'
+                     'dict-view-method,next-method-called,metaclass-assignment,indexing-exception,'
+                     'raising-string,reload-builtin,oct-method,hex-method,nonzero-method,cmp-method,input-builtin,'
+                     'round-builtin,intern-builtin,unichr-builtin,map-builtin-not-iterating,zip-builtin-not-iterating,'
+                     'range-builtin-not-iterating,filter-builtin-not-iterating,using-cmp-argument,eq-without-hash,'
+                     'div-method,idiv-method,rdiv-method,exception-message-attribute,invalid-str-codec,sys-max-int,'
+                     'bad-python3-import,deprecated-string-function,deprecated-str-translate-call']
+    evaluation = ['--evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)']
+    output = ['--output-format=text']
+    report = ['--reports=n']
+    score = ['--score=n']
     if src is None:
         src = ctx.obj['CONFIG']['package']
     cmd = ['pylint', src]
     if reports:
-        cmd.append('--reports=y')
-    do(ctx, cmd)
+        report = ['--reports=y']
+    do(ctx, cmd + ignore + ignore_patterns + jobs + persistent + disable + evaluation + output + report + score)
 
 
 @click.command()
