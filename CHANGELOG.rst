@@ -2,6 +2,31 @@ Changelog
 =========
 
 
+0.1.20 (2017-12-16)
+-------------------
+
+Changes
+~~~~~~~
+- Add switch to develop branch on AV to keep commits. [132nd-etcher]
+
+
+0.1.18 (2017-12-16)
+-------------------
+
+Changes
+~~~~~~~
+- Add twine info. [132nd-etcher]
+- Remove linters install cmd and add them as reqs. [132nd-etcher]
+- Do not re-ionstall current package if it's epab. [132nd-etcher]
+- Add wheel to AV install. [132nd-etcher]
+- Add command to install linters. [132nd-etcher]
+- Exit gracefully when releasing from foreign branch. [132nd-etcher]
+
+Fix
+~~~
+- Fix run_once. [132nd-etcher]
+
+
 0.1.17 (2017-12-16)
 -------------------
 
