@@ -3,8 +3,8 @@ import importlib
 
 from ._console import _error, _info
 from ._do import do, do_ex
-from ._run_once import run_once
 from ._repo import repo_commit
+from ._run_once import run_once
 
 
 def ensure_module(ctx, module_name: str, import_name: str = None):

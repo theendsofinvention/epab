@@ -6,8 +6,8 @@ import sys
 import click
 from epab.cmd import chglog, write_reqs
 from epab.linters import lint
-from epab.utils import (_error, _info, bump_version, do, dry_run, repo_checkout, repo_commit, repo_get_current_branch,
-                        repo_merge, repo_push, repo_remove_tag, repo_tag)
+from epab.utils import (_error, _info, bump_version, do, dry_run, repo_checkout, repo_get_current_branch, repo_merge,
+                        repo_push, repo_remove_tag, repo_tag)
 
 
 def _clean(ctx):

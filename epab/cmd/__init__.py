@@ -14,6 +14,4 @@ def reqs(ctx: click.Context, auto_commit: bool):
     """
     Write requirements files
     """
-    write_reqs(ctx)
-    if auto_commit:
-        repo_commit(ctx, 'chg: dev: update requirements [skip ci]')
+    write_reqs(ctx, auto_commit)
