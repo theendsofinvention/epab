@@ -22,6 +22,8 @@ environment:
     secure: hyFFOoK6WbxtLxy2jOGlOPbRJ33Al8E1B0QeT+qUqJ8=
   PYPI_PWD:
     secure: sVfnGb1FQyKRJg6kD9c6aQ==
+  CODACY_PROJECT_TOKEN:
+    secure: 8NtBChggmm7dA/ByyOI1vd7MuwVBzADLwjo1Cbyqpowbw8STm75reTX52spXU6au
 
 
 matrix:
@@ -70,10 +72,12 @@ build: off
 
 test_script:
   - cmd: pipenv run pytest test
-
+  - "%PYTHON%/Scripts/pip.exe install codacy-coverage"
+  - "%PYTHON%/Scripts/python-codacy-coverage.exe -r coverage.xml & exit 0"
   - cmd: pip install -e .
   - cmd: epab install_linters
   - cmd: epab release
+
 
 artifacts:
   - path: dist\*
