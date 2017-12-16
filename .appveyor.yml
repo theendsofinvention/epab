@@ -69,7 +69,7 @@ install:
 build: off
 
 test_script:
-  - cmd: pipenv run pytest -n 8 test
+  - cmd: pipenv run pytest test
 
   # Install wheel-building support
   - "%PYTHON%\\python.exe setup.py bdist_wheel"
