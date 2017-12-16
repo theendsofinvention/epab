@@ -148,6 +148,7 @@ def repo_is_dirty(ctx: click.Context) -> bool:
     """
     out, _, _ = do_ex(
         ctx, ['git', 'status', '--porcelain', '--untracked-files=no'])
+    _info(out)
     result = bool(out)
     if dry_run(ctx) and result:
         _info('Repo was dirty; DRYRUN')
