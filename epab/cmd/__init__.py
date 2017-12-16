@@ -2,7 +2,8 @@
 
 import click
 
-from epab.utils import write_reqs, repo_commit
+from epab.utils import write_reqs
+from .appveyor import appveyor
 from .changlog import chglog
 from .release import release
 

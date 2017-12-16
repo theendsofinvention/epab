@@ -12,7 +12,7 @@ import click
 import yaml
 
 from epab import __version__
-from epab.cmd import chglog, release, reqs
+from epab.cmd import chglog, release, reqs, appveyor
 from epab.linters import autopep8, flake8, isort, lint, pep, pep8, prospector, safety
 from epab.utils import _info, do, ensure_module, repo_ensure, repo_is_dirty, temporary_working_dir
 
@@ -175,3 +175,4 @@ cli.add_command(lint)
 cli.add_command(reqs)
 cli.add_command(release)
 cli.add_command(chglog)
+cli.add_command(appveyor)
