@@ -28,4 +28,5 @@ def chglog(ctx, auto_commit):
         with open('CHANGELOG.rst', mode='w') as stream:
             stream.write(re.sub(r'(\s*\r\n){2,}', '\r\n', changelog))
         if auto_commit:
-            repo_commit(ctx, 'chg: dev: update changelog [auto] [skip ci]')
+            files_to_add = ['CHANGELOG.rst']
+            repo_commit(ctx, 'chg: dev: update changelog [auto] [skip ci]', files_to_add=files_to_add)

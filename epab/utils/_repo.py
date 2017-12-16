@@ -45,13 +45,16 @@ def repo_ensure(ctx):
         exit(-1)
 
 
-def repo_commit(ctx: click.Context, message: str, extended: str = None):
+def repo_commit(ctx: click.Context, message: str, extended: str = None, files_to_add: list=None):
     if extended:
         message = f'{message}\n\n{extended}'
     _info(f'Committing all changes with message: {message}')
     if dry_run(ctx):
         return
-    do(ctx, ['git', 'add', '.'])
+    if files_to_add is None:
+        do(ctx, ['git', 'add', '.'])
+    else:
+        do(ctx, ['git', 'add'] + files_to_add)
     out, err, code = do_ex(ctx, ['git', 'commit', '-m', message])
     if code:
         if err:

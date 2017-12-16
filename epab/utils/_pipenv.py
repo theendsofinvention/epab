@@ -50,4 +50,5 @@ def write_reqs(ctx, auto_commit: bool):
     _write_reqs(ctx, base_cmd, 'requirements.txt')
     _write_reqs(ctx, base_cmd + ['-d'], 'requirements-dev.txt')
     if auto_commit:
-        repo_commit(ctx, 'chg: dev: update requirements [auto] [skip ci]')
+        files_to_add = ['Pipfile', 'Pipfile.lock', 'requirements.txt', 'requirements-dev.txt']
+        repo_commit(ctx, 'chg: dev: update requirements [auto] [skip ci]', files_to_add=files_to_add)
