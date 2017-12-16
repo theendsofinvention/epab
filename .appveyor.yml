@@ -74,9 +74,9 @@ install:
   - "%PYTHON%\\python.exe -m pip install --disable-pip-version-check --user --upgrade pip setuptools"
   - "%PYTHON%\\python.exe -m pip install --upgrade pipenv"
   - cmd: pip install gitchangelog
-  - cmd: pipenv install -d .
 
-build: off
+build:
+  - cmd: pipenv install -d .
 
 test_script:
   - cmd: pipenv run pytest test
