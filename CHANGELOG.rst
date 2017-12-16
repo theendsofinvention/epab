@@ -2,6 +2,22 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Commit only subset of files for chglog and reqs. [132nd-etcher]
+- Do not write hashes to reqs (reverted from commit
+  de3078b4bb3d0438dc76333c8ddd8331f367ab1c) [132nd-etcher]
+- Do not write hashes to reqs. [132nd-etcher]
+- Use pip instead of pipenv for setup.py requirements. [132nd-etcher]
+
+Fix
+~~~
+- Fix reqs ref. [132nd-etcher]
+
+
 0.1.23 (2017-12-16)
 -------------------
 
