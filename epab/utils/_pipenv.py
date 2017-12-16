@@ -4,6 +4,7 @@ import importlib
 from ._console import _error, _info
 from ._do import do, do_ex
 from ._run_once import run_once
+from ._repo import repo_commit
 
 
 def ensure_module(ctx, module_name: str, import_name: str = None):
@@ -43,8 +44,10 @@ def _write_reqs(ctx, cmd, file_path):
 
 
 @run_once
-def write_reqs(ctx):
+def write_reqs(ctx, auto_commit: bool):
     _info('Writing requirements')
     base_cmd = ['pipenv', 'lock', '-r']
     _write_reqs(ctx, base_cmd, 'requirements.txt')
     _write_reqs(ctx, base_cmd + ['-d'], 'requirements-dev.txt')
+    if auto_commit:
+        repo_commit(ctx, 'chg: dev: update requirements [auto] [skip ci]')

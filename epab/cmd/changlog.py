@@ -4,12 +4,13 @@
 import re
 
 import click
-from epab.utils import _info, do, ensure_exe
+from epab.utils import _info, do, ensure_exe, repo_commit
 
 
 @click.command()
 @click.pass_context
-def chglog(ctx):
+@click.option('-c', '--auto-commit', is_flag=True, help='Commit the changes')
+def chglog(ctx, auto_commit):
     """
     Writes the changelog
 
@@ -25,3 +26,5 @@ def chglog(ctx):
         changelog = do(ctx, ['gitchangelog'], mute_stdout=True)
         with open('CHANGELOG.rst', mode='w') as stream:
             stream.write(re.sub(r'(\s*\r\n){2,}', '\r\n', changelog))
+        if auto_commit:
+            repo_commit(ctx, 'chg: dev: update changelog [auto] [skip ci]')

@@ -2,7 +2,7 @@
 
 import click
 
-from epab.utils import _info, do
+from epab.utils import _info, do, repo_commit
 
 
 @click.command()
@@ -94,7 +94,8 @@ def install_linters(ctx):
 
 @click.command()
 @click.pass_context
-def lint(ctx: click.Context):
+@click.option('-c', '--auto-commit', is_flag=True, help='Commit the changes')
+def lint(ctx: click.Context, auto_commit: bool):
     _info('Running all linters')
     ctx.invoke(autopep8)
     ctx.invoke(isort)
@@ -102,3 +103,5 @@ def lint(ctx: click.Context):
     ctx.invoke(pylint)
     # ctx.invoke(prospector)
     ctx.invoke(safety)
+    if auto_commit:
+        repo_commit(ctx, 'chg: dev: linting [auto] [skip ci]')

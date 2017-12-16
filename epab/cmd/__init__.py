@@ -8,10 +8,12 @@ from .release import release
 
 
 @click.command()
+@click.option('-c', '--auto-commit', is_flag=True, help='Commit the changes')
 @click.pass_context
-def reqs(ctx: click.Context):
+def reqs(ctx: click.Context, auto_commit: bool):
     """
     Write requirements files
     """
     write_reqs(ctx)
-    repo_commit(ctx, 'chg: dev: update requirements [skip ci]')
+    if auto_commit:
+        repo_commit(ctx, 'chg: dev: update requirements [skip ci]')

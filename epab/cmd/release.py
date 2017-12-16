@@ -42,17 +42,14 @@ def release(ctx, new_version):
 
     _info('Making new release')
 
-    ctx.invoke(lint)
-    repo_commit(ctx, 'chg: dev: linting [auto]')
+    ctx.invoke(lint, auto_commit=True)
 
-    write_reqs(ctx)
-    repo_commit(ctx, 'chg: dev: update requirements [auto]')
+    write_reqs(ctx, auto_commit=True)
 
     new_version = bump_version(ctx, new_version)
     _info(f'New version: {new_version}')
     repo_tag(ctx, new_version)
-    ctx.invoke(chglog)
-    repo_commit(ctx, 'chg: dev: update changelog [auto]')
+    ctx.invoke(chglog, auto_commit=True)
     repo_remove_tag(ctx, new_version)
 
     repo_checkout(ctx, 'master')
