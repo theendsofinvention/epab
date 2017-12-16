@@ -63,6 +63,7 @@ init:
   - cmd: echo %APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%
   - cmd: for /f "delims=" %%i in ('git describe --tags') do set CVERSION=%%i
   - cmd: appveyor UpdateBuild -Version "%CVERSION%-%APPVEYOR_BUILD_NUMBER%-%APPVEYOR_REPO_COMMIT%"
+  - cmd: "Version: %CVERSION%"
 
 cache:
   - C:\Users\appveyor\AppData\Local\pip\cache -> Pipfile
@@ -85,6 +86,7 @@ test_script:
   - cmd: pip install -e .
   - cmd: IF /I "%APPVEYOR_REPO_BRANCH%"=="develop" (epab release) ELSE (echo "Not on develop, skipping release")
   - cmd: for /f "delims=" %%i in ('git describe --tags') do set CVERSION=%%i
+  - cmd: "Version: %CVERSION%"
   - cmd: appveyor UpdateBuild -Version "%CVERSION%-%APPVEYOR_BUILD_NUMBER%-%APPVEYOR_REPO_COMMIT%"
 
 
