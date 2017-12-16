@@ -29,7 +29,6 @@ environment:
   CODACY_PROJECT_TOKEN:
     secure: 8NtBChggmm7dA/ByyOI1vd7MuwVBzADLwjo1Cbyqpowbw8STm75reTX52spXU6au
 
-
 matrix:
   fast_finish: true
 
