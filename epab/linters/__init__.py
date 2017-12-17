@@ -15,7 +15,7 @@ def pep8(ctx):
     """
     Runs Pyup's Safety tool (https://pyup.io/safety/)
     """
-    do(ctx, ['autopep8', '-r', '--in-place', '.'])
+    do(ctx, ['autopep8', '-r', '--in-place', '--max-line-length', '120', '.'])
 
 
 @click.command()
