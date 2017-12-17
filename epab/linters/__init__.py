@@ -66,7 +66,7 @@ def pylint(ctx, src, reports):
     """
     # noinspection SpellCheckingInspection
     ignore = ['--ignore=CVS,versioneer.py,_versioneer.py,_version.py',
-              '--ignore-patterns=ignore-patterns=_.*_version']
+              '--ignore-patterns=_.*_version']
     line_length = ['--max-line-length=120']
     jobs = ['-j', '2']
     persistent = ['--persistent=y']
