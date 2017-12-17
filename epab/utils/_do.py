@@ -10,7 +10,7 @@ import typing
 
 import click
 
-from epab.utils import _cmd, _error, _info, _out, _cmd_out
+from epab.utils import _cmd, _cmd_out, _error, _info, _out
 
 
 def find_executable(executable: str, path: str = None) -> typing.Union[str, None]:  # noqa: C901
