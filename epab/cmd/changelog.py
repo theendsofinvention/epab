@@ -3,8 +3,8 @@
 Updates CHANGELOG.rst with the latest commits
 """
 
-import re
 import os
+import re
 
 import click
 
