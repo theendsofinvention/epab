@@ -23,10 +23,6 @@ pylint = "*"
 isort = "*"
 safety = "*"
 "flake8" = "*"
-
-
-[dev-packages]
-
 coverage = "*"
 hypothesis = "*"
 pytest-cache = "*"
@@ -34,3 +30,6 @@ pytest-cov = "*"
 pytest-mock = "*"
 pytest-pycharm = "*"
 pytest = "*"
+
+
+[dev-packages]
