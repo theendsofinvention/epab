@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.27 (2017-12-17)
+-------------------
+
+Fix
+~~~
+- Add site-package to pylint to include imports. [132nd-etcher]
+
+
 0.1.26 (2017-12-17)
 -------------------
 
