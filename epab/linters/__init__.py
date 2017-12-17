@@ -73,19 +73,16 @@ def pylint(ctx, src, reports):
     site_packages = str(Path(sys.executable).parent.parent.joinpath(
         'lib/site-packages')).replace('\\', '/')
     init_hook = [f'--init-hook=import sys; sys.path.append("{site_packages}")']
-    disable = ['-d', 'disable=missing-docstring,logging-format-interpolation,unpacking-in-except,old-raise-syntax,'
+    disable = ['-d', 'disable=logging-format-interpolation,'
                      'backtick,long-suffix,old-ne-operator,old-octal-literal,raw-checker-failed,bad-inline-option,'
-                     'locally-disabled,locally-enabled,file-ignored,suppressed-message,useless-suppression,'
-                     'deprecated-pragma,apply-builtin,basestring-builtin,buffer-builtin,cmp-builtin,coerce-builtin,'
-                     'execfile-builtin,file-builtin,long-builtin,raw_input-builtin,reduce-builtin,'
-                     'standarderror-builtin,unicode-builtin,xrange-builtin,coerce-method,delslice-method,'
-                     'getslice-method,setslice-method,no-absolute-import,old-division,dict-iter-method,'
-                     'dict-view-method,next-method-called,metaclass-assignment,indexing-exception,'
-                     'raising-string,reload-builtin,oct-method,hex-method,nonzero-method,cmp-method,input-builtin,'
-                     'round-builtin,intern-builtin,unichr-builtin,map-builtin-not-iterating,zip-builtin-not-iterating,'
-                     'range-builtin-not-iterating,filter-builtin-not-iterating,using-cmp-argument,eq-without-hash,'
-                     'div-method,idiv-method,rdiv-method,exception-message-attribute,invalid-str-codec,sys-max-int,'
-                     'bad-python3-import,deprecated-string-function,deprecated-str-translate-call']
+                     'locally-disabled,locally-enabled,suppressed-message,'
+                     'coerce-method,delslice-method,'
+                     'getslice-method,setslice-method,no-absolute-import,'
+                     'next-method-called,'
+                     'reload-builtin,oct-method,hex-method,nonzero-method,cmp-method,'
+                     'using-cmp-argument,eq-without-hash,'
+                     'exception-message-attribute,sys-max-int,'
+                     'bad-python3-import,']
     evaluation = [
         '--evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)']
     output = ['--output-format=text']
