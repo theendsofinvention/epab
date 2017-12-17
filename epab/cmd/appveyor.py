@@ -52,9 +52,10 @@ def appveyor(ctx: click.Context):
     do(ctx, ['pip', 'install', '--upgrade', 'codacy-coverage'])
     do(ctx, ['python-codacy-coverage', '-r', 'coverage.xml'])
 
-    if not ctx.obj['CONFIG']['package'] == 'epab':
-        _info('Installing current package in editable mode')
-        do(ctx, ['pipenv', 'run', 'pip', 'install', '-e', '.'])
+    # Covered by AV
+    # if not ctx.obj['CONFIG']['package'] == 'epab':
+    #     _info('Installing current package with pipenv')
+    #     do(ctx, ['pipenv', 'install', '.'])
 
     if os.path.exists('appveyor.yml'):
         _info('Removing leftover "appveyor.yml" file')
