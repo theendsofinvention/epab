@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.28 (2017-12-17)
+-------------------
+
+Changes
+~~~~~~~
+- Do not install the current package during AV release. [132nd-etcher]
+
+
 0.1.27 (2017-12-17)
 -------------------
 
