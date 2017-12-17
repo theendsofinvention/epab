@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.32 (2017-12-17)
+-------------------
+
+Fix
+~~~
+- Remove 'EPAB: ' string from console output. [132nd-etcher]
+
+
 0.1.31 (2017-12-17)
 -------------------
 
