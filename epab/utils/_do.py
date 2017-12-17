@@ -10,7 +10,7 @@ import typing
 
 import click
 
-from epab.utils import _cmd, _error, _info, _out
+from epab.utils import _cmd, _error, _info, _out, _cmd_out
 
 
 def find_executable(executable: str, path: str = None) -> typing.Union[str, None]:  # noqa: C901
@@ -118,10 +118,10 @@ def do_ex(ctx: click.Context, cmd: typing.List[str], cwd: str = '.') -> typing.T
     if not exe:
         exit(-1)
     cmd.insert(0, exe)
-    _cmd(f'{cmd}', nl=False)
+    _cmd(f'{cmd}')
     process = _popen_pipes(cmd, cwd)
     out, err = process.communicate()
-    _cmd(f' -> {process.returncode}')
+    _cmd_out(f' -> {process.returncode}')
     return _ensure_stripped_str(ctx, out), _ensure_stripped_str(ctx, err), process.returncode
 
 

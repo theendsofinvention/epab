@@ -23,9 +23,14 @@ def _error(txt: str, **args):
 
 def _cmd(txt: str, **args):
     txt = _sanitize(txt)
+    click.secho(txt, fg='magenta', nl=False, **args)
+
+
+def _cmd_out(txt: str, **args):
+    txt = _sanitize(txt).replace('EPAB: ', '')
     click.secho(txt, fg='magenta', **args)
 
 
 def _out(txt: str, **args):
-    txt = _sanitize(txt).replace('EPAB: ', '')
+    txt = _sanitize(txt)
     click.secho(txt, fg='cyan', **args)
