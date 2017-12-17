@@ -73,7 +73,7 @@ def pylint(ctx, src, reports):
     site_packages = str(Path(sys.executable).parent.parent.joinpath(
         'lib/site-packages')).replace('\\', '/')
     init_hook = [f'--init-hook=import sys; sys.path.append("{site_packages}")']
-    disable = ['-d', 'disable=logging-format-interpolation,'
+    disable = ['-d', 'disable=logging-format-interpolation,fixme,'
                      'backtick,long-suffix,old-ne-operator,old-octal-literal,raw-checker-failed,bad-inline-option,'
                      'locally-disabled,locally-enabled,suppressed-message,'
                      'coerce-method,delslice-method,'
