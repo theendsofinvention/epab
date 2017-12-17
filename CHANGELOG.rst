@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+0.1.36 (2017-12-17)
+-------------------
+
+Fix
+~~~
+- Skip ci only on AV builds. [132nd-etcher]
+- Remove 'EPAB: ' string from console output. [132nd-etcher]
+
+
 0.1.35 (2017-12-17)
 -------------------
 
