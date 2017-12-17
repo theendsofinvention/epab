@@ -2,7 +2,8 @@
 """
 Manages linters
 """
-
+import sys
+from pathlib import Path
 import click
 
 from epab.utils import _info, do, repo_commit
@@ -64,11 +65,14 @@ def pylint(ctx, src, reports):
     Default module: CONFIG['package']
     """
     # noinspection SpellCheckingInspection
-    ignore = ['--ignore=CVS,versioneer.py,_versioneer.py,_version.py']
-    ignore_patterns = ['--ignore-patterns=ignore-patterns=_.*_version']
+    ignore = ['--ignore=CVS,versioneer.py,_versioneer.py,_version.py',
+              '--ignore-patterns=ignore-patterns=_.*_version']
     line_length = ['--max-line-length=120']
     jobs = ['-j', '2']
     persistent = ['--persistent=y']
+    site_packages = str(Path(sys.executable).parent.parent.joinpath(
+        'lib/site-packages')).replace('\\', '/')
+    init_hook = [f'--init-hook=import sys; sys.path.append("{site_packages}")']
     disable = ['-d', 'disable=missing-docstring,logging-format-interpolation,unpacking-in-except,old-raise-syntax,'
                      'backtick,long-suffix,old-ne-operator,old-octal-literal,raw-checker-failed,bad-inline-option,'
                      'locally-disabled,locally-enabled,file-ignored,suppressed-message,useless-suppression,'
@@ -92,7 +96,7 @@ def pylint(ctx, src, reports):
     cmd = ['pylint', src]
     if reports:
         report = ['--reports=y']
-    do(ctx, cmd + ignore + ignore_patterns + line_length + jobs + persistent +
+    do(ctx, cmd + ignore + line_length + jobs + persistent + init_hook +
        disable + evaluation + output + report + score)
 
 
