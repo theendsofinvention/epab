@@ -9,9 +9,9 @@ import click
 
 from epab import __version__
 from epab.utils import _info, do, repo_get_latest_tag
-from .test_runner import pytest
 
 from .release import release
+from .test_runner import pytest
 
 
 def _appveyor_branch():

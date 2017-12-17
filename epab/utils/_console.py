@@ -4,7 +4,6 @@ Manages output functions
 """
 
 import click
-import io
 
 
 def _sanitize(input_: str):
