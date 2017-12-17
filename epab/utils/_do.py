@@ -10,7 +10,7 @@ import typing
 
 import click
 
-from epab.utils import _cmd, _cmd_out, _error, _info, _out
+from epab.utils import _cmd, _cmd_out, _error, _out
 
 
 def find_executable(executable: str, path: str = None) -> typing.Union[str, None]:  # noqa: C901
@@ -41,7 +41,7 @@ def find_executable(executable: str, path: str = None) -> typing.Union[str, None
     if executable in find_executable.known_executables:  # type: ignore
         return find_executable.known_executables[executable]  # type: ignore
 
-    _info(f'Looking for executable: {executable}', nl=False)
+    _cmd(f'Looking for executable: {executable}')
 
     if path is None:
         path = os.environ['PATH']
@@ -55,12 +55,12 @@ def find_executable(executable: str, path: str = None) -> typing.Union[str, None
             if os.path.isfile(executable_path):
                 break
         else:
-            _error(f' -> not found')
+            _cmd_out(f' -> not found')
             return None
 
     # type: ignore
     find_executable.known_executables[executable] = executable_path
-    _info(f' -> {click.format_filename(executable_path)}')
+    _cmd_out(f' -> {click.format_filename(executable_path)}')
     return executable_path
 
 
