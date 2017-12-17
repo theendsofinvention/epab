@@ -6,7 +6,7 @@ Manages output functions
 import click
 
 
-def _sanitize(input_: str):
+def _sanitize(input_: str) -> str:
     input_ = f'EPAB: {input_}'
     return input_.encode('ascii', 'ignore').decode()
 
@@ -27,5 +27,5 @@ def _cmd(txt: str, **args):
 
 
 def _out(txt: str, **args):
-    txt = _sanitize(txt)
+    txt = _sanitize(txt).replace('EPAB: ', '')
     click.secho(txt, fg='cyan', **args)
