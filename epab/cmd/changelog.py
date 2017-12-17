@@ -4,6 +4,7 @@ Updates CHANGELOG.rst with the latest commits
 """
 
 import re
+import os
 
 import click
 
@@ -23,8 +24,10 @@ def _write_changelog(ctx, auto_commit):
             stream.write(re.sub(r'(\s*\r\n){2,}', '\r\n', changelog))
         if auto_commit:
             files_to_add = ['CHANGELOG.rst']
-            repo_commit(
-                ctx, 'chg: dev: update changelog [auto] [skip ci]', files_to_add=files_to_add)
+            msg = 'chg: dev: update changelog [auto]'
+            if os.getenv('APPVEYOR_REPO_BRANCH'):
+                msg = f'{msg} [skip ci]'
+            repo_commit(ctx, msg, files_to_add=files_to_add)
 
 
 @click.command()

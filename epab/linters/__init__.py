@@ -3,6 +3,7 @@
 Manages linters
 """
 import sys
+import os
 from pathlib import Path
 import click
 
@@ -123,4 +124,7 @@ def lint(ctx: click.Context, auto_commit: bool):
     # ctx.invoke(prospector)
     ctx.invoke(safety)
     if auto_commit:
-        repo_commit(ctx, 'chg: dev: linting [auto] [skip ci]')
+        msg = 'chg: dev: linting [auto]'
+        if os.getenv('APPVEYOR_REPO_BRANCH'):
+            msg = f'{msg} [skip ci]'
+        repo_commit(ctx, msg)
