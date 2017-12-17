@@ -2,6 +2,25 @@ Changelog
 =========
 
 
+0.1.26 (2017-12-17)
+-------------------
+
+Changes
+~~~~~~~
+- Reqs update should not skip ci. [132nd-etcher]
+- Using external AV config. [132nd-etcher]
+- Add "EPAB:" in front of all output. [132nd-etcher]
+- Using appveyor release process. [132nd-etcher]
+- Using appveyor release process. [132nd-etcher]
+- Using appveyor release process. [132nd-etcher]
+
+Fix
+~~~
+- Run test suite from EPAB to generate coverage. [132nd-etcher]
+- Sanitize console output. [132nd-etcher]
+- Sanitize console output. [132nd-etcher]
+
+
 0.1.25 (2017-12-16)
 -------------------
 
