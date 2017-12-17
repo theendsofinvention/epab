@@ -8,7 +8,7 @@ import os
 import click
 
 from epab import __version__
-from epab.utils import _info, do, repo_get_latest_tag
+from epab.utils import _info, do, repo_get_latest_tag, run_once
 
 from .release import release
 from .test_runner import pytest
@@ -31,12 +31,8 @@ def _appveyor_update_build(ctx: click.Context, version: str):
              f'{version}-{_appveyor_build()}-{_appveyor_commit()}'])
 
 
-@click.command()
-@click.pass_context
-def appveyor(ctx: click.Context):
-    """
-    Manages the release process on Appveyor
-    """
+@run_once
+def _appveyor(ctx):
     _info('RUNNING APPVEYOR RELEASE')
     _info(f'Current version: {__version__}')
     _info(f'Latest tag: {repo_get_latest_tag(ctx)}')
@@ -69,3 +65,12 @@ def appveyor(ctx: click.Context):
 
     _appveyor_update_build(ctx, repo_get_latest_tag(ctx))
     _info('ALL DONE')
+
+
+@click.command()
+@click.pass_context
+def appveyor(ctx: click.Context):
+    """
+    Manages the release process on Appveyor
+    """
+    _appveyor(ctx)

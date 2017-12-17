@@ -7,7 +7,7 @@ from pathlib import Path
 
 import click
 
-from epab.utils import _info, do
+from epab.utils import _info, do, run_once
 
 
 COVERAGE_CONFIG = r"""
@@ -50,12 +50,8 @@ source=
 """
 
 
-@click.command()
-@click.pass_context
-def pytest(ctx):
-    """
-    Runs Pytest (https://docs.pytest.org/en/latest/)
-    """
+@run_once
+def _run_tests(ctx):
     _info('Running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'
     coverage_rc = Path('.coveragerc')
@@ -71,3 +67,12 @@ def pytest(ctx):
         do(ctx, cmd + options)
     finally:
         coverage_rc.unlink()
+
+
+@click.command()
+@click.pass_context
+def pytest(ctx):
+    """
+    Runs Pytest (https://docs.pytest.org/en/latest/)
+    """
+    _run_tests(ctx)

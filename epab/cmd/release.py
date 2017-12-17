@@ -13,7 +13,7 @@ from epab.utils import (_error, _info, bump_version, do, dry_run, repo_checkout,
                         repo_push, repo_remove_tag, repo_tag)
 
 from .changelog import chglog
-from .requirements import write_reqs
+from epab.cmd.requirements import reqs
 from .test_runner import pytest
 
 
@@ -57,7 +57,7 @@ def release(ctx, new_version):
 
     ctx.invoke(lint, auto_commit=True)
 
-    write_reqs(ctx, auto_commit=True)
+    ctx.invoke(reqs, auto_commit=True)
 
     new_version = bump_version(ctx, new_version)
     _info(f'New version: {new_version}')
