@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.33 (2017-12-17)
+-------------------
+
+Fix
+~~~
+- Make sure all commands are run only once. [132nd-etcher]
+
+
 0.1.32 (2017-12-17)
 -------------------
 
