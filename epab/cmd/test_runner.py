@@ -16,6 +16,9 @@ COVERAGE_CONFIG = r"""
 #timid = True
 branch = True
 source = epab
+omit =
+    */_versioneer.py
+    {package_name}/_version.py
 
 [report]
 # Regexes for lines to exclude from consideration
@@ -55,7 +58,7 @@ def _run_tests(ctx):
     _info('Running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'
     coverage_rc = Path('.coveragerc')
-    coverage_rc.write_text(COVERAGE_CONFIG)
+    coverage_rc.write_text(COVERAGE_CONFIG.format(package_name=ctx.obj["CONFIG"]["package"]))
     cmd = ['pytest', 'test']
     if os.environ.get('APPVEYOR') and ctx.obj['CONFIG']['test']['av_runner_options']:
         cmd = cmd + ctx.obj['CONFIG']['test']['av_runner_options']
