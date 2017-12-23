@@ -6,6 +6,7 @@ Manages the release process on Appveyor
 import os
 
 import click
+
 from epab import __version__
 from epab.utils import _info, do, repo_get_latest_tag, run_once
 

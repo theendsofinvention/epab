@@ -4,6 +4,7 @@ Click command to write the requirements
 """
 
 import click
+
 from epab.utils import _error, _info, do_ex, repo_commit, run_once
 
 

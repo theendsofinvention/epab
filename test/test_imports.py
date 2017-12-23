@@ -7,8 +7,9 @@ Yes, this is shameful...
 
 import glob
 
-import epab
 import pytest
+
+import epab
 
 
 @pytest.fixture(autouse=True)
