@@ -10,7 +10,6 @@ import webbrowser
 
 import click
 import yaml
-
 from epab import __version__
 from epab.cmd import appveyor, chglog, pytest, release, reqs
 from epab.linters import flake8, isort, lint, pep8, prospector, pylint, safety

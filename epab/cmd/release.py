@@ -7,7 +7,6 @@ import shutil
 import sys
 
 import click
-
 from epab.cmd.requirements import reqs
 from epab.linters import lint
 from epab.utils import (_error, _info, bump_version, do, dry_run, repo_checkout, repo_get_current_branch, repo_merge,
