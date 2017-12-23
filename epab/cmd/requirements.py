@@ -32,8 +32,7 @@ def _write_reqs(ctx, auto_commit: bool):
     _write_reqs_file(base_cmd, 'requirements.txt')
     _write_reqs_file(base_cmd + ['-d'], 'requirements-dev.txt')
     if auto_commit:
-        files_to_add = ['Pipfile', 'Pipfile.lock',
-                        'requirements.txt', 'requirements-dev.txt']
+        files_to_add = ['Pipfile', 'requirements.txt', 'requirements-dev.txt']
         repo_commit(
             ctx, 'chg: dev: update requirements [auto]', files_to_add=files_to_add)
 
