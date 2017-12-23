@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.37 (2017-12-23)
+-------------------
+
+Fix
+~~~
+- Omit versioneer files during coverage. [132nd-etcher]
+
+
 0.1.36 (2017-12-17)
 -------------------
 
