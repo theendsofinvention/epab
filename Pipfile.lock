@@ -531,11 +531,11 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:b867eaa27f53c56a5300e7e635a3c0ee580e88742d0d37f35f2c554f94cd3067",
-                "sha256:9d5e1169d8b0cb677aa1265e046f20706c3c937f375c02c05f7f8777ab165415",
-                "sha256:fde178b618d76420149ab78bc6564d4d42eba08e22fb4be21c3de8f3e7ea7048"
+                "sha256:3d076c567321b6d10d5b8b22b14d4da209abb9e3d85f11af3beffddc9e723259",
+                "sha256:bfca3a071e4cf535b197da5ef820d1a676f7ff450b75869dd087f9b80e8ba697",
+                "sha256:180fafebab17d00ac9fa20d09e8d26a846b6697cff34a1ead4da8717fa0dbb0c"
             ],
-            "version": "==3.43.0"
+            "version": "==3.44.4"
         },
         "idna": {
             "hashes": [
