@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.38 (2017-12-23)
+-------------------
+
+Changes
+~~~~~~~
+- Git reset changes before adding specific files. [132nd-etcher]
+
+
 0.1.37 (2017-12-23)
 -------------------
 
