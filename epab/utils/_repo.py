@@ -83,6 +83,8 @@ def repo_commit(ctx: click.Context, message: str, extended: str = None, files_to
     if files_to_add is None:
         do(ctx, ['git', 'add', '.'])
     else:
+        _info('resetting changes')
+        do(ctx, ['git', 'reset'])
         do(ctx, ['git', 'add'] + files_to_add)
     out, err, code = do_ex(ctx, ['git', 'commit', '-m', message])
     if code:
