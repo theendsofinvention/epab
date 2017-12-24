@@ -75,6 +75,8 @@ def repo_commit(ctx: click.Context, message: str, extended: str = None, files_to
         extended: optional extended message
         files_to_add: optional list of files to commit
     """
+    if os.getenv('APPVEYOR_REPO_BRANCH'):
+        message = f'{message} [skip ci]'
     if extended:
         message = f'{message}\n\n{extended}'
     _info(f'Committing all changes with message: {message}')

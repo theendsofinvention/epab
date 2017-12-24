@@ -125,6 +125,4 @@ def lint(ctx: click.Context, auto_commit: bool):
     ctx.invoke(safety)
     if auto_commit:
         msg = 'chg: dev: linting [auto]'
-        if os.getenv('APPVEYOR_REPO_BRANCH'):
-            msg = f'{msg} [skip ci]'
         repo_commit(ctx, msg)
