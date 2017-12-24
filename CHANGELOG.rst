@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.42 (2017-12-24)
+-------------------
+
+Changes
+~~~~~~~
+- Auto-add [skip ci] to cmiit msg when on AV. [132nd-etcher]
+
+
 0.1.38 (2017-12-23)
 -------------------
 
