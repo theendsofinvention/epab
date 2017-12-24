@@ -1,9 +1,3 @@
-.. image:: https://ci.appveyor.com/api/projects/status/cxpqfiwyvvg950tu/branch/master?svg=true :target: https://ci.appveyor.com/project/132nd-etcher/epab
-
-.. image:: https://api.codacy.com/project/badge/Grade/7413d0314ed44765a9dbde48b8c8277c    :target: https://www.codacy.com/app/132nd-etcher/epab?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=132nd-etcher/epab&amp;utm_campaign=Badge_Grade
-.. image:: https://api.codacy.com/project/badge/Coverage/7413d0314ed44765a9dbde48b8c8277c    :target: https://www.codacy.com/app/132nd-etcher/epab?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=132nd-etcher/epab&amp;utm_campaign=Badge_Coverage
-
-
 EPAB
 ----
 
@@ -15,6 +9,7 @@ Etcher's Python Application Builder
 |license|
 
 |av_master| |av_develop|
+|codacy| |coverage|
 
 
 .. |OSI| image:: https://badges.frapsoft.com/os/v3/open-source-200x33.png?v=103
@@ -25,3 +20,7 @@ Etcher's Python Application Builder
     :target: https://ci.appveyor.com/project/132nd-etcher/epab
 .. |av_develop| image:: https://img.shields.io/appveyor/ci/132nd-etcher/epab/develop.svg?label=develop
     :target: https://ci.appveyor.com/project/132nd-etcher/epab
+.. |codacy| image:: https://img.shields.io/codacy/grade/7413d0314ed44765a9dbde48b8c8277c.svg
+    :target: https://www.codacy.com/app/132nd-etcher/epab
+.. |coverage| image:: https://img.shields.io/codacy/coverage/7413d0314ed44765a9dbde48b8c8277c.svg
+    :target: https://www.codacy.com/app/132nd-etcher/epab
