@@ -77,12 +77,10 @@ def pylint(ctx, src, reports):
     disable = ['-d', 'disable=logging-format-interpolation,fixme,'
                      'backtick,long-suffix,raw-checker-failed,bad-inline-option,'
                      'locally-disabled,locally-enabled,suppressed-message,'
-                     'coerce-method,delslice-method,'
-                     'getslice-method,setslice-method,'
+                     'coerce-method,delslice-method,getslice-method,setslice-method,'
                      'next-method-called,too-many-arguments,too-few-public-methods,'
                      'reload-builtin,oct-method,hex-method,nonzero-method,cmp-method,'
-                     'using-cmp-argument,eq-without-hash,'
-                     'exception-message-attribute,sys-max-int,'
+                     'using-cmp-argument,eq-without-hash,exception-message-attribute,sys-max-int,'
                      'bad-python3-import,']
     evaluation = [
         '--evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)']
