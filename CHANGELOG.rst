@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.1.44 (2017-12-25)
+-------------------
+
+Changes
+~~~~~~~
+- Run linters even when not on develop. [132nd-etcher]
+
+
 0.1.43 (2017-12-25)
 -------------------
 
