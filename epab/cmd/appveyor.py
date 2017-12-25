@@ -12,6 +12,7 @@ from epab.utils import _info, do, repo_get_latest_tag, run_once
 
 from .release import release
 from .test_runner import pytest
+from epab.linters import lint
 
 
 def _appveyor_branch():
@@ -62,6 +63,7 @@ def _appveyor(ctx):
         ctx.invoke(release)
     else:
         _info('Not on develop, skipping release')
+        ctx.invoke(lint, auto_commit=False)
 
     _appveyor_update_build(ctx, repo_get_latest_tag(ctx))
     _info('ALL DONE')

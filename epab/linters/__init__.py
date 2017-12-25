@@ -3,11 +3,16 @@
 Manages linters
 """
 import sys
-import os
 from pathlib import Path
+
 import click
 
-from epab.utils import _info, do, repo_commit
+from epab.utils import _info, do, repo_commit, run_once
+
+
+@run_once
+def _pep8(ctx):
+    do(ctx, ['autopep8', '-r', '--in-place', '--max-line-length', '120', '.'])
 
 
 @click.command()
@@ -16,15 +21,11 @@ def pep8(ctx):
     """
     Runs Pyup's Safety tool (https://pyup.io/safety/)
     """
-    do(ctx, ['autopep8', '-r', '--in-place', '--max-line-length', '120', '.'])
+    _pep8(ctx)
 
 
-@click.command()
-@click.pass_context
-def flake8(ctx):
-    """
-    Runs Flake8 (http://flake8.pycqa.org/en/latest/)
-    """
+@run_once
+def _flake8(ctx):
     ignore = ['--ignore=D203,E126']
     max_line_length = ['--max-line-length=120']
     # noinspection SpellCheckingInspection
@@ -33,6 +34,15 @@ def flake8(ctx):
                             'qt_resource.py,_parking_spots.py,./test/*,./.eggs/*,']
     max_complexity = ['--max-complexity=10']
     do(ctx, ['flake8'] + ignore + max_line_length + exclude + max_complexity)
+
+
+@click.command()
+@click.pass_context
+def flake8(ctx):
+    """
+    Runs Flake8 (http://flake8.pycqa.org/en/latest/)
+    """
+    _flake8(ctx)
 
 
 @click.command()
@@ -46,25 +56,22 @@ def prospector(ctx):
     do(ctx, ['prospector'])
 
 
+@run_once
+def _isort(ctx):
+    do(ctx, ['isort', '-rc', '-w', '120', '-s', 'versioneer.py', '.'])
+
+
 @click.command()
 @click.pass_context
 def isort(ctx):
     """
     Runs iSort (https://pypi.python.org/pypi/isort)
     """
-    do(ctx, ['isort', '-rc', '-w', '120', '-s', 'versioneer.py', '.'])
+    _isort(ctx)
 
 
-@click.command()
-@click.pass_context
-@click.argument('src', type=click.Path(exists=True), default=None, required=False)
-@click.option('-r', '--reports', is_flag=True, help='Display full report')
-def pylint(ctx, src, reports):
-    """
-    Analyze a given python SRC (module or package) with Pylint (SRC must exist)
-
-    Default module: CONFIG['package']
-    """
+@run_once
+def _pylint(ctx, src, reports):
     # noinspection SpellCheckingInspection
     ignore = ['--ignore=CVS,versioneer.py,_versioneer.py,_version.py',
               '--ignore-patterns=_.*_version']
@@ -98,22 +105,33 @@ def pylint(ctx, src, reports):
 
 @click.command()
 @click.pass_context
-def safety(ctx):
+@click.argument('src', type=click.Path(exists=True), default=None, required=False)
+@click.option('-r', '--reports', is_flag=True, help='Display full report')
+def pylint(ctx, src, reports):
     """
-    Runs Pyup's Safety tool (https://pyup.io/safety/)
+    Analyze a given python SRC (module or package) with Pylint (SRC must exist)
+
+    Default module: CONFIG['package']
     """
+    _pylint(ctx, src, reports)
+
+
+@run_once
+def _safety(ctx):
     do(ctx, ['safety', 'check', '--bare'])
 
 
 @click.command()
 @click.pass_context
-@click.option('-c', '--auto-commit', is_flag=True, help='Commit the changes')
-def lint(ctx: click.Context, auto_commit: bool):
+def safety(ctx):
     """
-    Runs all linters
-    Args:
-        auto_commit: whether or not to commit results
+    Runs Pyup's Safety tool (https://pyup.io/safety/)
     """
+    _safety(ctx)
+
+
+@run_once
+def _lint(ctx: click.Context, auto_commit: bool):
     _info('Running all linters')
     ctx.invoke(pep8)
     ctx.invoke(isort)
@@ -124,3 +142,16 @@ def lint(ctx: click.Context, auto_commit: bool):
     if auto_commit:
         msg = 'chg: dev: linting [auto]'
         repo_commit(ctx, msg)
+
+
+@click.command()
+@click.pass_context
+@click.option('-c', '--auto-commit', is_flag=True, help='Commit the changes')
+def lint(ctx: click.Context, auto_commit: bool):
+    """
+    Runs all linters
+    Args:
+        ctx: click context
+        auto_commit: whether or not to commit results
+    """
+    _lint(ctx, auto_commit)
