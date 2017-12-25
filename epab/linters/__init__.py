@@ -75,11 +75,11 @@ def pylint(ctx, src, reports):
         'lib/site-packages')).replace('\\', '/')
     init_hook = [f'--init-hook=import sys; sys.path.append("{site_packages}")']
     disable = ['-d', 'disable=logging-format-interpolation,fixme,'
-                     'backtick,long-suffix,old-ne-operator,old-octal-literal,raw-checker-failed,bad-inline-option,'
+                     'backtick,long-suffix,raw-checker-failed,bad-inline-option,'
                      'locally-disabled,locally-enabled,suppressed-message,'
                      'coerce-method,delslice-method,'
-                     'getslice-method,setslice-method,no-absolute-import,'
-                     'next-method-called,'
+                     'getslice-method,setslice-method,'
+                     'next-method-called,too-many-arguments,too-few-public-methods,'
                      'reload-builtin,oct-method,hex-method,nonzero-method,cmp-method,'
                      'using-cmp-argument,eq-without-hash,'
                      'exception-message-attribute,sys-max-int,'
