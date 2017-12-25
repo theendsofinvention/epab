@@ -8,11 +8,11 @@ import os
 import click
 
 from epab import __version__
+from epab.linters import lint
 from epab.utils import _info, do, repo_get_latest_tag, run_once
 
 from .release import release
 from .test_runner import pytest
-from epab.linters import lint
 
 
 def _appveyor_branch():
