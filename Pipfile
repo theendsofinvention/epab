@@ -30,7 +30,6 @@ pytest-cov = "*"
 pytest-mock = "*"
 pytest-pycharm = "*"
 pytest = "*"
-faker = "*"
 
 
 [dev-packages]
