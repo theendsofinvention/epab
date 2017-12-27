@@ -54,7 +54,7 @@ source=
 
 
 @run_once
-def _run_tests(ctx):
+def _run_tests(ctx, long):
     _info('Running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'
     coverage_rc = Path('.coveragerc')
@@ -66,6 +66,8 @@ def _run_tests(ctx):
         cmd = cmd + ctx.obj['CONFIG']['test']['runner_options']
     options = [f'--cov={ctx.obj["CONFIG"]["package"]}', '--cov-report', 'xml', '--cov-report', 'html', '--durations=10',
                '--hypothesis-show-statistics', '--tb=short', '--cov-config', '.coveragerc']
+    if long:
+        options.append('--long')
     try:
         do(ctx, cmd + options)
     finally:
@@ -73,9 +75,10 @@ def _run_tests(ctx):
 
 
 @click.command()
+@click.option('-l', '--long', is_flag=True, default=False, help='Long tests')
 @click.pass_context
-def pytest(ctx):
+def pytest(ctx, long):
     """
     Runs Pytest (https://docs.pytest.org/en/latest/)
     """
-    _run_tests(ctx)
+    _run_tests(ctx, long)
