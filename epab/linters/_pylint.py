@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Pylint linter
+"""
 
 
 import sys

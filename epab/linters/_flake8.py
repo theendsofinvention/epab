@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Flake8 linter
+"""
 
 import click
 
