@@ -13,7 +13,7 @@ import yaml
 
 from epab import __version__
 from epab.cmd import appveyor, chglog, pytest, release, reqs
-from epab.linters import flake8, isort, lint, pep8, prospector, pylint, safety
+from epab.linters import flake8, isort, lint, pep8, pylint, safety
 from epab.utils import _info, do, repo_ensure, repo_is_dirty, temporary_working_dir
 
 with open('epab.yml') as config_file:
@@ -139,7 +139,6 @@ cli.add_command(pep8)
 cli.add_command(flake8)
 cli.add_command(isort)
 cli.add_command(pylint)
-cli.add_command(prospector)
 cli.add_command(safety)
 cli.add_command(lint)
 
