@@ -135,23 +135,6 @@ def doc(ctx, show, clean_, publish):
             do(ctx, ['git', 'push'], filter_output=output_filter)
 
 
-# @cli.command()
-# @click.pass_context
-# def pre_push(ctx):
-#     """
-#     This is meant to be used as a Git pre-push hook
-#     """
-#     ctx.invoke(clean)
-#     ctx.invoke(autopep8)
-#     ctx.invoke(isort)
-#     ctx.invoke(flake8)
-#     ctx.invoke(pylint)
-#     ctx.invoke(write_reqs)
-#     ctx.invoke(chglog)
-#     ctx.invoke(safety)
-#     click.secho('All good!', fg='green')
-
-
 cli.add_command(pep8)
 cli.add_command(flake8)
 cli.add_command(isort)
