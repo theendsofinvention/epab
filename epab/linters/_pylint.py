@@ -15,7 +15,7 @@ def _pylint(ctx, src, reports):
     ignore = ['--ignore=CVS,versioneer.py,_versioneer.py,_version.py',
               '--ignore-patterns=_.*_version']
     line_length = ['--max-line-length=120']
-    jobs = ['-j', '2']
+    jobs = ['-j', '8']
     persistent = ['--persistent=y']
     site_packages = str(Path(sys.executable).parent.parent.joinpath(
         'lib/site-packages')).replace('\\', '/')
