@@ -54,8 +54,9 @@ def _appveyor(ctx):
         epab.utils.info('Removing leftover "appveyor.yml" file')
         os.unlink('appveyor.yml')
 
-    if os.getenv('APPVEYOR_REPO_TAG') == 'true':
-        ctx.obj['new_version'] = os.getenv('APPVEYOR_REPO_TAG_NAME')
+    commit_msg = os.getenv('APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED')
+    if 'release ' in commit_msg.lower():
+        ctx.obj['new_version'] = commit_msg.lower().replace('release ', '')
 
     if os.getenv('APPVEYOR_REPO_BRANCH') == 'develop':
         epab.utils.info('We\'re on develop; making new release')
