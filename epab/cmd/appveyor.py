@@ -56,7 +56,9 @@ def _appveyor(ctx):
 
     commit_msg = os.getenv('APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED')
     if 'release ' in commit_msg.lower():
-        ctx.obj['new_version'] = commit_msg.lower().replace('release ', '')
+        tag = commit_msg.lower().replace('release ', '')
+        epab.utils.info(f'using tag from commit message: {tag}')
+        ctx.obj['new_version'] = tag
 
     if os.getenv('APPVEYOR_REPO_BRANCH') == 'develop':
         epab.utils.info('We\'re on develop; making new release')
