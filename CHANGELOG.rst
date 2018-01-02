@@ -2,6 +2,18 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+New
+~~~
+- Release tagged versions without bump. [132nd-etcher]
+
+Other
+~~~~~
+- Trivia. [132nd-etcher]
+
+
 0.1.47 (2017-12-28)
 -------------------
 
