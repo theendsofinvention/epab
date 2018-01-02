@@ -142,7 +142,6 @@ cli.add_command(epab.linters.isort)
 cli.add_command(epab.linters.pylint)
 cli.add_command(epab.linters.safety)
 cli.add_command(epab.linters.lint)
-
 cli.add_command(epab.cmd.reqs)
 cli.add_command(epab.cmd.release)
 cli.add_command(epab.cmd.chglog)
