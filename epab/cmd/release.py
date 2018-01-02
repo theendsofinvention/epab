@@ -53,28 +53,29 @@ def release(ctx, new_version):
 
     ctx.invoke(pytest)
 
-    ctx.invoke(epab.linters.lint, auto_commit=True)
-
-    ctx.invoke(epab.cmd.requirements.reqs, auto_commit=True)
-
     on_tag = epab.utils.repo_is_on_tag(ctx)
 
     if on_tag:
         new_version = epab.utils.repo_get_latest_tag(ctx)
         epab.utils.info(f'Using existing tag as version: {new_version}')
-        ctx.invoke(chglog, auto_commit=True)
+        epab.utils.repo_remove_tag(ctx, new_version)
     else:
         new_version = epab.utils.bump_version(ctx, new_version)
         epab.utils.info(f'New version: {new_version}')
-        epab.utils.repo_tag(ctx, new_version)
-        ctx.invoke(chglog, auto_commit=True)
-        epab.utils.repo_remove_tag(ctx, new_version)
+
+    ctx.invoke(epab.linters.lint, auto_commit=True)
+
+    ctx.invoke(epab.cmd.requirements.reqs, auto_commit=True)
+
+    epab.utils.info('tagging repo for changelog update')
+    epab.utils.repo_tag(ctx, new_version)
+    ctx.invoke(chglog, auto_commit=True)
+    epab.utils.repo_remove_tag(ctx, new_version)
 
     epab.utils.repo_checkout(ctx, 'master')
     epab.utils.repo_merge(ctx, 'develop')
 
-    if not on_tag:
-        epab.utils.repo_tag(ctx, new_version)
+    epab.utils.repo_tag(ctx, new_version)
 
     try:
 
