@@ -5,12 +5,12 @@ Pep8 linter
 
 import click
 
-from epab.utils import do, run_once
+import epab.utils
 
 
-@run_once
+@epab.utils.run_once
 def _pep8(ctx):
-    do(ctx, ['autopep8', '-r', '--in-place', '--max-line-length', '120', '.'])
+    epab.utils.do(ctx, ['autopep8', '-r', '--in-place', '--max-line-length', '120', '.'])
 
 
 @click.command()

@@ -7,23 +7,23 @@ import re
 
 import click
 
-from epab.utils import info, do, ensure_exe, repo_commit, run_once
+import epab.utils
 
 
-@run_once
+@epab.utils.run_once
 def _write_changelog(ctx, auto_commit):
     if ctx.obj['CONFIG'].get('disabled_changelog'):
-        info('Skipping changelog update')
+        epab.utils.info('Skipping changelog update')
     else:
-        ensure_exe('git')
-        ensure_exe('gitchangelog')
-        info('Writing changelog')
-        changelog = do(ctx, ['gitchangelog'], mute_stdout=True)
+        epab.utils.ensure_exe('git')
+        epab.utils.ensure_exe('gitchangelog')
+        epab.utils.info('Writing changelog')
+        changelog = epab.utils.do(ctx, ['gitchangelog'], mute_stdout=True)
         with open('CHANGELOG.rst', mode='w') as stream:
             stream.write(re.sub(r'(\s*\r\n){2,}', '\r\n', changelog))
         if auto_commit:
             files_to_add = ['CHANGELOG.rst']
-            repo_commit(ctx, 'chg: dev: update changelog [auto]', files_to_add=files_to_add)
+            epab.utils.repo_commit(ctx, 'chg: dev: update changelog [auto]', files_to_add=files_to_add)
 
 
 @click.command()

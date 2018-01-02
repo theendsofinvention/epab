@@ -5,10 +5,10 @@ Click command to write the requirements
 
 import click
 
-from epab.utils import error, info, do_ex, repo_commit, run_once
+import epab.utils
 
 
-@run_once
+@epab.utils.run_once
 def _write_reqs(ctx, auto_commit: bool):
     """
     Writes the requirement files
@@ -18,22 +18,22 @@ def _write_reqs(ctx, auto_commit: bool):
     """
 
     def _write_reqs_file(cmd, file_path):
-        info(f'Writing {file_path}')
-        output, err, code = do_ex(ctx, cmd)
+        epab.utils.info(f'Writing {file_path}')
+        output, err, code = epab.utils.do_ex(ctx, cmd)
         if code:
             if err:
-                error(err)
+                epab.utils.error(err)
             exit(code)
         with open(file_path, 'w') as stream:
             stream.write(output)
 
-    info('Writing requirements')
+    epab.utils.info('Writing requirements')
     base_cmd = ['pipenv', 'lock', '-r']
     _write_reqs_file(base_cmd, 'requirements.txt')
     _write_reqs_file(base_cmd + ['-d'], 'requirements-dev.txt')
     if auto_commit:
         files_to_add = ['Pipfile', 'requirements.txt', 'requirements-dev.txt']
-        repo_commit(ctx, message='chg: dev: update requirements [auto]', files_to_add=files_to_add)
+        epab.utils.repo_commit(ctx, message='chg: dev: update requirements [auto]', files_to_add=files_to_add)
 
 
 @click.command()

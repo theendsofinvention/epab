@@ -11,10 +11,11 @@ import webbrowser
 import click
 import yaml
 
+import epab.linters._lint
 from epab import __version__
-from epab.cmd import appveyor, chglog, pytest, release, reqs
-from epab.linters import flake8, isort, lint, pep8, pylint, safety
-from epab.utils import info, do, repo_ensure, repo_is_dirty, temporary_working_dir
+import epab.cmd
+import epab.linters
+import epab.utils
 
 with open('epab.yml') as config_file:
     CONFIG = yaml.load(config_file)
@@ -32,9 +33,9 @@ def _install_pyinstaller(ctx: click.Context, force: bool = False):
     """
     repo = r'git+https://github.com/132nd-etcher/pyinstaller.git@develop#egg=pyinstaller==3.3.dev0+g2fcbe0f'
     if force:
-        do(ctx, ['pip', 'install', '--upgrade', repo])
+        epab.utils.do(ctx, ['pip', 'install', '--upgrade', repo])
     else:
-        do(ctx, ['pip', 'install', repo])
+        epab.utils.do(ctx, ['pip', 'install', repo])
 
 
 def _initiliaze_context_object():
@@ -52,7 +53,7 @@ def _print_version(ctx: click.Context, _, value):
     if not value or ctx.resilient_parsing:
         return
 
-    info(__version__)
+    epab.utils.info(__version__)
     exit(0)
 
 
@@ -75,9 +76,9 @@ def cli(ctx, dry_run, dirty):
     """
     ctx.obj = _initiliaze_context_object()
     ctx.obj['dry_run'] = dry_run
-    info(f'EPAB {__version__}')
-    repo_ensure(ctx)
-    if not dirty and repo_is_dirty(ctx):
+    epab.utils.info(f'EPAB {__version__}')
+    epab.utils.repo_ensure(ctx)
+    if not dirty and epab.utils.repo_is_dirty(ctx):
         click.secho('Repository is dirty', err=True, fg='red')
         exit(-1)
 
@@ -95,7 +96,7 @@ def doc(ctx, show, clean_, publish):
         shutil.rmtree('./doc/html')
     if os.path.exists('./doc/api'):
         shutil.rmtree('./doc/api')
-    do(ctx, [
+    epab.utils.do(ctx, [
         'sphinx-apidoc',
         CONFIG['package'],
         '-o', 'doc/api',
@@ -105,7 +106,7 @@ def doc(ctx, show, clean_, publish):
         # '-P',
         '-f',
     ])
-    do(ctx, [
+    epab.utils.do(ctx, [
         'sphinx-build',
         '-b',
         'html',
@@ -122,28 +123,28 @@ def doc(ctx, show, clean_, publish):
             'Checking out files:'
         ]
         if not os.path.exists(f'./{CONFIG["package"]}-doc'):
-            do(ctx, ['git', 'clone', CONFIG['doc_repo']],
-               filter_output=output_filter)
-        with temporary_working_dir(CONFIG['doc_folder']):
-            do(ctx, ['git', 'pull'])
+            epab.utils.do(ctx, ['git', 'clone', CONFIG['doc_repo']],
+                          filter_output=output_filter)
+        with epab.utils.temporary_working_dir(CONFIG['doc_folder']):
+            epab.utils.do(ctx, ['git', 'pull'])
             if os.path.exists('./docs'):
                 shutil.rmtree('./docs')
             shutil.copytree('../doc/html', './docs')
-            do(ctx, ['git', 'add', '.'], filter_output=output_filter)
-            do(ctx, ['git', 'commit', '-m', 'automated doc build'],
-               filter_output=output_filter)
-            do(ctx, ['git', 'push'], filter_output=output_filter)
+            epab.utils.do(ctx, ['git', 'add', '.'], filter_output=output_filter)
+            epab.utils.do(ctx, ['git', 'commit', '-m', 'automated doc build'],
+                          filter_output=output_filter)
+            epab.utils.do(ctx, ['git', 'push'], filter_output=output_filter)
 
 
-cli.add_command(pep8)
-cli.add_command(flake8)
-cli.add_command(isort)
-cli.add_command(pylint)
-cli.add_command(safety)
-cli.add_command(lint)
+cli.add_command(epab.linters.pep8)
+cli.add_command(epab.linters.flake8)
+cli.add_command(epab.linters.isort)
+cli.add_command(epab.linters.pylint)
+cli.add_command(epab.linters.safety)
+cli.add_command(epab.linters._lint.lint)
 
-cli.add_command(reqs)
-cli.add_command(release)
-cli.add_command(chglog)
-cli.add_command(appveyor)
-cli.add_command(pytest)
+cli.add_command(epab.cmd.reqs)
+cli.add_command(epab.cmd.release)
+cli.add_command(epab.cmd.chglog)
+cli.add_command(epab.cmd.appveyor)
+cli.add_command(epab.cmd.pytest)

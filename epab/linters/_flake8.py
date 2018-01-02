@@ -5,10 +5,10 @@ Flake8 linter
 
 import click
 
-from epab.utils import do, run_once
+import epab.utils
 
 
-@run_once
+@epab.utils.run_once
 def _flake8(ctx):
     ignore = ['--ignore=D203,E126']
     max_line_length = ['--max-line-length=120']
@@ -17,7 +17,7 @@ def _flake8(ctx):
                             '__pycache__,.tox,__init__.py,dummy_miz.py,build,dist,output,.cache,.hypothesis,'
                             'qt_resource.py,_parking_spots.py,./test/*,./.eggs/*,']
     max_complexity = ['--max-complexity=10']
-    do(ctx, ['flake8'] + ignore + max_line_length + exclude + max_complexity)
+    epab.utils.do(ctx, ['flake8'] + ignore + max_line_length + exclude + max_complexity)
 
 
 @click.command()

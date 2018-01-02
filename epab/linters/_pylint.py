@@ -9,10 +9,10 @@ from pathlib import Path
 
 import click
 
-from epab.utils import do, run_once
+import epab.utils
 
 
-@run_once
+@epab.utils.run_once
 def _pylint(ctx, src, reports):
     # noinspection SpellCheckingInspection
     ignore = ['--ignore=CVS,versioneer.py,_versioneer.py,_version.py',
@@ -41,8 +41,8 @@ def _pylint(ctx, src, reports):
     cmd = ['pylint', src]
     if reports:
         report = ['--reports=y']
-    do(ctx, cmd + ignore + line_length + jobs + persistent + init_hook +
-       disable + evaluation + output + report + score)
+    epab.utils.do(ctx, cmd + ignore + line_length + jobs + persistent + init_hook +
+                  disable + evaluation + output + report + score)
 
 
 @click.command()

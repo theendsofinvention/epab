@@ -5,12 +5,12 @@ iSort linter
 
 import click
 
-from epab.utils import do, run_once
+import epab.utils
 
 
-@run_once
+@epab.utils.run_once
 def _isort(ctx):
-    do(ctx, ['isort', '-rc', '-w', '120', '-s', 'versioneer.py', '.'])
+    epab.utils.do(ctx, ['isort', '-rc', '-w', '120', '-s', 'versioneer.py', '.'])
 
 
 @click.command()

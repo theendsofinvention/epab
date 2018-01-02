@@ -8,9 +8,10 @@ import sys
 
 import click
 
+import epab.linters._lint
 import epab.utils
-from epab.cmd.requirements import reqs
-from epab.linters import lint
+import epab.cmd.requirements
+import epab.linters
 
 from .changelog import chglog
 from .test_runner import pytest
@@ -54,9 +55,9 @@ def release(ctx, new_version):
 
     ctx.invoke(pytest)
 
-    ctx.invoke(lint, auto_commit=True)
+    ctx.invoke(epab.linters._lint.lint, auto_commit=True)
 
-    ctx.invoke(reqs, auto_commit=True)
+    ctx.invoke(epab.cmd.requirements.reqs, auto_commit=True)
 
     on_tag = epab.utils.repo_is_on_tag(ctx)
 

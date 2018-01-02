@@ -5,12 +5,12 @@ Safety linter
 
 import click
 
-from epab.utils import do, run_once
+import epab.utils
 
 
-@run_once
+@epab.utils.run_once
 def _safety(ctx):
-    do(ctx, ['safety', 'check', '--bare'])
+    epab.utils.do(ctx, ['safety', 'check', '--bare'])
 
 
 @click.command()

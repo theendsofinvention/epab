@@ -7,7 +7,7 @@ from pathlib import Path
 
 import click
 
-from epab.utils import info, do, run_once
+import epab.utils
 
 
 COVERAGE_CONFIG = r"""
@@ -53,9 +53,9 @@ source=
 """
 
 
-@run_once
+@epab.utils.run_once
 def _run_tests(ctx, long):
-    info('Running test suite')
+    epab.utils.info('Running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'
     coverage_rc = Path('.coveragerc')
     coverage_rc.write_text(COVERAGE_CONFIG.format(package_name=ctx.obj["CONFIG"]["package"]))
@@ -69,7 +69,7 @@ def _run_tests(ctx, long):
     if long:
         options.append('--long')
     try:
-        do(ctx, cmd + options)
+        epab.utils.do(ctx, cmd + options)
     finally:
         coverage_rc.unlink()
 
