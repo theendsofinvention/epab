@@ -5,7 +5,7 @@ Manages linters
 
 import click
 
-from epab.utils import _info, repo_commit, run_once
+from epab.utils import info, repo_commit, run_once
 
 from ._pep8 import pep8
 from ._isort import isort
@@ -16,7 +16,7 @@ from ._safety import safety
 
 @run_once
 def _lint(ctx: click.Context, auto_commit: bool):
-    _info('Running all linters')
+    info('Running all linters')
     ctx.invoke(pep8)
     ctx.invoke(isort)
     ctx.invoke(flake8)

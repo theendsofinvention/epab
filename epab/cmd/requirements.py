@@ -5,7 +5,7 @@ Click command to write the requirements
 
 import click
 
-from epab.utils import _error, _info, do_ex, repo_commit, run_once
+from epab.utils import error, info, do_ex, repo_commit, run_once
 
 
 @run_once
@@ -18,16 +18,16 @@ def _write_reqs(ctx, auto_commit: bool):
     """
 
     def _write_reqs_file(cmd, file_path):
-        _info(f'Writing {file_path}')
+        info(f'Writing {file_path}')
         output, err, code = do_ex(ctx, cmd)
         if code:
             if err:
-                _error(err)
+                error(err)
             exit(code)
         with open(file_path, 'w') as stream:
             stream.write(output)
 
-    _info('Writing requirements')
+    info('Writing requirements')
     base_cmd = ['pipenv', 'lock', '-r']
     _write_reqs_file(base_cmd, 'requirements.txt')
     _write_reqs_file(base_cmd + ['-d'], 'requirements-dev.txt')

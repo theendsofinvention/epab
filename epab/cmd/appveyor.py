@@ -9,7 +9,7 @@ import click
 
 from epab import __version__
 from epab.linters import lint
-from epab.utils import _info, do, repo_get_latest_tag, run_once
+from epab.utils import info, do, repo_get_latest_tag, run_once
 
 from .release import release
 from .test_runner import pytest
@@ -34,39 +34,39 @@ def _appveyor_update_build(ctx: click.Context, version: str):
 
 @run_once
 def _appveyor(ctx):
-    _info('RUNNING APPVEYOR RELEASE')
-    _info(f'Current version: {__version__}')
-    _info(f'Latest tag: {repo_get_latest_tag(ctx)}')
+    info('RUNNING APPVEYOR RELEASE')
+    info(f'Current version: {__version__}')
+    info(f'Latest tag: {repo_get_latest_tag(ctx)}')
     _appveyor_update_build(ctx, repo_get_latest_tag(ctx))
 
-    _info('Installing GitChangelog')
+    info('Installing GitChangelog')
     do(ctx, ['pip', 'install', '--upgrade', 'gitchangelog'])
 
-    _info('Running tests')
+    info('Running tests')
     ctx.invoke(pytest)
 
-    _info('Uploading coverage info')
+    info('Uploading coverage info')
     do(ctx, ['pip', 'install', '--upgrade', 'codacy-coverage'])
     do(ctx, ['python-codacy-coverage', '-r', 'coverage.xml'])
 
     # Covered by AV
     # if not ctx.obj['CONFIG']['package'] == 'epab':
-    #     _info('Installing current package with pipenv')
+    #     info('Installing current package with pipenv')
     #     do(ctx, ['pipenv', 'install', '.'])
 
     if os.path.exists('appveyor.yml'):
-        _info('Removing leftover "appveyor.yml" file')
+        info('Removing leftover "appveyor.yml" file')
         os.unlink('appveyor.yml')
 
     if os.getenv('APPVEYOR_REPO_BRANCH') == 'develop':
-        _info('We\'re on develop; making new release')
+        info('We\'re on develop; making new release')
         ctx.invoke(release)
     else:
-        _info('Not on develop, skipping release')
+        info('Not on develop, skipping release')
         ctx.invoke(lint, auto_commit=False)
 
     _appveyor_update_build(ctx, repo_get_latest_tag(ctx))
-    _info('ALL DONE')
+    info('ALL DONE')
 
 
 @click.command()

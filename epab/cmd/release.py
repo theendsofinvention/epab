@@ -8,9 +8,9 @@ import sys
 
 import click
 
+import epab.utils
 from epab.cmd.requirements import reqs
 from epab.linters import lint
-import epab.utils
 
 from .changelog import chglog
 from .test_runner import pytest
@@ -20,7 +20,7 @@ def _clean(ctx):
     """
     Cleans up build dir
     """
-    epab.utils._info(f'Cleaning project directory...')
+    epab.utils.info(f'Cleaning project directory...')
     if epab.utils.dry_run(ctx):
         return
     folders_to_cleanup = [
@@ -30,7 +30,7 @@ def _clean(ctx):
     ]
     for folder in folders_to_cleanup:
         if os.path.exists(folder):
-            epab.utils._info(f'\tremoving: {folder}')
+            epab.utils.info(f'\tremoving: {folder}')
             shutil.rmtree(folder)
 
 
@@ -43,14 +43,14 @@ def release(ctx, new_version):
     """
     current_branch = epab.utils.repo_get_current_branch(ctx)
     if 'develop' not in [current_branch, os.getenv('APPVEYOR_REPO_BRANCH')]:
-        epab.utils._error(
+        epab.utils.error(
             f'Not on develop; skipping release (current branch: {current_branch})')
         exit(0)
 
     if current_branch == 'HEAD' and os.getenv('APPVEYOR_REPO_BRANCH') == 'develop':
         epab.utils.repo_checkout(ctx, 'develop')
 
-    epab.utils._info('Making new release')
+    epab.utils.info('Making new release')
 
     ctx.invoke(pytest)
 
@@ -62,11 +62,11 @@ def release(ctx, new_version):
 
     if on_tag:
         new_version = epab.utils.repo_get_latest_tag(ctx)
-        epab.utils._info(f'Using existing tag as version: {new_version}')
+        epab.utils.info(f'Using existing tag as version: {new_version}')
         ctx.invoke(chglog, auto_commit=True)
     else:
         new_version = epab.utils.bump_version(ctx, new_version)
-        epab.utils._info(f'New version: {new_version}')
+        epab.utils.info(f'New version: {new_version}')
         epab.utils.repo_tag(ctx, new_version)
         ctx.invoke(chglog, auto_commit=True)
         epab.utils.repo_remove_tag(ctx, new_version)
@@ -82,7 +82,7 @@ def release(ctx, new_version):
         _clean(ctx)
 
         if epab.utils.dry_run(ctx):
-            epab.utils._info('DRYRUN: All good!')
+            epab.utils.info('DRYRUN: All good!')
             return
         epab.utils.do(ctx, sys.executable.replace('\\', '/') + ' setup.py bdist_wheel')
         epab.utils.do(ctx, 'twine upload dist/* --skip-existing',
@@ -93,7 +93,7 @@ def release(ctx, new_version):
 
         if ctx.obj["CONFIG"]["package"] != 'epab':
             epab.utils.do(ctx, 'pip install -e .')
-        epab.utils._info('All good!')
+        epab.utils.info('All good!')
 
     except SystemExit:
         epab.utils.repo_checkout(ctx, 'develop')

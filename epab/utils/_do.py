@@ -10,7 +10,7 @@ import typing
 
 import click
 
-from epab.utils import _cmd, _cmd_out, _error, _out
+from epab.utils import cmd_start, cmd_end, error, std_out
 
 
 def find_executable(executable: str, path: str = None) -> typing.Union[str, None]:  # noqa: C901
@@ -41,7 +41,7 @@ def find_executable(executable: str, path: str = None) -> typing.Union[str, None
     if executable in find_executable.known_executables:  # type: ignore
         return find_executable.known_executables[executable]  # type: ignore
 
-    _cmd(f'Looking for executable: {executable}')
+    cmd_start(f'Looking for executable: {executable}')
 
     if path is None:
         path = os.environ['PATH']
@@ -55,12 +55,12 @@ def find_executable(executable: str, path: str = None) -> typing.Union[str, None
             if os.path.isfile(executable_path):
                 break
         else:
-            _cmd_out(f' -> not found')
+            cmd_end(f' -> not found')
             return None
 
     # type: ignore
     find_executable.known_executables[executable] = executable_path
-    _cmd_out(f' -> {click.format_filename(executable_path)}')
+    cmd_end(f' -> {click.format_filename(executable_path)}')
     return executable_path
 
 
@@ -118,10 +118,10 @@ def do_ex(ctx: click.Context, cmd: typing.List[str], cwd: str = '.') -> typing.T
     if not exe:
         exit(-1)
     cmd.insert(0, exe)
-    _cmd(f'{cmd}')
+    cmd(f'{cmd}')
     process = _popen_pipes(cmd, cwd)
     out, err = process.communicate()
-    _cmd_out(f' -> {process.returncode}')
+    cmd_end(f' -> {process.returncode}')
     return _ensure_stripped_str(ctx, out), _ensure_stripped_str(ctx, err), process.returncode
 
 
@@ -167,10 +167,10 @@ def do(  # pylint: disable=too-many-arguments,invalid-name
 
     out, err, ret = do_ex(ctx, cmd, cwd)
     if out and not mute_stdout:
-        _out(f'{_filter_output(out)}')
+        std_out(f'{_filter_output(out)}')
     if err and not mute_stderr:
-        _cmd(f'{_filter_output(err)}')
+        cmd(f'{_filter_output(err)}')
     if ret:
-        _error(f'command failed: {cmd}')
+        error(f'command failed: {cmd}')
         exit(ret)
     return out

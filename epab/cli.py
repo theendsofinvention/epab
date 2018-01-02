@@ -14,7 +14,7 @@ import yaml
 from epab import __version__
 from epab.cmd import appveyor, chglog, pytest, release, reqs
 from epab.linters import flake8, isort, lint, pep8, pylint, safety
-from epab.utils import _info, do, repo_ensure, repo_is_dirty, temporary_working_dir
+from epab.utils import info, do, repo_ensure, repo_is_dirty, temporary_working_dir
 
 with open('epab.yml') as config_file:
     CONFIG = yaml.load(config_file)
@@ -52,7 +52,7 @@ def _print_version(ctx: click.Context, _, value):
     if not value or ctx.resilient_parsing:
         return
 
-    _info(__version__)
+    info(__version__)
     exit(0)
 
 
@@ -75,7 +75,7 @@ def cli(ctx, dry_run, dirty):
     """
     ctx.obj = _initiliaze_context_object()
     ctx.obj['dry_run'] = dry_run
-    _info(f'EPAB {__version__}')
+    info(f'EPAB {__version__}')
     repo_ensure(ctx)
     if not dirty and repo_is_dirty(ctx):
         click.secho('Repository is dirty', err=True, fg='red')
