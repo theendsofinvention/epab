@@ -6,7 +6,7 @@ import os
 
 import click
 
-from ._console import error, info
+from ._console import info, std_err, std_out
 from ._do import do, do_ex
 from ._dry_run import dry_run
 
@@ -18,17 +18,27 @@ def repo_get_current_branch(ctx) -> str:
     return do(ctx, 'git rev-parse --abbrev-ref HEAD', mute_stdout=True)
 
 
-def repo_tag(ctx: click.Context, tag: str):
+def repo_tag(ctx: click.Context, tag: str, exists_ok=False):
     """
     Tags the repo
 
     Args:
+        exists_ok: if True, do not fail if tag exists
         tag: tag as a string
     """
     info(f'Tagging repo: {tag}')
     if dry_run(ctx):
         return
-    do(ctx, ['git', 'tag', tag])
+    out, err, ret = do_ex(ctx, ['git', 'tag', tag])
+    if err:
+        std_err('git tag', err)
+    if out:
+        std_out('git tag', out)
+    if ret:
+        if 'already exists' in err + out and exists_ok:
+            return
+        else:
+            exit(-1)
 
 
 def repo_remove_tag(ctx: click.Context, tag: str):
