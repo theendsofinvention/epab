@@ -7,10 +7,9 @@ import os
 
 import click
 
-import epab.linters._lint
-from epab import __version__
 import epab.linters
 import epab.utils
+from epab import __version__
 
 from .release import release
 from .test_runner import pytest
@@ -29,15 +28,14 @@ def _appveyor_build():
 
 
 def _appveyor_update_build(ctx: click.Context, version: str):
-    epab.utils.do(ctx, ['appveyor', 'UpdateBuild', '-Version',
-             f'{version}-{_appveyor_build()}-{_appveyor_commit()}'])
+    epab.utils.do(ctx, ['appveyor', 'UpdateBuild', '-Version', f'{version}-{_appveyor_build()}-{_appveyor_commit()}'])
 
 
 @epab.utils.run_once
 def _appveyor(ctx):
     epab.utils.info('RUNNING APPVEYOR RELEASE')
     epab.utils.info(f'Current version: {__version__}')
-    epab.utils.info(f'Latest tag: {repo_get_latest_tag(ctx)}')
+    epab.utils.info(f'Latest tag: {epab.utils.repo_get_latest_tag(ctx)}')
     _appveyor_update_build(ctx, epab.utils.repo_get_latest_tag(ctx))
 
     epab.utils.info('Installing GitChangelog')
@@ -64,7 +62,7 @@ def _appveyor(ctx):
         ctx.invoke(release)
     else:
         epab.utils.info('Not on develop, skipping release')
-        ctx.invoke(epab.linters._lint.lint, auto_commit=False)
+        ctx.invoke(epab.linters.lint, auto_commit=False)
 
     _appveyor_update_build(ctx, epab.utils.repo_get_latest_tag(ctx))
     epab.utils.info('ALL DONE')

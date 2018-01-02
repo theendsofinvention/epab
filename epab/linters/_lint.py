@@ -1,10 +1,14 @@
 # coding=utf-8
+"""
+Runs all linters
+"""
 import click
 
 import epab.utils
-from ._pep8 import pep8
-from ._isort import isort
+
 from ._flake8 import flake8
+from ._isort import isort
+from ._pep8 import pep8
 from ._pylint import pylint
 from ._safety import safety
 
@@ -29,6 +33,7 @@ def _lint(ctx: click.Context, auto_commit: bool):
 def lint(ctx: click.Context, auto_commit: bool):
     """
     Runs all linters
+
     Args:
         ctx: click context
         auto_commit: whether or not to commit results

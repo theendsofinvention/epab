@@ -8,10 +8,9 @@ import sys
 
 import click
 
-import epab.linters._lint
-import epab.utils
 import epab.cmd.requirements
 import epab.linters
+import epab.utils
 
 from .changelog import chglog
 from .test_runner import pytest
@@ -44,8 +43,7 @@ def release(ctx, new_version):
     """
     current_branch = epab.utils.repo_get_current_branch(ctx)
     if 'develop' not in [current_branch, os.getenv('APPVEYOR_REPO_BRANCH')]:
-        epab.utils.error(
-            f'Not on develop; skipping release (current branch: {current_branch})')
+        epab.utils.error(f'Not on develop; skipping release (current branch: {current_branch})')
         exit(0)
 
     if current_branch == 'HEAD' and os.getenv('APPVEYOR_REPO_BRANCH') == 'develop':
@@ -55,7 +53,7 @@ def release(ctx, new_version):
 
     ctx.invoke(pytest)
 
-    ctx.invoke(epab.linters._lint.lint, auto_commit=True)
+    ctx.invoke(epab.linters.lint, auto_commit=True)
 
     ctx.invoke(epab.cmd.requirements.reqs, auto_commit=True)
 

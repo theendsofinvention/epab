@@ -11,11 +11,11 @@ import webbrowser
 import click
 import yaml
 
-import epab.linters._lint
-from epab import __version__
 import epab.cmd
 import epab.linters
+import epab.linters._lint
 import epab.utils
+from epab import __version__
 
 with open('epab.yml') as config_file:
     CONFIG = yaml.load(config_file)
@@ -141,7 +141,7 @@ cli.add_command(epab.linters.flake8)
 cli.add_command(epab.linters.isort)
 cli.add_command(epab.linters.pylint)
 cli.add_command(epab.linters.safety)
-cli.add_command(epab.linters._lint.lint)
+cli.add_command(epab.linters.lint)
 
 cli.add_command(epab.cmd.reqs)
 cli.add_command(epab.cmd.release)

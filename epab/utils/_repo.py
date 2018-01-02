@@ -52,6 +52,9 @@ def repo_get_latest_tag(ctx) -> str:
 
 
 def repo_is_on_tag(ctx) -> bool:
+    """
+    :return: True if latest commit is tagged
+    """
     return bool('-' not in repo_get_latest_tag(ctx))
 
 
@@ -62,9 +65,9 @@ def repo_ensure(ctx):
     info('checking repository')
     if not os.path.exists('.git') or not os.path.exists(ctx.obj['CONFIG']['package']):
         error('This command is meant to be ran in a Git repository.\n'
-               'You can clone the repository by running:\n\n'
-               f'\tgit clone https://github.com/132nd-etcher/{ctx.obj["CONFIG"]["package"]}.git\n\n'
-               'Then cd into it and try again.', )
+              'You can clone the repository by running:\n\n'
+              f'\tgit clone https://github.com/132nd-etcher/{ctx.obj["CONFIG"]["package"]}.git\n\n'
+              'Then cd into it and try again.', )
         if dry_run(ctx):
             return
         exit(-1)
