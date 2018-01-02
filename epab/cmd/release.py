@@ -59,7 +59,7 @@ def release(ctx, new_version):
 
     new_version = epab.utils.bump_version(ctx, new_version)
     epab.utils.info(f'New version: {new_version}')
-    epab.utils.repo_tag(ctx, new_version, exists_ok=True)
+    epab.utils.repo_tag(ctx, new_version)
     ctx.invoke(chglog, auto_commit=True)
     epab.utils.repo_remove_tag(ctx, new_version)
 
