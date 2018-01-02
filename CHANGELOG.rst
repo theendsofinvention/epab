@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.2.0 (2018-01-02)
+------------------
+- Merge remote-tracking branch 'origin/develop' into develop. [132nd-
+  etcher]
+
+  release 0.2.0
+
+
 0.1.52 (2018-01-02)
 -------------------
 
