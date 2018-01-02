@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+0.2.1 (2018-01-02)
+------------------
+
+Fix
+~~~
+- Fix error with no extended commit msg. [132nd-etcher]
+
+
 0.2.0 (2018-01-02)
 ------------------
 - Merge remote-tracking branch 'origin/develop' into develop. [132nd-
