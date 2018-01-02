@@ -30,6 +30,7 @@ pytest-cov = "*"
 pytest-mock = "*"
 pytest-pycharm = "*"
 pytest = "*"
+gitchangelog = "*"
 
 
 [dev-packages]
