@@ -6,7 +6,7 @@ import os
 
 import click
 
-from ._console import info, std_err, std_out
+from ._console import error, info, std_err, std_out
 from ._do import do, do_ex
 from ._dry_run import dry_run
 
