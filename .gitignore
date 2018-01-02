@@ -17,5 +17,4 @@ htmlcov
 /doc/html/
 .pylint.d/
 /~/
-.gitattributes
 Pipfile.lock

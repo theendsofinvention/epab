@@ -43,7 +43,7 @@ def get_config():
     cfg.style = "pep440"
     cfg.tag_prefix = ""
     cfg.parentdir_prefix = "epab-"
-    cfg.versionfile_source = "epab/_version.py"
+    cfg.versionfile_source = "epab/_e_version.py"
     cfg.verbose = False
     return cfg
 

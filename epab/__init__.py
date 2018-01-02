@@ -4,6 +4,6 @@ This script automates linting, testing and releasing of Python apps locally and 
 
 It is intended for my personal use only
 """
-from ._version import get_versions
+from ._e_version import get_versions
 __version__ = get_versions()['version']
 del get_versions

@@ -9,6 +9,6 @@ graft test
 graft doc
 global-exclude __pycache__
 global-exclude *.py[co]
-global-exclude html-covinclude versioneer.py
-include epab/_version.py
+global-exclude html-covinclude
 include versioneer.py
+include epab/_e_version.py
