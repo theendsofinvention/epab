@@ -60,9 +60,22 @@ def release(ctx, new_version):
 
     on_tag = epab.utils.repo_is_on_tag(ctx)
 
-    repo_checkout(ctx, 'master')
-    repo_merge(ctx, 'develop')
-    repo_tag(ctx, new_version)
+    if on_tag:
+        new_version = epab.utils.repo_get_latest_tag(ctx)
+        epab.utils._info(f'Using existing tag as version: {new_version}')
+        ctx.invoke(chglog, auto_commit=True)
+    else:
+        new_version = epab.utils.bump_version(ctx, new_version)
+        epab.utils._info(f'New version: {new_version}')
+        epab.utils.repo_tag(ctx, new_version)
+        ctx.invoke(chglog, auto_commit=True)
+        epab.utils.repo_remove_tag(ctx, new_version)
+
+    epab.utils.repo_checkout(ctx, 'master')
+    epab.utils.repo_merge(ctx, 'develop')
+
+    if not on_tag:
+        epab.utils.repo_tag(ctx, new_version)
 
     try:
 

@@ -46,10 +46,13 @@ def repo_remove_tag(ctx: click.Context, tag: str):
 
 def repo_get_latest_tag(ctx) -> str:
     """
-    Returns: latest tag on the repo in the form TAG+[DISTANCE+[DIRTY]]
-    Returns: latest tag on the repo in the form TAG[+DISTANCE+[DIRTY]]
+    Returns: latest tag on the repo in the form TAG[-DISTANCE+[DIRTY]]
     """
     return do(ctx, 'git describe --tags', mute_stdout=True)
+
+
+def repo_is_on_tag(ctx) -> bool:
+    return bool('-' not in repo_get_latest_tag(ctx))
 
 
 def repo_ensure(ctx):
