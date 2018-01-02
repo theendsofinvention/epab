@@ -38,9 +38,6 @@ def _appveyor(ctx):
     epab.utils.info(f'Latest tag: {epab.utils.repo_get_latest_tag(ctx)}')
     _appveyor_update_build(ctx, epab.utils.repo_get_latest_tag(ctx))
 
-    epab.utils.info('Installing GitChangelog')
-    epab.utils.do(ctx, ['pip', 'install', '--upgrade', 'gitchangelog'])
-
     epab.utils.info('Running tests')
     ctx.invoke(pytest)
 
