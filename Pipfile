@@ -31,8 +31,4 @@ pytest-mock = "*"
 pytest-pycharm = "*"
 pytest = "*"
 gitchangelog = "*"
-
-
-[dev-packages]
-
-"e1839a8" = {path = ".", editable = true}
+mimesis = "*"
