@@ -18,7 +18,7 @@ import epab.utils
 from epab import __version__
 
 with open('epab.yml') as config_file:
-    CONFIG = yaml.load(config_file)
+    CONFIG = yaml.safe_load(config_file)
 
 
 def _install_pyinstaller(ctx: click.Context, force: bool = False):
