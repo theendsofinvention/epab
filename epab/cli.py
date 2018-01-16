@@ -42,7 +42,7 @@ def _initiliaze_context_object():
     return {
         'CONFIG': CONFIG,
         'run_once': {},
-        'dry': False,
+        'dry_run': False,
     }
 
 
