@@ -1,0 +1,41 @@
+@startuml
+title test_flow
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+participant master
+hnote over master: GitVersion: 0.1.0
+master --> master: TAG: 0.1.0
+ref over master: 0.1.0
+hnote over master: SCM version: 0.1.0
+master ->> develop: checkout
+develop --> develop: change
+develop -> develop: commit
+hnote over develop: GitVersion: 0.1.1b1
+hnote over develop: SCM version: 0.1.1.dev1+gf47da1e
+develop ->> master: checkout
+hnote over master: GitVersion: 0.1.0
+hnote over master: SCM version: 0.1.0
+master ->> develop: checkout
+hnote over develop: GitVersion: 0.1.1b1
+develop --> develop: TAG: 0.1.1b1
+ref over develop: 0.1.1b1
+hnote over develop: SCM version: 0.1.1b1
+develop --> develop: change
+develop -> develop: commit
+hnote over develop: GitVersion: 0.1.1b2
+hnote over develop: SCM version: 0.1.1b2.dev1+gbd03561
+develop --> develop: change
+hnote over develop: GitVersion: 0.1.1b2
+hnote over develop: SCM version: 0.1.1b2.dev1+gbd03561.d20180121
+develop -> develop: commit
+hnote over develop: GitVersion: 0.1.1b3
+hnote over develop: SCM version: 0.1.1b2.dev2+g3a176b9
+develop ->> master: checkout
+develop ->o master: merge
+hnote over master: GitVersion: 0.1.1
+hnote over master: SCM version: 0.1.1b2.dev2+g3a176b9
+master --> master: TAG: 0.1.1
+ref over master: 0.1.1
+hnote over master: GitVersion: 0.1.1
+hnote over master: SCM version: 0.1.1
+@enduml

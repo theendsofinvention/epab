@@ -1,0 +1,7 @@
+@startuml
+title test_init
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+participant master
+hnote over master: GitVersion: 0.1.0
+@enduml

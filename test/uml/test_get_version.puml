@@ -1,0 +1,15 @@
+@startuml
+title test_get_version
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+participant master
+master --> master: TAG: 0.1.0
+ref over master: 0.1.0
+hnote over master: SCM version: 0.1.0
+master --> master: change
+hnote over master: SCM version: 0.1.1.dev0+g2612721.d20180121
+master -> master: commit
+hnote over master: SCM version: 0.1.1.dev1+g489efd8
+master --> master: change
+hnote over master: SCM version: 0.1.1.dev1+g489efd8.d20180121
+@enduml
