@@ -30,7 +30,7 @@ def _pylint(ctx, src, reports):
                      'next-method-called,too-many-arguments,too-few-public-methods,'
                      'reload-builtin,oct-method,hex-method,nonzero-method,cmp-method,'
                      'using-cmp-argument,eq-without-hash,exception-message-attribute,sys-max-int,'
-                     'bad-python3-import,']
+                     'bad-python3-import,ungrouped-imports,wrong-import-order,']
     evaluation = [
         '--evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)']
     output = ['--output-format=text']
