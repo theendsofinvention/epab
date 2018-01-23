@@ -2,8 +2,28 @@ Changelog
 =========
 
 
+0.2.4 (2018-01-23)
+------------------
+
+Fix
+~~~
+- Fix unsafe YAML loading. [132nd-etcher]
+- Fix ctx.obj initialization. [132nd-etcher]
+
+Other
+~~~~~
+- Merge remote-tracking branch 'origin/master' into develop. [132nd-
+  etcher]
+
+  # Conflicts:
+  #	requirements-dev.txt
+- Update reqs-dev.txt [skip ci] [132nd-etcher]
+
+
 0.2.3 (2018-01-18)
 ------------------
+- Merge branch 'develop' [132nd-etcher]
+- Update requirements-dev.txt. [132nd-etcher]
 - Update requirements-dev.txt. [132nd-etcher]
 
 
