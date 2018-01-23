@@ -9,12 +9,11 @@ import shutil
 import webbrowser
 
 import click
-import yaml
-
 import epab.cmd
 import epab.linters
 import epab.linters._lint
 import epab.utils
+import yaml
 from epab import __version__
 
 with open('epab.yml') as config_file:

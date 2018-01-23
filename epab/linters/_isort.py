@@ -4,7 +4,6 @@ iSort linter
 """
 
 import click
-
 import epab.utils
 
 

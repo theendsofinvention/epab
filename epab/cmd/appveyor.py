@@ -6,7 +6,6 @@ Manages the release process on Appveyor
 import os
 
 import click
-
 import epab.linters
 import epab.utils
 from epab import __version__

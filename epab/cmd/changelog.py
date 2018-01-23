@@ -6,7 +6,6 @@ Updates CHANGELOG.rst with the latest commits
 import re
 
 import click
-
 import epab.utils
 
 

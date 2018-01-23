@@ -3,7 +3,6 @@
 Runs all linters
 """
 import click
-
 import epab.utils
 
 from ._flake8 import flake8

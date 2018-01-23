@@ -4,7 +4,6 @@ Click command to write the requirements
 """
 
 import click
-
 import epab.utils
 
 
