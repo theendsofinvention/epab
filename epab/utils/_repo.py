@@ -3,165 +3,465 @@
 Manages the local Git repo
 """
 import os
+import typing
 
-import click
+import git
 
-from ._console import error, info
-from ._do import do, do_ex
-from ._dry_run import dry_run
+import epab.utils
+from epab.core import CTX
 
 
-def repo_get_current_branch(ctx) -> str:
+# pylint: disable=too-many-public-methods
+class Repo:
     """
-    Returns: current branch as a string
+    Wrapper for git.Repo
     """
-    return do(ctx, 'git rev-parse --abbrev-ref HEAD', mute_stdout=True)
 
+    def __init__(self):
+        self.repo = git.Repo()
+        self.stashed = False
 
-def repo_tag(ctx: click.Context, tag: str):
-    """
-    Tags the repo
+    def get_current_branch(self) -> str:
+        """
+        Returns: current branch as a string
+        """
+        return self.repo.active_branch.name
 
-    Args:
-        tag: tag as a string
-    """
-    info(f'Tagging repo: {tag}')
-    if dry_run(ctx):
-        return
-    do(ctx, ['git', 'tag', tag])
+    def tag(self, tag: str):
+        """
+        Tags the repo
 
-
-def repo_remove_tag(ctx: click.Context, tag: str):
-    """
-    Deletes a tag from the repo
-
-    Args:
-        tag: tag to remove
-    """
-    info(f'Removing tag: {tag}')
-    if dry_run(ctx):
-        return
-    do(ctx, ['git', 'tag', '-d', tag])
-
-
-def repo_get_latest_tag(ctx) -> str:
-    """
-    Returns: latest tag on the repo in the form TAG[-DISTANCE+[DIRTY]]
-    """
-    return do(ctx, 'git describe --tags', mute_stdout=True)
-
-
-def repo_is_on_tag(ctx) -> bool:
-    """
-    :return: True if latest commit is tagged
-    """
-    return bool('-' not in repo_get_latest_tag(ctx))
-
-
-def repo_ensure(ctx):
-    """
-    Makes sure the current working directory is a Git repository.
-    """
-    info('checking repository')
-    if not os.path.exists('.git') or not os.path.exists(ctx.obj['CONFIG']['package']):
-        error('This command is meant to be ran in a Git repository.\n'
-              'You can clone the repository by running:\n\n'
-              f'\tgit clone https://github.com/132nd-etcher/{ctx.obj["CONFIG"]["package"]}.git\n\n'
-              'Then cd into it and try again.', )
-        if dry_run(ctx):
+        Args:
+            tag: tag as a string
+        """
+        epab.utils.info(f'Tagging repo: {tag}')
+        if CTX.dry_run:
+            epab.utils.info('Not tagging; DRY RUN')
             return
-        exit(-1)
+        self.repo.create_tag(tag)
 
+    def remove_tag(self, *tag: str):
+        """
+        Deletes a tag from the repo
 
-def repo_commit(ctx: click.Context, message: str, extended: str = None, files_to_add: list = None):
-    """
-    Commits changes to the repo
-
-    Args:
-        message: first line of the message
-        extended: optional extended message
-        files_to_add: optional list of files to commit
-    """
-    if os.getenv('APPVEYOR_REPO_BRANCH'):
-        message = f'{message} [skip ci]'
-    if extended:
-        message = f'{message}\n\n{extended}'
-    info(f'Committing all changes with message: {message}')
-    if dry_run(ctx):
-        return
-    if files_to_add is None:
-        do(ctx, ['git', 'add', '.'])
-    else:
-        info('resetting changes')
-        do(ctx, ['git', 'reset'])
-        do(ctx, ['git', 'add'] + files_to_add)
-    out, err, code = do_ex(ctx, ['git', 'commit', '-m', message])
-    if code:
-        if err:
-            error(err)
-        if 'nothing to commit, working tree clean' in out:
-            info('Nothing to commit, working tree clean')
+        Args:
+            tag: tag to remove
+        """
+        epab.utils.info(f'Removing tag: {tag}')
+        if CTX.dry_run:
             return
-        else:
-            error(out)
-            exit(code)
+        self.repo.delete_tag(*tag)
 
+    def get_latest_tag(self) -> typing.Optional[str]:
+        """
+        Returns: latest tag on the repo in the form TAG[-DISTANCE+[DIRTY]]
+        """
+        tags = list(self.repo.tags)
+        if not tags:
+            return None
+        return tags.pop().name
 
-def repo_checkout(ctx: click.Context, ref_name: str):
-    """
-    Checks out a branch in the repo
+    def latest_commit(self) -> git.Commit:
+        """
 
-    Args:
-        ref_name: branch to check out
-    """
-    if repo_is_dirty(ctx):
-        error(f'Repository is dirty; cannot checkout "{ref_name}"')
-        exit(-1)
-    info(f'Checking out {ref_name}')
-    if dry_run(ctx):
-        return
-    do(ctx, ['git', 'checkout', ref_name])
+        Returns: latest commit
 
+        """
+        return self.repo.head.commit
 
-def repo_merge(ctx: click.Context, ref_name: str):
-    """
-    Merges two refs
+    def is_on_tag(self) -> bool:
+        """
+        :return: True if latest commit is tagged
+        """
+        if self.get_current_tag():
+            return True
 
-    Args:
-        ref_name: ref to merge in the current one
-    """
-    if repo_is_dirty(ctx):
-        error(f'Repository is dirty; cannot merge "{ref_name}"')
-        exit(-1)
-    current_branch = repo_get_current_branch(ctx)
-    info(f'Merging {ref_name} into {current_branch}')
-    if dry_run(ctx):
-        return
-    do(ctx, ['git', 'merge', ref_name])
-
-
-def repo_push(ctx: click.Context):
-    """
-    Pushes all refs (branches and tags) to origin
-    """
-    info('Pushing repo to origin')
-    if dry_run(ctx):
-        return
-    do(ctx, ['git', 'push', '--all'])
-    do(ctx, ['git', 'push', '--tags'])
-
-
-def repo_is_dirty(ctx: click.Context) -> bool:
-    """
-    Checks if the current repository contains uncommitted or untracked changes
-
-    Returns: true if the repository is clean
-    """
-    out, _, _ = do_ex(
-        ctx, ['git', 'status', '--porcelain', '--untracked-files=no'])
-    info(out)
-    result = bool(out)
-    if dry_run(ctx) and result:
-        info('Repo was dirty; DRYRUN')
         return False
-    return result
+
+    def get_current_tag(self) -> typing.Optional[str]:
+        """
+        :return: tag name if current commit is on tag, else None
+        """
+        tags = list(self.repo.tags)
+        if not tags:
+            return None
+        for tag in tags:
+            if tag.commit == self.latest_commit():
+                return tag.name
+
+        return None
+
+    def stash(self, stash_name: str):
+        """
+        Creates a stash
+
+        Args:
+            stash_name: name of the stash for easier later referencing
+        """
+        if self.stashed:
+            epab.utils.error('Already stashed')
+        else:
+            if not self.index_is_empty():
+                epab.utils.error('Cannot stash; index is not empty')
+                exit(-1)
+            if self.untracked_files():
+                epab.utils.error('Cannot stash; there are untracked files')
+                exit(-1)
+            if self.changed_files():
+                epab.utils.info('Stashing changes')
+                self.repo.git.stash('push', '-u', '-k', '-m', f'"{stash_name}"')
+                self.stashed = True
+            else:
+                epab.utils.info('No changes to stash')
+
+    def unstash(self):
+        """
+        Pops the last stash if EPAB made a stash before
+        """
+        if not self.stashed:
+            epab.utils.error('No stash')
+        else:
+            epab.utils.info('Popping stash')
+            self.repo.git.stash('pop')
+            self.stashed = False
+
+    @staticmethod
+    def ensure():
+        """
+        Makes sure the current working directory is a Git repository.
+        """
+        epab.utils.cmd_start('checking repository')
+        if not os.path.exists('.git'):
+            if CTX.dry_run:
+                epab.utils.cmd_end(' -> DRY RUN')
+                return
+            epab.utils.cmd_end(' -> ERROR')
+            epab.utils.error('This command is meant to be ran in a Git repository.')
+            exit(-1)
+        epab.utils.cmd_end(' -> OK')
+
+    def last_commit_msg(self) -> str:
+        """
+        Returns: latest commit comment
+        """
+        return self.latest_commit().message.rstrip()
+
+    def untracked_files(self) -> typing.List[str]:
+        """
+
+        Returns: list of untracked files
+
+        """
+        return self.repo.untracked_files
+
+    def list_staged_files(self) -> typing.List[str]:
+        """
+
+        Returns: list of staged files
+
+        """
+        return [x.a_path for x in self.repo.index.diff('HEAD')]
+
+    def index_is_empty(self) -> bool:
+        """
+
+        Returns: True if index is empty (no staged changes)
+
+        """
+        return len(self.repo.index.diff(self.repo.head.commit)) == 0
+
+    def changed_files(self) -> typing.List[str]:
+        """
+
+        Returns: list of changed files
+
+        """
+        return [x.a_path for x in self.repo.index.diff(None)]
+
+    def reset_index(self):
+        """
+        Resets changes in the index (working tree untouched)
+        """
+        epab.utils.info('Resetting changes')
+        self.repo.index.reset()
+
+    def stage_all(self):
+        """
+        Stages all changed and untracked files
+        """
+        epab.utils.info('Staging all files')
+        self.repo.git.add(A=True, n=CTX.dry_run)
+
+    def stage_modified(self):
+        """
+        Stages modified files only (no untracked)
+        """
+        epab.utils.info('Staging modified files')
+        self.repo.git.add(u=True, n=CTX.dry_run)
+
+    def stage_subset(self, *files_to_add: str):
+        """
+        Stages a subset of files
+        Args:
+            *files_to_add: files to stage
+        """
+        epab.utils.info(f'Staging files: {files_to_add}')
+        self.repo.git.add(*files_to_add, A=True, n=CTX.dry_run)
+        # self.repo.index.add(files_to_add)
+
+    @staticmethod
+    def _add_skip_ci_to_commit_msg(message: str):
+        first_line_index = message.find('\n')
+        if first_line_index == -1:
+            return message + ' [skip ci]'
+        return message[:first_line_index] + ' [skip ci]' + message[first_line_index:]
+
+    @staticmethod
+    def _sanitize_files_to_add(
+            files_to_add: typing.Optional[typing.Union[typing.List[str], str]] = None
+    ) -> typing.Optional[typing.List[str]]:
+
+        if not files_to_add:
+            return None
+
+        if files_to_add and isinstance(files_to_add, str):
+            return [files_to_add]
+
+        return files_to_add
+
+    def commit(
+            self,
+            message: str,
+            files_to_add: typing.Optional[typing.Union[typing.List[str], str]] = None,
+            allow_empty: bool = False,
+    ):
+        """
+        Commits changes to the repo
+
+        Args:
+            message: first line of the message
+            files_to_add: optional list of files to commit
+            allow_empty: allow dummy commit
+        """
+
+        files_to_add = self._sanitize_files_to_add(files_to_add)
+
+        if not message:
+            epab.utils.error('Empty commit message')
+            exit(1)
+
+        if os.getenv('APPVEYOR'):
+            message = self._add_skip_ci_to_commit_msg(message)
+
+            epab.utils.info(f'Committing with message: {message}')
+
+        if CTX.dry_run:
+            return
+
+        if files_to_add is None:
+            self.stage_all()
+        else:
+            self.reset_index()
+            self.stage_subset(*files_to_add)
+
+        if self.index_is_empty() and not allow_empty:
+            epab.utils.error('Empty commit')
+            exit(-1)
+
+        self.repo.index.commit(message=message)
+
+    def _sanitize_amend_commit_message(
+            self,
+            append_to_msg: typing.Optional[str] = None,
+            new_message: typing.Optional[str] = None,
+            previous_message: str = None,
+    ) -> str:
+        message = None
+        if new_message:
+            message = new_message
+        if append_to_msg:
+            last_commit_msg = previous_message or self.repo.head.commit.message
+            last_commit_msg = last_commit_msg.rstrip()
+            if append_to_msg not in last_commit_msg:
+                if '\n\n' not in last_commit_msg:
+                    last_commit_msg = f'{last_commit_msg}\n'
+                message = '\n'.join((last_commit_msg, append_to_msg))
+            else:
+                message = last_commit_msg
+        if message is None:
+            epab.utils.error('Missing either "new_message" or "append_to_msg"')
+            exit(-1)
+        return message
+
+    def amend_commit(
+            self,
+            append_to_msg: typing.Optional[str] = None,
+            new_message: typing.Optional[str] = None,
+            files_to_add: typing.Optional[typing.Union[typing.List[str], str]] = None,
+    ):
+        """
+        Amends last commit
+
+        Args:
+            append_to_msg: string to append to previous message
+            new_message: new commit message
+            files_to_add: optional list of files to commit
+        """
+
+        files_to_add = self._sanitize_files_to_add(files_to_add)
+
+        if new_message and append_to_msg:
+            epab.utils.error('Cannot use "new_message" and "append_to_msg" together')
+            exit(-1)
+
+        message = self._sanitize_amend_commit_message(append_to_msg, new_message)
+
+        if os.getenv('APPVEYOR'):
+            message = f'{message} [skip ci]'
+
+        epab.utils.info(f'Amending commit with new message: {message}')
+        latest_tag = self.get_current_tag()
+        if CTX.dry_run:
+            epab.utils.info('Aborting commit amend: DRY RUN')
+            return
+        if latest_tag:
+            epab.utils.info(f'Removing tag: {latest_tag}')
+            self.remove_tag(latest_tag)
+
+        epab.utils.info('Going back one commit')
+        branch = self.repo.head.reference
+        try:
+            branch.commit = self.repo.head.commit.parents[0]
+        except IndexError:
+            epab.utils.error('Cannot amend the first commit')
+            exit(-1)
+        if files_to_add:
+            self.stage_subset(*files_to_add)
+        else:
+            self.stage_all()
+        self.repo.index.commit(message, skip_hooks=True)
+        if latest_tag:
+            epab.utils.info(f'Resetting tag: {latest_tag}')
+            self.tag(latest_tag)
+
+    def merge(self, ref_name: str):
+        """
+        Merges two refs
+
+        Args:
+            ref_name: ref to merge in the current one
+        """
+        if self.is_dirty():
+            epab.utils.error(f'Repository is dirty; cannot merge "{ref_name}"')
+            exit(-1)
+        epab.utils.info(f'Merging {ref_name} into {self.get_current_branch()}')
+        if CTX.dry_run:
+            epab.utils.info('Skipping merge: DRY RUN')
+            return
+        self.repo.git.merge(ref_name)
+
+    def push(self):
+        """
+        Pushes all refs (branches and tags) to origin
+        """
+        epab.utils.info('Pushing repo to origin')
+        if CTX.dry_run:
+            return
+
+        self.repo.git.push()
+        self.repo.git.push('--tags')
+
+    def list_branches(self) -> typing.List[str]:
+        """
+        Returns: branches names as a list of string
+        """
+        return [head.name for head in self.repo.heads]
+
+    def get_sha(self) -> str:
+        """
+        Returns: SHA of the latest commit
+        """
+        return self.repo.head.commit.hexsha
+
+    def _validate_branch_name(self, branch_name: str):
+        try:
+            self.repo.git.check_ref_format('--branch', branch_name)
+        except git.exc.GitCommandError:  # pylint: disable=no-member
+            epab.utils.error(f'Invalid branch name: {branch_name}')
+            exit(1)
+
+    def checkout(self, reference: str):
+        """
+        Checks out a reference.
+
+        If the index is dirty, or if the repository contains untracked files, the function will fail.
+
+        Args:
+            reference: reference to check out as a string
+
+        """
+        if not self.index_is_empty():
+            epab.utils.error('Index contains change; cannot checkout')
+            exit(-1)
+        if self.is_dirty(untracked=True):
+            epab.utils.error(f'Repository is dirty; cannot checkout "{reference}"')
+            exit(-1)
+        epab.utils.info(f'Checking out {reference}')
+        if CTX.dry_run:
+            return
+        epab.utils.info(f'Checking out: {reference}')
+        for head in self.repo.heads:
+            if head.name == reference:
+                self.repo.head.reference = head
+                self.repo.head.reset(index=True, working_tree=True)
+                break
+        else:
+            epab.utils.error(f'Unknown reference: {reference}')
+            exit(-1)
+
+    def create_branch(self, branch_name: str):
+        """
+        Creates a new branch
+
+        Args:
+            branch_name: name of the branch
+
+        """
+        epab.utils.info(f'Creating branch: {branch_name}')
+        self._validate_branch_name(branch_name)
+        if branch_name in self.list_branches():
+            epab.utils.error('Branch already exists')
+            exit(1)
+        new_branch = self.repo.create_head(branch_name)
+        new_branch.commit = self.repo.head.commit
+
+    def create_branch_and_checkout(self, branch_name: str):
+        """
+        Creates a new branch if it doesn't exist
+
+        Args:
+            branch_name: branch name
+        """
+        self.create_branch(branch_name)
+        self.checkout(branch_name)
+
+    def is_dirty(self, untracked=False) -> bool:
+        """
+        Checks if the current repository contains uncommitted or untracked changes
+
+        Returns: true if the repository is clean
+        """
+        result = False
+        if not self.index_is_empty():
+            epab.utils.error('Index is not empty')
+            result = True
+        changed_files = self.changed_files()
+        if bool(changed_files):
+            epab.utils.error(f'Repo has {len(changed_files)} modified files: {changed_files}')
+            result = True
+        if untracked:
+            result = result or self.untracked_files()
+        if CTX.dry_run and result:
+            epab.utils.info('Repo was dirty; DRY RUN')
+            return False
+        return result

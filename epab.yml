@@ -1,4 +1,6 @@
 package: 'epab'
+quiet: False
+verbose: False
 
 doc:
   repo: 'https://github.com/132nd-etcher/epab-doc.git'
@@ -6,5 +8,12 @@ doc:
 
 test:
   runner_options:
-  av_runner_options:
-    - '--long'
+  av_runner_options: '--long'
+  duration: '20'
+
+lint:
+  line_length: '120'
+
+changelog:
+  disable: False
+  file: 'CHANGELOG.rst'

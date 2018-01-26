@@ -18,3 +18,6 @@ htmlcov
 .pylint.d/
 /~/
 Pipfile.lock
+*.puml
+!/epab/vendor/**
+appveyor.yml

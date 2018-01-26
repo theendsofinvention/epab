@@ -4,6 +4,7 @@ Runs all linters
 """
 import click
 import epab.utils
+from epab.core import CTX
 
 from ._flake8 import flake8
 from ._isort import isort
@@ -13,28 +14,27 @@ from ._safety import safety
 
 
 @epab.utils.run_once
-def _lint(ctx: click.Context, auto_commit: bool):
+@epab.utils.stashed
+def _lint(ctx: click.Context, amend: bool):
     epab.utils.info('Running all linters')
-    ctx.invoke(pep8)
-    ctx.invoke(isort)
+    ctx.invoke(pep8, amend=amend)
+    if not CTX.appveyor:
+        ctx.invoke(isort, amend=amend)
     ctx.invoke(flake8)
     ctx.invoke(pylint)
-    # ctx.invoke(prospector)
     ctx.invoke(safety)
-    if auto_commit:
-        msg = 'chg: dev: linting [auto]'
-        epab.utils.repo_commit(ctx, msg)
 
 
 @click.command()
 @click.pass_context
-@click.option('-c', '--auto-commit', is_flag=True, help='Commit the changes')
-def lint(ctx: click.Context, auto_commit: bool):
+@click.option('-a', '--amend', is_flag=True, help='Amend last commit with changes')
+def lint(ctx: click.Context, amend: bool):
     """
     Runs all linters
 
     Args:
         ctx: click context
-        auto_commit: whether or not to commit results
+        amend: whether or not to commit results
+        fail: exit if linting changes something
     """
-    _lint(ctx, auto_commit)
+    _lint(ctx, amend)

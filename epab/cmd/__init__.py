@@ -3,8 +3,8 @@
 Manages commands
 """
 
-from .appveyor import appveyor
-from .changelog import chglog
-from .release import release
-from .requirements import reqs
-from .test_runner import pytest
+from ._chglog import chglog
+from ._release import release
+from ._reqs import reqs
+from ._pytest import pytest
+from ._install_hooks import install_hooks

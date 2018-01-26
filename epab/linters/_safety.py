@@ -8,14 +8,13 @@ import epab.utils
 
 
 @epab.utils.run_once
-def _safety(ctx):
-    epab.utils.do(ctx, ['safety', 'check', '--bare'])
+def _safety():
+    epab.utils.run('safety check --bare', mute=True)
 
 
 @click.command()
-@click.pass_context
-def safety(ctx):
+def safety():
     """
     Runs Pyup's Safety tool (https://pyup.io/safety/)
     """
-    _safety(ctx)
+    _safety()

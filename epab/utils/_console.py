@@ -1,83 +1,101 @@
 # coding=utf-8
 """
-Manages output functions
+Manages console output functions
 """
 
 import click
 
+from epab.core import CONFIG
 
-def _sanitize(input_: str) -> str:
-    input_ = f'EPAB: {input_}'
+
+class Colors:
+    """
+    Default text colors
+    """
+    info = 'green'
+    error = 'red'
+    cmd = 'magenta'
+    stdout = 'cyan'
+    stderr = 'red'
+
+
+def _sanitize(input_: str, prefix=True) -> str:
+    if prefix:
+        input_ = f'EPAB: {input_}'
     return input_.encode('ascii', 'ignore').decode()
 
 
-def info(txt: str, **args):
+def _output(txt, color, **kwargs) -> str:
+    if not CONFIG.quiet:
+        click.secho(txt, fg=color, **kwargs)
+    return txt
+
+
+def info(txt: str, **kwargs):
     """
     Prints out informative text
 
     :param txt: text to print
-    :param args: additional arguments to `click.secho` command
+    :param kwargs: additional arguments to `click.secho` command
     """
     txt = _sanitize(txt)
-    click.secho(txt, fg='green', **args)
+    _output(txt, Colors.info, **kwargs)
 
 
-def error(txt: str, **args):
+def error(txt: str, **kwargs):
     """
     Prints out an error
 
     :param txt: text to print
-    :param args: additional arguments to `click.secho` command
+    :param kwargs: additional arguments to `click.secho` command
     """
     txt = _sanitize(txt)
-    click.secho(txt, fg='red', err=True, **args)
+    _output(txt, Colors.error, err=True, **kwargs)
 
 
-def cmd_start(txt: str, **args):
+def cmd_start(txt: str, **kwargs):
     """
     Prints out the start of a sub-process
 
     This command should be followed by à call to `cmd_end`
 
     :param txt: text to print
-    :param args: additional arguments to `click.secho` command
+    :param kwargs: additional arguments to `click.secho` command
     """
     txt = _sanitize(txt)
-    click.secho(txt, fg='magenta', nl=False, **args)
+    _output(txt, Colors.cmd, nl=False, **kwargs)
 
 
-def cmd_end(txt: str, **args):
+def cmd_end(txt: str, **kwargs):
     """
     Prints out the end of a sub-process
 
     This should follow a call to `cmd_start`
 
     :param txt: text to print
-    :param args: additional arguments to `click.secho` command
+    :param kwargs: additional arguments to `click.secho` command
     """
-    txt = _sanitize(txt).replace('EPAB: ', '')
-    click.secho(txt, fg='magenta', **args)
+    txt = _sanitize(txt, prefix=False)
+    _output(txt, Colors.cmd, **kwargs)
 
 
-def std_out(process_name: str, txt: str, **args):
+def std_out(txt: str, **kwargs):
     """
     Prints out text from a sub-process standard out stream
 
-    :param process_name: process name
     :param txt: text to print
-    :param args: additional arguments to `click.secho` command
+    :param kwargs: additional arguments to `click.secho` command
     """
-    txt = _sanitize(f'{process_name}: {txt}')
-    click.secho(txt, fg='cyan', **args)
+    txt = _sanitize(f'{txt}', prefix=False)
+    _output(txt, Colors.stdout, nl=False, **kwargs)
 
 
-def std_err(process_name: str, txt: str, **args):
+def std_err(txt: str, **kwargs):
     """
     Prints out text from a sub-process standard error stream
 
-    :param process_name: process name
     :param txt: text to print
-    :param args: additional arguments to `click.secho` command
+    :param kwargs: additional arguments to `click.secho` command
     """
-    txt = _sanitize(f'{process_name}: {txt}')
-    click.secho(txt, fg='red', **args)
+    txt = _sanitize(txt, prefix=False)
+    _output(txt, Colors.stderr, err=True, **kwargs)
