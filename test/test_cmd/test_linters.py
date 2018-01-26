@@ -32,6 +32,21 @@ def test_lint(amend):
     verifyNoMoreInteractions(context)
 
 
+@pytest.mark.parametrize(
+    'amend',
+    itertools.product([False, True]),
+)
+def test_lint_appveyor(amend):
+    CTX.appveyor = True
+    context = mock()
+    _lint._lint(context, amend)
+    verify(context).invoke(_safety.safety)
+    verify(context).invoke(_pylint.pylint)
+    verify(context).invoke(_flake8.flake8)
+    verify(context).invoke(_pep8.pep8, amend=amend)
+    verifyNoMoreInteractions(context)
+
+
 def test_pep8():
     with when(epab.utils).run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} .', mute=True):
         _pep8._pep8()
