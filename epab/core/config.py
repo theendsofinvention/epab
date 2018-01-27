@@ -117,6 +117,7 @@ class Config(_Config):
     doc__folder = _ConfigProp(default='./doc')
     quiet = _ConfigProp(default=False, cast=bool)
     verbose = _ConfigProp(default=False, cast=bool)
+    artifacts = _ConfigProp(cast=list)
 
 
 CONFIG = Config()
@@ -130,3 +131,9 @@ if __name__ == '__main__':
     print(CONFIG.lint__line_length)
     print(CONFIG.package)
     print(CONFIG.changelog__file)
+    print(CONFIG.artifacts)
+    if CONFIG.artifacts:
+        assert isinstance(CONFIG.artifacts, list)
+        for x in CONFIG.artifacts:
+            print(x)
+            print(list(Path('.').glob(x)))

@@ -5,6 +5,7 @@ Creates a wheel from a Github repo
 import os
 import shutil
 import sys
+from pathlib import Path
 
 import click
 
@@ -32,8 +33,21 @@ def _clean():
             shutil.rmtree(folder)
 
 
-def _release(ctx):
+def _copy_artifacts():
+    if CONFIG.artifacts:
+        epab.utils.info('Copying artifacts')
+        folder = Path('./artifacts')
+        folder.mkdir(exist_ok=True)
+        assert isinstance(CONFIG.artifacts, list)
+        for pattern in CONFIG.artifacts:
+            for artifact in Path('.').glob(pattern):
+                src = str(artifact.absolute())
+                dst = str(folder.absolute())
+                epab.utils.info(f'Copying: {src} -> {dst}')
+                shutil.copy(src, dst)
 
+
+def _release(ctx):
     if CTX.appveyor:
         epab.utils.info(f'Running on APPVEYOR')
         CTX.repo.checkout(os.getenv("APPVEYOR_REPO_BRANCH"))
@@ -74,6 +88,7 @@ def _release(ctx):
         epab.utils.info('Uploading coverage info')
         epab.utils.run('pip install --upgrade codacy-coverage')
         epab.utils.run('python-codacy-coverage -r coverage.xml')
+        _copy_artifacts()
 
     ctx.invoke(epab.cmd.reqs, stage=True)
 

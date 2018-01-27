@@ -21,3 +21,4 @@ Pipfile.lock
 *.puml
 !/epab/vendor/**
 appveyor.yml
+artifacts/

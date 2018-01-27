@@ -5,7 +5,8 @@ import sys
 from pathlib import Path
 
 import pytest
-from hypothesis import given, strategies as st
+from hypothesis import strategies as st
+from hypothesis import given
 
 # noinspection PyProtectedMember
 from epab.core.config import TEST_VALUES, _Config, _ConfigProp

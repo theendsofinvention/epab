@@ -17,3 +17,6 @@ lint:
 changelog:
   disable: False
   file: 'CHANGELOG.rst'
+
+artifacts:
+  - 'test/uml/*'
