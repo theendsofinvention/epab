@@ -118,3 +118,9 @@ def release(ctx):
     This is meant to be used as a Git pre-push hook
     """
     _release(ctx)
+
+
+if __name__ == '__main__':
+    import itertools
+    t = itertools.product([True, False], repeat=2)
+    print(list(t))

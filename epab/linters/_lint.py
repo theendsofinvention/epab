@@ -16,11 +16,11 @@ from ._safety import safety
 
 @epab.utils.run_once
 @epab.utils.stashed
-def _lint(ctx: click.Context, amend: bool):
+def _lint(ctx: click.Context, amend: bool = False, stage: bool = False):
     epab.utils.info('Running all linters')
-    ctx.invoke(pep8, amend=amend)
+    ctx.invoke(pep8, amend=amend, stage=stage)
     if not CTX.appveyor:
-        ctx.invoke(isort, amend=amend)
+        ctx.invoke(isort, amend=amend, stage=stage)
     ctx.invoke(flake8)
     ctx.invoke(pylint)
     ctx.invoke(safety)
@@ -29,13 +29,14 @@ def _lint(ctx: click.Context, amend: bool):
 @click.command()
 @click.pass_context
 @click.option('-a', '--amend', is_flag=True, help='Amend last commit with changes')
-def lint(ctx: click.Context, amend: bool):
+@click.option('-s', '--stage', is_flag=True, help='Stage changed files')
+def lint(ctx: click.Context, amend: bool = False, stage: bool = False):
     """
     Runs all linters
 
     Args:
         ctx: click context
         amend: whether or not to commit results
-        fail: exit if linting changes something
+        stage: whether or not to stage changes
     """
-    _lint(ctx, amend)
+    _lint(ctx, amend, stage)

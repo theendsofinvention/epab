@@ -18,32 +18,34 @@ def _all():
 
 
 @pytest.mark.parametrize(
-    'amend',
-    itertools.product([False, True]),
+    'amend_stage',
+    itertools.product([False, True], repeat=2),
 )
-def test_lint(amend):
+def test_lint(amend_stage):
+    amend, stage = amend_stage
     context = mock()
-    _lint._lint(context, amend)
+    _lint._lint(context, amend, stage)
     verify(context).invoke(_safety.safety)
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
-    verify(context).invoke(_isort.isort, amend=amend)
-    verify(context).invoke(_pep8.pep8, amend=amend)
+    verify(context).invoke(_isort.isort, amend=amend, stage=stage)
+    verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
     verifyNoMoreInteractions(context)
 
 
 @pytest.mark.parametrize(
-    'amend',
-    itertools.product([False, True]),
+    'amend_stage',
+    itertools.product([False, True], repeat=2),
 )
-def test_lint_appveyor(amend):
+def test_lint_appveyor(amend_stage):
+    amend, stage = amend_stage
     CTX.appveyor = True
     context = mock()
-    _lint._lint(context, amend)
+    _lint._lint(context, amend, stage)
     verify(context).invoke(_safety.safety)
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
-    verify(context).invoke(_pep8.pep8, amend=amend)
+    verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
     verifyNoMoreInteractions(context)
 
 

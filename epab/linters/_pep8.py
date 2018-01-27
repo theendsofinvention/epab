@@ -11,16 +11,23 @@ from epab.core import CONFIG, CTX
 
 @epab.utils.run_once
 @epab.utils.stashed
-def _pep8(amend: bool = False):
+def _pep8(amend: bool = False, stage: bool = False):
     epab.utils.run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} .', mute=True)
     if amend:
         CTX.repo.amend_commit(append_to_msg='pep8 [auto]')
+    elif stage:
+        CTX.repo.stage_all()
 
 
 @click.command()
 @click.option('-a', '--amend', is_flag=True, help='Amend last commit with changes')
-def pep8(amend: bool):
+@click.option('-s', '--stage', is_flag=True, help='Stage changed files')
+def pep8(amend: bool = False, stage: bool = False):
     """
     Runs Pyup's Safety tool (https://pyup.io/safety/)
+
+    Args:
+        amend: whether or not to commit results
+        stage: whether or not to stage changes
     """
-    _pep8(amend)
+    _pep8(amend, stage)
