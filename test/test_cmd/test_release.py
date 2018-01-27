@@ -60,7 +60,7 @@ def test_release(setup):
 
 
 def test_dirty(setup):
-    ctx, repo = setup
+    ctx, _ = setup
     when(CTX.repo).is_dirty(untracked=True).thenReturn(True)
     with pytest.raises(SystemExit):
         epab.cmd._release._release(ctx)
