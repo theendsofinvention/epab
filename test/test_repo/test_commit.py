@@ -9,6 +9,12 @@ import pytest
 from epab.core import CTX
 
 
+def _dummy_commit(repo):
+    Path('caribou').touch()
+    repo.commit('msg')
+    assert repo.last_commit_msg() == 'msg'
+
+
 def test_commit(repo):
     Path('./test').touch()
     message = '\n\n'.join([mimesis.Text().sentence(), mimesis.Text().text()])
@@ -59,9 +65,7 @@ def test_commit_dry(repo):
 
 
 def test_commit_amend_new_message(repo):
-    Path('caribou').touch()
-    repo.commit('msg')
-    assert repo.last_commit_msg() == 'msg'
+    _dummy_commit(repo)
     assert len(list(repo.repo.iter_commits())) == 2
     repo.amend_commit(new_message='amended commit')
     assert repo.last_commit_msg() == 'amended commit'
@@ -69,9 +73,7 @@ def test_commit_amend_new_message(repo):
 
 
 def test_commit_amend_append_message(repo):
-    Path('caribou').touch()
-    repo.commit('msg')
-    assert repo.last_commit_msg() == 'msg'
+    _dummy_commit(repo)
     assert len(list(repo.repo.iter_commits())) == 2
     repo.amend_commit(append_to_msg='amended commit')
     assert repo.last_commit_msg() == 'msg\n\namended commit'
@@ -82,9 +84,7 @@ def test_commit_amend_append_message(repo):
 
 
 def test_commit_amend_with_tag(repo):
-    Path('caribou').touch()
-    repo.commit('msg')
-    assert repo.last_commit_msg() == 'msg'
+    _dummy_commit(repo)
     assert len(list(repo.repo.iter_commits())) == 2
     repo.tag('test')
     assert repo.get_current_tag() == 'test'
@@ -104,9 +104,7 @@ def test_amend_commit_dry_run(repo):
 
 
 def test_amend_commit_add_files(repo):
-    Path('caribou').touch()
-    repo.commit('msg')
-    assert repo.last_commit_msg() == 'msg'
+    _dummy_commit(repo)
     assert len(list(repo.repo.iter_commits())) == 2
     Path('moo').touch()
     Path('pig').touch()
@@ -133,9 +131,7 @@ def test_commit_amend_wrong_params(repo):
 
 
 def test_commit_amend_appveyor(repo):
-    Path('caribou').touch()
-    repo.commit('msg')
-    assert repo.last_commit_msg() == 'msg'
+    _dummy_commit(repo)
     assert len(list(repo.repo.iter_commits())) == 2
     os.environ['APPVEYOR'] = 'true'
     repo.amend_commit(new_message='test')
