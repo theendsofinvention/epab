@@ -96,8 +96,8 @@ def _release(ctx):
     ctx.invoke(epab.cmd.reqs)
     _check_dirty('requirements changed')
 
-    ctx.invoke(epab.cmd.chglog, next_version=next_version)
-    _check_dirty('changelog changed')
+    # ctx.invoke(epab.cmd.chglog, next_version=next_version)
+    # _check_dirty('changelog changed')
 
     CTX.repo.tag(next_version)
 
