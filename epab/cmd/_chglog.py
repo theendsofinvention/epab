@@ -60,7 +60,7 @@ def temporary_tag(tag):
 
 @epab.utils.run_once
 @epab.utils.stashed
-def _chglog(amend: bool = False, stage: bool = False, next_version: str = None):
+def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, auto_next_version: bool = False):
     """
     Writes the changelog
 
@@ -74,6 +74,8 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None):
         epab.utils.ensure_exe('git')
         epab.utils.ensure_exe('gitchangelog')
         epab.utils.info('Writing changelog')
+        if auto_next_version:
+            next_version = epab.utils.get_git_version_info()
         with gitchangelog_config():
             with temporary_tag(next_version):
                 changelog, _ = epab.utils.run('gitchangelog', mute=True)
@@ -90,7 +92,8 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None):
 @click.option('-a', '--amend', is_flag=True, help='Amend last commit')
 @click.option('-s', '--stage', is_flag=True, help='Stage changed files')
 @click.option('-n', '--next_version', default=None, help='Indicates next version')
-def chglog(amend: bool = False, stage: bool = False, next_version: str = None):
+@click.option('-anv', '--auto_next_version', default=False, is_flag=True, help='Auto-nump version')
+def chglog(amend: bool = False, stage: bool = False, next_version: str = None, auto_next_version: bool = False):
     """
     Writes the changelog
 
@@ -98,9 +101,10 @@ def chglog(amend: bool = False, stage: bool = False, next_version: str = None):
         amend: amend last commit with changes
         stage: stage changes
         next_version: indicates next version
+        auto_next_version: infer next version from VCS
     """
     changed_files = CTX.repo.changed_files()
     if CONFIG.changelog__file in changed_files:
         epab.utils.error('Changelog has changed; cannot update it')
         exit(-1)
-    _chglog(amend, stage, next_version)
+    _chglog(amend, stage, next_version, auto_next_version)

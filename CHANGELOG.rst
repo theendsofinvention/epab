@@ -1,10 +1,21 @@
 Changelog
 =========
-0.2.5b21 (2018-01-27)
+0.4.0rc3 (2018-01-27)
 ---------------------
 New
 ~~~
+- Chglog: add option to infer next version. [132nd-etcher]
+  pep8 [auto]
+  sorting imports [auto]
+  update requirements [auto]
+- Add "stage" options for autopep8 and isort. [132nd-etcher]
 - Create artifacts on AV. [132nd-etcher]
+Changes
+~~~~~~~
+- Upload to Pypi only from master. [132nd-etcher]
+- Eliminate remote commits. [132nd-etcher]
+  pep8 [auto]
+  sorting imports [auto]
 0.2.5a19 (2018-01-27)
 ---------------------
 New
