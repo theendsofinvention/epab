@@ -4,7 +4,7 @@ import shutil
 from pathlib import Path
 
 import pytest
-from mockito import ANY, and_, contains, mock, verify, when, verifyNoUnwantedInteractions
+from mockito import ANY, and_, contains, mock, verify, verifyNoUnwantedInteractions, when
 
 import epab.cmd
 import epab.cmd._release

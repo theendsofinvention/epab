@@ -56,10 +56,10 @@ def test_pep8():
 
 
 def test_pep8_amend():
-        with when(CTX.repo).amend_commit(append_to_msg='pep8 [auto]'):
-            CTX.run_once = {}
-            _pep8._pep8(amend=True)
-            verify(CTX.repo).amend_commit(...)
+    with when(CTX.repo).amend_commit(append_to_msg='pep8 [auto]'):
+        CTX.run_once = {}
+        _pep8._pep8(amend=True)
+        verify(CTX.repo).amend_commit(...)
 
 
 def test_pep8_stage():
