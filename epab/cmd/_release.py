@@ -77,7 +77,7 @@ def _release(ctx):
     CTX.stash = False
     epab.utils.info(f'Running on commit: {CTX.repo.latest_commit()}')
     ctx.invoke(epab.linters.lint)
-    if CTX.repo.is_dirty(untracked=True):  # pragma: no cover
+    if CTX.repo.is_dirty(untracked=True):
         for changed_file in CTX.repo.changed_files():
             print(CTX.repo.repo.git.diff(changed_file))
         epab.utils.error('Linters produced artifacts, aborting release')
@@ -94,7 +94,7 @@ def _release(ctx):
 
     ctx.invoke(epab.cmd.chglog, next_version=next_version)
 
-    if CTX.repo.is_dirty(untracked=True):  # pragma: no cover
+    if CTX.repo.is_dirty(untracked=True):
         epab.utils.error('Release process produced artifacts; not publishing')
         for changed_file in CTX.repo.changed_files():
             print(CTX.repo.repo.git.diff(changed_file))
