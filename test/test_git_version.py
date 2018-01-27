@@ -135,7 +135,7 @@ def _create_branch(branch_name):
     # noinspection PyTypeChecker
     REPO.create_branch_and_checkout(branch_name)
     UML.append(f'{init_branch} ->> {branch_name}: checkout')
-    time.sleep(0.1)
+    time.sleep(0.2)
 
 
 def _checkout(branch_name):
