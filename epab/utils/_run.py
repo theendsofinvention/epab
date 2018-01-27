@@ -91,7 +91,7 @@ def run(
         epab.utils.error(f'command failed: {exe_short} -> {process.return_code}')
         if result:
             epab.utils.std_err(f'{exe_short} error:\n{result}')
-            if not result.endswith('\n'):
+            if not result.endswith('\n'):  # pragma: no cover
                 print()
         if not failure_ok:
             exit(process.return_code)
@@ -100,7 +100,7 @@ def run(
             epab.utils.cmd_end(f' -> {process.return_code}')
         else:
             epab.utils.std_out(result)
-            if not result.endswith('\n'):
+            if not result.endswith('\n'):  # pragma: no cover
                 print()
             epab.utils.info(f'{exe_short} -> {process.return_code}')
 
