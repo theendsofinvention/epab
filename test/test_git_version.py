@@ -11,20 +11,13 @@ import pytest
 from setuptools_scm import get_version
 
 import epab.utils
+from epab.core import CTX
 
 UML_DIR = Path('./test/uml').absolute()
 UML_BRANCH = deque(['master'])
 UML_DIR.mkdir(exist_ok=True)
 # noinspection SpellCheckingInspection
 UML = ['@startuml']
-
-
-class CTX:
-    obj = {
-        'CONFIG': {},
-        'run_once': {},
-        'dry_run': False,
-    }
 
 
 REPO = epab.utils.Repo()
@@ -135,7 +128,10 @@ def _create_branch(branch_name):
     # noinspection PyTypeChecker
     REPO.create_branch_and_checkout(branch_name)
     UML.append(f'{init_branch} ->> {branch_name}: checkout')
-    time.sleep(0.2)
+    if CTX.appveyor:
+        time.sleep(1)
+    else:
+        time.sleep(0.1)
 
 
 def _checkout(branch_name):
