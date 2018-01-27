@@ -11,5 +11,3 @@ global-exclude __pycache__
 global-exclude *.py[co]
 global-exclude html-covinclude
 global-exclude .hypothesis
-include versioneer.py
-include epab/_e_version.py
