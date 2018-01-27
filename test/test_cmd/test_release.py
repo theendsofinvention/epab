@@ -67,7 +67,7 @@ def test_dirty(setup):
 
 
 def test_dry(setup, capsys):
-    ctx, repo = setup
+    ctx, _ = setup
     CTX.dry_run = True
     epab.cmd._release._release(ctx)
     out, _ = capsys.readouterr()
