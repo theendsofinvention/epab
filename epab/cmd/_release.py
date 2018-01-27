@@ -104,6 +104,7 @@ def _release(ctx):
     _clean()
 
     python_exe = sys.executable.replace('\\', '/')
+    _check_dirty('last check before building')
     epab.utils.run(f'{python_exe} setup.py sdist bdist_wheel')
 
     if current_branch == 'master':
