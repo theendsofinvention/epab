@@ -79,7 +79,7 @@ def _release(ctx):
 
     ctx.invoke(epab.cmd.chglog, stage=True, next_version=next_version)
 
-    CTX.repo.commit(f'release {next_version}')
+    CTX.repo.commit(f'release {next_version}', allow_empty=True)
     CTX.repo.tag(next_version)
 
     _clean()
