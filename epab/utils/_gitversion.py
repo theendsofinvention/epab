@@ -11,7 +11,6 @@ import pkg_resources
 import epab.utils
 from epab.core import CTX
 
-
 GIT_VERSION_PATH = Path('./epab/vendor/GitVersion_4.0.0-beta0013/gitversion.exe').absolute()
 if not GIT_VERSION_PATH.exists():  # pragma: no cover
     GIT_VERSION_PATH = Path(

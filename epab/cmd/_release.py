@@ -90,11 +90,16 @@ def _release(ctx):
         epab.utils.run('python-codacy-coverage -r coverage.xml')
         _copy_artifacts()
 
-    ctx.invoke(epab.cmd.reqs, stage=True)
+    ctx.invoke(epab.cmd.reqs)
 
-    ctx.invoke(epab.cmd.chglog, stage=True, next_version=next_version)
+    ctx.invoke(epab.cmd.chglog, next_version=next_version)
 
-    CTX.repo.commit(f'release {next_version}', allow_empty=True)
+    if CTX.repo.is_dirty(untracked=True):  # pragma: no cover
+        epab.utils.error('Release process produced artifacts; not publishing')
+        for changed_file in CTX.repo.changed_files():
+            print(CTX.repo.repo.git.diff(changed_file))
+        exit(0)
+
     CTX.repo.tag(next_version)
 
     _clean()

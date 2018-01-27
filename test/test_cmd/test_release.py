@@ -45,12 +45,12 @@ def test_release(setup):
 
     verify(repo).get_current_branch()
     when(epab.utils).get_git_version_info()
-    verify(CTX.repo, times=2).is_dirty(untracked=True)
+    verify(CTX.repo, times=3).is_dirty(untracked=True)
     verify(ctx).invoke(epab.linters.lint)
     verify(ctx).invoke(epab.cmd.pytest, long=True)
-    verify(ctx).invoke(epab.cmd.reqs, stage=True)
-    verify(repo, times=1).tag('next_version')
-    verify(ctx).invoke(epab.cmd.chglog, stage=True, next_version='next_version')
+    verify(ctx).invoke(epab.cmd.reqs)
+    verify(repo).tag('next_version')
+    verify(ctx).invoke(epab.cmd.chglog, next_version='next_version')
     verify(epab.utils).run(and_(ANY(str), contains('setup.py sdist bdist_wheel')))
     verify(epab.utils).run(
         f'twine upload dist/* --skip-existing',
