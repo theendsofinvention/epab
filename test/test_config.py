@@ -5,8 +5,7 @@ import sys
 from pathlib import Path
 
 import pytest
-from hypothesis import strategies as st
-from hypothesis import given
+from hypothesis import given, strategies as st
 
 # noinspection PyProtectedMember
 from epab.core.config import TEST_VALUES, _Config, _ConfigProp
@@ -129,7 +128,8 @@ very:
 """
 
 
-def test_with_file():
+@pytest.fixture(name='instance_from_file', scope='session')
+def _dummy_config_from_file():
     config_file = Path('test.yml')
     config_file.write_text(TEMPLATE_FILE, 'utf8')
     attribs = dict(
@@ -143,17 +143,36 @@ def test_with_file():
     cls = type('DummyConfig', (_Config,), attribs)
     instance = cls()
     instance.load(config_file=config_file.absolute())
-    assert instance.should_be_none is None
-    assert instance.mandatory == 'exist'
-    assert isinstance(instance.string_no_cast, str)
-    assert instance.string_no_cast == 'string'
-    assert isinstance(instance.bool, bool)
-    assert instance.bool is True
-    assert isinstance(instance.list_of_bool, list)
-    assert instance.list_of_bool == [True, False]
-    assert instance.very__deeply__nested__variable == 'test'
-    instance.very__deeply__nested__variable = 'caribou'
-    assert instance.very__deeply__nested__variable == 'caribou'
+    yield instance
+
+
+def test_with_file_none(instance_from_file):
+    assert instance_from_file.should_be_none is None
+
+
+def test_with_file_mandatory(instance_from_file):
+    assert instance_from_file.mandatory == 'exist'
+
+
+def test_with_file_streing_no_cast(instance_from_file):
+    assert isinstance(instance_from_file.string_no_cast, str)
+    assert instance_from_file.string_no_cast == 'string'
+
+
+def test_with_file_bool(instance_from_file):
+    assert isinstance(instance_from_file.bool, bool)
+    assert instance_from_file.bool is True
+
+
+def test_with_file_list_of_bool(instance_from_file):
+    assert isinstance(instance_from_file.list_of_bool, list)
+    assert instance_from_file.list_of_bool == [True, False]
+
+
+def test_with_file_nested(instance_from_file):
+    assert instance_from_file.very__deeply__nested__variable == 'test'
+    instance_from_file.very__deeply__nested__variable = 'caribou'
+    assert instance_from_file.very__deeply__nested__variable == 'caribou'
 
 
 def test_missing_config_file():
