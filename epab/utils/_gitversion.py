@@ -3,11 +3,14 @@
 Wrapper for the GitVersion executable
 """
 import json
+import os
 from pathlib import Path
 
 import pkg_resources
 
 import epab.utils
+from epab.core import CTX
+
 
 GIT_VERSION_PATH = Path('./epab/vendor/GitVersion_4.0.0-beta0013/gitversion.exe').absolute()
 if not GIT_VERSION_PATH.exists():  # pragma: no cover
@@ -123,10 +126,14 @@ class _Config:
         self.config_file = Path('./GitVersion.yml').absolute()
 
     def __enter__(self):
+        if os.getenv('APPVEYOR'):
+            del os.environ['APPVEYOR']
         self.config_file.write_text(GIT_VERSION_CONFIG)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.config_file.unlink()
+        if CTX.appveyor:
+            os.environ['APPVEYOR'] = 'True'
 
 
 def get_git_version_info() -> str:

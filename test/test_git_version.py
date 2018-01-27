@@ -312,7 +312,7 @@ def test_flow():
 
 
 @pytest.mark.long
-@pytest.mark.skipif(os.environ.get('APPVEYOR'))
+# @pytest.mark.skipif(os.environ.get('APPVEYOR'))
 def test_flow_release():
     _tag('0.1.0')
     _create_branch('develop')
