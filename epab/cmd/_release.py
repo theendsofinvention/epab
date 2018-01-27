@@ -105,7 +105,9 @@ def _release(ctx):
 
     python_exe = sys.executable.replace('\\', '/')
     epab.utils.run(f'{python_exe} setup.py sdist bdist_wheel')
-    epab.utils.run(f'twine upload dist/* --skip-existing', mute=True)
+
+    if current_branch == 'master':
+        epab.utils.run(f'twine upload dist/* --skip-existing', mute=True)
 
     CTX.repo.push()
 

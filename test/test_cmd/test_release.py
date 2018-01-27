@@ -4,7 +4,7 @@ import shutil
 from pathlib import Path
 
 import pytest
-from mockito import ANY, and_, contains, mock, verify, when
+from mockito import ANY, and_, contains, mock, verify, when, verifyNoUnwantedInteractions
 
 import epab.cmd
 import epab.cmd._release
@@ -41,6 +41,25 @@ def _create_dummy_release_artifacts():
 
 def test_release(setup):
     ctx, repo = setup
+
+    epab.cmd._release._release(ctx)
+
+    verify(repo).get_current_branch()
+    when(epab.utils).get_git_version_info()
+    verify(CTX.repo, times=4).is_dirty(untracked=True)
+    verify(ctx).invoke(epab.linters.lint)
+    verify(ctx).invoke(epab.cmd.pytest, long=True)
+    verify(ctx).invoke(epab.cmd.reqs)
+    verify(repo).tag('next_version')
+    verify(ctx).invoke(epab.cmd.chglog, next_version='next_version')
+    verify(epab.utils).run(and_(ANY(str), contains('setup.py sdist bdist_wheel')))
+    verifyNoUnwantedInteractions(epab.utils)
+    verify(repo).push(...)
+
+
+def test_release_on_master(setup):
+    ctx, repo = setup
+    when(CTX.repo).get_current_branch().thenReturn('master')
 
     epab.cmd._release._release(ctx)
 
