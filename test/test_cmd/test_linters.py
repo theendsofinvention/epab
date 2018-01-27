@@ -53,20 +53,41 @@ def test_pep8():
     with when(epab.utils).run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} .', mute=True):
         _pep8._pep8()
         verify(epab.utils).run(...)
+
+
+def test_pep8_amend():
         with when(CTX.repo).amend_commit(append_to_msg='pep8 [auto]'):
             CTX.run_once = {}
             _pep8._pep8(amend=True)
             verify(CTX.repo).amend_commit(...)
 
 
+def test_pep8_stage():
+    with when(epab.utils).run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} .', mute=True):
+        with when(CTX.repo).stage_all():
+            CTX.run_once = {}
+            _pep8._pep8(stage=True)
+            verify(CTX.repo).stage_all(...)
+
+
 def test_isort():
     with when(epab.utils).run(f'isort -rc -w {CONFIG.lint__line_length} .', mute=True):
         _isort._isort()
         verify(epab.utils).run(...)
+
+
+def test_isort_amend():
+    with when(epab.utils).run(f'isort -rc -w {CONFIG.lint__line_length} .', mute=True):
         with when(CTX.repo).amend_commit(append_to_msg='sorting imports [auto]'):
-            CTX.run_once = {}
             _isort._isort(amend=True)
             verify(CTX.repo).amend_commit(...)
+
+
+def test_isort_stage():
+    with when(epab.utils).run(f'isort -rc -w {CONFIG.lint__line_length} .', mute=True):
+        with when(CTX.repo).stage_all():
+            _isort._isort(stage=True)
+            verify(CTX.repo).stage_all(...)
 
 
 def test_flake8():

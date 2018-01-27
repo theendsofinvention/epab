@@ -312,7 +312,6 @@ def test_flow():
 
 
 @pytest.mark.long
-# @pytest.mark.skipif(os.environ.get('APPVEYOR'))
 def test_flow_release():
     _tag('0.1.0')
     _create_branch('develop')
@@ -343,3 +342,15 @@ def test_flow_release():
     _change()
     assert _git_version() == '0.1.2b1'
     assert get_version() == _scm_version('0.1.2', dev=1)
+
+
+@pytest.mark.long
+def test_av_config():
+    os.environ['APPVEYOR'] = 'True'
+    assert _git_version() == '0.1.0'
+    assert not os.getenv('APPVEYOR')
+    CTX.appveyor = True
+    os.environ['APPVEYOR'] = 'True'
+    assert _git_version() == '0.1.0'
+    assert os.getenv('APPVEYOR') == 'True'
+

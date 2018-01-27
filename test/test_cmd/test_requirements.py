@@ -112,3 +112,10 @@ def test_flags_exclusion(repo):
     when(epab.utils).run(...).thenReturn(('', 0))
     epab.cmd._reqs._write_reqs(amend=True, stage=True)
     verify(repo).amend_commit(...)
+
+
+def test_pipfile_lock():
+    Path('Pipfile.lock').touch()
+    when(epab.utils).run(...).thenReturn(('', 0))
+    epab.cmd._reqs._write_reqs()
+    assert not Path('Pipfile.lock').exists()
