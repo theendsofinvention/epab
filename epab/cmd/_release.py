@@ -47,6 +47,15 @@ def _copy_artifacts():
                 shutil.copy(src, dst)
 
 
+def _check_dirty(reason: str):
+    epab.utils.info('Checking repo')
+    if CTX.repo.is_dirty(untracked=True):
+        for changed_file in CTX.repo.changed_files():  # pragma: no cover
+            print(CTX.repo.repo.git.diff(changed_file))
+        epab.utils.error(f'Aborting release: {reason}')
+        exit(1)
+
+
 def _release(ctx):
     if CTX.appveyor:
         epab.utils.info(f'Running on APPVEYOR')
@@ -66,9 +75,7 @@ def _release(ctx):
                        f'{os.getenv("APPVEYOR_REPO_COMMIT")}')
 
     epab.utils.info('Checking repo')
-    if CTX.repo.is_dirty(untracked=True):
-        epab.utils.error('Repository is dirty, cannot release')
-        exit(1)
+    _check_dirty('repository is dirty')
 
     if CTX.dry_run:
         epab.utils.info('Skipping release; DRY RUN')
@@ -77,11 +84,7 @@ def _release(ctx):
     CTX.stash = False
     epab.utils.info(f'Running on commit: {CTX.repo.latest_commit()}')
     ctx.invoke(epab.linters.lint)
-    if CTX.repo.is_dirty(untracked=True):
-        for changed_file in CTX.repo.changed_files():
-            print(CTX.repo.repo.git.diff(changed_file))
-        epab.utils.error('Linters produced artifacts, aborting release')
-        exit(1)
+    _check_dirty('linters produced artifacts')
 
     ctx.invoke(epab.cmd.pytest, long=True)
     if CTX.appveyor:
@@ -91,14 +94,10 @@ def _release(ctx):
         _copy_artifacts()
 
     ctx.invoke(epab.cmd.reqs)
+    _check_dirty('requirements changed')
 
     ctx.invoke(epab.cmd.chglog, next_version=next_version)
-
-    if CTX.repo.is_dirty(untracked=True):
-        epab.utils.error('Release process produced artifacts; not publishing')
-        for changed_file in CTX.repo.changed_files():
-            print(CTX.repo.repo.git.diff(changed_file))
-        exit(0)
+    _check_dirty('changelog changed')
 
     CTX.repo.tag(next_version)
 

@@ -1,5 +1,6 @@
 # coding=utf-8
 import os
+import shutil
 from pathlib import Path
 
 import pytest
@@ -45,7 +46,7 @@ def test_release(setup):
 
     verify(repo).get_current_branch()
     when(epab.utils).get_git_version_info()
-    verify(CTX.repo, times=3).is_dirty(untracked=True)
+    verify(CTX.repo, times=4).is_dirty(untracked=True)
     verify(ctx).invoke(epab.linters.lint)
     verify(ctx).invoke(epab.cmd.pytest, long=True)
     verify(ctx).invoke(epab.cmd.reqs)
@@ -59,9 +60,43 @@ def test_release(setup):
     verify(repo).push(...)
 
 
-def test_dirty(setup):
+def test_dirty_initial_check(setup):
     ctx, _ = setup
+    when(CTX.repo).changed_files().thenReturn(list())
     when(CTX.repo).is_dirty(untracked=True).thenReturn(True)
+    with pytest.raises(SystemExit):
+        epab.cmd._release._release(ctx)
+
+
+def test_dirty_after_lint(setup):
+    ctx, _ = setup
+    when(CTX.repo).changed_files().thenReturn(list())
+    when(CTX.repo).is_dirty(untracked=True)\
+        .thenReturn(False)\
+        .thenReturn(True)
+    with pytest.raises(SystemExit):
+        epab.cmd._release._release(ctx)
+
+
+def test_dirty_after_reqs(setup):
+    ctx, _ = setup
+    when(CTX.repo).changed_files().thenReturn(list())
+    when(CTX.repo).is_dirty(untracked=True)\
+        .thenReturn(False)\
+        .thenReturn(False)\
+        .thenReturn(True)
+    with pytest.raises(SystemExit):
+        epab.cmd._release._release(ctx)
+
+
+def test_dirty_after_chglog(setup):
+    ctx, _ = setup
+    when(CTX.repo).changed_files().thenReturn(list())
+    when(CTX.repo).is_dirty(untracked=True)\
+        .thenReturn(False)\
+        .thenReturn(False)\
+        .thenReturn(False)\
+        .thenReturn(True)
     with pytest.raises(SystemExit):
         epab.cmd._release._release(ctx)
 
@@ -92,6 +127,7 @@ def test_cleanup():
 def test_appveyor(setup):
     ctx, _ = setup
     CTX.appveyor = True
+    CONFIG.artifacts = None
     os.environ['APPVEYOR_REPO_BRANCH'] = 'branch'
     os.environ['APPVEYOR_BUILD_NUMBER'] = '0001'
     os.environ['APPVEYOR_REPO_COMMIT'] = 'ABCDEF'
@@ -99,3 +135,27 @@ def test_appveyor(setup):
     verify(epab.utils).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
     verify(epab.utils).run('pip install --upgrade codacy-coverage')
     verify(epab.utils).run('python-codacy-coverage -r coverage.xml')
+
+
+def test_appveyor_artifacts(setup):
+    ctx, _ = setup
+    CTX.appveyor = True
+    when(shutil).copy(...)
+    Path('./artifacts_src').mkdir()
+    test_file_1 = Path('./artifacts_src/test1').absolute()
+    test_file_2 = Path('./artifacts_src/test2').absolute()
+    test_file_3 = Path('./artifacts_src/test3').absolute()
+    test_file_1.touch()
+    test_file_2.touch()
+    test_file_3.touch()
+    CONFIG.artifacts = ['./artifacts_src/*']
+    os.environ['APPVEYOR_REPO_BRANCH'] = 'branch'
+    os.environ['APPVEYOR_BUILD_NUMBER'] = '0001'
+    os.environ['APPVEYOR_REPO_COMMIT'] = 'ABCDEF'
+    epab.cmd._release._release(ctx)
+    verify(epab.utils).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
+    verify(epab.utils).run('pip install --upgrade codacy-coverage')
+    verify(epab.utils).run('python-codacy-coverage -r coverage.xml')
+    verify(shutil).copy(str(test_file_1), str(Path('./artifacts').absolute()))
+    verify(shutil).copy(str(test_file_2), str(Path('./artifacts').absolute()))
+    verify(shutil).copy(str(test_file_3), str(Path('./artifacts').absolute()))
