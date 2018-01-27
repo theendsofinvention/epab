@@ -25,6 +25,7 @@ def pytest_configure(config):
 # noinspection SpellCheckingInspection
 def pytest_unconfigure(config):
     """Tear down"""
+    assert config
     delattr(sys, '_called_from_test')
 
 

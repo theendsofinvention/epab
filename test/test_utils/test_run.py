@@ -120,7 +120,7 @@ def test_no_output(process):
     assert out == ''
 
 
-def test_filtered_output(process):
+def test_filtered_output():
     out, code = epab.utils.run('test', filters=['output'])
     verify(epab.utils).info('test.exe -> 0')
     verify(epab.utils, times=0).cmd_start(...)

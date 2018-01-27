@@ -36,7 +36,7 @@ def succesfull_run(result):
 
 
 def succesfull_run2(command):
-    runner, repo = _setup()
+    runner, _ = _setup()
     result = runner.invoke(cli, [command])
     assert isinstance(result, Result)
     if result.exc_info:

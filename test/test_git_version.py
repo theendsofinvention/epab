@@ -319,7 +319,7 @@ def test_flow():
 def test_flow_release():
     _tag('0.1.0')
     _create_branch('develop')
-    for x in range(10):
+    for _ in range(10):
         _change()
     assert _git_version() == '0.1.1b10'
     assert get_version() == _scm_version('0.1.1', dev=10)
