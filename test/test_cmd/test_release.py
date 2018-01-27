@@ -49,9 +49,8 @@ def test_release(setup):
     verify(ctx).invoke(epab.linters.lint)
     verify(ctx).invoke(epab.cmd.pytest, long=True)
     verify(ctx).invoke(epab.cmd.reqs, stage=True)
-    verify(repo, times=2).tag('next_version')
-    verify(ctx).invoke(epab.cmd.chglog, stage=True)
-    verify(repo).remove_tag('next_version')
+    verify(repo, times=1).tag('next_version')
+    verify(ctx).invoke(epab.cmd.chglog, stage=True, next_version='next_version')
     verify(epab.utils).run(and_(ANY(str), contains('setup.py sdist bdist_wheel')))
     verify(epab.utils).run(
         f'twine upload dist/* --skip-existing',

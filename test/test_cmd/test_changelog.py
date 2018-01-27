@@ -69,3 +69,10 @@ def test_flags_exclusion(repo):
     when(epab.utils).run(...).thenReturn(('', 0))
     _chglog(amend=True, stage=True)
     verify(repo).amend_commit(...)
+
+
+def test_next_version(repo):
+    when(epab.utils).run(...).thenReturn(('', 0))
+    _chglog(next_version='test')
+    verify(repo).tag('test')
+    verify(repo).remove_tag('test')
