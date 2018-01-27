@@ -4,6 +4,7 @@ Safety linter
 """
 
 import click
+
 import epab.utils
 
 

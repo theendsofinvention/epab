@@ -3,6 +3,7 @@
 Runs all linters
 """
 import click
+
 import epab.utils
 from epab.core import CTX
 

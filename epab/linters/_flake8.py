@@ -4,6 +4,7 @@ Flake8 linter
 """
 
 import click
+
 import epab.utils
 from epab.core import CONFIG
 

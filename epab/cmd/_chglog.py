@@ -3,8 +3,8 @@
 Updates CHANGELOG.rst with the latest commits
 """
 
-import re
 import contextlib
+import re
 from pathlib import Path
 
 import click
