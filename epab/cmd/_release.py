@@ -109,7 +109,7 @@ def _release(ctx):
     if current_branch == 'master':
         epab.utils.run(f'twine upload dist/* --skip-existing', mute=True)
 
-    CTX.repo.push()
+    CTX.repo.push_tags()
 
 
 @click.command()
