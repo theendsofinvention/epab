@@ -1,7 +1,7 @@
 Changelog
 =========
-(unreleased)
-------------
+0.3.1 (2018-01-28)
+------------------
 New
 ~~~
 - Add status cmd to Repo. [132nd-etcher]
