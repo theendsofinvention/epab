@@ -92,8 +92,8 @@ def _release(ctx):
         epab.utils.run('python-codacy-coverage -r coverage.xml')
         _copy_artifacts()
 
-    ctx.invoke(epab.cmd.reqs)
-    _check_dirty('requirements changed')
+    # ctx.invoke(epab.cmd.reqs)
+    # _check_dirty('requirements changed')
 
     # ctx.invoke(epab.cmd.chglog, next_version=next_version)
     # _check_dirty('changelog changed')
