@@ -1,7 +1,7 @@
 Changelog
 =========
-(unreleased)
-------------
+0.3.3 (2018-01-28)
+------------------
 Changes
 ~~~~~~~
 - Release should push tags only (#16) [132nd-etcher]

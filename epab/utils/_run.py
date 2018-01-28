@@ -43,6 +43,30 @@ def _parse_output(process, filters):
     return '\n'.join(result)
 
 
+def _process_run_result(process, mute, exe_short, failure_ok, result) -> typing.Tuple[str, int]:
+
+    if process.return_code:
+        if mute:
+            epab.utils.cmd_end('')
+        epab.utils.error(f'command failed: {exe_short} -> {process.return_code}')
+        if result:
+            epab.utils.std_err(f'{exe_short} error:\n{result}')
+            if not result.endswith('\n'):  # pragma: no cover
+                print()
+        if not failure_ok:
+            exit(process.return_code)
+    else:
+        if mute:
+            epab.utils.cmd_end(f' -> {process.return_code}')
+        else:
+            epab.utils.std_out(result)
+            if not result.endswith('\n'):  # pragma: no cover
+                print()
+            epab.utils.info(f'{exe_short} -> {process.return_code}')
+
+    return result, process.return_code
+
+
 def run(
         cmd: str,
         *paths: str,
@@ -85,23 +109,4 @@ def run(
     process = delegator.run(cmd, block=True, cwd=cwd, binary=False)
     result = _parse_output(process, filters)
 
-    if process.return_code:
-        if mute:
-            epab.utils.cmd_end('')
-        epab.utils.error(f'command failed: {exe_short} -> {process.return_code}')
-        if result:
-            epab.utils.std_err(f'{exe_short} error:\n{result}')
-            if not result.endswith('\n'):  # pragma: no cover
-                print()
-        if not failure_ok:
-            exit(process.return_code)
-    else:
-        if mute:
-            epab.utils.cmd_end(f' -> {process.return_code}')
-        else:
-            epab.utils.std_out(result)
-            if not result.endswith('\n'):  # pragma: no cover
-                print()
-            epab.utils.info(f'{exe_short} -> {process.return_code}')
-
-    return result, process.return_code
+    return _process_run_result(process, mute, exe_short, failure_ok, result)
