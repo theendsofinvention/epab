@@ -4,11 +4,17 @@ Changelog
 ------------
 New
 ~~~
+- Config options to exclude files from flake8 linting. [132nd-etcher]
+0.2.6 (2018-01-28)
+------------------
+New
+~~~
 - Add push command. [132nd-etcher]
   pep8 [auto]
   sorting imports [auto]
   update requirements [auto]
-0.3.0 (2018-01-28)
+  update changelog [auto]
+0.2.5 (2018-01-28)
 ------------------
 New
 ~~~

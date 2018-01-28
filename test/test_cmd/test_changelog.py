@@ -14,6 +14,7 @@ from epab.core import CONFIG, CTX
 @pytest.fixture(autouse=True, name='repo')
 def _all():
     repo = mock(spec=epab.utils.Repo)
+    when(epab.utils).run(...).thenReturn(('', 0))
     CTX.repo = repo
     when(epab.utils).ensure_exe(...)
     yield repo
@@ -54,25 +55,27 @@ def test_changelog(src, result):
 
 
 def test_straight_commit(repo):
-    when(epab.utils).run(...).thenReturn(('', 0))
     _chglog(True, False)
     verify(repo).amend_commit(append_to_msg='update changelog [auto]', files_to_add=CONFIG.changelog__file)
 
 
 def test_commit_amend(repo):
-    when(epab.utils).run(...).thenReturn(('', 0))
     _chglog(amend=False, stage=True)
     verify(repo).stage_subset(CONFIG.changelog__file)
 
 
 def test_flags_exclusion(repo):
-    when(epab.utils).run(...).thenReturn(('', 0))
     _chglog(amend=True, stage=True)
     verify(repo).amend_commit(...)
 
 
 def test_next_version(repo):
-    when(epab.utils).run(...).thenReturn(('', 0))
     _chglog(next_version='test')
     verify(repo).tag('test')
     verify(repo).remove_tag('test')
+
+
+def test_auto_next_version():
+    when(epab.utils).get_git_version_info().thenReturn('test')
+    _chglog(auto_next_version=True)
+    verify(epab.utils).get_git_version_info()

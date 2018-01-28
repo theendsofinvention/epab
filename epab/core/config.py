@@ -118,6 +118,7 @@ class Config(_Config):
     quiet = _ConfigProp(default=False, cast=bool)
     verbose = _ConfigProp(default=False, cast=bool)
     artifacts = _ConfigProp(cast=list)
+    flake8__exclude = _ConfigProp(cast=str, default='')
 
 
 CONFIG = Config()
