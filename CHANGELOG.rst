@@ -1,7 +1,7 @@
 Changelog
 =========
-(unreleased)
-------------
+0.3.2a1 (2018-01-28)
+--------------------
 New
 ~~~
 - Config options to exclude files from flake8 linting. [132nd-etcher]
