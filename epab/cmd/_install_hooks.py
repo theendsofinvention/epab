@@ -17,7 +17,7 @@ PRE_PUSH = """#!/bin/sh
 PATH="{venv}:$PATH"
 echo `epab --version`
 
-epab reqs chglog
+epab reqs -a chglog -a
 
 epab -d pytest -l -x --ff
 if [ "$?" -ne "0" ]
@@ -39,13 +39,6 @@ epab -d -ns lint
 if [ "$?" -ne "0" ]
 then
     echo "Linting error"
-    exit 1
-fi
-
-epab -d -ns chglog -s
-if [ "$?" -ne "0" ]
-then
-    echo "Error writing changelog"
     exit 1
 fi
 
