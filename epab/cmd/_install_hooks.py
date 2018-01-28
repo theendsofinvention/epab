@@ -19,10 +19,10 @@ echo `epab --version`
 
 epab reqs chglog
 
-epab lint -f
+epab -d pytest -l -x --ff
 if [ "$?" -ne "0" ]
 then
-    echo "Linting failed"
+    echo "Tests failed"
     exit 1
 fi
 exit 0"""
@@ -35,10 +35,10 @@ PRE_COMMIT = """#!/bin/sh
 PATH="{venv}:$PATH"
 echo `epab --version`
 
-epab -d -ns reqs -s
+epab -d -ns lint
 if [ "$?" -ne "0" ]
 then
-    echo "Error writing requirements"
+    echo "Linting error"
     exit 1
 fi
 
