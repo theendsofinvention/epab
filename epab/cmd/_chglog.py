@@ -79,7 +79,7 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, 
         with gitchangelog_config():
             with temporary_tag(next_version):
                 changelog, _ = epab.utils.run('gitchangelog', mute=True)
-        changelog = changelog.encode('utf8').replace(b'\r\n', b'\n').decode('utf8')
+        # changelog = changelog.encode('utf8').replace(b'\r\n', b'\n').decode('utf8')
         changelog = re.sub(BOGUS_LINE_PATTERN, '\\1\n', changelog)
         Path(CONFIG.changelog__file).write_text(changelog, encoding='utf8')
         if amend:

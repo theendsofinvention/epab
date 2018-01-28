@@ -18,7 +18,7 @@ def _write_reqs_file(cmd, file_path):
     epab.utils.info(f'Writing {file_path}')
     output = []
     raw_output, _ = epab.utils.run(cmd, mute=True, filters='Courtesy Notice: ')
-    raw_output = raw_output.encode('utf8').replace(b'\r\n', b'\n').decode('utf8')
+    # raw_output = raw_output.encode('utf8').replace(b'\r\n', b'\n').decode('utf8')
     for line in raw_output.splitlines():
         if RE_REQ_PATTERN.match(line):
             output.append(line)
