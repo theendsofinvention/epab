@@ -54,7 +54,8 @@ def test_release(setup):
     # verify(ctx).invoke(epab.cmd.chglog, next_version='next_version')
     verify(epab.utils).run(and_(ANY(str), contains('setup.py sdist bdist_wheel')))
     verifyNoUnwantedInteractions(epab.utils)
-    verify(repo).push(...)
+    verify(repo).push_tags(...)
+    verifyNoUnwantedInteractions(repo)
 
 
 def test_release_on_master(setup):
@@ -76,7 +77,8 @@ def test_release_on_master(setup):
         f'twine upload dist/* --skip-existing',
         mute=True
     )
-    verify(repo).push(...)
+    verify(repo).push_tags(...)
+    verifyNoUnwantedInteractions(repo)
 
 
 def test_dirty_initial_check(setup):

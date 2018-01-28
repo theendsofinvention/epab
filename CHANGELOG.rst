@@ -1,11 +1,16 @@
 Changelog
 =========
+(unreleased)
+------------
+Changes
+~~~~~~~
+- Release should push tags only. [132nd-etcher]
 0.3.2a1 (2018-01-28)
 --------------------
 New
 ~~~
 - Config options to exclude files from flake8 linting. [132nd-etcher]
-0.2.6 (2018-01-28)
+0.3.1 (2018-01-28)
 ------------------
 New
 ~~~
