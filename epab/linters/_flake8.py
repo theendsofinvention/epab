@@ -10,8 +10,8 @@ from epab.core import CONFIG
 
 IGNORE = '--ignore=D203,E126'
 MAX_LINE_LENGTH = f'--max-line-length={CONFIG.lint__line_length}'
-BASE_EXCLUDE = """.svn,CVS,.bzr,.hg,.git,__pycache__,.tox,__init__.py,build,dist,output,.cache,
-.hypothesis,./test/*,./.eggs/*,"""
+BASE_EXCLUDE = ".svn,CVS,.bzr,.hg,.git,__pycache__,.tox,__init__.py,build,dist,output,.cache," \
+               ".hypothesis,./test/*,./.eggs/*,"
 EXCLUDE = '--exclude ' + BASE_EXCLUDE
 MAX_COMPLEXITY = '--max-complexity=10'
 
