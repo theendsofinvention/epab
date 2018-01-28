@@ -58,6 +58,8 @@ def _check_dirty(reason: str):
 def _release(ctx):
     if CTX.appveyor:
         epab.utils.info(f'Running on APPVEYOR')
+        if Path('appveyor.yml').exists():
+            Path('appveyor.yml').unlink()
         CTX.repo.checkout(os.getenv("APPVEYOR_REPO_BRANCH"))
 
     current_branch = CTX.repo.get_current_branch()

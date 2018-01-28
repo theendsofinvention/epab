@@ -147,6 +147,7 @@ def test_cleanup():
 
 
 def test_appveyor(setup):
+    Path('appveyor.yml').touch()
     ctx, _ = setup
     CTX.appveyor = True
     CONFIG.artifacts = None
@@ -157,6 +158,7 @@ def test_appveyor(setup):
     verify(epab.utils).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
     verify(epab.utils).run('pip install --upgrade codacy-coverage')
     verify(epab.utils).run('python-codacy-coverage -r coverage.xml')
+    assert not Path('appveyor.yml').exists()
 
 
 def test_appveyor_artifacts(setup):
