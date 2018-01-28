@@ -154,6 +154,7 @@ _COMMANDS = [
     epab.cmd.chglog,
     epab.cmd.pytest,
     epab.cmd.install_hooks,
+    epab.cmd.push,
 ]
 
 

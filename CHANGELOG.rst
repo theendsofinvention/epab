@@ -1,14 +1,18 @@
 Changelog
 =========
-0.3.1 (2018-01-28)
+(unreleased)
+------------
+New
+~~~
+- Add push command. [132nd-etcher]
+  pep8 [auto]
+  sorting imports [auto]
+  update requirements [auto]
+0.3.0 (2018-01-28)
 ------------------
 New
 ~~~
 - Add status cmd to Repo. [132nd-etcher]
-0.4.0rc6 (2018-01-27)
----------------------
-New
-~~~
 - Chglog: add option to infer next version. [132nd-etcher]
   pep8 [auto]
   sorting imports [auto]
