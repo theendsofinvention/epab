@@ -420,9 +420,11 @@ class Repo:
         """
         if not self.index_is_empty():
             epab.utils.error('Index contains change; cannot checkout')
+            print(self.status())
             exit(-1)
         if self.is_dirty(untracked=True):
             epab.utils.error(f'Repository is dirty; cannot checkout "{reference}"')
+            print(self.status())
             exit(-1)
         epab.utils.info(f'Checking out {reference}')
         if CTX.dry_run:
