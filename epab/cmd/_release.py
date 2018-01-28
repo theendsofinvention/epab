@@ -49,9 +49,8 @@ def _copy_artifacts():
 
 def _check_dirty(reason: str):
     epab.utils.info('Checking repo')
+    print(CTX.repo.status())
     if CTX.repo.is_dirty(untracked=True):
-        for changed_file in CTX.repo.changed_files():  # pragma: no cover
-            print(CTX.repo.repo.git.diff(changed_file))
         epab.utils.error(f'Aborting release: {reason}')
         exit(1)
 
