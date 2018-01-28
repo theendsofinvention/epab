@@ -93,3 +93,14 @@ def test_dirty_repo(repo):
     CTX.dry_run = True
     assert not repo.is_dirty(untracked=True)
     assert not repo.is_dirty()
+
+
+def test_status(repo):
+    assert not repo.is_dirty()
+    assert 'nothing to commit' in repo.status()
+    Path('test').touch()
+    assert 'untracked files present' in repo.status()
+    repo.stage_all()
+    assert 'new file:   test' in repo.status()
+    repo.commit('test')
+    assert 'nothing to commit' in repo.status()
