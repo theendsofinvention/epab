@@ -9,18 +9,13 @@ Etcher's Python Application Builder
 |license|
 
 |av|
-|codacy| |coverage|
-
-|ccissues| |ccmain|
-
+|codacy|
+|coverage|
+|ccissues|
+|ccmain|
 |requires|
-
-|cdcq|
-
 |bch|
-
 |bp|
-
 |graph|
 
 
@@ -50,9 +45,6 @@ Etcher's Python Application Builder
 .. |ccmain| image:: https://img.shields.io/codeclimate/maintainability/132nd-etcher/epab.svg
     :target: https://codeclimate.com/github/132nd-etcher/epab
     :alt: 'CodeClimate maintainability'
-.. |cdcq| image:: https://img.shields.io/codacy/grade/7413d0314ed44765a9dbde48b8c8277c/master.svg
-    :target: https://www.codacy.com/app/132nd-etcher/epab/dashboard
-    :alt: 'Codacy grade'
 .. |bch| image:: https://bettercodehub.com/edge/badge/132nd-etcher/epab?branch=master
     :target: https://bettercodehub.com/results/132nd-etcher/epab
     :alt: 'BetterCodeHub'
