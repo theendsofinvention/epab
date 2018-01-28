@@ -12,14 +12,15 @@ IGNORE = '--ignore=D203,E126'
 MAX_LINE_LENGTH = f'--max-line-length={CONFIG.lint__line_length}'
 BASE_EXCLUDE = """.svn,CVS,.bzr,.hg,.git,__pycache__,.tox,__init__.py,build,dist,output,.cache,
 .hypothesis,./test/*,./.eggs/*,"""
-EXCLUDE = '--exclude ' + BASE_EXCLUDE + CONFIG.flake8__exclude
+EXCLUDE = '--exclude ' + BASE_EXCLUDE
 MAX_COMPLEXITY = '--max-complexity=10'
-BASE_COMMAND = ' '.join((IGNORE, MAX_LINE_LENGTH, EXCLUDE, MAX_COMPLEXITY))
 
 
 @epab.utils.run_once
 def _flake8():
-    epab.utils.run(f'flake8 {BASE_COMMAND}', mute=True)
+    exclude = EXCLUDE + CONFIG.flake8__exclude
+    base_cmd = ' '.join((IGNORE, MAX_LINE_LENGTH, exclude, MAX_COMPLEXITY))
+    epab.utils.run(f'flake8 {base_cmd}', mute=True)
 
 
 @click.command()

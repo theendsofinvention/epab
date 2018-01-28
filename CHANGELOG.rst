@@ -4,6 +4,12 @@ Changelog
 ------------
 Changes
 ~~~~~~~
+- Release should push tags only (#16) [132nd-etcher]
+  chg: release should push tags only
+0.3.3a2 (2018-01-28)
+--------------------
+Changes
+~~~~~~~
 - Release should push tags only. [132nd-etcher]
 0.3.2a1 (2018-01-28)
 --------------------

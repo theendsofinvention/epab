@@ -91,7 +91,8 @@ def test_isort_stage():
 
 
 def test_flake8():
-    with when(epab.utils).run(f'flake8 {_flake8.BASE_COMMAND}', mute=True):
+    base_cmd = ' '.join((_flake8.IGNORE, _flake8.MAX_LINE_LENGTH, _flake8.EXCLUDE, _flake8.MAX_COMPLEXITY))
+    with when(epab.utils).run(f'flake8 {base_cmd}', mute=True):
         _flake8._flake8()
         verify(epab.utils).run(...)
 
