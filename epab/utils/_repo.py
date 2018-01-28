@@ -384,7 +384,7 @@ class Repo:
         Pushes tags to origin
         """
         epab.utils.info('Pushing tags to origin')
-        if CTX.dry_run:
+        if CTX.dry_run:  # pragma: no cover
             return
 
         self.repo.git.push('--tags')
