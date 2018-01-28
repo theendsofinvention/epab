@@ -15,7 +15,7 @@ Etcher's Python Application Builder
 
 |requires|
 
-|bp|
+|cdcq|
 
 |bch|
 
@@ -40,15 +40,18 @@ Etcher's Python Application Builder
 .. |graph| image:: https://graphs.waffle.io/132nd-etcher/epab/throughput.svg
     :target: https://waffle.io/132nd-etcher/epab/metrics/throughput
     :alt: 'Throughput Graph'
-.. |requires| image:: https://requires.io/github/132nd-etcher/epab/requirements.svg?branch=master
+.. |requires| image:: https://img.shields.io/requires/github/132nd-etcher/epab.svg?style=flat-square
     :target: https://requires.io/github/132nd-etcher/epab/requirements/?branch=master
     :alt: 'Requires.io'
-.. |ccissues| image:: https://img.shields.io/codeclimate/issues/github/132nd-etcher/epab.svg
+.. |ccissues| image:: https://img.shields.io/codeclimate/issues/github/132nd-etcher/epab.svg?style=flat-square
     :target: https://codeclimate.com/github/132nd-etcher/epab
     :alt: 'CodeClimate issues'
-.. |ccmain| image:: https://img.shields.io/codeclimate/maintainability/132nd-etcher/epab.svg
+.. |ccmain| image:: https://img.shields.io/codeclimate/maintainability/132nd-etcher/epab.svg?style=flat-square
     :target: https://codeclimate.com/github/132nd-etcher/epab
     :alt: 'CodeClimate maintainability'
+.. |cdcq| image:: https://img.shields.io/codacy/grade/7413d0314ed44765a9dbde48b8c8277c/master.svg?style=flat-square
+    :target: https://www.codacy.com/app/132nd-etcher/epab/dashboard
+    :alt: 'Codacy grade'
 .. |bch| image:: https://bettercodehub.com/edge/badge/132nd-etcher/epab?branch=master
     :target: https://bettercodehub.com/results/132nd-etcher/epab
     :alt: 'BetterCodeHub'
