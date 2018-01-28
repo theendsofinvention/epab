@@ -7,7 +7,6 @@ Etcher's Python Application Builder
 |OSI|
 
 |license|
-
 |av|
 |codacy|
 |coverage|
@@ -16,6 +15,7 @@ Etcher's Python Application Builder
 |requires|
 |bch|
 |bp|
+
 |graph|
 
 
