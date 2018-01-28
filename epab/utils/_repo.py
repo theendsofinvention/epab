@@ -154,6 +154,14 @@ class Repo:
         """
         return self.repo.untracked_files
 
+    def status(self):
+        """
+
+        Returns: Git status
+
+        """
+        return self.repo.git.status()
+
     def list_staged_files(self) -> typing.List[str]:
         """
 
