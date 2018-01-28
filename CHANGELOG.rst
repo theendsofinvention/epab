@@ -1,5 +1,10 @@
 Changelog
 =========
+(unreleased)
+------------
+Changes
+~~~~~~~
+- Print status on checkout when repo is dirty. [132nd-etcher]
 0.3.3 (2018-01-28)
 ------------------
 Changes
