@@ -10,8 +10,9 @@ from epab.core import CONFIG
 
 IGNORE = '--ignore=D203,E126'
 MAX_LINE_LENGTH = f'--max-line-length={CONFIG.lint__line_length}'
-EXCLUDE = """--exclude .svn,CVS,.bzr,.hg,.git,__pycache__,.tox,__init__.py,dummy_miz.py,build,dist,output,.cache,
-.hypothesis,qt_resource.py,_parking_spots.py,./test/*,./.eggs/*,"""
+BASE_EXCLUDE = """.svn,CVS,.bzr,.hg,.git,__pycache__,.tox,__init__.py,build,dist,output,.cache,
+.hypothesis,./test/*,./.eggs/*,"""
+EXCLUDE = '--exclude ' + BASE_EXCLUDE + CONFIG.flake8__exclude
 MAX_COMPLEXITY = '--max-complexity=10'
 BASE_COMMAND = ' '.join((IGNORE, MAX_LINE_LENGTH, EXCLUDE, MAX_COMPLEXITY))
 
