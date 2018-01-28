@@ -33,7 +33,7 @@ branches:
   feature:
     regex: features?[/-]
     mode: ContinuousDeployment
-    tag: useBranchName
+    tag: a+{BranchName}
     increment: Patch
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
@@ -42,7 +42,7 @@ branches:
   pull-request:
     regex: (pull|pull\-requests|pr)[/-]
     mode: ContinuousDeployment
-    tag: PullRequest
+    tag: a+PullRequest
     increment: Patch
     prevent-increment-of-merged-branch-version: false
     tag-number-pattern: '[/-](?<number>\d+)[-/]'
