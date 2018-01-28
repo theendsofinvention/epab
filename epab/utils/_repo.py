@@ -377,6 +377,16 @@ class Repo:
             return
 
         self.repo.git.push()
+        self.push_tags()
+
+    def push_tags(self):
+        """
+        Pushes tags to origin
+        """
+        epab.utils.info('Pushing tags to origin')
+        if CTX.dry_run:
+            return
+
         self.repo.git.push('--tags')
 
     def list_branches(self) -> typing.List[str]:
