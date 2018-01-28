@@ -35,8 +35,8 @@ def test_changelog_config_disabled():
     'src,result',
     [
         ('content', 'content'),
-        ('content    \r\n\r\ncontent', 'content    \n\ncontent'),
-        ('content  \r\n\r\n\r\ncontent', 'content  \n\n\ncontent'),
+        ('content    \r\n\r\ncontent', 'content    \n\n\n\ncontent'),
+        ('content  \r\n\r\n\r\ncontent', 'content  \n\n\n\n\n\ncontent'),
 
     ]
 )
