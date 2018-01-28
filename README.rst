@@ -19,6 +19,8 @@ Etcher's Python Application Builder
 
 |bch|
 
+|bp|
+
 |graph|
 
 
@@ -26,8 +28,7 @@ Etcher's Python Application Builder
     :target: https://github.com/ellerbrock/open-source-badges/
     :alt: '<3 Open Source'
 .. |license| image:: https://img.shields.io/github/license/132nd-etcher/EPAB.svg
-    :target: https://www.gnu.org/licenses/gpl-3.0.en.html
-    :alt: 'GPLv3.0'
+    :alt: 'License'
 .. |av| image:: https://img.shields.io/appveyor/ci/132nd-etcher/epab/master.svg?label=master
     :target: https://ci.appveyor.com/project/132nd-etcher/epab
     :alt: 'Appveyor build'
