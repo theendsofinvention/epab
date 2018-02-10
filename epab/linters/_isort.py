@@ -3,20 +3,40 @@
 iSort linter
 """
 
-import click
+from pathlib import Path
 
+import click
+import isort as base_sorter
+
+import epab.core
 import epab.utils
-from epab.core import CONFIG, CTX
 
 
 @epab.utils.run_once
 @epab.utils.stashed
 def _isort(amend: bool = False, stage: bool = False):
-    epab.utils.run(f'isort -rc -w {CONFIG.lint__line_length} .', mute=True)
+    settings = {
+        'line_ending': '\n',
+        'line_length': int(epab.core.CONFIG.lint__line_length),
+    }
+    for py_file in Path('.').rglob('*.py'):
+        # print(type(py_file))
+        base_sorter.SortImports(file_path=py_file.absolute(), **settings)
+
+        content = py_file.read_bytes()
+        content = content.replace(b'\r\n', b'\n')
+        py_file.write_bytes(content)
+        # with open(filename, 'rb') as f:
+        #     content = f.read()
+        #     content = content.replace(windows_line_ending, linux_line_ending)
+        #
+        # with open(filename, 'wb') as f:
+        #     f.write(content)
+
     if amend:
-        CTX.repo.amend_commit(append_to_msg='sorting imports [auto]')
+        epab.core.CTX.repo.amend_commit(append_to_msg='sorting imports [auto]')
     elif stage:
-        CTX.repo.stage_all()
+        epab.core.CTX.repo.stage_all()
 
 
 @click.command()
