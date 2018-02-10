@@ -18,12 +18,12 @@ from ._safety import safety
 @epab.utils.stashed
 def _lint(ctx: click.Context, amend: bool = False, stage: bool = False):
     epab.utils.info('Running all linters')
+    ctx.invoke(safety)
+    ctx.invoke(pylint)
+    ctx.invoke(flake8)
     ctx.invoke(pep8, amend=amend, stage=stage)
     if not CTX.appveyor:
         ctx.invoke(isort, amend=amend, stage=stage)
-    ctx.invoke(flake8)
-    ctx.invoke(pylint)
-    ctx.invoke(safety)
 
 
 @click.command()
