@@ -11,6 +11,29 @@ test_requirements = [str(r.req) for r in
                      parse_requirements('requirements-dev.txt', session=False)]
 
 
+CLASSIFIERS = filter(None, map(str.strip,
+                               """
+Development Status :: 3 - Alpha
+Topic :: Utilities
+License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Environment :: Win32 (MS Windows)
+Natural Language :: English
+Operating System :: Microsoft :: Windows
+Operating System :: Microsoft :: Windows :: Windows 7
+Operating System :: Microsoft :: Windows :: Windows 8
+Operating System :: Microsoft :: Windows :: Windows 8.1
+Operating System :: Microsoft :: Windows :: Windows 10
+Programming Language :: Cython
+Programming Language :: Python
+Programming Language :: Python :: 3 :: Only
+Programming Language :: Python :: 3.6
+Programming Language :: Python :: Implementation
+Programming Language :: Python :: Implementation :: CPython
+Topic :: Games/Entertainment
+Topic :: Utilities
+""".splitlines()))
+
+
 def read_local_files(*file_paths: str) -> str:
     """
     Reads one or more text files and returns them joined together.
@@ -54,24 +77,5 @@ setup(
     use_scm_version=True,
     setup_requires=['setuptools_scm'],
     python_requires='>=3.6',
-    classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Topic :: Utilities',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
-        'Environment :: Win32 (MS Windows)',
-        'Natural Language :: English',
-        'Operating System :: Microsoft :: Windows',
-        'Operating System :: Microsoft :: Windows :: Windows 7',
-        'Operating System :: Microsoft :: Windows :: Windows 8',
-        'Operating System :: Microsoft :: Windows :: Windows 8.1',
-        'Operating System :: Microsoft :: Windows :: Windows 10',
-        'Programming Language :: Cython',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: Implementation',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Topic :: Games/Entertainment',
-        'Topic :: Utilities',
-    ],
+    classifiers=CLASSIFIERS,
 )
