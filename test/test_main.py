@@ -110,10 +110,10 @@ def test_flake8():
     verify(_flake8)._flake8(...)
 
 
-def test_isort():
-    when(_sort)._isort(...)
-    assert succesfull_run2('isort')
-    verify(_sort)._isort(...)
+def test_sort():
+    when(_sort)._sort(...)
+    assert succesfull_run2('sort')
+    verify(_sort)._sort(...)
 
 
 def test_pylint():
