@@ -10,7 +10,7 @@ import epab.utils
 from epab.__main__ import cli
 from epab.cmd import _chglog, _install_hooks, _pytest, _release, _reqs
 from epab.core import CTX, VERSION
-from epab.linters import _flake8, _isort, _lint, _pep8, _pylint, _safety
+from epab.linters import _flake8, _sort, _lint, _pep8, _pylint, _safety
 
 
 @pytest.fixture(name='setup')
@@ -111,9 +111,9 @@ def test_flake8():
 
 
 def test_isort():
-    when(_isort)._isort(...)
+    when(_sort)._isort(...)
     assert succesfull_run2('isort')
-    verify(_isort)._isort(...)
+    verify(_sort)._isort(...)
 
 
 def test_pylint():

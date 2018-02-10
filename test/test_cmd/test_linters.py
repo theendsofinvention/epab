@@ -3,11 +3,12 @@
 import itertools
 
 import pytest
-from mockito import mock, verify, verifyNoMoreInteractions, when
+from pathlib import Path
+from mockito import mock, verify, verifyNoMoreInteractions, when, verifyStubbedInvocationsAreUsed
 
 import epab.utils
 from epab.core import CONFIG, CTX
-from epab.linters import _flake8, _isort, _lint, _pep8, _pylint, _safety
+from epab.linters import _flake8, _sort, _lint, _pep8, _pylint, _safety
 
 
 @pytest.fixture(autouse=True, name='repo')
@@ -28,7 +29,7 @@ def test_lint(amend_stage):
     verify(context).invoke(_safety.safety)
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
-    verify(context).invoke(_isort.isort, amend=amend, stage=stage)
+    verify(context).invoke(_sort.sort, amend=amend, stage=stage)
     verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
     verifyNoMoreInteractions(context)
 
@@ -71,22 +72,24 @@ def test_pep8_stage():
 
 
 def test_isort():
-    with when(epab.utils).run(f'isort -rc -w {CONFIG.lint__line_length} .', mute=True):
-        _isort._isort()
-        verify(epab.utils).run(...)
+    test_file = Path('./test.py')
+    test_file.touch()
+    with when(_sort.isort).SortImports(file_path=test_file.absolute(), **_sort.SETTINGS):
+        _sort._sort()
+        verifyStubbedInvocationsAreUsed()
 
 
 def test_isort_amend():
     with when(epab.utils).run(f'isort -rc -w {CONFIG.lint__line_length} .', mute=True):
         with when(CTX.repo).amend_commit(append_to_msg='sorting imports [auto]'):
-            _isort._isort(amend=True)
+            _sort._sort(amend=True)
             verify(CTX.repo).amend_commit(...)
 
 
 def test_isort_stage():
     with when(epab.utils).run(f'isort -rc -w {CONFIG.lint__line_length} .', mute=True):
         with when(CTX.repo).stage_all():
-            _isort._isort(stage=True)
+            _sort._sort(stage=True)
             verify(CTX.repo).stage_all(...)
 
 
