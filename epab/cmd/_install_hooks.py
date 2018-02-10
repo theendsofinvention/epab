@@ -9,7 +9,6 @@ import click
 import epab.utils
 from epab.core import VERSION
 
-
 PRE_PUSH = """#!/bin/sh
 #
 # This Git hook was installed by EPAB {version}
