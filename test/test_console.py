@@ -6,8 +6,8 @@ Pass
 import string
 
 import pytest
-from hypothesis import strategies as st
 from hypothesis import given
+from hypothesis import strategies as st
 
 import epab.utils
 from epab.core import CONFIG
