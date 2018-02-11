@@ -17,7 +17,7 @@ def _sort_file(file_path: Path):
 
     content = file_path.read_bytes()
     content = content.replace(b'\r\n', b'\n')
-    file_path.write_bytes(content)
+    file_path.write_text(content.decode('cp1252'))
 
 
 SETTINGS = {

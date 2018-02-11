@@ -1,14 +1,14 @@
 # coding=utf-8
 
 import itertools
+from pathlib import Path
 
 import pytest
-from pathlib import Path
-from mockito import mock, verify, verifyNoMoreInteractions, when, verifyStubbedInvocationsAreUsed
+from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocationsAreUsed, when
 
 import epab.utils
 from epab.core import CONFIG, CTX
-from epab.linters import _flake8, _sort, _lint, _pep8, _pylint, _safety
+from epab.linters import _flake8, _lint, _pep8, _pylint, _safety, _sort
 
 
 @pytest.fixture(autouse=True, name='repo')
