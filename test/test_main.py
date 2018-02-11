@@ -10,7 +10,7 @@ import epab.utils
 from epab.__main__ import cli
 from epab.cmd import _chglog, _install_hooks, _pytest, _release, _reqs
 from epab.core import CTX, VERSION
-from epab.linters import _flake8, _sort, _lint, _pep8, _pylint, _safety
+from epab.linters import _flake8, _lint, _pep8, _pylint, _safety, _sort
 
 
 @pytest.fixture(name='setup')
