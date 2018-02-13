@@ -64,7 +64,7 @@ def _next_version(ctx: click.Context, _, value):
               help='Print next version and exit')
 @click.option('-n', '--dry-run', is_flag=True, default=False, help='Dry run')
 @click.option('-d', '--dirty', is_flag=True, default=False, help='Allow dirty repository')
-@click.option('-ns', '--no-stash', 'stash', is_flag=True, default=True, help='No stashing')
+@click.option('-s', '--stash', 'stash', is_flag=True, default=False, help='No stashing')
 def cli(dry_run, dirty, stash):
     """
     This is a tool that handles all the tasks to build a Python application
