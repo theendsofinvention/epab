@@ -54,6 +54,7 @@ def test_stash_decorator():
     @epab.utils.stashed
     def _func():
         pass
+    CTX.stash = True
     when(CTX.repo).stash(...)
     _func()
     verify(CTX.repo).stash(...)

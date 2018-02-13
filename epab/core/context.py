@@ -15,7 +15,7 @@ class CTX:
     known_executables = {}
     repo = None
     next_version = None
-    stash = True
+    stash = False
     appveyor = os.getenv('APPVEYOR')
 
     @staticmethod
@@ -25,5 +25,5 @@ class CTX:
         CTX.run_once = {}
         CTX.repo = None
         CTX.next_version = None
-        CTX.stash = True
+        CTX.stash = False
         CTX.appveyor = False

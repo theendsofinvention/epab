@@ -87,11 +87,22 @@ def test_dirty(setup):
     assert result.exit_code == 0
 
 
-def test_no_stash(setup):
-    assert CTX.stash
+def test_stash(setup):
+    assert not CTX.stash
     runner, repo = setup
     when(repo).is_dirty().thenReturn(False)
-    result = runner.invoke(cli, ['-ns', 'safety'])
+    result = runner.invoke(cli, ['-s', 'safety'])
+    assert isinstance(result, Result)
+    assert not result.exception
+    assert result.exit_code == 0
+    assert CTX.stash
+
+
+def test_no_stash(setup):
+    assert not CTX.stash
+    runner, repo = setup
+    when(repo).is_dirty().thenReturn(False)
+    result = runner.invoke(cli, ['safety'])
     assert isinstance(result, Result)
     assert not result.exception
     assert result.exit_code == 0
