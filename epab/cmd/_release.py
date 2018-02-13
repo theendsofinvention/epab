@@ -100,7 +100,7 @@ def _release(ctx):
     # ctx.invoke(epab.cmd.chglog, next_version=next_version)
     # _check_dirty('changelog changed')
 
-    CTX.repo.tag(next_version)
+    CTX.repo.tag(next_version, overwrite=True)
 
     _clean()
 

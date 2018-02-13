@@ -6,6 +6,7 @@ import os
 import typing
 
 import git
+from git.exc import GitCommandError
 
 import epab.utils
 from epab.core import CTX
@@ -27,18 +28,26 @@ class Repo:
         """
         return self.repo.active_branch.name
 
-    def tag(self, tag: str):
+    def tag(self, tag: str, overwrite: bool = False):
         """
         Tags the repo
 
         Args:
             tag: tag as a string
+            overwrite: replace existing tag
         """
         epab.utils.info(f'Tagging repo: {tag}')
         if CTX.dry_run:
             epab.utils.info('Not tagging; DRY RUN')
             return
-        self.repo.create_tag(tag)
+        try:
+            self.repo.create_tag(tag)
+        except GitCommandError as exc:
+            if 'already exists' in exc.stderr and overwrite:
+                self.remove_tag(tag)
+                self.repo.create_tag(tag)
+            else:
+                raise
 
     def remove_tag(self, *tag: str):
         """

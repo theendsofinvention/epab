@@ -50,7 +50,7 @@ def test_release(setup):
     verify(ctx).invoke(epab.linters.lint)
     verify(ctx).invoke(epab.cmd.pytest, long=True)
     # verify(ctx).invoke(epab.cmd.reqs)
-    verify(repo).tag('next_version')
+    verify(repo).tag('next_version', overwrite=True)
     # verify(ctx).invoke(epab.cmd.chglog, next_version='next_version')
     verify(epab.utils).run(and_(ANY(str), contains('setup.py sdist bdist_wheel')))
     verifyNoUnwantedInteractions(epab.utils)
@@ -70,7 +70,7 @@ def test_release_on_master(setup):
     verify(ctx).invoke(epab.linters.lint)
     verify(ctx).invoke(epab.cmd.pytest, long=True)
     # verify(ctx).invoke(epab.cmd.reqs)
-    verify(repo).tag('next_version')
+    verify(repo).tag('next_version', overwrite=True)
     # verify(ctx).invoke(epab.cmd.chglog, next_version='next_version')
     verify(epab.utils).run(and_(ANY(str), contains('setup.py sdist bdist_wheel')))
     verify(epab.utils).run(
