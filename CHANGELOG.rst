@@ -1,7 +1,111 @@
 Changelog
 =========
-(unreleased)
-------------
+0.3.19 (2018-02-13)
+-------------------
+Changes
+~~~~~~~
+- Overwrite exiting tag on release (#26) [132nd-etcher]
+  * overwrite exiting tag on release
+  * fix tests
+0.3.18 (2018-02-13)
+-------------------
+Changes
+~~~~~~~
+- Disable auto stash (#25) [132nd-etcher]
+  * disable auto stash
+  * fix tests
+0.3.18a+overwrite-tag-on-release2 (2018-02-13)
+----------------------------------------------
+- Fix tests. [132nd-etcher]
+- Overwrite exiting tag on release. [132nd-etcher]
+0.3.18a+no-auto-stash2 (2018-02-13)
+-----------------------------------
+- Fix tests. [132nd-etcher]
+- Disable auto stash. [132nd-etcher]
+0.3.17 (2018-02-11)
+-------------------
+Fix
+~~~
+- Sort linting (#24) [132nd-etcher]
+0.3.17a+23-isort-issue1 (2018-02-11)
+------------------------------------
+- Linting. [132nd-etcher]
+0.3.16 (2018-02-11)
+-------------------
+Fix
+~~~
+- Fix sorting of imports (#22) [132nd-etcher]
+  Due to iSort update, a bunch of double line endings were inserted.
+  I switched to programmatic iSort instead of calling the cmd line.
+  * fix: dev: fix isort
+  * convert line endings
+  * fix tests
+  * fix one more test
+0.3.15a+isort4 (2018-02-10)
+---------------------------
+- Fix one more test. [132nd-etcher]
+- Fix tests. [132nd-etcher]
+- Convert line endings. [132nd-etcher]
+0.3.14a+update-reqs1 (2018-02-10)
+---------------------------------
+- Update reqs. [132nd-etcher]
+0.3.13 (2018-02-10)
+-------------------
+Changes
+~~~~~~~
+- Reorder linters (#20) [132nd-etcher]
+  * chg: dev: move classifiers to a raw string
+  * chg: reorder linters
+0.3.13a+reorder-linters2 (2018-02-10)
+-------------------------------------
+Changes
+~~~~~~~
+- Reorder linters. [132nd-etcher]
+0.3.12 (2018-01-28)
+-------------------
+Changes
+~~~~~~~
+- Update readme (#19) [132nd-etcher]
+  * chg: update readme
+  * chg: update README
+  * chg: update README
+  * chg: update README
+- Update readme (reverted from commit
+  e64f8cb4b81caea005485c9b4362dcecf994f14c) [132nd-etcher]
+0.3.10a4 (2018-01-28)
+---------------------
+Changes
+~~~~~~~
+- Update README. [132nd-etcher]
+0.3.11 (2018-01-28)
+-------------------
+Changes
+~~~~~~~
+- Update readme. [132nd-etcher]
+0.3.10 (2018-01-28)
+-------------------
+Changes
+~~~~~~~
+- Add feature name in tag (#18) [132nd-etcher]
+  * chg: simplify gitversion config
+  * chg: change tagging scheme
+0.3.10a3 (2018-01-28)
+---------------------
+Changes
+~~~~~~~
+- Update readme. [132nd-etcher]
+0.3.8a+feature-name-in-tag2 (2018-01-28)
+----------------------------------------
+Changes
+~~~~~~~
+- Change tagging scheme. [132nd-etcher]
+- Simplify gitversion config. [132nd-etcher]
+0.3.8 (2018-01-28)
+------------------
+- Create LICENSE. [132nd-etcher]
+- Delete LICENSE. [132nd-etcher]
+0.3.6 (2018-01-28)
+------------------
 Changes
 ~~~~~~~
 - Print status on checkout when repo is dirty. [132nd-etcher]
