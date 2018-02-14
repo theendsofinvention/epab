@@ -29,7 +29,7 @@ def test_lint(amend_stage):
     verify(context).invoke(_safety.safety)
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
-    verify(context).invoke(_sort.sort, amend=amend, stage=stage)
+    # verify(context).invoke(_sort.sort, amend=amend, stage=stage)
     verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
     verifyNoMoreInteractions(context)
 
