@@ -15,6 +15,7 @@ Etcher's Python Application Builder
 |requires|
 |bch|
 |bp|
+|cf|
 
 |graph|
 
@@ -51,3 +52,6 @@ Etcher's Python Application Builder
 .. |bp| image:: https://bestpractices.coreinfrastructure.org/projects/1548/badge
     :target: https://bestpractices.coreinfrastructure.org/projects/1548
     :alt: 'OSI Best Practices'
+.. |cf| image:: https://www.codefactor.io/repository/github/132nd-etcher/edlm/badge
+    :target: https://www.codefactor.io/repository/github/132nd-etcher/epab
+    :alt: 'CodeFactor'
