@@ -13,7 +13,11 @@ import epab.utils
 
 
 def _sort_file(file_path: Path):
-    isort.SortImports(file_path=file_path.absolute(), **SETTINGS)
+    isort.SortImports(
+        file_path=file_path.absolute(),
+        known_first_party=epab.core.CONFIG.package,
+        **SETTINGS
+    )
 
     content = file_path.read_bytes()
     content = content.replace(b'\r\n', b'\n')
