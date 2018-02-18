@@ -4,7 +4,7 @@ import itertools
 from pathlib import Path
 
 import pytest
-from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocationsAreUsed, when
+from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocationsAreUsed, when, contains
 
 import epab.utils
 from epab.core import CONFIG, CTX
@@ -78,36 +78,40 @@ def test_pep8_stage():
 def test_isort():
     test_file = Path('./test.py')
     test_file.touch()
-    with when(_sort.isort).SortImports(file_path=test_file.absolute(), **_sort.SETTINGS):
-        _sort._sort()
-        verifyStubbedInvocationsAreUsed()
+    when(_sort.isort).SortImports(
+        file_path=test_file.absolute(),
+        known_first_party=CONFIG.package,
+        **_sort.SETTINGS
+    )
+    when(epab.utils).run(contains('setup.py isort'))
+    _sort._sort()
+    verifyStubbedInvocationsAreUsed()
 
 
 def test_isort_amend():
-    with when(epab.utils).run(f'isort -rc -w {CONFIG.lint__line_length} .', mute=True):
-        with when(CTX.repo).amend_commit(append_to_msg='sorting imports [auto]'):
-            _sort._sort(amend=True)
-            verify(CTX.repo).amend_commit(...)
+    when(epab.utils).run(contains('setup.py isort'))
+    when(CTX.repo).amend_commit(append_to_msg='sorting imports [auto]')
+    _sort._sort(amend=True)
+    verifyStubbedInvocationsAreUsed()
 
 
 def test_isort_stage():
-    with when(epab.utils).run(f'isort -rc -w {CONFIG.lint__line_length} .', mute=True):
-        with when(CTX.repo).stage_all():
-            _sort._sort(stage=True)
-            verify(CTX.repo).stage_all(...)
-
+    when(epab.utils).run(contains('setup.py isort'))
+    when(CTX.repo).stage_all()
+    _sort._sort(stage=True)
+    verifyStubbedInvocationsAreUsed()
 
 def test_flake8():
     base_cmd = ' '.join((_flake8.IGNORE, _flake8.MAX_LINE_LENGTH, _flake8.EXCLUDE, _flake8.MAX_COMPLEXITY))
-    with when(epab.utils).run(f'flake8 {base_cmd}', mute=True):
-        _flake8._flake8()
-        verify(epab.utils).run(...)
+    when(epab.utils).run(f'flake8 {base_cmd}', mute=True)
+    _flake8._flake8()
+    verifyStubbedInvocationsAreUsed()
 
 
 def test_safety():
-    with when(epab.utils).run('safety check --bare', mute=True):
-        _safety._safety()
-        verify(epab.utils).run(...)
+    when(epab.utils).run('safety check --bare', mute=True)
+    _safety._safety()
+    verifyStubbedInvocationsAreUsed()
 
 
 @pytest.mark.parametrize(
