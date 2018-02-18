@@ -51,9 +51,11 @@ def test_lint_appveyor(amend_stage):
 
 
 def test_pep8():
-    with when(epab.utils).run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} .', mute=True):
-        _pep8._pep8()
-        verify(epab.utils).run(...)
+    when(epab.utils).run(
+        f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} {CONFIG.package}', mute=True)
+    when(epab.utils).run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} test', mute=True)
+    _pep8._pep8()
+    verifyStubbedInvocationsAreUsed()
 
 
 def test_pep8_amend():
@@ -64,11 +66,13 @@ def test_pep8_amend():
 
 
 def test_pep8_stage():
-    with when(epab.utils).run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} .', mute=True):
-        with when(CTX.repo).stage_all():
-            CTX.run_once = {}
-            _pep8._pep8(stage=True)
-            verify(CTX.repo).stage_all(...)
+    when(epab.utils).run(
+        f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} {CONFIG.package}', mute=True)
+    when(epab.utils).run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} test', mute=True)
+    with when(CTX.repo).stage_all():
+        CTX.run_once = {}
+        _pep8._pep8(stage=True)
+    verifyStubbedInvocationsAreUsed()
 
 
 def test_isort():
