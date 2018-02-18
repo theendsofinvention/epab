@@ -1,5 +1,6 @@
 # coding=utf-8
 from pathlib import Path
+
 import pytest
 from git.exc import GitCommandError
 
@@ -50,4 +51,3 @@ def test_existing_tag(repo):
         repo.tag('test')
     repo.tag('test', overwrite=True)
     assert repo.get_current_tag() == 'test'
-
