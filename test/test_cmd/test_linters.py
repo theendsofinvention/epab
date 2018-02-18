@@ -4,7 +4,7 @@ import itertools
 from pathlib import Path
 
 import pytest
-from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocationsAreUsed, when, contains
+from mockito import contains, mock, verify, verifyNoMoreInteractions, verifyStubbedInvocationsAreUsed, when
 
 import epab.utils
 from epab.core import CONFIG, CTX
@@ -100,6 +100,7 @@ def test_isort_stage():
     when(CTX.repo).stage_all()
     _sort._sort(stage=True)
     verifyStubbedInvocationsAreUsed()
+
 
 def test_flake8():
     base_cmd = ' '.join((_flake8.IGNORE, _flake8.MAX_LINE_LENGTH, _flake8.EXCLUDE, _flake8.MAX_COMPLEXITY))
