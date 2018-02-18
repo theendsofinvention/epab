@@ -5,13 +5,13 @@ Runs all linters
 import click
 
 import epab.utils
-# from epab.core import CTX
+from epab.core import CTX
 
 from ._flake8 import flake8
 from ._pep8 import pep8
 from ._pylint import pylint
 from ._safety import safety
-# from ._sort import sort
+from ._sort import sort
 
 
 @epab.utils.run_once
@@ -22,8 +22,8 @@ def _lint(ctx: click.Context, amend: bool = False, stage: bool = False):
     ctx.invoke(pylint)
     ctx.invoke(flake8)
     ctx.invoke(pep8, amend=amend, stage=stage)
-    # if not CTX.appveyor:
-    #     ctx.invoke(sort, amend=amend, stage=stage)
+    if not CTX.appveyor:
+        ctx.invoke(sort, amend=amend, stage=stage)
 
 
 @click.command()
