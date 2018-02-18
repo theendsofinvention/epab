@@ -6,6 +6,7 @@ Etcher's Python Application Builder
 
 |OSI|
 
+|status|
 |license|
 |av|
 |codacy|
@@ -23,6 +24,9 @@ Etcher's Python Application Builder
 .. |OSI| image:: https://badges.frapsoft.com/os/v3/open-source-200x33.png?v=103
     :target: https://github.com/ellerbrock/open-source-badges/
     :alt: '<3 Open Source'
+.. |status| image:: https://img.shields.io/pypi/status/epab.svg
+	:target: https://pypi.python.org/pypi/epab/
+	:alt: 'Cheese shop'
 .. |license| image:: https://img.shields.io/github/license/132nd-etcher/EPAB.svg
     :alt: 'License'
 .. |av| image:: https://img.shields.io/appveyor/ci/132nd-etcher/epab/master.svg?label=master
