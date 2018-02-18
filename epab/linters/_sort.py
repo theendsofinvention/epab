@@ -2,7 +2,7 @@
 """
 iSort linter
 """
-
+import sys
 from pathlib import Path
 
 import click
@@ -35,6 +35,9 @@ SETTINGS = {
 def _sort(amend: bool = False, stage: bool = False):
     for py_file in Path('.').rglob('*.py'):
         _sort_file(py_file)
+
+    python_exe = sys.executable.replace('\\', '/')
+    epab.utils.run(f'{python_exe} setup.py isort')
 
     if amend:
         epab.core.CTX.repo.amend_commit(append_to_msg='sorting imports [auto]')
