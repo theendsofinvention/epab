@@ -12,7 +12,8 @@ from epab.core import CONFIG, CTX
 @epab.utils.run_once
 @epab.utils.stashed
 def _pep8(amend: bool = False, stage: bool = False):
-    epab.utils.run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} .', mute=True)
+    epab.utils.run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} {CONFIG.package}', mute=True)
+    epab.utils.run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} test', mute=True)
     if amend:
         CTX.repo.amend_commit(append_to_msg='pep8 [auto]')
     elif stage:
