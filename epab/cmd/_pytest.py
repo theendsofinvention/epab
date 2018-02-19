@@ -21,8 +21,8 @@ PYTEST_OPTIONS = ' '.join([
     # '--hypothesis-show-statistics',
     '--tb=short',
     '--cov-config .coveragerc',
-    # '--dead-fixtures',
-    # '--dup-fixtures',
+    '--dead-fixtures',
+    '--dup-fixtures',
     # '-x',
 ])
 
