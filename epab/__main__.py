@@ -162,4 +162,4 @@ for command in _COMMANDS + _LINTERS:
     cli.add_command(command)
 
 if __name__ == '__main__':
-    cli(obj={})
+    cli(obj={})  # pylint: disable=no-value-for-parameter,unexpected-keyword-arg
