@@ -83,20 +83,20 @@ def test_isort():
         known_first_party=CONFIG.package,
         **_sort.SETTINGS
     )
-    when(epab.utils).run(contains('setup.py isort'))
+    # when(epab.utils).run(contains('setup.py isort'))
     _sort._sort()
     verifyStubbedInvocationsAreUsed()
 
 
 def test_isort_amend():
-    when(epab.utils).run(contains('setup.py isort'))
+    # when(epab.utils).run(contains('setup.py isort'))
     when(CTX.repo).amend_commit(append_to_msg='sorting imports [auto]')
     _sort._sort(amend=True)
     verifyStubbedInvocationsAreUsed()
 
 
 def test_isort_stage():
-    when(epab.utils).run(contains('setup.py isort'))
+    # when(epab.utils).run(contains('setup.py isort'))
     when(CTX.repo).stage_all()
     _sort._sort(stage=True)
     verifyStubbedInvocationsAreUsed()
