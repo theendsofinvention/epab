@@ -52,7 +52,7 @@ def _check_dirty(reason: str):
     print(CTX.repo.status())
     if CTX.repo.is_dirty(untracked=True):
         epab.utils.error(f'Aborting release: {reason}')
-        exit(1)
+        sys.exit(1)
 
 
 def _release(ctx):

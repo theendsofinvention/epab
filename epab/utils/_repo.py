@@ -3,6 +3,7 @@
 Manages the local Git repo
 """
 import os
+import sys
 import typing
 
 import git
@@ -112,10 +113,10 @@ class Repo:
         else:
             if not self.index_is_empty():
                 epab.utils.error('Cannot stash; index is not empty')
-                exit(-1)
+                sys.exit(-1)
             if self.untracked_files():
                 epab.utils.error('Cannot stash; there are untracked files')
-                exit(-1)
+                sys.exit(-1)
             if self.changed_files():
                 epab.utils.info('Stashing changes')
                 self.repo.git.stash('push', '-u', '-k', '-m', f'"{stash_name}"')
@@ -146,7 +147,7 @@ class Repo:
                 return
             epab.utils.cmd_end(' -> ERROR')
             epab.utils.error('This command is meant to be ran in a Git repository.')
-            exit(-1)
+            sys.exit(-1)
         epab.utils.cmd_end(' -> OK')
 
     def last_commit_msg(self) -> str:
@@ -265,7 +266,7 @@ class Repo:
 
         if not message:
             epab.utils.error('Empty commit message')
-            exit(1)
+            sys.exit(1)
 
         if os.getenv('APPVEYOR'):
             message = self._add_skip_ci_to_commit_msg(message)
@@ -283,7 +284,7 @@ class Repo:
 
         if self.index_is_empty() and not allow_empty:
             epab.utils.error('Empty commit')
-            exit(-1)
+            sys.exit(-1)
 
         self.repo.index.commit(message=message)
 
@@ -307,7 +308,7 @@ class Repo:
                 message = last_commit_msg
         if message is None:
             epab.utils.error('Missing either "new_message" or "append_to_msg"')
-            exit(-1)
+            sys.exit(-1)
         return message
 
     def amend_commit(
@@ -329,7 +330,7 @@ class Repo:
 
         if new_message and append_to_msg:
             epab.utils.error('Cannot use "new_message" and "append_to_msg" together')
-            exit(-1)
+            sys.exit(-1)
 
         message = self._sanitize_amend_commit_message(append_to_msg, new_message)
 
@@ -351,7 +352,7 @@ class Repo:
             branch.commit = self.repo.head.commit.parents[0]
         except IndexError:
             epab.utils.error('Cannot amend the first commit')
-            exit(-1)
+            sys.exit(-1)
         if files_to_add:
             self.stage_subset(*files_to_add)
         else:
@@ -370,7 +371,7 @@ class Repo:
         """
         if self.is_dirty():
             epab.utils.error(f'Repository is dirty; cannot merge "{ref_name}"')
-            exit(-1)
+            sys.exit(-1)
         epab.utils.info(f'Merging {ref_name} into {self.get_current_branch()}')
         if CTX.dry_run:
             epab.utils.info('Skipping merge: DRY RUN')
@@ -415,7 +416,7 @@ class Repo:
             self.repo.git.check_ref_format('--branch', branch_name)
         except git.exc.GitCommandError:  # pylint: disable=no-member
             epab.utils.error(f'Invalid branch name: {branch_name}')
-            exit(1)
+            sys.exit(1)
 
     def checkout(self, reference: str):
         """
@@ -430,11 +431,11 @@ class Repo:
         if not self.index_is_empty():
             epab.utils.error('Index contains change; cannot checkout')
             print(self.status())
-            exit(-1)
+            sys.exit(-1)
         if self.is_dirty(untracked=True):
             epab.utils.error(f'Repository is dirty; cannot checkout "{reference}"')
             print(self.status())
-            exit(-1)
+            sys.exit(-1)
         epab.utils.info(f'Checking out {reference}')
         if CTX.dry_run:
             return
@@ -446,7 +447,7 @@ class Repo:
                 break
         else:
             epab.utils.error(f'Unknown reference: {reference}')
-            exit(-1)
+            sys.exit(-1)
 
     def create_branch(self, branch_name: str):
         """
@@ -460,7 +461,7 @@ class Repo:
         self._validate_branch_name(branch_name)
         if branch_name in self.list_branches():
             epab.utils.error('Branch already exists')
-            exit(1)
+            sys.exit(1)
         new_branch = self.repo.create_head(branch_name)
         new_branch.commit = self.repo.head.commit
 

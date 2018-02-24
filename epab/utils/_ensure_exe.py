@@ -3,6 +3,7 @@
 Makes sure that an executable can be found on the system path.
 Will exit the program if the executable cannot be found
 """
+import sys
 
 import epab.utils
 
@@ -19,4 +20,4 @@ def ensure_exe(exe_name: str, *paths: str):  # pragma: no cover
     """
     if not epab.utils.find_executable(exe_name, *paths):
         epab.utils.error(f'Could not find "{exe_name}.exe" on this system')
-        exit(-1)
+        sys.exit(-1)
