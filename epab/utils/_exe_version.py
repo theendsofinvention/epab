@@ -56,18 +56,14 @@ def get_product_version(path: typing.Union[str, Path]) -> VersionInfo:
     Returns: VersionInfo
     """
     path = Path(path).absolute()
-    pe = pefile.PE(str(path))
+    pe_info = pefile.PE(str(path))
 
-    for file_info in pe.FileInfo:
+    for file_info in pe_info.FileInfo:
         if file_info.Key == b'StringFileInfo':
-            for st in file_info.StringTable:
-                if b'FileVersion' in st.entries.keys():
-                    file_version = st.entries[b'FileVersion'].decode('utf8')
-                    full_version = st.entries[b'PrivateBuild'].decode('utf8')
+            for string in file_info.StringTable:
+                if b'FileVersion' in string.entries.keys():
+                    file_version = string.entries[b'SpecialBuild'].decode('utf8')
+                    full_version = string.entries[b'PrivateBuild'].decode('utf8')
                     return VersionInfo(file_version, full_version)
-    else:
-        raise RuntimeError(f'unable to obtain version from {path}')
 
-
-if __name__ == '__main__':
-    print(get_product_version(r'F:\DEV\EPAB\dist\epab.exe'))
+    raise RuntimeError(f'unable to obtain version from {path}')
