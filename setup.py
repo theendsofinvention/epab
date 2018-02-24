@@ -10,7 +10,6 @@ requirements = [str(r.req) for r in
 test_requirements = [str(r.req) for r in
                      parse_requirements('requirements-dev.txt', session=False)]
 
-
 CLASSIFIERS = filter(None, map(str.strip,
                                """
 Development Status :: 3 - Alpha
@@ -66,7 +65,7 @@ setup(
     platforms=['win32'],
     url=r'https://github.com/132nd-etcher/EPAB',
     download_url=r'https://github.com/132nd-etcher/EPAB/releases',
-    description="I'll do you for that.",
+    description="Etcher's Python Application Builder",
     license='GPLv3',
     long_description=read_local_files('README.rst'),
     packages=find_packages(),
