@@ -113,6 +113,8 @@ class Config(_Config):
     test__coverage__fail_under = _ConfigProp(cast=int, default=20)
     lint__line_length = _ConfigProp(default='120', cast=str)
     package = _ConfigProp(mandatory=True)
+    entry_point = _ConfigProp(cast=str, default='')
+    data_files = _ConfigProp(cast=tuple, default=tuple())
     doc__repo = _ConfigProp(cast=str)
     doc__folder = _ConfigProp(default='./doc')
     quiet = _ConfigProp(default=False, cast=bool)
