@@ -28,7 +28,7 @@ def _patch():
     git_version_info = epab.utils.get_raw_gitversion_info()
     year = datetime.datetime.now().year
     cmd = [
-        'verpatch',
+        str(epab.utils.resource_path('epab', './vendor/verpatch.exe')),
         f'./dist/{CONFIG.package}.exe',
         '/high',
         version,
