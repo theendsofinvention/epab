@@ -10,3 +10,4 @@ from ._repo import Repo
 from ._run_once import run_once
 from ._gitversion import get_git_version_info
 from ._stashed import stashed
+from ._resource_path import resource_path
