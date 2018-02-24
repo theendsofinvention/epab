@@ -111,7 +111,10 @@ def _release(ctx):
     if current_branch == 'master':
         epab.utils.run(f'twine upload dist/* --skip-existing', mute=True)
 
-    CTX.repo.push_tags()
+    if current_branch != 'master':
+        CTX.repo.push_tags()
+
+    os.environ['__VERSION'] = next_version
 
 
 @click.command()
