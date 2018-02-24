@@ -36,11 +36,12 @@ Topic :: Utilities
 def read_local_files(*file_paths: str) -> str:
     """
     Reads one or more text files and returns them joined together.
-
     A title is automatically created based on the file name.
 
-    :param file_paths: list of files to aggregate
+    Args:
+        *file_paths: list of files to aggregate
 
+    Returns: content of files
     """
 
     def _read_single_file(file_path):
