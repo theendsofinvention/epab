@@ -70,6 +70,9 @@ setup(
     license='GPLv3',
     long_description=read_local_files('README.rst'),
     packages=find_packages(),
+    package_data={
+        'resources': ['*'],
+    },
     include_package_data=True,
     entry_points=entry_points,
     install_requires=requirements,
