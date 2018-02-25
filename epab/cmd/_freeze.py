@@ -50,7 +50,7 @@ def _patch():
 def _freeze():
     if not CONFIG.entry_point:
         epab.utils.error('No entry point define, skipping freeze')
-        sys.exit(-1)
+        return
     _install_pyinstaller()
     cmd = [
         sys.executable,
@@ -68,6 +68,7 @@ def _freeze():
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
     epab.utils.AV.info('Freeze OK')
+    _patch()
 
 
 @click.command()
@@ -76,4 +77,3 @@ def freeze():
     Freeze current package
     """
     _freeze()
-    _patch()
