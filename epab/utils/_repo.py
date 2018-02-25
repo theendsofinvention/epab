@@ -436,8 +436,8 @@ class Repo:
             epab.utils.error(f'Repository is dirty; cannot checkout "{reference}"')
             print(self.status())
             sys.exit(-1)
-        epab.utils.info(f'Checking out {reference}')
         if CTX.dry_run:
+            epab.utils.info('DRY RUN: aborting checkout')
             return
         epab.utils.info(f'Checking out: {reference}')
         for head in self.repo.heads:
