@@ -19,7 +19,7 @@ def _clean():
     """
     Cleans up build dir
     """
-    epab.utils.info(f'Cleaning project directory...')
+    epab.utils.AV.info('Cleaning project directory...')
     if CTX.dry_run:
         return
     folders_to_cleanup = [
@@ -29,29 +29,31 @@ def _clean():
     ]
     for folder in folders_to_cleanup:
         if os.path.exists(folder):
-            epab.utils.info(f'\tremoving: {folder}')
+            epab.utils.AV.info(f'\tremoving: {folder}')
             shutil.rmtree(folder)
 
 
 def _copy_artifacts():
     if CONFIG.artifacts:
-        epab.utils.info('Copying artifacts')
+        artifacts = []
         folder = Path('./artifacts')
         folder.mkdir(exist_ok=True)
-        assert isinstance(CONFIG.artifacts, list)
+        if not isinstance(CONFIG.artifacts, list):
+            raise TypeError('expected a list for CONFIG.artifacts')
         for pattern in CONFIG.artifacts:
             for artifact in Path('.').glob(pattern):
                 src = str(artifact.absolute())
                 dst = str(folder.absolute())
-                epab.utils.info(f'Copying: {src} -> {dst}')
+                artifacts.append(f'Copying: {src} -> {dst}')
                 shutil.copy(src, dst)
+        if artifacts:
+            epab.utils.AV.info('Copying artifacts', '\n'.join(artifacts))
 
 
 def _check_dirty(reason: str):
-    epab.utils.info('Checking repo')
-    print(CTX.repo.status())
+    epab.utils.AV.info('Checking repo')
     if CTX.repo.is_dirty(untracked=True):
-        epab.utils.error(f'Aborting release: {reason}')
+        epab.utils.AV.error('Repository is dirty', reason)
         sys.exit(1)
 
 
@@ -64,37 +66,47 @@ def _remove_av_artifacts():
 
 
 def _print_build_info(current_branch: str, next_version: str):
-    epab.utils.info(f'Current version -> {VERSION}')
-    epab.utils.info(f'Current branch  -> {current_branch}')
-    epab.utils.info(f'Latest tag      -> {CTX.repo.get_latest_tag()}')
-    epab.utils.info(f'Next version    -> {next_version}')
+    info = [
+        f'Current version -> {VERSION}',
+        f'Current branch  -> {current_branch}',
+        f'Latest tag      -> {CTX.repo.get_latest_tag()}',
+        f'Next version    -> {next_version}',
+    ]
+    epab.utils.AV.info('Build info', '\n'.join(info))
 
 
 def _run_linters(ctx):
     ctx.invoke(epab.linters.lint)
-
     _check_dirty('linters produced artifacts')
+    epab.utils.AV.info('Linters OK')
 
 
 def _install_codacy_coverage():
-    epab.utils.info('Uploading coverage info')
     epab.utils.run('pip install --upgrade codacy-coverage')
     epab.utils.run('python-codacy-coverage -r coverage.xml')
+    epab.utils.AV.info('Coverage OK')
 
 
 def _run_tests(ctx):
     ctx.invoke(epab.cmd.pytest, long=True)
+    epab.utils.AV.info('Tests OK')
+
+
+def _create_wheel():
+    python_exe = sys.executable.replace('\\', '/')
+    epab.utils.run(f'{python_exe} setup.py bdist_wheel')
+    epab.utils.AV.info('Setup OK')
 
 
 def _upload_to_twine():
     epab.utils.run(f'twine upload dist/* --skip-existing', mute=True)
+    epab.utils.AV.info('Twine OK')
 
 
 def _update_av_build_name(next_version):
-    epab.utils.run(f'appveyor UpdateBuild -Version '
-                   f'{next_version}-'
-                   f'{os.getenv("APPVEYOR_BUILD_NUMBER")}-'
-                   f'{os.getenv("APPVEYOR_REPO_COMMIT")}')
+    build_version = f'{next_version}-{os.getenv("APPVEYOR_BUILD_NUMBER")}-{os.getenv("APPVEYOR_REPO_COMMIT")}'
+    epab.utils.run(f'appveyor UpdateBuild -Version {build_version}')
+    epab.utils.AV.info('Build version', build_version)
 
 
 def _release(ctx: click.Context):
@@ -107,14 +119,13 @@ def _release(ctx: click.Context):
 
     _print_build_info(current_branch, next_version)
 
-    epab.utils.info('Checking repo')
     _check_dirty('repository is dirty')
 
     if CTX.dry_run:
-        epab.utils.info('Skipping release; DRY RUN')
+        epab.utils.AV.info('Skipping release; DRY RUN')
         return
 
-    epab.utils.info(f'Running on commit: {CTX.repo.latest_commit()}')
+    epab.utils.AV.info(f'Running on commit: {CTX.repo.latest_commit()}')
 
     _run_linters(ctx)
 
@@ -128,9 +139,9 @@ def _release(ctx: click.Context):
 
     _clean()
 
-    python_exe = sys.executable.replace('\\', '/')
-    _check_dirty('last check before building')
-    epab.utils.run(f'{python_exe} setup.py sdist bdist_wheel')
+    _check_dirty('last check before build')
+
+    _create_wheel()
 
     if current_branch == 'master':
         _upload_to_twine()
@@ -138,9 +149,8 @@ def _release(ctx: click.Context):
     if current_branch != 'master':
         CTX.repo.push_tags()
 
-    os.putenv('EPAB_VERSION', next_version)
-
     if CTX.appveyor:
+        epab.utils.AV.set_env_var('EPAB_VERSION', next_version)
         _update_av_build_name(next_version)
 
 

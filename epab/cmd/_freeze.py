@@ -20,7 +20,7 @@ def _install_pyinstaller():
     epab.utils.run('pip install --upgrade pyinstaller')
     pyinstaller_version, _ = epab.utils.run(f'{sys.executable} -m PyInstaller --version')
     pyinstaller_version = pyinstaller_version.strip()
-    epab.utils.info(f'PyInstaller version: {pyinstaller_version}')
+    epab.utils.AV.info(f'PyInstaller version: {pyinstaller_version}')
 
 
 def _patch():
@@ -44,6 +44,7 @@ def _patch():
         '/langid', '1033',
     ]
     epab.utils.run(' '.join(cmd))
+    epab.utils.AV.info('Patch OK')
 
 
 def _freeze():
@@ -66,6 +67,7 @@ def _freeze():
     for data_file in CONFIG.data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
+    epab.utils.AV.info('Freeze OK')
 
 
 @click.command()
