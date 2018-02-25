@@ -6,17 +6,12 @@ import json
 import os
 from pathlib import Path
 
-import pkg_resources
-
 import epab.utils
 from epab.core import CTX
 
-GIT_VERSION_PATH = Path('./epab/vendor/GitVersion_4.0.0-beta0013/gitversion.exe').absolute()
-if not GIT_VERSION_PATH.exists():  # pragma: no cover
-    GIT_VERSION_PATH = Path(
-        pkg_resources.resource_filename('epab', '/vendor/GitVersion_4.0.0-beta0013/gitversion.exe')).absolute()
-    if not GIT_VERSION_PATH.exists():
-        raise FileNotFoundError(str(GIT_VERSION_PATH))
+from ._resource_path import resource_path
+
+GIT_VERSION_PATH = resource_path('epab', './vendor/GitVersion_4.0.0-beta0013/gitversion.exe')
 
 # noinspection SpellCheckingInspection
 GIT_VERSION_CONFIG = r"""
@@ -129,3 +124,11 @@ def get_git_version_info() -> str:
             if info.pre_release_label != 'ci':
                 base_version = f'{base_version}{info.pre_release_label}{info.pre_release_number}'
         return base_version
+
+
+def get_raw_gitversion_info() -> GitVersionResult:
+    """
+    Returns: raw GitVersionResult
+    """
+    raw_result, _ = epab.utils.run(str(GIT_VERSION_PATH.absolute()), mute=True)
+    return GitVersionResult(raw_result)

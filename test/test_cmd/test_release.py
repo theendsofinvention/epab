@@ -77,7 +77,6 @@ def test_release_on_master(setup):
         f'twine upload dist/* --skip-existing',
         mute=True
     )
-    verify(repo).push_tags(...)
     verifyNoUnwantedInteractions(repo)
 
 

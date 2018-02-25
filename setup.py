@@ -10,7 +10,6 @@ requirements = [str(r.req) for r in
 test_requirements = [str(r.req) for r in
                      parse_requirements('requirements-dev.txt', session=False)]
 
-
 CLASSIFIERS = filter(None, map(str.strip,
                                """
 Development Status :: 3 - Alpha
@@ -37,11 +36,12 @@ Topic :: Utilities
 def read_local_files(*file_paths: str) -> str:
     """
     Reads one or more text files and returns them joined together.
-
     A title is automatically created based on the file name.
 
-    :param file_paths: list of files to aggregate
+    Args:
+        *file_paths: list of files to aggregate
 
+    Returns: content of files
     """
 
     def _read_single_file(file_path):
@@ -66,10 +66,13 @@ setup(
     platforms=['win32'],
     url=r'https://github.com/132nd-etcher/EPAB',
     download_url=r'https://github.com/132nd-etcher/EPAB/releases',
-    description="I'll do you for that.",
+    description="Etcher's Python Application Builder",
     license='GPLv3',
     long_description=read_local_files('README.rst'),
     packages=find_packages(),
+    package_data={
+        'resources': ['*'],
+    },
     include_package_data=True,
     entry_points=entry_points,
     install_requires=requirements,

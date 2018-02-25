@@ -2,6 +2,7 @@
 """
 Manages runners
 """
+import sys
 import typing
 
 import delegator
@@ -44,7 +45,6 @@ def _parse_output(process, filters):
 
 
 def _process_run_result(process, mute, exe_short, failure_ok, result) -> typing.Tuple[str, int]:
-
     if process.return_code:
         if mute:
             epab.utils.cmd_end('')
@@ -54,7 +54,7 @@ def _process_run_result(process, mute, exe_short, failure_ok, result) -> typing.
             if not result.endswith('\n'):  # pragma: no cover
                 print()
         if not failure_ok:
-            exit(process.return_code)
+            sys.exit(process.return_code)
     else:
         if mute:
             epab.utils.cmd_end(f' -> {process.return_code}')
@@ -94,7 +94,7 @@ def run(
 
     exe = epab.utils.find_executable(cmd.split(' ')[0], *paths)
     if not exe:
-        exit(-1)
+        sys.exit(-1)
     exe_short = exe.name
 
     cmd = ' '.join([f'"{exe.absolute()}"'] + cmd.split(' ')[1:])

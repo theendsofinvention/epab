@@ -3,6 +3,7 @@
 Click command to write the requirements
 """
 import re
+import sys
 from pathlib import Path
 
 import click
@@ -72,5 +73,5 @@ def reqs(amend: bool = False, stage: bool = False):
     changed_files = CTX.repo.changed_files()
     if 'requirements.txt' in changed_files or 'requirements-dev.txt' in changed_files:
         epab.utils.error('Requirements have changed; cannot update them')
-        exit(-1)
+        sys.exit(-1)
     _write_reqs(amend, stage)

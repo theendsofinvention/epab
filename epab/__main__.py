@@ -5,6 +5,7 @@
 Collections of tools to build a python app
 """
 import os
+import sys
 
 import click
 
@@ -39,7 +40,7 @@ def _print_version(ctx: click.Context, _, value):
         return
 
     print(VERSION)
-    exit(0)
+    sys.exit(0)
 
 
 # noinspection PyUnusedLocal
@@ -51,7 +52,7 @@ def _next_version(ctx: click.Context, _, value):
         return
 
     print(epab.utils.get_git_version_info())
-    exit(0)
+    sys.exit(0)
 
 
 # @click.group(invoke_without_command=True)
@@ -83,7 +84,7 @@ def cli(dry_run, dirty, stash):
     CTX.stash = stash
     if not dirty and CTX.repo.is_dirty():
         click.secho('Repository is dirty', err=True, fg='red')
-        exit(-1)
+        sys.exit(-1)
 
 
 # @cli.command()
@@ -155,6 +156,7 @@ _COMMANDS = [
     epab.cmd.pytest,
     epab.cmd.install_hooks,
     epab.cmd.push,
+    epab.cmd.freeze,
 ]
 
 
