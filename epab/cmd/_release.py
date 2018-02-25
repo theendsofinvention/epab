@@ -138,7 +138,7 @@ def _release(ctx: click.Context):
     if current_branch != 'master':
         CTX.repo.push_tags()
 
-    os.environ['__VERSION'] = next_version
+    os.putenv('EPAB_VERSION', next_version)
 
     if CTX.appveyor:
         _update_av_build_name(next_version)
