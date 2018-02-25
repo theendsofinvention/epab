@@ -55,25 +55,57 @@ def _check_dirty(reason: str):
         sys.exit(1)
 
 
-def _release(ctx):
+def _remove_av_artifacts():
     if CTX.appveyor:
         epab.utils.info(f'Running on APPVEYOR')
         if Path('appveyor.yml').exists():
             Path('appveyor.yml').unlink()
-        CTX.repo.checkout(os.getenv("APPVEYOR_REPO_BRANCH"))
+        CTX.repo.checkout(os.getenv('APPVEYOR_REPO_BRANCH'))
 
-    current_branch = CTX.repo.get_current_branch()
-    next_version = epab.utils.get_git_version_info()
+
+def _print_build_info(current_branch: str, next_version: str):
     epab.utils.info(f'Current version -> {VERSION}')
     epab.utils.info(f'Current branch  -> {current_branch}')
     epab.utils.info(f'Latest tag      -> {CTX.repo.get_latest_tag()}')
     epab.utils.info(f'Next version    -> {next_version}')
 
-    if CTX.appveyor:
-        epab.utils.run(f'appveyor UpdateBuild -Version '
-                       f'{next_version}-'
-                       f'{os.getenv("APPVEYOR_BUILD_NUMBER")}-'
-                       f'{os.getenv("APPVEYOR_REPO_COMMIT")}')
+
+def _run_linters(ctx):
+    ctx.invoke(epab.linters.lint)
+
+    _check_dirty('linters produced artifacts')
+
+
+def _install_codacy_coverage():
+    epab.utils.info('Uploading coverage info')
+    epab.utils.run('pip install --upgrade codacy-coverage')
+    epab.utils.run('python-codacy-coverage -r coverage.xml')
+
+
+def _run_tests(ctx):
+    ctx.invoke(epab.cmd.pytest, long=True)
+
+
+def _upload_to_twine():
+    epab.utils.run(f'twine upload dist/* --skip-existing', mute=True)
+
+
+def _update_av_build_name(next_version):
+    epab.utils.run(f'appveyor UpdateBuild -Version '
+                   f'{next_version}-'
+                   f'{os.getenv("APPVEYOR_BUILD_NUMBER")}-'
+                   f'{os.getenv("APPVEYOR_REPO_COMMIT")}')
+
+
+def _release(ctx: click.Context):
+    CTX.stash = False
+
+    _remove_av_artifacts()
+
+    current_branch = CTX.repo.get_current_branch()
+    next_version = epab.utils.get_git_version_info()
+
+    _print_build_info(current_branch, next_version)
 
     epab.utils.info('Checking repo')
     _check_dirty('repository is dirty')
@@ -82,23 +114,15 @@ def _release(ctx):
         epab.utils.info('Skipping release; DRY RUN')
         return
 
-    CTX.stash = False
     epab.utils.info(f'Running on commit: {CTX.repo.latest_commit()}')
-    ctx.invoke(epab.linters.lint)
-    _check_dirty('linters produced artifacts')
 
-    ctx.invoke(epab.cmd.pytest, long=True)
+    _run_linters(ctx)
+
+    _run_tests(ctx)
+
     if CTX.appveyor:
-        epab.utils.info('Uploading coverage info')
-        epab.utils.run('pip install --upgrade codacy-coverage')
-        epab.utils.run('python-codacy-coverage -r coverage.xml')
+        _install_codacy_coverage()
         _copy_artifacts()
-
-    # ctx.invoke(epab.cmd.reqs)
-    # _check_dirty('requirements changed')
-
-    # ctx.invoke(epab.cmd.chglog, next_version=next_version)
-    # _check_dirty('changelog changed')
 
     CTX.repo.tag(next_version, overwrite=True)
 
@@ -109,18 +133,24 @@ def _release(ctx):
     epab.utils.run(f'{python_exe} setup.py sdist bdist_wheel')
 
     if current_branch == 'master':
-        epab.utils.run(f'twine upload dist/* --skip-existing', mute=True)
+        _upload_to_twine()
 
     if current_branch != 'master':
         CTX.repo.push_tags()
 
     os.environ['__VERSION'] = next_version
 
+    if CTX.appveyor:
+        _update_av_build_name(next_version)
+
 
 @click.command()
 @click.pass_context
 def release(ctx):
     """
-    This is meant to be used as a Git pre-push hook
+    Runs tests and creates:
+
+    - wheel binary distribution and pushes it to the cheese shop
+    - release tag and pushes it back to origin
     """
     _release(ctx)
