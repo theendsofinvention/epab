@@ -21,6 +21,7 @@ changelog:
 artifacts:
   - 'test/uml/*'
 
-entry_point: "epab/__main__.py"
+entry_point: 'epab/__main__.py'
 data_files:
-  - "epab/vendor;vendor"
+  - 'epab/vendor;vendor'
+  - 'resources;resources'
