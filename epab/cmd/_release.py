@@ -72,7 +72,7 @@ def _print_build_info(current_branch: str, next_version: str):
         f'Latest tag      -> {CTX.repo.get_latest_tag()}',
         f'Next version    -> {next_version}',
     ]
-    epab.utils.AV.info('Build info', '\n'.join(info))
+    epab.utils.AV.info('Build info', ','.join(info))
 
 
 def _run_linters(ctx):

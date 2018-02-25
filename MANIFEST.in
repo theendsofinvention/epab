@@ -3,7 +3,6 @@ include LICENSE
 include MANIFEST.in
 include epab.yml
 include *.rst
-include-recursive resources/*
 graft epab
 graft test
 graft doc

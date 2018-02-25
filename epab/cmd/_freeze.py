@@ -13,7 +13,7 @@ from epab.core import CONFIG
 
 GIT_VERSION_PATH = epab.utils.resource_path('epab', './vendor/GitVersion_4.0.0-beta0013/gitversion.exe')
 VERPATCH_PATH = epab.utils.resource_path('epab', './vendor/verpatch.exe')
-ICO = epab.utils.resource_path('epab', './resources/app.ico')
+ICO = epab.utils.resource_path('epab', './vendor/app.ico')
 
 
 def _install_pyinstaller():
