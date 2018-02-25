@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Convenience methods for AV
+"""
 
 import epab.utils
 from epab.core import CTX
