@@ -89,6 +89,12 @@ def _run_tests(ctx):
     epab.utils.AV.info('Tests OK')
 
 
+def _create_wheel():
+    python_exe = sys.executable.replace('\\', '/')
+    epab.utils.run(f'{python_exe} setup.py bdist_wheel')
+    epab.utils.AV.info('Setup OK')
+
+
 def _upload_to_twine():
     epab.utils.run(f'twine upload dist/* --skip-existing', mute=True)
     epab.utils.AV.info('Twine OK')
@@ -130,9 +136,9 @@ def _release(ctx: click.Context):
 
     _clean()
 
-    python_exe = sys.executable.replace('\\', '/')
-    _check_dirty('last check before building')
-    epab.utils.run(f'{python_exe} setup.py sdist bdist_wheel')
+    _check_dirty('last check before build')
+
+    _create_wheel()
 
     if current_branch == 'master':
         _upload_to_twine()
