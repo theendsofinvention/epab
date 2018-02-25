@@ -35,16 +35,19 @@ def _clean():
 
 def _copy_artifacts():
     if CONFIG.artifacts:
-        epab.utils.info('Copying artifacts')
+        artifacts = []
         folder = Path('./artifacts')
         folder.mkdir(exist_ok=True)
-        assert isinstance(CONFIG.artifacts, list)
+        if not isinstance(CONFIG.artifacts, list):
+            raise TypeError('expected a list for CONFIG.artifacts')
         for pattern in CONFIG.artifacts:
             for artifact in Path('.').glob(pattern):
                 src = str(artifact.absolute())
                 dst = str(folder.absolute())
-                epab.utils.info(f'Copying: {src} -> {dst}')
+                artifacts.append(f'Copying: {src} -> {dst}')
                 shutil.copy(src, dst)
+        if artifacts:
+            epab.utils.AV.info('Copying artifacts', '\n'.join(artifacts))
 
 
 def _check_dirty(reason: str):
