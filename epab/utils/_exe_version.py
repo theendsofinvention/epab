@@ -2,18 +2,11 @@
 """
 Get version info from executable
 """
+import traceback
 import typing
 from pathlib import Path
 
 import pefile
-
-
-def _low_word(dword):
-    return dword & 0x0000ffff
-
-
-def _high_word(dword):
-    return dword >> 16
 
 
 class VersionInfo:
@@ -46,6 +39,7 @@ class VersionInfo:
         return self.file_version
 
 
+# pylint: disable=inconsistent-return-statements
 def get_product_version(path: typing.Union[str, Path]) -> VersionInfo:
     """
     Get version info from executable
@@ -58,12 +52,14 @@ def get_product_version(path: typing.Union[str, Path]) -> VersionInfo:
     path = Path(path).absolute()
     pe_info = pefile.PE(str(path))
 
-    for file_info in pe_info.FileInfo:
-        if file_info.Key == b'StringFileInfo':
-            for string in file_info.StringTable:
-                if b'FileVersion' in string.entries.keys():
-                    file_version = string.entries[b'SpecialBuild'].decode('utf8')
-                    full_version = string.entries[b'PrivateBuild'].decode('utf8')
-                    return VersionInfo(file_version, full_version)
-
-    raise RuntimeError(f'unable to obtain version from {path}')
+    try:
+        for file_info in pe_info.FileInfo:  # pragma: no branch
+            if file_info.Key == b'StringFileInfo':  # pragma: no branch
+                for string in file_info.StringTable:  # pragma: no branch
+                    if b'FileVersion' in string.entries.keys():  # pragma: no branch
+                        file_version = string.entries[b'SpecialBuild'].decode('utf8')
+                        full_version = string.entries[b'PrivateBuild'].decode('utf8')
+                        return VersionInfo(file_version, full_version)
+    except (KeyError, AttributeError) as exc:
+        traceback.print_exc()
+        raise RuntimeError(f'unable to obtain version from {path}') from exc

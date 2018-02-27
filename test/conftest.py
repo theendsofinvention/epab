@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 import pytest
+from click.testing import CliRunner
 from mockito import unstub
 
 from epab.core import CONFIG, CTX
@@ -74,3 +75,8 @@ def dummy_git_repo():
     dummy_git_repo.create = create
 
     yield dummy_git_repo
+
+
+@pytest.fixture()
+def cli_runner():
+    yield CliRunner()

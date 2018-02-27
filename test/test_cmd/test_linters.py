@@ -4,7 +4,7 @@ import itertools
 from pathlib import Path
 
 import pytest
-from mockito import contains, mock, verify, verifyNoMoreInteractions, verifyStubbedInvocationsAreUsed, when
+from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocationsAreUsed, when
 
 import epab.utils
 from epab.core import CONFIG, CTX

@@ -27,9 +27,7 @@ class _ConfigProp:
 
         components = self.name.split('__')
         key = components.pop()
-        # pylint: disable=protected-access
-        # noinspection PyProtectedMember
-        target = instance._data
+        target = getattr(instance, '_data')
         while components:
             com = components.pop(0)
             target = target.get(com)

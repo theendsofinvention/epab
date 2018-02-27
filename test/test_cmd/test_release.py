@@ -182,3 +182,16 @@ def test_appveyor_artifacts(setup):
     verify(shutil).copy(str(test_file_1), str(Path('./artifacts').absolute()))
     verify(shutil).copy(str(test_file_2), str(Path('./artifacts').absolute()))
     verify(shutil).copy(str(test_file_3), str(Path('./artifacts').absolute()))
+
+
+def test_appveyor_no_artifacts(setup):
+    ctx, _ = setup
+    CTX.appveyor = True
+    when(shutil).copy(...)
+    when(epab.utils.AV).info(...)
+    CONFIG.artifacts = []
+    os.environ['APPVEYOR_REPO_BRANCH'] = 'branch'
+    os.environ['APPVEYOR_BUILD_NUMBER'] = '0001'
+    os.environ['APPVEYOR_REPO_COMMIT'] = 'ABCDEF'
+    epab.cmd._release._release(ctx)
+    verify(shutil, times=0).copy(...)
