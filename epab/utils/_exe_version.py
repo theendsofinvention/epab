@@ -2,8 +2,8 @@
 """
 Get version info from executable
 """
-import typing
 import traceback
+import typing
 from pathlib import Path
 
 import pefile
@@ -39,6 +39,7 @@ class VersionInfo:
         return self.file_version
 
 
+# pylint: disable=inconsistent-return-statements
 def get_product_version(path: typing.Union[str, Path]) -> VersionInfo:
     """
     Get version info from executable

@@ -5,8 +5,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-from click.testing import CliRunner
 import pytest
+from click.testing import CliRunner
 from mockito import unstub
 
 from epab.core import CONFIG, CTX

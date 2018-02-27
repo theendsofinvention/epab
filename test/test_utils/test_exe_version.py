@@ -1,8 +1,10 @@
 # coding=utf-8
 
-import epab.utils
 from pathlib import Path
+
 import pytest
+
+import epab.utils
 
 HERE = Path('.').absolute()
 

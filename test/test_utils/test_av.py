@@ -1,6 +1,5 @@
 # coding=utf-8
 import pytest
-
 from mockito import verifyStubbedInvocationsAreUsed, when
 
 import epab.utils

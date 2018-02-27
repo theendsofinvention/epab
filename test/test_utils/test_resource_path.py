@@ -20,7 +20,8 @@ def test_from_sys():
 
 
 def test_from_package():
-    when(epab.utils._resource_path)._get_from_package('epab', Path('__main__.py')).thenReturn(Path(HERE, 'epab/__main__.py'))
+    when(epab.utils._resource_path)._get_from_package('epab', Path(
+        '__main__.py')).thenReturn(Path(HERE, 'epab/__main__.py'))
     assert epab.utils.resource_path('epab', '__main__.py').exists()
     verifyStubbedInvocationsAreUsed()
 
