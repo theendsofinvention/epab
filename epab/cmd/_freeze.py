@@ -49,7 +49,7 @@ def _patch():
 
 def _freeze():
     if not CONFIG.entry_point:
-        epab.utils.error('No entry point define, skipping freeze')
+        epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
     cmd = [
