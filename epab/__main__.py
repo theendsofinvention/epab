@@ -14,36 +14,13 @@ import epab.linters
 import epab.utils
 from epab.core import CONFIG, CTX, VERSION
 
-
-# noinspection PyUnusedLocal
-def _print_version(ctx: click.Context, _, value):
-
-    if not value or ctx.resilient_parsing:
-        return
-
-    print(VERSION)
-    sys.exit(0)
-
-
-# noinspection PyUnusedLocal
-def _next_version(ctx: click.Context, _, value):
-
-    CONFIG.quiet = True
-
-    if not value or ctx.resilient_parsing:
-        return
-
-    print(epab.utils.get_git_version_info())
-    sys.exit(0)
-
-
 # @click.group(invoke_without_command=True)
 @click.group(chain=True)
 @click.option('-v', '--version',
-              is_flag=True, is_eager=True, expose_value=False, callback=_print_version, default=False,
+              is_flag=True, is_eager=True, expose_value=False, callback=epab.cmd.print_version, default=False,
               help='Print version and exit')
 @click.option('-nv', '--next-version',
-              is_flag=True, is_eager=True, expose_value=False, callback=_next_version, default=False,
+              is_flag=True, is_eager=True, expose_value=False, callback=epab.cmd.next_version, default=False,
               help='Print next version and exit')
 @click.option('-n', '--dry-run', is_flag=True, default=False, help='Dry run')
 @click.option('-d', '--dirty', is_flag=True, default=False, help='Allow dirty repository')
@@ -88,7 +65,6 @@ _COMMANDS = [
     epab.cmd.freeze,
     epab.cmd.flat_freeze,
 ]
-
 
 for command in _COMMANDS + _LINTERS:
     cli.add_command(command)
