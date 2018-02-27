@@ -122,11 +122,11 @@ def test_config_show():
     verifyStubbedInvocationsAreUsed()
 
 
-def test_config_appveyor():
+def test_config_appveyor(monkeypatch):
     CONFIG.test__av_runner_options = '--long'
     when(epab.utils).run(...)
     _pytest('test', **DEFAULT_OPTS)
-    os.environ['APPVEYOR'] = 'test'
+    monkeypatch.setenv('APPVEYOR', 'test')
     CTX.run_once = {}
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()

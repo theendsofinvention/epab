@@ -42,13 +42,12 @@ def pytest_runtest_setup(item):
 
 
 @pytest.fixture(autouse=True)
-def _global_tear_down(tmpdir):
+def _global_tear_down(tmpdir, monkeypatch):
     """
     Maintains a sane environment between tests
     """
-    environ = dict(os.environ)
     try:
-        del os.environ['APPVEYOR']
+        monkeypatch.delenv('APPVEYOR')
     except KeyError:
         pass
     CTX._reset()
@@ -59,7 +58,6 @@ def _global_tear_down(tmpdir):
     yield
     unstub()
     os.chdir(current_dir)
-    os.environ = environ
 
 
 @pytest.fixture()
