@@ -89,7 +89,7 @@ class _CoverageConfigFile:
         if os.getenv('SCRUT_TOK', False):
             if Path('.coverage').exists():
                 epab.utils.AV.info('uploading coverage to Scrutinizer')
-                epab.utils.run('pip install scrutinizer-ocular')
+                epab.utils.run('pip install git+https://github.com/etcher-vault/ocular.py.git#egg=ocular')
                 token = os.getenv('SCRUT_TOK')
                 epab.utils.run(
                     f'ocular --access-token "{token}" --data-file ".coverage" --config-file ".coveragerc"'
