@@ -16,7 +16,7 @@ PYTEST_OPTIONS = ' '.join([
     '--cov-report xml',
     '--cov-report html',
     '--cov-branch',
-    f'--cov-fail-under={CONFIG.test__coverage__fail_under}',
+    # f'--cov-fail-under={CONFIG.test__coverage__fail_under}',
     '--durations={test_duration}',
     # '--hypothesis-show-statistics',
     '--tb=short',
