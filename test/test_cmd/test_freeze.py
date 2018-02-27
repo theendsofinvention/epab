@@ -1,5 +1,4 @@
 # coding=utf-8
-import datetime
 
 from mockito import contains, mock, verify, verifyStubbedInvocationsAreUsed, when
 
