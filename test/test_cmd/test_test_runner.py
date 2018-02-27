@@ -98,7 +98,7 @@ def test_output(capsys):
     _pytest('test', **DEFAULT_OPTS)
     out, err = capsys.readouterr()
     assert out == 'EPAB: RUN_ONCE: running _pytest\nEPAB: Running test suite\n'
-    assert err == 'EPAB: no "SCRUT_TOK" in environment, skipping upload of coverage'
+    assert err == 'EPAB: no "SCRUT_TOK" in environment, skipping upload of coverage\n'
 
 
 def test_config_show():
