@@ -357,3 +357,8 @@ def test_av_config():
     os.environ['APPVEYOR'] = 'True'
     assert _git_version() == '0.1.0'
     assert os.getenv('APPVEYOR') == 'True'
+
+
+def test_raw_git_version():
+    raw_git_version = epab.utils.get_raw_gitversion_info()
+    assert isinstance(raw_git_version, epab.utils.GitVersionResult)
