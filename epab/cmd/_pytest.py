@@ -89,7 +89,8 @@ class _CoverageConfigFile:
         if os.getenv('SCRUT_TOK', False):
             epab.utils.AV.info('uploading coverage to Scrutinizer')
             epab.utils.run('pip install scrutinizer-ocular')
-            epab.utils.run('ocular --access-token "your-token" --data-file ".coverage" --config-file ".coveragerc"')
+            token = os.getenv('SCRUT_TOK')
+            epab.utils.run(f'ocular --access-token "{token}" --data-file ".coverage.xml" --config-file ".coveragerc"')
         else:
             epab.utils.AV.error('no "SCRUT_TOK" in environment, skipping upload of coverage')
 
