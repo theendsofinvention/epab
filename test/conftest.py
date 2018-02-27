@@ -5,6 +5,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+from click.testing import CliRunner
 import pytest
 from mockito import unstub
 
@@ -74,3 +75,8 @@ def dummy_git_repo():
     dummy_git_repo.create = create
 
     yield dummy_git_repo
+
+
+@pytest.fixture()
+def cli_runner():
+    yield CliRunner()
