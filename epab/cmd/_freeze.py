@@ -14,6 +14,18 @@ from epab.core import CONFIG
 GIT_VERSION_PATH = epab.utils.resource_path('epab', './vendor/GitVersion_4.0.0-beta0013/gitversion.exe')
 VERPATCH_PATH = epab.utils.resource_path('epab', './vendor/verpatch.exe')
 ICO = epab.utils.resource_path('epab', './vendor/app.ico')
+BASE_CMD = [
+    sys.executable,
+    '-m', 'PyInstaller',
+    '--log-level=WARN',
+    '--noconfirm',
+    '--clean',
+    '--icon', f'"{ICO}"',
+    '--workpath', './build',
+    '--distpath', './dist',
+    '--add-data', f'"{certifi.where()};."',
+    '--name', CONFIG.package,
+]
 
 
 def _install_pyinstaller():
@@ -52,18 +64,7 @@ def _freeze():
         epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = [
-        sys.executable,
-        '-m', 'PyInstaller',
-        '--log-level=WARN',
-        '--noconfirm', '--onefile', '--clean',
-        '--icon', f'"{ICO}"',
-        '--workpath', './build',
-        '--distpath', './dist',
-        '--add-data', f'"{certifi.where()};."',
-        '--name', CONFIG.package,
-        CONFIG.entry_point,
-    ]
+    cmd = BASE_CMD + ['--onefile', CONFIG.entry_point]
     for data_file in CONFIG.data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
@@ -76,18 +77,7 @@ def _flat_freeze():
         epab.utils.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = [
-        sys.executable,
-        '-m', 'PyInstaller',
-        '--log-level=WARN',
-        '--noconfirm', '--clean',
-        '--icon', f'"{ICO}"',
-        '--workpath', './build',
-        '--distpath', './dist',
-        '--add-data', f'"{certifi.where()};."',
-        '--name', CONFIG.package,
-        CONFIG.entry_point,
-    ]
+    cmd = BASE_CMD + [CONFIG.entry_point]
     for data_file in CONFIG.data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
