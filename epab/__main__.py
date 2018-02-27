@@ -157,6 +157,7 @@ _COMMANDS = [
     epab.cmd.install_hooks,
     epab.cmd.push,
     epab.cmd.freeze,
+    epab.cmd.flat_freeze,
 ]
 
 

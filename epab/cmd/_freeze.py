@@ -17,8 +17,8 @@ ICO = epab.utils.resource_path('epab', './vendor/app.ico')
 
 
 def _install_pyinstaller():
-    epab.utils.run('pip install --upgrade pyinstaller')
-    pyinstaller_version, _ = epab.utils.run(f'{sys.executable} -m PyInstaller --version')
+    epab.utils.run('pip install pyinstaller==3.3.1')
+    pyinstaller_version, _ = epab.utils.run(f'{sys.executable} -m PyInstaller --version', mute=True)
     pyinstaller_version = pyinstaller_version.strip()
     epab.utils.AV.info(f'PyInstaller version: {pyinstaller_version}')
 
@@ -71,9 +71,39 @@ def _freeze():
     _patch()
 
 
+def _flat_freeze():
+    if not CONFIG.entry_point:
+        epab.utils.error('No entry point define, skipping freeze')
+        return
+    _install_pyinstaller()
+    cmd = [
+        sys.executable,
+        '-m', 'PyInstaller',
+        '--log-level=WARN',
+        '--noconfirm', '--clean',
+        '--icon', f'"{ICO}"',
+        '--workpath', './build',
+        '--distpath', './dist',
+        '--add-data', f'"{certifi.where()};."',
+        '--name', CONFIG.package,
+        CONFIG.entry_point,
+    ]
+    for data_file in CONFIG.data_files:
+        cmd.append(f'--add-data "{data_file}"')
+    epab.utils.run(' '.join(cmd))
+
+
 @click.command()
 def freeze():
     """
-    Freeze current package
+    Freeze current package into a single file
     """
     _freeze()
+
+
+@click.command()
+def flat_freeze():
+    """
+    Freeze current package into a directory
+    """
+    _flat_freeze()
