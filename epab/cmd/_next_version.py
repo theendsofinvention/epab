@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Prints next version (according to Gitversion run) then exits
+"""
 
 
 import sys
@@ -10,6 +13,9 @@ from epab.core import CONFIG
 
 
 def next_version(ctx: click.Context, _, value):
+    """
+    Prints next version (according to Gitversion run) then exits
+    """
     CONFIG.quiet = True
 
     if not value or ctx.resilient_parsing:

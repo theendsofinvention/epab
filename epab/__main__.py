@@ -14,7 +14,7 @@ import epab.linters
 import epab.utils
 from epab.core import CONFIG, CTX, VERSION
 
-# @click.group(invoke_without_command=True)
+
 @click.group(chain=True)
 @click.option('-v', '--version',
               is_flag=True, is_eager=True, expose_value=False, callback=epab.cmd.print_version, default=False,
