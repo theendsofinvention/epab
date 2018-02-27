@@ -1,10 +1,10 @@
 # coding=utf-8
 import datetime
 
-from epab.cmd import _freeze as freeze
-from mockito import when, mock, verifyStubbedInvocationsAreUsed, verify, contains
+from mockito import contains, mock, verify, verifyStubbedInvocationsAreUsed, when
 
 import epab.utils
+from epab.cmd import _freeze as freeze
 from epab.core import CONFIG
 
 
@@ -98,5 +98,3 @@ def test_install_pyinstaller():
     when(epab.utils.AV).info('PyInstaller version: version')
     freeze._install_pyinstaller()
     verifyStubbedInvocationsAreUsed()
-
-

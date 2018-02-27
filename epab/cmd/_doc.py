@@ -5,7 +5,6 @@ Builds documentation
 
 import click
 
-
 # @cli.command()
 # @click.option('-s', '--show', is_flag=True, help='Show the doc in browser')
 # @click.option('-c', '--clean', is_flag=True, help='Clean build')
