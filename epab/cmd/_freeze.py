@@ -24,7 +24,7 @@ BASE_CMD = [
     '--workpath', './build',
     '--distpath', './dist',
     '--add-data', f'"{certifi.where()};."',
-    '--name', CONFIG.package,
+    '--name'
 ]
 
 
@@ -64,7 +64,7 @@ def _freeze():
         epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = BASE_CMD + ['--onefile', CONFIG.entry_point]
+    cmd = BASE_CMD + [CONFIG.package, '--onefile', CONFIG.entry_point]
     for data_file in CONFIG.data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
@@ -74,10 +74,10 @@ def _freeze():
 
 def _flat_freeze():
     if not CONFIG.entry_point:
-        epab.utils.error('No entry point define, skipping freeze')
+        epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = BASE_CMD + [CONFIG.entry_point]
+    cmd = BASE_CMD + [CONFIG.package, CONFIG.entry_point]
     for data_file in CONFIG.data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
