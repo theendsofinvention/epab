@@ -3,11 +3,11 @@
 import os
 import pathlib
 import webbrowser
+from pathlib import Path
 
 import pytest
-from mockito import when, verifyStubbedInvocationsAreUsed
+from mockito import verifyStubbedInvocationsAreUsed, when
 
-from pathlib import Path
 import epab.cmd._pytest
 import epab.utils
 from epab.cmd._pytest import _CoverageConfigFile, _pytest, pytest_options

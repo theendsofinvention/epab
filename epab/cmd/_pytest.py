@@ -86,8 +86,6 @@ class _CoverageConfigFile:
         Returns:
 
         """
-        test = os.environ
-        test2 = os.getenv('SCRUT_TOK')
         if os.getenv('SCRUT_TOK', False) and Path('.coverage.xml').exists():
             epab.utils.AV.info('uploading coverage to Scrutinizer')
             epab.utils.run('pip install scrutinizer-ocular')
