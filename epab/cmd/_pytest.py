@@ -80,6 +80,20 @@ class _CoverageConfigFile:
         Path('.coveragerc').write_text(COVERAGE_CONFIG.format(package_name=CONFIG.package))
 
     @staticmethod
+    def upload_coverage_to_scrutinizer():
+        """
+        Uploads the coverage to Scrutinizer
+        Returns:
+
+        """
+        if os.getenv('SCRUT_TOK', False):
+            epab.utils.AV.info('uploading coverage to Scrutinizer')
+            epab.utils.run('pip install scrutinizer-ocular')
+            epab.utils.run('ocular --access-token "your-token" --data-file ".coverage" --config-file ".coveragerc"')
+        else:
+            epab.utils.AV.error('no "SCRUT_TOK" in environment, skipping upload of coverage')
+
+    @staticmethod
     def remove():
         """
         Removes coverage config file
@@ -119,6 +133,7 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     try:
         epab.utils.run(cmd)
     finally:
+        _CoverageConfigFile.upload_coverage_to_scrutinizer()
         _CoverageConfigFile.remove()
     if show:
         # noinspection SpellCheckingInspection
