@@ -154,8 +154,6 @@ def test_appveyor(setup, monkeypatch):
     monkeypatch.setenv('APPVEYOR_REPO_COMMIT', 'ABCDEF')
     epab.cmd._release._release(ctx)
     verify(epab.utils).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
-    verify(epab.utils).run('pip install --upgrade codacy-coverage')
-    verify(epab.utils).run('python-codacy-coverage -r coverage.xml')
     assert not Path('appveyor.yml').exists()
 
 
@@ -176,8 +174,6 @@ def test_appveyor_artifacts(setup, monkeypatch):
     monkeypatch.setenv('APPVEYOR_REPO_COMMIT', 'ABCDEF')
     epab.cmd._release._release(ctx)
     verify(epab.utils).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
-    verify(epab.utils).run('pip install --upgrade codacy-coverage')
-    verify(epab.utils).run('python-codacy-coverage -r coverage.xml')
     verify(shutil).copy(str(test_file_1), str(Path('./artifacts').absolute()))
     verify(shutil).copy(str(test_file_2), str(Path('./artifacts').absolute()))
     verify(shutil).copy(str(test_file_3), str(Path('./artifacts').absolute()))

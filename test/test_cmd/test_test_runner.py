@@ -10,7 +10,7 @@ from mockito import verifyStubbedInvocationsAreUsed, when
 
 import epab.cmd._pytest
 import epab.utils
-from epab.cmd._pytest import _CoverageConfigFile, _pytest, pytest_options
+from epab.cmd._pytest import _Coverage, _pytest, pytest_options
 from epab.core import CONFIG, CTX
 
 DEFAULT_OPTS = dict(
@@ -31,7 +31,7 @@ def test_environ():
 
 def test_coverage_config_creation():
     when(epab.utils).run(f'pytest test {pytest_options()}')
-    when(_CoverageConfigFile).remove()
+    when(_Coverage).remove_config_file()
     _pytest('test', **DEFAULT_OPTS)
     assert pathlib.Path('.coveragerc').exists()
     verifyStubbedInvocationsAreUsed()
@@ -51,12 +51,29 @@ def test_cmd():
     verifyStubbedInvocationsAreUsed()
 
 
-def test_cmd_with_ocular(monkeypatch):
+def test_cmd_with_coverage(monkeypatch):
+    CTX.appveyor = True
     monkeypatch.setenv('SCRUT_TOK', 'test')
     Path('coverage.xml').touch()
-    when(epab.utils).run(f'pytest test {pytest_options()}')
+    when(epab.utils).run('appveyor AddMessage "Uploading coverage to Scrutinizer" -Category Information')
+    when(epab.utils).run('appveyor AddMessage "Uploading coverage to Codacy" -Category Information')
+    when(epab.utils).run('appveyor AddMessage "Scrutinizer coverage OK" -Category Information')
+    when(epab.utils).run('appveyor AddMessage "Codacy coverage OK" -Category Information')
+    when(epab.utils).run(f'pytest test --long {pytest_options()}')
+    when(epab.utils).run('pip install --upgrade codacy-coverage')
+    when(epab.utils).run('python-codacy-coverage -r coverage.xml')
     when(epab.utils).run('ocular --access-token "test" --data-file "coverage.xml" --config-file ".coveragerc"')
     when(epab.utils).run('pip install git+https://github.com/etcher-vault/ocular.py.git#egg=ocular')
+    _pytest('test', **DEFAULT_OPTS)
+    verifyStubbedInvocationsAreUsed()
+
+
+def test_cmd_with_coverage_no_xml(monkeypatch):
+    CTX.appveyor = True
+    monkeypatch.setenv('SCRUT_TOK', 'test')
+    when(epab.utils).run('appveyor AddMessage ""coverage.xml" not found, skipping ocular coverage" -Category Error')
+    when(epab.utils).run('appveyor AddMessage ""coverage.xml" not found, skipping codacy coverage" -Category Error')
+    when(epab.utils).run(f'pytest test --long {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
@@ -110,8 +127,18 @@ def test_output(capsys):
     when(epab.utils).run(f'pytest test {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     out, err = capsys.readouterr()
+    assert out == 'EPAB: RUN_ONCE: running _pytest\nEPAB: Running test suite\nEPAB: skipping coverage upload\n'
+    assert err == ''
+    verifyStubbedInvocationsAreUsed()
+
+
+def test_output_on_appveyor(capsys):
+    CTX.appveyor = True
+    when(epab.utils, strict=False).run(f'pytest test --long {pytest_options()}')
+    _pytest('test', **DEFAULT_OPTS)
+    out, err = capsys.readouterr()
     assert out == 'EPAB: RUN_ONCE: running _pytest\nEPAB: Running test suite\n'
-    assert err == 'EPAB: no "SCRUT_TOK" in environment, skipping upload of coverage\n'
+    assert err == ''
     verifyStubbedInvocationsAreUsed()
 
 

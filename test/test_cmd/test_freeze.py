@@ -5,6 +5,7 @@ from mockito import contains, mock, verify, verifyStubbedInvocationsAreUsed, whe
 import epab.utils
 from epab.cmd import _freeze as freeze
 from epab.core import CONFIG
+import epab.exc
 
 
 def test_freeze_cli(cli_runner):
@@ -91,9 +92,19 @@ def test_patch():
     verifyStubbedInvocationsAreUsed()
 
 
-def test_install_pyinstaller():
+def test_install_pyinstaller_installed(capsys):
+    when(epab.utils).info('checking PyInstaller installation')
+    when(epab.utils).run('pyinstaller --version').thenReturn(('version   ', 0))
+    freeze._install_pyinstaller()
+    verifyStubbedInvocationsAreUsed()
+
+
+def test_install_pyinstaller_not_installed():
+    when(epab.utils).info('checking PyInstaller installation')
     when(epab.utils).run('pip install pyinstaller==3.3.1')
-    when(epab.utils).run(contains(' -m PyInstaller --version'), mute=True).thenReturn(('version   ', 0))
-    when(epab.utils.AV).info('PyInstaller version: version')
+    when(epab.utils.AV).info('Installing PyInstaller')
+    when(epab.utils).run('pyinstaller --version')\
+        .thenRaise(epab.exc.ExecutableNotFoundError)\
+        .thenReturn(('version   ', 0))
     freeze._install_pyinstaller()
     verifyStubbedInvocationsAreUsed()
