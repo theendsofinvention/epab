@@ -92,7 +92,7 @@ def test_patch():
     verifyStubbedInvocationsAreUsed()
 
 
-def test_install_pyinstaller_installed(capsys):
+def test_install_pyinstaller_installed():
     when(epab.utils).info('checking PyInstaller installation')
     when(epab.utils).run('pyinstaller --version').thenReturn(('version   ', 0))
     freeze._install_pyinstaller()
