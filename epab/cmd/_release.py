@@ -76,12 +76,6 @@ def _run_linters(ctx):
     epab.utils.AV.info('Linters OK')
 
 
-def _install_codacy_coverage():
-    epab.utils.run('pip install --upgrade codacy-coverage')
-    epab.utils.run('python-codacy-coverage -r coverage.xml')
-    epab.utils.AV.info('Coverage OK')
-
-
 def _run_tests(ctx):
     ctx.invoke(epab.cmd.pytest, long=True)
     epab.utils.AV.info('Tests OK')
@@ -127,7 +121,6 @@ def _release(ctx: click.Context):
     _run_tests(ctx)
 
     if CTX.appveyor:
-        _install_codacy_coverage()
         _copy_artifacts()
 
     CTX.repo.tag(next_version, overwrite=True)
