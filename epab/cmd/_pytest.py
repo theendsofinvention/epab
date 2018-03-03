@@ -124,7 +124,7 @@ def upload_coverage():
     Sends coverage result to Codacy and Scrutinizer if running on AV
     """
     if CTX.appveyor:
-        _Coverage.upload_coverage_to_scrutinizer()
+        # _Coverage.upload_coverage_to_scrutinizer()
         _Coverage.upload_coverage_to_codacy()
     else:
         epab.utils.info('skipping coverage upload')
