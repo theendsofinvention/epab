@@ -119,7 +119,7 @@ class _Coverage:
         Path('.coveragerc').unlink()
 
 
-def upload_coverage_if_running_on_appveyor():
+def upload_coverage():
     """
     Sends coverage result to Codacy and Scrutinizer if running on AV
     """
@@ -162,7 +162,7 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     try:
         epab.utils.run(cmd)
     finally:
-        upload_coverage_if_running_on_appveyor()
+        upload_coverage()
         _Coverage.remove_config_file()
     if show:
         # noinspection SpellCheckingInspection

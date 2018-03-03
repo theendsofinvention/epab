@@ -1,11 +1,11 @@
 # coding=utf-8
 
-from mockito import contains, mock, verify, verifyStubbedInvocationsAreUsed, when
+from mockito import mock, verify, verifyStubbedInvocationsAreUsed, when
 
+import epab.exc
 import epab.utils
 from epab.cmd import _freeze as freeze
 from epab.core import CONFIG
-import epab.exc
 
 
 def test_freeze_cli(cli_runner):
@@ -103,8 +103,8 @@ def test_install_pyinstaller_not_installed():
     when(epab.utils).info('checking PyInstaller installation')
     when(epab.utils).run('pip install pyinstaller==3.3.1')
     when(epab.utils.AV).info('Installing PyInstaller')
-    when(epab.utils).run('pyinstaller --version')\
-        .thenRaise(epab.exc.ExecutableNotFoundError)\
+    when(epab.utils).run('pyinstaller --version') \
+        .thenRaise(epab.exc.ExecutableNotFoundError) \
         .thenReturn(('version   ', 0))
     freeze._install_pyinstaller()
     verifyStubbedInvocationsAreUsed()

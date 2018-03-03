@@ -9,8 +9,8 @@ from hypothesis import given
 from hypothesis import strategies as st
 from mockito import mock, unstub, verify, when
 
-import epab.utils
 import epab.exc
+import epab.utils
 import epab.utils._run
 from epab.utils._run import filter_line
 
