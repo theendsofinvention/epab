@@ -3,24 +3,42 @@
 Freeze package into exe
 """
 import datetime
+import functools
 import sys
 
 import certifi
 import click
 
+import epab.exc
 import epab.utils
 from epab.core import CONFIG
 
 GIT_VERSION_PATH = epab.utils.resource_path('epab', './vendor/GitVersion_4.0.0-beta0013/gitversion.exe')
 VERPATCH_PATH = epab.utils.resource_path('epab', './vendor/verpatch.exe')
 ICO = epab.utils.resource_path('epab', './vendor/app.ico')
+BASE_CMD = [
+    sys.executable,
+    '-m', 'PyInstaller',
+    '--log-level=WARN',
+    '--noconfirm',
+    '--clean',
+    '--icon', f'"{ICO}"',
+    '--workpath', './build',
+    '--distpath', './dist',
+    '--add-data', f'"{certifi.where()};."',
+    '--name'
+]
 
 
 def _install_pyinstaller():
-    epab.utils.run('pip install --upgrade pyinstaller')
-    pyinstaller_version, _ = epab.utils.run(f'{sys.executable} -m PyInstaller --version')
-    pyinstaller_version = pyinstaller_version.strip()
-    epab.utils.AV.info(f'PyInstaller version: {pyinstaller_version}')
+    epab.utils.info('checking PyInstaller installation')
+    _get_version = functools.partial(epab.utils.run, 'pyinstaller --version')
+    try:
+        _get_version()
+    except epab.exc.ExecutableNotFoundError:
+        epab.utils.AV.info('Installing PyInstaller')
+        epab.utils.run('pip install pyinstaller==3.3.1')
+        _get_version()
 
 
 def _patch():
@@ -49,21 +67,10 @@ def _patch():
 
 def _freeze():
     if not CONFIG.entry_point:
-        epab.utils.error('No entry point define, skipping freeze')
+        epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = [
-        sys.executable,
-        '-m', 'PyInstaller',
-        '--log-level=WARN',
-        '--noconfirm', '--onefile', '--clean',
-        '--icon', f'"{ICO}"',
-        '--workpath', './build',
-        '--distpath', './dist',
-        '--add-data', f'"{certifi.where()};."',
-        '--name', CONFIG.package,
-        CONFIG.entry_point,
-    ]
+    cmd = BASE_CMD + [CONFIG.package, '--onefile', CONFIG.entry_point]
     for data_file in CONFIG.data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
@@ -71,9 +78,28 @@ def _freeze():
     _patch()
 
 
+def _flat_freeze():
+    if not CONFIG.entry_point:
+        epab.utils.AV.error('No entry point define, skipping freeze')
+        return
+    _install_pyinstaller()
+    cmd = BASE_CMD + [CONFIG.package, CONFIG.entry_point]
+    for data_file in CONFIG.data_files:
+        cmd.append(f'--add-data "{data_file}"')
+    epab.utils.run(' '.join(cmd))
+
+
 @click.command()
 def freeze():
     """
-    Freeze current package
+    Freeze current package into a single file
     """
     _freeze()
+
+
+@click.command()
+def flat_freeze():
+    """
+    Freeze current package into a directory
+    """
+    _flat_freeze()

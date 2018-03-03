@@ -9,7 +9,7 @@ from pathlib import Path
 import click
 
 import epab.utils
-from epab.core import CONFIG
+from epab.core import CONFIG, CTX
 
 PYTEST_OPTIONS = ' '.join([
     '--cov={package}',
@@ -71,7 +71,7 @@ source=
 """
 
 
-class _CoverageConfigFile:
+class _Coverage:
     @staticmethod
     def install():
         """
@@ -80,11 +80,54 @@ class _CoverageConfigFile:
         Path('.coveragerc').write_text(COVERAGE_CONFIG.format(package_name=CONFIG.package))
 
     @staticmethod
-    def remove():
+    def upload_coverage_to_codacy():
+        """
+        Uploads the coverage to Codacy
+        """
+        if Path('coverage.xml').exists():
+            epab.utils.AV.info('Uploading coverage to Codacy')
+            epab.utils.run('pip install --upgrade codacy-coverage')
+            epab.utils.run('python-codacy-coverage -r coverage.xml')
+            epab.utils.AV.info('Codacy coverage OK')
+        else:
+            epab.utils.AV.error('"coverage.xml" not found, skipping codacy coverage')
+
+    @staticmethod
+    def upload_coverage_to_scrutinizer():
+        """
+        Uploads the coverage to Scrutinizer
+        """
+        if os.getenv('SCRUT_TOK', False):
+            if Path('coverage.xml').exists():
+                epab.utils.AV.info('Uploading coverage to Scrutinizer')
+                epab.utils.run('pip install git+https://github.com/etcher-vault/ocular.py.git#egg=ocular')
+                token = os.getenv('SCRUT_TOK')
+                epab.utils.run(
+                    f'ocular --access-token "{token}" --data-file "coverage.xml" --config-file ".coveragerc"'
+                )
+                epab.utils.AV.info('Scrutinizer coverage OK')
+            else:
+                epab.utils.AV.error('"coverage.xml" not found, skipping ocular coverage')
+        else:
+            epab.utils.AV.error('no "SCRUT_TOK" in environment, skipping ocular coverage')
+
+    @staticmethod
+    def remove_config_file():
         """
         Removes coverage config file
         """
         Path('.coveragerc').unlink()
+
+
+def upload_coverage():
+    """
+    Sends coverage result to Codacy and Scrutinizer if running on AV
+    """
+    if CTX.appveyor:
+        # _Coverage.upload_coverage_to_scrutinizer()
+        _Coverage.upload_coverage_to_codacy()
+    else:
+        epab.utils.info('skipping coverage upload')
 
 
 def pytest_options():
@@ -101,25 +144,26 @@ def pytest_options():
 def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     epab.utils.info('Running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'
-    _CoverageConfigFile.install()
+    _Coverage.install()
     cmd = f'pytest {test}'
-    if os.environ.get('APPVEYOR') and CONFIG.test__av_runner_options:
+
+    if CTX.appveyor and CONFIG.test__av_runner_options:
         cmd = f'{cmd} {CONFIG.test__av_runner_options}'
     elif CONFIG.test__runner_options:
         cmd = f'{cmd} {CONFIG.test__runner_options}'
-    cmd = f'{cmd} {pytest_options()}'
-    if long:
-        cmd = f'{cmd} --long'
-    if exitfirst:
-        cmd = f'{cmd} --exitfirst'
-    if last_failed:
-        cmd = f'{cmd} --last-failed'
-    if failed_first:
-        cmd = f'{cmd} --failed-first'
+
+    long = ' --long' if long else ''
+    exitfirst = ' --exitfirst' if exitfirst else ''
+    last_failed = ' --last-failed' if last_failed else ''
+    failed_first = ' --failed-first' if failed_first else ''
+
+    cmd = f'{cmd} {pytest_options()}{long}{exitfirst}{last_failed}{failed_first}'
+
     try:
         epab.utils.run(cmd)
     finally:
-        _CoverageConfigFile.remove()
+        upload_coverage()
+        _Coverage.remove_config_file()
     if show:
         # noinspection SpellCheckingInspection
         path = Path('./htmlcov/index.html').absolute()

@@ -1,5 +1,4 @@
 # coding=utf-8
-import os
 from pathlib import Path
 
 import git
@@ -35,8 +34,8 @@ def test_empty_commit(repo):
     repo.commit('commit msg', allow_empty=True)
 
 
-def test_commit_appveyor(repo):
-    os.environ['APPVEYOR'] = 'true'
+def test_commit_appveyor(repo, monkeypatch):
+    monkeypatch.setenv('APPVEYOR', 'test')
     repo.commit('commit msg', allow_empty=True)
     assert repo.last_commit_msg() == 'commit msg [skip ci]'
 
@@ -130,10 +129,10 @@ def test_commit_amend_wrong_params(repo):
         repo.amend_commit()
 
 
-def test_commit_amend_appveyor(repo):
+def test_commit_amend_appveyor(repo, monkeypatch):
     _dummy_commit(repo)
     assert len(list(repo.repo.iter_commits())) == 2
-    os.environ['APPVEYOR'] = 'true'
+    monkeypatch.setenv('APPVEYOR', 'test')
     repo.amend_commit(new_message='test')
     assert repo.last_commit_msg() == 'test [skip ci]'
     assert len(list(repo.repo.iter_commits())) == 2

@@ -25,7 +25,7 @@ REPO = epab.utils.Repo()
 
 # noinspection PyTypeChecker
 @pytest.fixture(autouse=True)
-def _git_repo(request, dummy_git_repo):
+def _git_repo(request, dummy_git_repo, monkeypatch):
     global UML, REPO
     test_name = request.node.name
     # noinspection SpellCheckingInspection
@@ -36,8 +36,10 @@ def _git_repo(request, dummy_git_repo):
         'skinparam BoxPadding 10',
         'participant master'
     ]
-    if os.environ.get('TEAMCITY_VERSION'):
-        del os.environ['TEAMCITY_VERSION']
+    try:
+        monkeypatch.delenv('TEAMCITY_VERSION')
+    except KeyError:
+        pass
     dummy_git_repo.create()
     REPO = epab.utils.Repo()
     yield
@@ -349,12 +351,12 @@ def test_flow_release():
 
 
 @pytest.mark.long
-def test_av_config():
-    os.environ['APPVEYOR'] = 'True'
+def test_av_config(monkeypatch):
+    monkeypatch.setenv('APPVEYOR', 'True')
     assert _git_version() == '0.1.0'
     assert not os.getenv('APPVEYOR')
     CTX.appveyor = True
-    os.environ['APPVEYOR'] = 'True'
+    monkeypatch.setenv('APPVEYOR', 'True')
     assert _git_version() == '0.1.0'
     assert os.getenv('APPVEYOR') == 'True'
 

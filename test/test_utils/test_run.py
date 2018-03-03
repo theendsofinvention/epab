@@ -9,6 +9,7 @@ from hypothesis import given
 from hypothesis import strategies as st
 from mockito import mock, unstub, verify, when
 
+import epab.exc
 import epab.utils
 import epab.utils._run
 from epab.utils._run import filter_line
@@ -56,7 +57,7 @@ def test_filter_line():
 
 def test_exe_not_found():
     when(epab.utils).find_executable(...).thenReturn(None)
-    with pytest.raises(SystemExit):
+    with pytest.raises(epab.exc.ExecutableNotFoundError):
         epab.utils.run('test')
 
 

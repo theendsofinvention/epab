@@ -7,6 +7,7 @@ import typing
 
 import delegator
 
+import epab.exc
 import epab.utils
 from epab.core import CONFIG
 
@@ -94,7 +95,7 @@ def run(
 
     exe = epab.utils.find_executable(cmd.split(' ')[0], *paths)
     if not exe:
-        sys.exit(-1)
+        raise epab.exc.ExecutableNotFoundError(cmd.split(' ')[0])
     exe_short = exe.name
 
     cmd = ' '.join([f'"{exe.absolute()}"'] + cmd.split(' ')[1:])
