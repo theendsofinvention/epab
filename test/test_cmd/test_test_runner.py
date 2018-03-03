@@ -55,15 +55,15 @@ def test_cmd_with_coverage(monkeypatch):
     CTX.appveyor = True
     monkeypatch.setenv('SCRUT_TOK', 'test')
     Path('coverage.xml').touch()
-    when(epab.utils).run('appveyor AddMessage "Uploading coverage to Scrutinizer" -Category Information')
+    # when(epab.utils).run('appveyor AddMessage "Uploading coverage to Scrutinizer" -Category Information')
     when(epab.utils).run('appveyor AddMessage "Uploading coverage to Codacy" -Category Information')
-    when(epab.utils).run('appveyor AddMessage "Scrutinizer coverage OK" -Category Information')
+    # when(epab.utils).run('appveyor AddMessage "Scrutinizer coverage OK" -Category Information')
     when(epab.utils).run('appveyor AddMessage "Codacy coverage OK" -Category Information')
     when(epab.utils).run(f'pytest test --long {pytest_options()}')
     when(epab.utils).run('pip install --upgrade codacy-coverage')
     when(epab.utils).run('python-codacy-coverage -r coverage.xml')
-    when(epab.utils).run('ocular --access-token "test" --data-file "coverage.xml" --config-file ".coveragerc"')
-    when(epab.utils).run('pip install git+https://github.com/etcher-vault/ocular.py.git#egg=ocular')
+    # when(epab.utils).run('ocular --access-token "test" --data-file "coverage.xml" --config-file ".coveragerc"')
+    # when(epab.utils).run('pip install git+https://github.com/etcher-vault/ocular.py.git#egg=ocular')
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
@@ -71,7 +71,7 @@ def test_cmd_with_coverage(monkeypatch):
 def test_cmd_with_coverage_no_xml(monkeypatch):
     CTX.appveyor = True
     monkeypatch.setenv('SCRUT_TOK', 'test')
-    when(epab.utils).run('appveyor AddMessage ""coverage.xml" not found, skipping ocular coverage" -Category Error')
+    # when(epab.utils).run('appveyor AddMessage ""coverage.xml" not found, skipping ocular coverage" -Category Error')
     when(epab.utils).run('appveyor AddMessage ""coverage.xml" not found, skipping codacy coverage" -Category Error')
     when(epab.utils).run(f'pytest test --long {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
