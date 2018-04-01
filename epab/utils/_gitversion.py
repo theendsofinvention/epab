@@ -4,6 +4,7 @@ Wrapper for the GitVersion executable
 """
 import json
 import os
+import datetime
 from pathlib import Path
 
 import epab.utils
@@ -112,6 +113,10 @@ class _Config:
             os.environ['APPVEYOR'] = 'True'
 
 
+def _get_calver() -> str:
+    now = datetime.datetime.utcnow()
+    return now.strftime('%y.%m.%d.')
+
 def get_git_version_info() -> str:
     """
     Returns: next version for this Git repository
@@ -119,7 +124,9 @@ def get_git_version_info() -> str:
     with _Config():
         raw_result, _ = epab.utils.run(str(GIT_VERSION_PATH.absolute()), mute=True)
         info = GitVersionResult(raw_result)
-        base_version = info.major_minor_patch
+        calver = _get_calver()
+        base_version = f'{calver}.{info.patch}'
+        # base_version = info.major_minor_patch
         if info.pre_release_number:
             if info.pre_release_label != 'ci':
                 base_version = f'{base_version}{info.pre_release_label}{info.pre_release_number}'

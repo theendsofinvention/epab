@@ -263,8 +263,9 @@ class Repo:
         """
 
         files_to_add = self._sanitize_files_to_add(files_to_add)
+        message = str(message)
 
-        if not message:
+        if len(message) == 0:
             epab.utils.error('Empty commit message')
             sys.exit(1)
 
@@ -410,6 +411,12 @@ class Repo:
         Returns: SHA of the latest commit
         """
         return self.repo.head.commit.hexsha
+
+    def get_short_sha(self) -> str:
+        """
+        Returns: short SHA of the latest commit
+        """
+        return self.get_sha()[:7]
 
     def _validate_branch_name(self, branch_name: str):
         try:

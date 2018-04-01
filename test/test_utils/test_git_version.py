@@ -11,7 +11,9 @@ import pytest
 from setuptools_scm import get_version
 
 import epab.utils
+import epab.utils._gitversion
 from epab.core import CTX
+from mockito import when, mock, verifyStubbedInvocationsAreUsed
 
 UML_DIR = Path('./test/uml').absolute()
 UML_BRANCH = deque(['master'])
@@ -19,8 +21,13 @@ UML_DIR.mkdir(exist_ok=True)
 # noinspection SpellCheckingInspection
 UML = ['@startuml']
 
-
 REPO = epab.utils.Repo()
+
+
+@pytest.fixture(autouse=True)
+def _dummy_date():
+    when(epab.utils._gitversion)._get_calver().thenReturn('15.03.24')
+    yield
 
 
 # noinspection PyTypeChecker

@@ -2,7 +2,6 @@
 
 from pathlib import Path
 
-import mimesis
 import pytest
 
 import epab.utils
@@ -25,7 +24,7 @@ def repo(dummy_git_repo):
     yield _repo
 
 
-@pytest.fixture(params=[[mimesis.File().file_name() for _ in range(5)] for _ in range(1)])
+@pytest.fixture(params=[[f'DUMMY_FILE_{x}' for x in range(5)] for _ in range(1)])
 def file_set(request):
     file_set_ = list(map(Path, request.param))
     for file in file_set_:

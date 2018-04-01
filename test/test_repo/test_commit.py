@@ -1,8 +1,10 @@
 # coding=utf-8
 from pathlib import Path
 
+from mockito import when, mock, verifyStubbedInvocationsAreUsed
+import datetime
 import git
-import mimesis
+from hypothesis import strategies as st, given, example
 import pytest
 
 from epab.core import CTX
@@ -14,11 +16,15 @@ def _dummy_commit(repo):
     assert repo.last_commit_msg() == 'msg'
 
 
-def test_commit(repo):
-    Path('./test').touch()
-    message = '\n\n'.join([mimesis.Text().sentence(), mimesis.Text().text()])
+@given(message=st.from_regex(r'^[a-zA-Z0-9_]{1,79}(\n\n[a-zA-Z0-9_]{1,300})?$'))
+def test_commit(repo, message):
+    test_file = Path('./test')
+    if test_file.exists():
+        test_file.unlink()
+    else:
+        Path('./test').touch()
     repo.commit(message)
-    assert repo.last_commit_msg() == message
+    assert repo.last_commit_msg() == message.rstrip()
 
 
 def test_empty_commit_message(repo):
