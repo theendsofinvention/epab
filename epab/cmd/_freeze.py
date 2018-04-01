@@ -11,9 +11,8 @@ import click
 
 import epab.exc
 import epab.utils
-from epab.core import CONFIG
+from epab.core import CONFIG, CTX
 
-GIT_VERSION_PATH = epab.utils.resource_path('epab', './vendor/GitVersion_4.0.0-beta0013/gitversion.exe')
 VERPATCH_PATH = epab.utils.resource_path('epab', './vendor/verpatch.exe')
 ICO = epab.utils.resource_path('epab', './vendor/app.ico')
 BASE_CMD = [
@@ -42,9 +41,10 @@ def _install_pyinstaller():
 
 
 def _patch():
-    version = epab.utils.get_git_version_info()
-    git_version_info = epab.utils.get_raw_gitversion_info()
-    year = datetime.datetime.now().year
+    version = epab.utils.get_next_version()
+    now = datetime.datetime.utcnow()
+    timestamp = f'{now.year}{now.month}{now.day}{now.hour}{now.minute}'
+    year = now.year
     cmd = [
         str(epab.utils.resource_path('epab', './vendor/verpatch.exe')),
         f'./dist/{CONFIG.package}.exe',
@@ -58,7 +58,9 @@ def _patch():
         '/s', 'copyright', f'{year}-132nd-etcher',
         '/s', 'company', '132nd-etcher',
         '/s', 'SpecialBuild', version,
-        '/s', 'PrivateBuild', f'{git_version_info.informational_version}.{git_version_info.commit_date}',
+        '/s', 'PrivateBuild', f'{version}-'
+                              f'{CTX.repo.get_current_branch()}_'
+                              f'{CTX.repo.get_sha()}-{timestamp}',
         '/langid', '1033',
     ]
     epab.utils.run(' '.join(cmd))
