@@ -81,10 +81,13 @@ class Repo:
         """
         Returns: latest tag on the repo in the form TAG[-DISTANCE+[DIRTY]]
         """
-        tags = list(self.repo.tags)
-        if not tags:
-            return None
-        return tags.pop().name
+        try:
+            return self.repo.git.describe(tags=True, abbrev=0)
+        except GitCommandError as exc:
+            if 'No names found' in exc.stderr:
+                return None
+            raise  # pragma: no cover
+
 
     def latest_commit(self) -> git.Commit:
         """
