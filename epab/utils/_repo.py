@@ -50,6 +50,21 @@ class Repo:
             else:
                 raise
 
+    def list_tags(self, pattern: str = None) -> typing.List[str]:
+        """
+        Returns list of tags, optionally matching "pattern"
+
+        Args:
+            pattern: optional pattern to match
+
+        Returns: list of strings
+        """
+        tags = [str(tag) for tag in self.repo.tags]
+        if not pattern:
+            return tags
+
+        return [tag for tag in tags if pattern in tag]
+
     def remove_tag(self, *tag: str):
         """
         Deletes a tag from the repo
