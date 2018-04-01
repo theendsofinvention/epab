@@ -47,7 +47,7 @@ def find_executable(executable: str, *paths: str) -> typing.Optional[Path]:  # n
     if not paths:
         path = os.environ['PATH']
         paths = [Path(sys.exec_prefix, 'Scripts').absolute()] + path.split(os.pathsep)
-    executable_path = Path(executable)
+    executable_path = Path(executable).absolute()
     if not executable_path.is_file():
         for path_ in paths:
             executable_path = Path(path_, executable).absolute()
