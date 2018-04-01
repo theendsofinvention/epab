@@ -6,11 +6,14 @@ import datetime
 import re
 import typing
 
-from epab.core import CTX
 import epab.utils
+from epab.core import CTX
 
 
 class Tag:
+    """
+    Represents a basic version tag
+    """
     _re_tag = re.compile(r'(?P<calver>\d+\.\d+\.\d+)'
                          r'\.'
                          r'(?P<quantifier>\d+)'
@@ -41,26 +44,41 @@ class Tag:
 
     @property
     def calver(self) -> str:
+        """
+        Returns: calver part of the tag
+        """
         return self._tag.group('calver')
 
     @property
     def quantifier(self) -> int:
+        """
+        Returns: iteration of this calver (number of releases during that day
+        """
         return int(self._tag.group('quantifier'))
 
     @property
     def branch(self):
+        """
+        Returns: (only for alpha) branch name
+        """
         if not self.is_alpha:
             return ''
         return self._alpha.group('branch')
 
     @property
     def alpha_quantifier(self) -> int:
+        """
+        Returns: (only for alpha) iteration of the alpha
+        """
         if not self.is_alpha:
             return 0
         return int(self._alpha.group('quantifier'))
 
     @property
     def is_alpha(self) -> bool:
+        """
+        Returns: True if this tag is an alpha version
+        """
         return self._is_alpha
 
     def __repr__(self):
@@ -97,7 +115,7 @@ def _next_alpha_version(next_stable_version: str, list_of_tags: typing.List[Tag]
         for tag in list_of_tags:
             if not tag.is_alpha:
                 continue
-            if not next_stable_version in str(tag):
+            if next_stable_version not in str(tag):
                 continue
             next_alpha_version_quantifier = max(next_alpha_version_quantifier, tag.alpha_quantifier + 1)
         return f'{next_stable_version}a{next_alpha_version_quantifier}+{CTX.repo.get_current_branch()}'
@@ -126,50 +144,3 @@ def get_next_version() -> str:
         return _next_alpha_version(next_stable_version, calver_tags)
 
     return next_stable_version
-    # for tag in CTX.repo.list_tags(calver):
-    #     tag = Tag(tag)
-    #     next_version = max(next_version, tag.quantifier + 1)
-    # next_version = f'{calver}.{next_version}'
-    # epab.utils.AV.info(f'next version: {next_version}')
-
-    # return
-    #
-    # next_version = _get_calver()
-    # if CTX.repo.get_current_branch() != 'master':
-    #     next_version = f'{next_version}a'
-    # next_version = f'{next_version}{_quantifier(next_version)}'
-    # return next_version
-
-    # quantifier = len(CTX.repo.list_tags(next_version)) + 1
-
-    # return next_version
-    # base_version = f'{calver}.{info.patch}'
-    # # base_version = info.major_minor_patch
-    # if info.pre_release_number:
-    #     if info.pre_release_label != 'ci':
-    #         base_version = f'{base_version}{info.pre_release_label}{info.pre_release_number}'
-    # return base_version
-
-
-def get_raw_gitversion_info():
-    raise NotImplementedError
-
-
-class GitVersionResult:
-    pass
-
-
-if __name__ == '__main__':
-    import epab.utils
-
-    repo = epab.utils.Repo()
-    CTX.repo = repo
-    get_next_version()
-    exit(0)
-    tag = repo.get_latest_tag()
-    print(tag)
-    tag = Tag(tag)
-    print(tag.next_version())
-    print(tag.next_alpha())
-    # tags = repo.list_tags()
-    # print(tags[-1])

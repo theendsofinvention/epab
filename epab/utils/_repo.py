@@ -88,7 +88,6 @@ class Repo:
                 return None
             raise  # pragma: no cover
 
-
     def latest_commit(self) -> git.Commit:
         """
 
@@ -283,7 +282,7 @@ class Repo:
         files_to_add = self._sanitize_files_to_add(files_to_add)
         message = str(message)
 
-        if len(message) == 0:
+        if not message:
             epab.utils.error('Empty commit message')
             sys.exit(1)
 

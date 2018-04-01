@@ -1,8 +1,9 @@
 # coding=utf-8
 
+import datetime
+
 from mockito import mock, verify, verifyStubbedInvocationsAreUsed, when
 
-import datetime
 import epab.exc
 import epab.utils
 from epab.cmd import _freeze as freeze

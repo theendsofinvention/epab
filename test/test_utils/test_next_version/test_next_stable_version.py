@@ -1,6 +1,6 @@
 # coding=utf-8
-from epab.utils import _next_version as nv
 import epab.utils
+from epab.utils import _next_version as nv
 
 
 def _check_next_version(repo, expected_version, calver):

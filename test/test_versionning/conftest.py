@@ -1,10 +1,12 @@
 # coding=utf-8
 
 import time
-import pytest
 from pathlib import Path
-import epab.utils
 from queue import deque
+
+import pytest
+
+import epab.utils
 from epab.core import CTX
 
 UML_DIR = Path('./test/uml').absolute()
@@ -64,6 +66,8 @@ class Repo:
         self.repo.tag(tag)
 
 # noinspection PyTypeChecker
+
+
 @pytest.fixture(autouse=True)
 def _git_repo(request, dummy_git_repo, monkeypatch):
     global UML, REPO

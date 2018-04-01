@@ -1,8 +1,10 @@
 # coding=utf-8
 
-from hypothesis import strategies as st, given
+from hypothesis import given
+from hypothesis import strategies as st
+from mockito import mock, verifyStubbedInvocationsAreUsed, when
+
 from epab.utils import _next_version as nv
-from mockito import when, verifyStubbedInvocationsAreUsed, mock
 
 
 @given(
@@ -18,4 +20,3 @@ def test_calver(year, month, day):
     when(nv)._get_datetime().thenReturn(now)
     assert nv._get_calver() == f'{year}.{month}.{day}'
     verifyStubbedInvocationsAreUsed()
-

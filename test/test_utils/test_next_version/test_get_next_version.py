@@ -1,10 +1,11 @@
 # coding=utf-8
 import pytest
-from epab.utils import _next_version
-from epab.utils import get_next_version, Repo
-from mockito import when, verifyStubbedInvocationsAreUsed, mock
+from mockito import mock, verifyStubbedInvocationsAreUsed, when
+
+from epab.utils import Repo, _next_version, get_next_version
 
 CALVER = '2018.1.2'
+
 
 @pytest.fixture(autouse=True)
 def _mock_calver():

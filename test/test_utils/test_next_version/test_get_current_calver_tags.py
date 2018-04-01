@@ -1,8 +1,8 @@
 # coding=utf-8
 
 
-from epab.utils import _next_version as nv
 import epab.utils
+from epab.utils import _next_version as nv
 
 
 def test_get_current_calver_tags(repo: epab.utils.Repo):
