@@ -75,7 +75,7 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, 
         epab.utils.ensure_exe('gitchangelog')
         epab.utils.info('Writing changelog')
         if auto_next_version:
-            next_version = epab.utils.get_git_version_info()
+            next_version = epab.utils.get_next_version()
         with gitchangelog_config():
             with temporary_tag(next_version):
                 changelog, _ = epab.utils.run('gitchangelog', mute=True)

@@ -1,75 +1,69 @@
 # coding=utf-8
 
 import time
-import pytest
+import typing
 from pathlib import Path
+
+import pytest
+
 import epab.utils
-from queue import deque
 from epab.core import CTX
 
 UML_DIR = Path('./test/uml').absolute()
-UML_BRANCH = deque(['master'])
 UML_DIR.mkdir(exist_ok=True)
-# noinspection SpellCheckingInspection
-UML = ['@startuml']
-
-REPO = epab.utils.Repo()
 
 
-class Repo:
+class Repo(epab.utils.Repo):
 
     def __init__(self):
-        self.repo = epab.utils.Repo()
+        epab.utils.Repo.__init__(self)
         self.uml = ['@startuml']
-        self.uml_branch = deque(['master'])
 
-    def get_current_branch(self) -> str:
-        return self.repo.get_current_branch()
-
-    def commit(self, message='msg'):
-        self.repo.commit(message)
+    def commit(
+            self,
+            message: str,
+            files_to_add: typing.Optional[typing.Union[typing.List[str], str]] = None,
+            allow_empty: bool = False,
+    ):
+        super(Repo, self).commit(message, files_to_add, allow_empty)
         self.uml.append(f'{self.get_current_branch()} -> {self.get_current_branch()}: commit')
 
-    def short_sha(self):
-        return self.repo.get_short_sha()
-
-    def get_latest_tag(self):
-        return self.repo.get_latest_tag()
-
     def merge(self, branch_name: str):
-        self.repo.merge(branch_name)
+        super(Repo, self).merge(branch_name)
         self.uml.append(f'{branch_name} ->o {self.get_current_branch()}: merge')
 
     def checkout(self, branch_name):
         init_branch = self.get_current_branch()
-        self.repo.checkout(branch_name)
+        super(Repo, self).checkout(branch_name)
         self.uml.append(f'{init_branch} ->> {branch_name}: checkout')
-        self.uml_branch.append(branch_name)
 
     def create_branch_and_checkout(self, branch_name):
         init_branch = self.get_current_branch()
-        self.repo.create_branch_and_checkout(branch_name)
-        self.uml.append(f'{init_branch} ->> {branch_name}: checkout')
+        self.create_branch(branch_name)
+        self.checkout(branch_name)
         if CTX.appveyor:
             time.sleep(1)
         else:
             time.sleep(0.1)
 
-    def tag(self, tag=None):
+    def tag(self, tag: str, overwrite: bool = False):
         if tag is None:
             tag = epab.utils.get_next_version()
         branch = self.get_current_branch()
         self.uml.append(f'{branch} --> {branch}: TAG: {tag}')
-        self.uml.append(f'ref over {branch}: {tag}')
-        self.repo.tag(tag)
+        # self.uml.append(f'ref over {branch}: {tag}')
+        super(Repo, self).tag(tag, overwrite)
+
+    def mark(self, text: str):
+        self.uml.append(f'ref over {self.get_current_branch()}: {text}')
+
 
 # noinspection PyTypeChecker
-@pytest.fixture(autouse=True)
+@pytest.fixture(name='repo')
 def _git_repo(request, dummy_git_repo, monkeypatch):
-    global UML, REPO
     test_name = request.node.name
     # noinspection SpellCheckingInspection
-    UML = [
+    uml = [
         '@startuml',
         f'title {test_name}',
         'skinparam ParticipantPadding 20',
@@ -81,10 +75,12 @@ def _git_repo(request, dummy_git_repo, monkeypatch):
     except KeyError:
         pass
     dummy_git_repo.create()
-    REPO = epab.utils.Repo()
-    yield
+    repo = Repo()
+    CTX.repo = repo
+    yield repo
+    uml.extend(repo.uml)
     # noinspection SpellCheckingInspection
-    UML.append('@enduml')
-    uml = [x.replace('/', '.') for x in UML]
+    uml.append('@enduml')
+    uml = [x.replace('/', '.') for x in uml]
     # noinspection SpellCheckingInspection
     Path(UML_DIR, test_name + '.puml').write_text('\n'.join(uml))

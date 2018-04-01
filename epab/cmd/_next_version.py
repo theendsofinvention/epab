@@ -9,7 +9,7 @@ import sys
 import click
 
 import epab.utils
-from epab.core import CONFIG
+from epab.core import CONFIG, CTX
 
 
 def next_version(ctx: click.Context, _, value):
@@ -21,5 +21,7 @@ def next_version(ctx: click.Context, _, value):
     if not value or ctx.resilient_parsing:
         return
 
-    print(epab.utils.get_git_version_info())
+    CTX.repo = epab.utils.Repo()
+
+    print(epab.utils.get_next_version())
     sys.exit(0)

@@ -19,7 +19,7 @@ def _all():
     CTX.repo = repo
     when(ctx).invoke(...)
     when(CTX.repo).get_current_branch().thenReturn('branch')
-    when(epab.utils).get_git_version_info().thenReturn('next_version')
+    when(epab.utils).get_next_version().thenReturn('next_version')
     when(CTX.repo).is_dirty(untracked=True).thenReturn(False)
     when(CTX.repo).tag(...)
     when(CTX.repo).remove_tag(...)
@@ -44,7 +44,7 @@ def test_release(setup):
     epab.cmd._release._release(ctx)
 
     verify(repo).get_current_branch()
-    when(epab.utils).get_git_version_info()
+    when(epab.utils).get_next_version()
     verify(CTX.repo, times=3).is_dirty(untracked=True)
     verify(ctx).invoke(epab.linters.lint)
     verify(ctx).invoke(epab.cmd.pytest, long=True)
@@ -64,7 +64,7 @@ def test_release_on_master(setup):
     epab.cmd._release._release(ctx)
 
     verify(repo).get_current_branch()
-    when(epab.utils).get_git_version_info()
+    when(epab.utils).get_next_version()
     verify(CTX.repo, times=3).is_dirty(untracked=True)
     verify(ctx).invoke(epab.linters.lint)
     verify(ctx).invoke(epab.cmd.pytest, long=True)

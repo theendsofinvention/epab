@@ -63,13 +63,13 @@ def test_version(param, setup):
 @pytest.mark.parametrize('param', ['-nv', '--next-version'])
 def test_next_version(param, setup):
     runner, repo = setup
-    when(epab.utils).get_git_version_info()
+    when(epab.utils).get_next_version()
     result = runner.invoke(cli, [param])
     assert isinstance(result, Result)
     assert result.exit_code == 0
     assert not result.exception
     verify(repo, times=0).ensure()
-    verify(epab.utils).get_git_version_info()
+    verify(epab.utils).get_next_version()
 
 
 def test_dirty(setup):

@@ -8,7 +8,7 @@ from ._ensure_exe import ensure_exe
 from ._find_exe import find_executable
 from ._repo import Repo
 from ._run_once import run_once
-from ._gitversion import get_git_version_info, get_raw_gitversion_info, GitVersionResult
+from ._next_version import get_next_version, get_raw_gitversion_info
 from ._stashed import stashed
 from ._resource_path import resource_path
 from ._av import AV
