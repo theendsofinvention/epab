@@ -68,7 +68,7 @@ setup(
     download_url=r'https://github.com/132nd-etcher/EPAB/releases',
     description="Etcher's Python Application Builder",
     license='GPLv3',
-    long_description=read_local_files('README.rst'),
+    long_description=read_local_files('README.md'),
     packages=find_packages(),
     package_data={
         'epab': 'test'
