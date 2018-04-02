@@ -56,7 +56,7 @@ def test_existing_tag(repo):
 def test_list_tags_no_tags(repo):
     list_of_tags = repo.list_tags()
     assert isinstance(list_of_tags, list)
-    assert len(list_of_tags) == 0
+    assert not list_of_tags
 
 
 def test_list_tags(repo):
@@ -85,4 +85,4 @@ def test_list_of_tags_pattern(repo):
     assert 'moo' in moo_list
     nope_list = repo.list_tags('nope')
     assert isinstance(nope_list, list)
-    assert len(nope_list) == 0
+    assert not nope_list
