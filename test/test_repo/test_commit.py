@@ -1,12 +1,9 @@
 # coding=utf-8
-import datetime
 from pathlib import Path
 
 import git
 import pytest
-from hypothesis import example, given
-from hypothesis import strategies as st
-from mockito import mock, verifyStubbedInvocationsAreUsed, when
+from hypothesis import given, strategies as st
 
 from epab.core import CTX
 

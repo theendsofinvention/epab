@@ -1,5 +1,4 @@
 # coding=utf-8
-import epab.utils
 from epab.utils import _next_version as nv
 
 

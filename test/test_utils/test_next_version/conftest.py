@@ -28,17 +28,16 @@ class Repo(epab.utils.Repo):
         super(Repo, self).commit(message, files_to_add, allow_empty)
         self.uml.append(f'{self.get_current_branch()} -> {self.get_current_branch()}: commit')
 
-    def merge(self, branch_name: str):
-        super(Repo, self).merge(branch_name)
-        self.uml.append(f'{branch_name} ->o {self.get_current_branch()}: merge')
+    def merge(self, ref_name: str):
+        super(Repo, self).merge(ref_name)
+        self.uml.append(f'{ref_name} ->o {self.get_current_branch()}: merge')
 
-    def checkout(self, branch_name):
+    def checkout(self, reference):
         init_branch = self.get_current_branch()
-        super(Repo, self).checkout(branch_name)
-        self.uml.append(f'{init_branch} ->> {branch_name}: checkout')
+        super(Repo, self).checkout(reference)
+        self.uml.append(f'{init_branch} ->> {reference}: checkout')
 
     def create_branch_and_checkout(self, branch_name):
-        init_branch = self.get_current_branch()
         self.create_branch(branch_name)
         self.checkout(branch_name)
         if CTX.appveyor:

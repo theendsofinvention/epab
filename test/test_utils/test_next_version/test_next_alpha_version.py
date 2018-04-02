@@ -1,18 +1,8 @@
 # coding=utf-8
-import pytest
-from mockito import mock, verifyStubbedInvocationsAreUsed, when
 
-from epab.core import CTX
 from epab.utils import _next_version as nv
 
 
-# @pytest.fixture(autouse=True)
-# def _mock_branch():
-#     repo = mock()
-#     when(repo).get_current_branch().thenReturn('branch')
-#     CTX.repo = repo
-#     yield
-#     verifyStubbedInvocationsAreUsed()
 def _check_next_version(repo, expected_version, calver):
     tags = nv._get_current_calver_tags(calver)
     next_version = nv._next_stable_version(calver, tags)

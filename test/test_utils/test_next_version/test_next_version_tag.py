@@ -1,6 +1,5 @@
 # coding=utf-8
 import pytest
-from hypothesis import strategies as st
 
 from epab.utils import _next_version as nv
 
