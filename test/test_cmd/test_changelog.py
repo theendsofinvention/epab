@@ -76,6 +76,6 @@ def test_next_version(repo):
 
 
 def test_auto_next_version():
-    when(epab.utils).get_git_version_info().thenReturn('test')
+    when(epab.utils).get_next_version().thenReturn('test')
     _chglog(auto_next_version=True)
-    verify(epab.utils).get_git_version_info()
+    verify(epab.utils).get_next_version()

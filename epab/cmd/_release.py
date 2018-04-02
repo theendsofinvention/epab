@@ -104,7 +104,7 @@ def _release(ctx: click.Context):
     _remove_av_artifacts()
 
     current_branch = CTX.repo.get_current_branch()
-    next_version = epab.utils.get_git_version_info()
+    next_version = epab.utils.get_next_version()
 
     _print_build_info(current_branch, next_version)
 

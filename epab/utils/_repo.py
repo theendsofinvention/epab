@@ -50,6 +50,21 @@ class Repo:
             else:
                 raise
 
+    def list_tags(self, pattern: str = None) -> typing.List[str]:
+        """
+        Returns list of tags, optionally matching "pattern"
+
+        Args:
+            pattern: optional pattern to match
+
+        Returns: list of strings
+        """
+        tags = [str(tag) for tag in self.repo.tags]
+        if not pattern:
+            return tags
+
+        return [tag for tag in tags if pattern in tag]
+
     def remove_tag(self, *tag: str):
         """
         Deletes a tag from the repo
@@ -66,10 +81,12 @@ class Repo:
         """
         Returns: latest tag on the repo in the form TAG[-DISTANCE+[DIRTY]]
         """
-        tags = list(self.repo.tags)
-        if not tags:
-            return None
-        return tags.pop().name
+        try:
+            return self.repo.git.describe(tags=True, abbrev=0)
+        except GitCommandError as exc:
+            if 'No names found' in exc.stderr:
+                return None
+            raise  # pragma: no cover
 
     def latest_commit(self) -> git.Commit:
         """
@@ -263,6 +280,7 @@ class Repo:
         """
 
         files_to_add = self._sanitize_files_to_add(files_to_add)
+        message = str(message)
 
         if not message:
             epab.utils.error('Empty commit message')
@@ -410,6 +428,12 @@ class Repo:
         Returns: SHA of the latest commit
         """
         return self.repo.head.commit.hexsha
+
+    def get_short_sha(self) -> str:
+        """
+        Returns: short SHA of the latest commit
+        """
+        return self.get_sha()[:7]
 
     def _validate_branch_name(self, branch_name: str):
         try:

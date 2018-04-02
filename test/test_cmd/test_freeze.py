@@ -1,11 +1,13 @@
 # coding=utf-8
 
+import datetime
+
 from mockito import mock, verify, verifyStubbedInvocationsAreUsed, when
 
 import epab.exc
 import epab.utils
 from epab.cmd import _freeze as freeze
-from epab.core import CONFIG
+from epab.core import CONFIG, CTX
 
 
 def test_freeze_cli(cli_runner):
@@ -67,11 +69,13 @@ def test_flat_freeze_no_entry_point():
 
 
 def test_patch():
-    when(epab.utils).get_git_version_info().thenReturn('0.0.1')
-    raw_version = mock()
-    raw_version.informational_version = 'informational_version'
-    raw_version.commit_date = 'commit_date'
-    when(epab.utils).get_raw_gitversion_info().thenReturn(raw_version)
+    repo = mock(spec=epab.utils.Repo)
+    when(repo).get_current_branch().thenReturn('branch')
+    when(repo).get_sha().thenReturn('sha')
+    CTX.repo = repo
+    now = datetime.datetime.utcnow()
+    timestamp = f'{now.year}{now.month}{now.day}{now.hour}{now.minute}'
+    when(epab.utils).get_next_version().thenReturn('0.0.1')
     when(epab.utils).run(
         'dummy.exe '
         './dist/epab.exe '
@@ -80,10 +84,10 @@ def test_patch():
         '/s desc epab '
         '/s product epab '
         '/s title epab '
-        '/s copyright 2018-132nd-etcher '
+        f'/s copyright {now.year}-132nd-etcher '
         '/s company 132nd-etcher '
         '/s SpecialBuild 0.0.1 '
-        '/s PrivateBuild informational_version.commit_date '
+        f'/s PrivateBuild 0.0.1-branch_sha-{timestamp} '
         '/langid 1033'
     )
     when(epab.utils.AV).info('Patch OK')

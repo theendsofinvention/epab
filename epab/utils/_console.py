@@ -5,7 +5,7 @@ Manages console output functions
 
 import click
 
-from epab.core import CONFIG
+from epab.core import CONFIG, CTX
 
 
 class Colors:
@@ -21,7 +21,7 @@ class Colors:
 
 def _sanitize(input_: str, prefix=True) -> str:
     if prefix:
-        input_ = f'EPAB: {input_}'
+        input_ = f'{CTX.prefix}: {input_}'
     return input_.encode('ascii', 'ignore').decode()
 
 
