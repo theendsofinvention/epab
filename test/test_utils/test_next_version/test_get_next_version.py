@@ -1,8 +1,8 @@
 # coding=utf-8
 import pytest
-from mockito import mock, verifyStubbedInvocationsAreUsed, when
+from mockito import verifyStubbedInvocationsAreUsed, when
 
-from epab.utils import Repo, _next_version, get_next_version
+from epab.utils import _next_version, get_next_version
 
 CALVER = '2018.1.2'
 
