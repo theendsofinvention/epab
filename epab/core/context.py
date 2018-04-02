@@ -17,6 +17,7 @@ class CTX:
     next_version = None
     stash = False
     appveyor = os.getenv('APPVEYOR')
+    prefix: str = 'EPAB'
 
     @staticmethod
     def _reset():
@@ -27,3 +28,4 @@ class CTX:
         CTX.next_version = None
         CTX.stash = False
         CTX.appveyor = False
+        CTX.prefix = 'EPAB'
