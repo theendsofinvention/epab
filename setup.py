@@ -14,7 +14,7 @@ CLASSIFIERS = filter(None, map(str.strip,
                                """
 Development Status :: 3 - Alpha
 Topic :: Utilities
-License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+License :: OSI Approved :: MIT License
 Environment :: Win32 (MS Windows)
 Natural Language :: English
 Operating System :: Microsoft :: Windows

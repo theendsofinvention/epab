@@ -11,9 +11,11 @@ def test_merge(repo):
     Path('test').touch()
     repo.commit('test')
     sha = repo.get_sha()
+    short_sha = repo.get_short_sha()
     repo.checkout('master')
     repo.merge('develop')
     assert sha == repo.get_sha()
+    assert short_sha == repo.get_short_sha()
     CTX.dry_run = True
     repo.merge('develop')
 

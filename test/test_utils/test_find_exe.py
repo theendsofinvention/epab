@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import sys
+from pathlib import Path
 
 import epab.utils
 from epab.core import CTX
@@ -24,3 +25,9 @@ def test_paths():
     assert epab.utils.find_executable('python', '.')
     CTX.known_executables = {}
     assert epab.utils.find_executable('python', '.') is None
+
+
+def test_direct_find():
+    exe = Path('test.exe')
+    exe.touch()
+    assert exe.absolute() == epab.utils.find_executable('test')

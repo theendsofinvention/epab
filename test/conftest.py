@@ -38,7 +38,7 @@ def pytest_addoption(parser):
 def pytest_runtest_setup(item):
     long_marker = item.get_marker("long")
     if long_marker is not None and not item.config.getoption('long'):
-        pytest.skip('skipping long tests')
+        pytest.skip(f'{item.location}: skipping long tests')
 
 
 @pytest.fixture(autouse=True)

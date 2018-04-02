@@ -16,9 +16,10 @@ class AV:
     def _out(level, msg: str, details: str = None):
         if CTX.appveyor:
             if details:
-                epab.utils.run(f'appveyor AddMessage "{msg}" -Category {level} -Details "{details}"')
+                epab.utils.run(f'appveyor AddMessage "{msg}" -Category {level} -Details "{details}"', mute=True)
             else:
-                epab.utils.run(f'appveyor AddMessage "{msg}" -Category {level}')
+                epab.utils.run(f'appveyor AddMessage "{msg}" -Category {level}', mute=True)
+            epab.utils.info(f'{level}: {msg} {details if details else ""}')
         else:
             if level == 'Information':
                 method = epab.utils.info

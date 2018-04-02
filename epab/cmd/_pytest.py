@@ -92,24 +92,25 @@ class _Coverage:
         else:
             epab.utils.AV.error('"coverage.xml" not found, skipping codacy coverage')
 
-    @staticmethod
-    def upload_coverage_to_scrutinizer():
-        """
-        Uploads the coverage to Scrutinizer
-        """
-        if os.getenv('SCRUT_TOK', False):
-            if Path('coverage.xml').exists():
-                epab.utils.AV.info('Uploading coverage to Scrutinizer')
-                epab.utils.run('pip install git+https://github.com/etcher-vault/ocular.py.git#egg=ocular')
-                token = os.getenv('SCRUT_TOK')
-                epab.utils.run(
-                    f'ocular --access-token "{token}" --data-file "coverage.xml" --config-file ".coveragerc"'
-                )
-                epab.utils.AV.info('Scrutinizer coverage OK')
-            else:
-                epab.utils.AV.error('"coverage.xml" not found, skipping ocular coverage')
-        else:
-            epab.utils.AV.error('no "SCRUT_TOK" in environment, skipping ocular coverage')
+    # Disabled for the time being
+    # @staticmethod
+    # def upload_coverage_to_scrutinizer():
+    #     """
+    #     Uploads the coverage to Scrutinizer
+    #     """
+    #     if os.getenv('SCRUT_TOK', False):
+    #         if Path('coverage.xml').exists():
+    #             epab.utils.AV.info('Uploading coverage to Scrutinizer')
+    #             epab.utils.run('pip install git+https://github.com/etcher-vault/ocular.py.git#egg=ocular')
+    #             token = os.getenv('SCRUT_TOK')
+    #             epab.utils.run(
+    #                 f'ocular --access-token "{token}" --data-file "coverage.xml" --config-file ".coveragerc"'
+    #             )
+    #             epab.utils.AV.info('Scrutinizer coverage OK')
+    #         else:
+    #             epab.utils.AV.error('"coverage.xml" not found, skipping ocular coverage')
+    #     else:
+    #         epab.utils.AV.error('no "SCRUT_TOK" in environment, skipping ocular coverage')
 
     @staticmethod
     def remove_config_file():
