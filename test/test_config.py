@@ -145,6 +145,7 @@ def _dummy_config_from_file():
     instance = cls()
     instance.load(config_file=config_file.absolute())
     yield instance
+    config_file.unlink()
 
 
 def test_with_file_none(instance_from_file):

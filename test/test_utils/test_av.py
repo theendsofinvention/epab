@@ -26,28 +26,28 @@ def test_error():
 
 def test_av_info():
     CTX.appveyor = True
-    when(epab.utils).run(f'appveyor AddMessage "message" -Category Information')
+    when(epab.utils).run(f'appveyor AddMessage "message" -Category Information', mute=True)
     epab.utils.AV.info('message')
     verifyStubbedInvocationsAreUsed()
 
 
 def test_av_info_details():
     CTX.appveyor = True
-    when(epab.utils).run(f'appveyor AddMessage "message" -Category Information -Details "details"')
+    when(epab.utils).run(f'appveyor AddMessage "message" -Category Information -Details "details"', mute=True)
     epab.utils.AV.info('message', 'details')
     verifyStubbedInvocationsAreUsed()
 
 
 def test_av_error():
     CTX.appveyor = True
-    when(epab.utils).run(f'appveyor AddMessage "message" -Category Error')
+    when(epab.utils).run(f'appveyor AddMessage "message" -Category Error', mute=True)
     epab.utils.AV.error('message')
     verifyStubbedInvocationsAreUsed()
 
 
 def test_av_error_details():
     CTX.appveyor = True
-    when(epab.utils).run(f'appveyor AddMessage "message" -Category Error -Details "details"')
+    when(epab.utils).run(f'appveyor AddMessage "message" -Category Error -Details "details"', mute=True)
     epab.utils.AV.error('message', 'details')
     verifyStubbedInvocationsAreUsed()
 
