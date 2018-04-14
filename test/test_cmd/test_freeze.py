@@ -11,8 +11,8 @@ from epab.core import CONFIG, CTX
 
 
 def test_freeze_cli(cli_runner):
-    when(freeze)._freeze()
-    cli_runner.invoke(freeze.freeze)
+    when(freeze)._freeze('version')
+    cli_runner.invoke(freeze.freeze, ['version'])
     verifyStubbedInvocationsAreUsed()
 
 
@@ -24,11 +24,11 @@ def test_freeze_flat_cli(cli_runner):
 
 def test_freeze():
     when(freeze)._install_pyinstaller()
-    when(freeze)._patch()
+    when(freeze)._patch('version')
     when(epab.utils).run(...)
     when(epab.utils.AV).info(...)
     CONFIG.entry_point = 'test'
-    freeze._freeze()
+    freeze._freeze('version')
     verifyStubbedInvocationsAreUsed()
 
 
@@ -42,12 +42,12 @@ def test_flat_freeze():
 
 def test_freeze_no_entry_point():
     when(freeze)._install_pyinstaller()
-    when(freeze)._patch()
+    when(freeze)._patch(...)
     when(epab.utils).run(...)
     when(epab.utils.AV).info(...)
     when(epab.utils.AV).error(...)
     CONFIG.entry_point = ''
-    freeze._freeze()
+    freeze._freeze('version')
     verify(freeze, times=0)._install_pyinstaller()
     verify(freeze, times=0)._patch()
     verify(epab.utils, times=0).run(...)
@@ -75,24 +75,23 @@ def test_patch():
     CTX.repo = repo
     now = datetime.datetime.utcnow()
     timestamp = f'{now.year}{now.month}{now.day}{now.hour}{now.minute}'
-    when(epab.utils).get_next_version().thenReturn('0.0.1')
     when(epab.utils).run(
         'dummy.exe '
         './dist/epab.exe '
-        '/high 0.0.1 '
-        '/va /pv 0.0.1 '
+        '/high version '
+        '/va /pv version '
         '/s desc epab '
         '/s product epab '
         '/s title epab '
         f'/s copyright {now.year}-132nd-etcher '
         '/s company 132nd-etcher '
-        '/s SpecialBuild 0.0.1 '
-        f'/s PrivateBuild 0.0.1-branch_sha-{timestamp} '
+        '/s SpecialBuild version '
+        f'/s PrivateBuild version-branch_sha-{timestamp} '
         '/langid 1033'
     )
     when(epab.utils.AV).info('Patch OK')
     when(epab.utils).resource_path(...).thenReturn('dummy.exe')
-    freeze._patch()
+    freeze._patch('version')
     verifyStubbedInvocationsAreUsed()
 
 

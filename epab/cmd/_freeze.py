@@ -40,8 +40,7 @@ def _install_pyinstaller():
         _get_version()
 
 
-def _patch():
-    version = epab.utils.get_next_version()
+def _patch(version: str):
     now = datetime.datetime.utcnow()
     timestamp = f'{now.year}{now.month}{now.day}{now.hour}{now.minute}'
     year = now.year
@@ -67,7 +66,7 @@ def _patch():
     epab.utils.AV.info('Patch OK')
 
 
-def _freeze():
+def _freeze(version: str):
     if not CONFIG.entry_point:
         epab.utils.AV.error('No entry point define, skipping freeze')
         return
@@ -77,7 +76,7 @@ def _freeze():
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
     epab.utils.AV.info('Freeze OK')
-    _patch()
+    _patch(version)
 
 
 def _flat_freeze():
@@ -92,11 +91,12 @@ def _flat_freeze():
 
 
 @click.command()
-def freeze():
+@click.argument('version')
+def freeze(version: str):
     """
     Freeze current package into a single file
     """
-    _freeze()
+    _freeze(version)
 
 
 @click.command()
