@@ -2,13 +2,33 @@
 
 import os
 
-from pip.req import parse_requirements
 from setuptools import find_packages, setup
 
-requirements = [str(r.req) for r in
-                parse_requirements('requirements.txt', session=False)]
-test_requirements = [str(r.req) for r in
-                     parse_requirements('requirements-dev.txt', session=False)]
+requirements = [
+    'click',
+    'pyyaml',
+    'wheel',
+    'twine',
+    'autopep8',
+    'pylint',
+    'isort',
+    'safety',
+    'flake8',
+    'coverage',
+    'hypothesis',
+    'pytest-cache',
+    'pytest-cov',
+    'pytest-pycharm',
+    'pytest',
+    'gitchangelog',
+    'gitpython',
+    'mockito',
+    'delegator.py',
+    'setuptools-scm',
+    'certifi',
+    'pefile',
+]
+test_requirements = []
 
 CLASSIFIERS = filter(None, map(str.strip,
                                """
