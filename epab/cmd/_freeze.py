@@ -4,7 +4,6 @@ Freeze package into exe
 """
 import datetime
 import functools
-import sys
 
 import certifi
 import click
@@ -16,8 +15,7 @@ from epab.core import CONFIG, CTX
 VERPATCH_PATH = epab.utils.resource_path('epab', './vendor/verpatch.exe')
 ICO = epab.utils.resource_path('epab', './vendor/app.ico')
 BASE_CMD = [
-    sys.executable,
-    '-m', 'PyInstaller',
+    'pyinstaller',
     '--log-level=WARN',
     '--noconfirm',
     '--clean',
