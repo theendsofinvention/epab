@@ -24,3 +24,4 @@ appveyor.yml
 artifacts/
 /.pytest_cache/
 /doitall.cmd
+test.yml

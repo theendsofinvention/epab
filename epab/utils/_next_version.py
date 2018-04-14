@@ -94,7 +94,7 @@ def _get_datetime() -> datetime.datetime:  # pragma: no cover
 
 def _get_calver() -> str:
     now = _get_datetime()
-    return f'{now.year}.{now.month}.{now.day}'
+    return f'{now.year}.{now.month:02d}.{now.day:02d}'
 
 
 def _next_stable_version(calver: str, list_of_tags: typing.List[Tag]) -> str:
