@@ -4,7 +4,6 @@ Freeze package into exe
 """
 import datetime
 import functools
-import sys
 
 import certifi
 import click
