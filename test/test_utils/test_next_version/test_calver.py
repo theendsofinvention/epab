@@ -18,5 +18,5 @@ def test_calver(year, month, day):
     now.month = month
     now.day = day
     when(nv)._get_datetime().thenReturn(now)
-    assert nv._get_calver() == f'{year}.{month}.{day}'
+    assert nv._get_calver() == f'{year}.{month:02d}.{day:02d}'
     verifyStubbedInvocationsAreUsed()
