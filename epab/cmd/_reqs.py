@@ -12,7 +12,6 @@ import epab.utils
 from epab.core import CTX
 
 RE_REQ_PATTERN = re.compile(r'^.*==[\d\.]')
-LOCK_FILE = Path('Pipfile.lock')
 
 
 def _write_reqs_file(cmd, file_path):
@@ -26,11 +25,6 @@ def _write_reqs_file(cmd, file_path):
     Path(file_path).write_text('\n'.join(output))
 
 
-def _remove_lock_file():
-    if LOCK_FILE.exists():
-        LOCK_FILE.unlink()
-
-
 @epab.utils.run_once
 @epab.utils.stashed
 def _write_reqs(amend: bool = False, stage: bool = False):
@@ -41,7 +35,6 @@ def _write_reqs(amend: bool = False, stage: bool = False):
         amend: amend last commit with changes
         stage: stage changes
     """
-    _remove_lock_file()
     epab.utils.info('Writing requirements')
     if CTX.dry_run:
         epab.utils.info('Skipping requirements; DRY RUN')
@@ -56,7 +49,6 @@ def _write_reqs(amend: bool = False, stage: bool = False):
         CTX.repo.amend_commit(append_to_msg='update requirements [auto]', files_to_add=files_to_add)
     elif stage:
         CTX.repo.stage_subset(*files_to_add)
-    _remove_lock_file()
 
 
 @click.command()
