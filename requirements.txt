@@ -2,7 +2,7 @@ apipkg==1.4
 astroid==1.6.3
 attrs==17.4.0
 autopep8==1.3.5
-certifi==2018.1.18
+certifi==2018.4.16
 chardet==3.0.4
 click==6.7
 colorama==0.3.9; sys_platform == 'win32'
@@ -11,12 +11,11 @@ delegator.py==0.1.0
 dparse==0.4.1
 execnet==1.5.0
 flake8==3.5.0
-funcsigs==1.0.2; python_version < '3.0'
 future==0.16.0
 gitchangelog==3.0.3
 gitdb2==2.0.3
 gitpython==2.1.9
-hypothesis==3.55.6
+hypothesis==3.56.5
 idna==2.6
 isort==4.3.4
 lazy-object-proxy==1.3.1
@@ -37,7 +36,7 @@ pyparsing==2.2.0
 pytest-cache==1.0
 pytest-cov==2.5.1
 pytest-pycharm==0.5.0
-pytest==3.5.0
+pytest==3.5.1
 pyyaml==3.12
 requests-toolbelt==0.8.0
 requests==2.18.4
@@ -45,7 +44,7 @@ safety==1.8.1
 setuptools-scm==2.0.0
 six==1.11.0
 smmap2==2.0.3
-tqdm==4.22.0
+tqdm==4.23.1
 twine==1.11.0
 urllib3==1.22
 wheel==0.31.0
