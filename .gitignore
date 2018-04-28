@@ -17,7 +17,6 @@ htmlcov
 /doc/html/
 .pylint.d/
 /~/
-Pipfile.lock
 *.puml
 !/epab/vendor/**
 appveyor.yml
