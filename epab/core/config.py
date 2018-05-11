@@ -66,49 +66,58 @@ class _Config:
     def __init__(self):
         self._data = {}
 
+    @staticmethod
+    def _update_sample_config(sample_config: str, attr_list: list, padding: str = '') -> str:
+        for attr in sorted(attr_list, key=lambda _attr: _attr.name):
+            try:
+                _, attr_name = attr.name.split('__')
+            except ValueError:
+                attr_name = attr.name
+
+            sample_config += f'{padding}# {attr.help}\n{padding}# Type: {attr.cast}\n'
+            sample_config += padding
+            if not attr.mandatory and not attr.default:
+                sample_config += '# '
+            sample_config += f'{attr_name}:'
+            if attr.default:
+                sample_config += f' {attr.default}'
+            sample_config += '\n\n'
+
+        return sample_config
+
     @classmethod
-    def make_default(cls):
-        """Creates a sample "epab.yml" config file"""
+    def _update_sample_config_from_sections(cls, sample_config: str, attributes: dict) -> str:
+        for section in sorted(attributes.keys()):
+            for attr in attributes[section]:
+                if attr.default or attr.mandatory:
+                    break
+            else:
+                sample_config += '#'
+            sample_config += f'{section}:\n'
+            cls._update_sample_config(sample_config, attributes[section], padding='\t')
 
-        def _add_attributes(attr_list, padding=''):
-            nonlocal default_config
-            for _attr in sorted(attr_list, key=lambda x: x.name):
-                assert isinstance(_attr, _ConfigProp)
-                try:
-                    _, _attr_name = _attr.name.split('__')
-                except ValueError:
-                    _attr_name = _attr.name
+        return sample_config
 
-                default_config += f'{padding}# {_attr.help}\n{padding}# Type: {_attr.cast}\n'
-                default_config += padding
-                if not _attr.mandatory and not _attr.default:
-                    default_config += '# '
-                default_config += f'{_attr_name}:'
-                if _attr.default:
-                    default_config += f' {_attr.default}'
-                default_config += '\n\n'
-
+    @classmethod
+    def _gather_attributes(cls) -> dict:
         attributes = defaultdict(list)
         for attr_name, attr in inspect.getmembers(cls):
-            # print(attr_name, attr)
             if isinstance(attr, _ConfigProp):
                 try:
                     section, attr_name = attr_name.split('__')
                     attributes[section].append(attr)
                 except ValueError:
                     attributes['root'].append(attr)
-        default_config = '# EPAB configuration file\n\n'
-        _add_attributes(attributes['root'])
+
+    @classmethod
+    def make_default(cls):
+        """Creates a sample "epab.yml" config file"""
+        attributes = cls._gather_attributes()
+        sample_config = '# EPAB configuration file\n\n'
+        cls._update_sample_config(sample_config, attributes['root'])
         del attributes['root']
-        for section in sorted(attributes.keys()):
-            for attr in attributes[section]:
-                if attr.default or attr.mandatory:
-                    break
-            else:
-                default_config += '#'
-            default_config += f'{section}:\n'
-            _add_attributes(attributes[section], padding='\t')
-        Path('epab.yml').write_text(default_config)
+        sample_config = cls._update_sample_config_from_sections(sample_config, attributes)
+        Path('epab.yml').write_text(sample_config)
 
     def load(self, config_file='epab.yml'):
         """
