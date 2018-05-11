@@ -46,7 +46,7 @@ def test_freeze_no_entry_point():
     when(epab.utils).run(...)
     when(epab.utils.AV).info(...)
     when(epab.utils.AV).error(...)
-    CONFIG.entry_point = ''
+    CONFIG.freeze__entry_point = ''
     freeze._freeze('version')
     verify(freeze, times=0)._install_pyinstaller()
     verify(freeze, times=0)._patch()
@@ -60,7 +60,7 @@ def test_flat_freeze_no_entry_point():
     when(epab.utils).run(...)
     when(epab.utils.AV).info(...)
     when(epab.utils.AV).error(...)
-    CONFIG.entry_point = ''
+    CONFIG.freeze__entry_point = ''
     freeze._flat_freeze()
     verify(freeze, times=0)._install_pyinstaller()
     verify(epab.utils, times=0).run(...)

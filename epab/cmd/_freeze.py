@@ -65,12 +65,12 @@ def _patch(version: str):
 
 
 def _freeze(version: str):
-    if not CONFIG.entry_point:
+    if not CONFIG.freeze__entry_point:
         epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = BASE_CMD + [CONFIG.package, '--onefile', CONFIG.entry_point]
-    for data_file in CONFIG.data_files:
+    cmd = BASE_CMD + [CONFIG.package, '--onefile', CONFIG.freeze__entry_point]
+    for data_file in CONFIG.freeze__data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
     epab.utils.AV.info('Freeze OK')
@@ -78,12 +78,12 @@ def _freeze(version: str):
 
 
 def _flat_freeze():
-    if not CONFIG.entry_point:
+    if not CONFIG.freeze__entry_point:
         epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = BASE_CMD + [CONFIG.package, CONFIG.entry_point]
-    for data_file in CONFIG.data_files:
+    cmd = BASE_CMD + [CONFIG.package, CONFIG.freeze__entry_point]
+    for data_file in CONFIG.freeze__data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
 
