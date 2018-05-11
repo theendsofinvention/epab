@@ -14,6 +14,8 @@ TEST_VALUES = {
     'package': 'test',
 }
 
+CONFIG_FILE_NAME = 'epab.yml'
+
 
 class _ConfigProp:
 
@@ -108,18 +110,19 @@ class _Config:
                     attributes[section].append(attr)
                 except ValueError:
                     attributes['root'].append(attr)
+        return attributes
 
     @classmethod
     def make_default(cls):
-        """Creates a sample "epab.yml" config file"""
+        """Creates a sample config file"""
         attributes = cls._gather_attributes()
         sample_config = '# EPAB configuration file\n\n'
         cls._update_sample_config(sample_config, attributes['root'])
         del attributes['root']
         sample_config = cls._update_sample_config_from_sections(sample_config, attributes)
-        Path('epab.yml').write_text(sample_config)
+        Path(CONFIG_FILE_NAME).write_text(sample_config)
 
-    def load(self, config_file='epab.yml'):
+    def load(self, config_file=CONFIG_FILE_NAME):
         """
         Loads configuration data from a config file
 
