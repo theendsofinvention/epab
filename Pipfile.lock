@@ -32,10 +32,10 @@
         },
         "attrs": {
             "hashes": [
-                "sha256:1c7960ccfd6a005cd9f7ba884e6316b5e430a3f1a6c37c5f87d8b43f83b54ec9",
-                "sha256:a17a9573a6f475c99b551c0e0a812707ddda1ec9653bed04c13841404ed6f450"
+                "sha256:4b90b09eeeb9b88c35bc642cbac057e45a5fd85367b985bd2809c62b7b939265",
+                "sha256:e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b"
             ],
-            "version": "==17.4.0"
+            "version": "==18.1.0"
         },
         "autopep8": {
             "hashes": [
@@ -178,10 +178,10 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:462e6adce1f5ac16acd81b71cf6ffd0febe0ece7227ef8c39ebf37c1509db527"
+                "sha256:3fcee49106451908e12a29722539407da797c1383ec9b7cd60cb48b68291b67d"
             ],
             "index": "pypi",
-            "version": "==3.56.5"
+            "version": "==3.56.8"
         },
         "idna": {
             "hashes": [
@@ -242,10 +242,10 @@
         },
         "mockito": {
             "hashes": [
-                "sha256:ea264ebf1d3d0e8bef31f2d630dcd18fcc073dbc4a3b4050b80ac624f6e46788"
+                "sha256:ebd57a053f6e9f08c37d915d751dd6611365d501e5973ba1de0ad2596e91c5a2"
             ],
             "index": "pypi",
-            "version": "==1.0.12"
+            "version": "==1.1.0"
         },
         "more-itertools": {
             "hashes": [
@@ -307,8 +307,6 @@
         },
         "pycodestyle": {
             "hashes": [
-                "sha256:1ec08a51c901dfe44921576ed6e4c1f5b7ecbad403f871397feedb5eb8e4fa14",
-                "sha256:5ff2fbcbab997895ba9ead77e1b38b3ebc2e5c3b8a6194ef918666e4c790a00e",
                 "sha256:682256a5b318149ca0d2a9185d365d8864a768a28db66a84a2ea946bcc426766",
                 "sha256:6c4245ade1edfad79c3446fadfc96b0de2759662dc29d07d80a6f27ad1ca6ba9"
             ],
@@ -443,10 +441,10 @@
         },
         "tqdm": {
             "hashes": [
-                "sha256:22c760d05b2eb6e96a91ad7ed1b03c9c97e6256fb7716410c27c2cb3265a5913",
-                "sha256:d7bfa112a55290a5e2d0c3263a09b17b24240686fbf20d1ef7c5e8edfbb71ad0"
+                "sha256:9fc19da10d7c962613cbcb9cdced41230deb31d9e20332da84c96917ff534281",
+                "sha256:ce205451a27b6050faed0bb2bcbea96c6a550f8c27cd2b5441d72e948113ad18"
             ],
-            "version": "==4.23.1"
+            "version": "==4.23.3"
         },
         "twine": {
             "hashes": [
