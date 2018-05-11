@@ -7,6 +7,7 @@ import functools
 
 import certifi
 import click
+from pathlib import Path
 
 import epab.exc
 import epab.utils
@@ -65,41 +66,53 @@ def _patch(version: str):
 
 
 def _freeze(version: str):
-    if not CONFIG.entry_point:
+    if not CONFIG.freeze__entry_point:
         epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = BASE_CMD + [CONFIG.package, '--onefile', CONFIG.entry_point]
-    for data_file in CONFIG.data_files:
+    cmd = BASE_CMD + [CONFIG.package, '--onefile', CONFIG.freeze__entry_point]
+    for data_file in CONFIG.freeze__data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
+    epab.utils.run('pipenv clean', failure_ok=True)
     epab.utils.AV.info('Freeze OK')
     _patch(version)
 
 
 def _flat_freeze():
-    if not CONFIG.entry_point:
+    if not CONFIG.freeze__entry_point:
         epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = BASE_CMD + [CONFIG.package, CONFIG.entry_point]
-    for data_file in CONFIG.data_files:
+    cmd = BASE_CMD + [CONFIG.package, CONFIG.freeze__entry_point]
+    for data_file in CONFIG.freeze__data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
 
 
+def _clean_spec():
+    spec_file = Path(f'{CONFIG.package}.spec')
+    spec_file.unlink()
+
+
 @click.command()
 @click.argument('version')
-def freeze(version: str):
+@click.option('-c', '--clean', is_flag=True, default=False, help='Clean spec file before freezing')
+def freeze(version: str, clean: bool):
     """
     Freeze current package into a single file
     """
+    if clean:
+        _clean_spec()
     _freeze(version)
 
 
 @click.command()
-def flat_freeze():
+@click.option('-c', '--clean', is_flag=True, default=False, help='Clean spec file before freezing')
+def flat_freeze(clean: bool):
     """
     Freeze current package into a directory
     """
+    if clean:
+        _clean_spec()
     _flat_freeze()
