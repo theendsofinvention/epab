@@ -74,6 +74,7 @@ def _freeze(version: str):
     for data_file in CONFIG.freeze__data_files:
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
+    epab.utils.run('pipenv clean', failure_ok=True)
     epab.utils.AV.info('Freeze OK')
     _patch(version)
 
