@@ -3,8 +3,8 @@
 Handles EPAB's config file
 """
 
-import sys
 import inspect
+import sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -68,6 +68,7 @@ class _Config:
 
     @classmethod
     def make_default(cls):
+        """Creates a sample "epab.yml" config file"""
 
         def _add_attributes(attr_list, padding=''):
             nonlocal default_config
@@ -109,8 +110,7 @@ class _Config:
             _add_attributes(attributes[section], padding='\t')
         Path('epab.yml').write_text(default_config)
 
-
-    def load(self, config_file='epab.ymml'):
+    def load(self, config_file='epab.yml'):
         """
         Loads configuration data from a config file
 
@@ -170,7 +170,6 @@ class Config(_Config):
 
 
 CONFIG = Config()
-
 
 if __name__ == '__main__':
     CONFIG.load()
