@@ -7,6 +7,7 @@ import functools
 
 import certifi
 import click
+from pathlib import Path
 
 import epab.exc
 import epab.utils
@@ -88,18 +89,29 @@ def _flat_freeze():
     epab.utils.run(' '.join(cmd))
 
 
+def _clean_spec():
+    spec_file = Path(f'{CONFIG.package}.spec')
+    spec_file.unlink()
+
+
 @click.command()
 @click.argument('version')
-def freeze(version: str):
+@click.option('-c', '--clean', is_flag=True, default=False, help='Clean spec file before freezing')
+def freeze(version: str, clean: bool):
     """
     Freeze current package into a single file
     """
+    if clean:
+        _clean_spec()
     _freeze(version)
 
 
 @click.command()
-def flat_freeze():
+@click.option('-c', '--clean', is_flag=True, default=False, help='Clean spec file before freezing')
+def flat_freeze(clean: bool):
     """
     Freeze current package into a directory
     """
+    if clean:
+        _clean_spec()
     _flat_freeze()

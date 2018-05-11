@@ -6,6 +6,7 @@ from mockito import mock, verify, verifyStubbedInvocationsAreUsed, when
 
 import epab.exc
 import epab.utils
+from pathlib import Path
 from epab.cmd import _freeze as freeze
 from epab.core import CONFIG, CTX
 
@@ -110,4 +111,20 @@ def test_install_pyinstaller_not_installed():
         .thenRaise(epab.exc.ExecutableNotFoundError) \
         .thenReturn(('version   ', 0))
     freeze._install_pyinstaller()
+    verifyStubbedInvocationsAreUsed()
+
+
+def test_clean_spec(cli_runner):
+    CONFIG.package = 'test'
+    spec_file = Path('test.spec')
+    spec_file.touch()
+    version = '0.1.0'
+    when(freeze)._freeze(version)
+    when(freeze)._flat_freeze()
+    cli_runner.invoke(freeze.freeze, [version, '-c'])
+    assert not spec_file.exists()
+    spec_file.touch()
+    assert spec_file.exists()
+    cli_runner.invoke(freeze.flat_freeze, ['-c'])
+    assert not spec_file.exists()
     verifyStubbedInvocationsAreUsed()
