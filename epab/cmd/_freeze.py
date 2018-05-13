@@ -4,10 +4,10 @@ Freeze package into exe
 """
 import datetime
 import functools
+from pathlib import Path
 
 import certifi
 import click
-from pathlib import Path
 
 import epab.exc
 import epab.utils

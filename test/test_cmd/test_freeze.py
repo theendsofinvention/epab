@@ -1,12 +1,12 @@
 # coding=utf-8
 
 import datetime
+from pathlib import Path
 
 from mockito import mock, verify, verifyStubbedInvocationsAreUsed, when
 
 import epab.exc
 import epab.utils
-from pathlib import Path
 from epab.cmd import _freeze as freeze
 from epab.core import CONFIG, CTX
 
