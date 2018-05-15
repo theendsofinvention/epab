@@ -38,38 +38,6 @@ def test_cmd_end(text, capsys):
     assert err == ''
 
 
-# @given(text=st.text(alphabet=string.printable))
-# def test_cmd_start(text, capsys):
-#     epab.utils.cmd_start(text)
-#     out, err = capsys.readouterr()
-#     assert out == 'EPAB: {}'.format(text)
-#     assert err == ''
-
-
-# @given(text=st.text(alphabet=string.printable))
-# def test_std_err(text, capsys):
-#     epab.utils.std_err(text)
-#     out, err = capsys.readouterr()
-#     assert out == ''
-#     assert err == 'EPAB: {}\n'.format(text)
-
-
-# @given(text=st.text(alphabet=string.printable))
-# def test_std_out(text, capsys):
-#     epab.utils.std_out(text)
-#     out, err = capsys.readouterr()
-#     assert out == text
-#     assert err == ''
-
-
-# @given(text=st.text(alphabet=string.printable))
-# def test_error(text, capsys):
-#     epab.utils.error(text)
-#     out, err = capsys.readouterr()
-#     assert out == ''
-#     assert err == 'EPAB: {}\n'.format(text)
-
-
 @pytest.mark.parametrize(
     'func,out,err',
     [
