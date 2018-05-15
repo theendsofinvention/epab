@@ -4,7 +4,6 @@ __pycache__
 .tox/
 .eggs/
 .hypothesis/
-.coverage
 *.config
 *.debug
 *.spec
@@ -24,3 +23,4 @@ artifacts/
 /.pytest_cache/
 /doitall.cmd
 test.yml
+.coverage*
