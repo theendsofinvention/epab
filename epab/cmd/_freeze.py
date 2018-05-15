@@ -9,9 +9,9 @@ from pathlib import Path
 import certifi
 import click
 
+import epab.cmd
 import epab.exc
 import epab.utils
-import epab.cmd
 from epab.core import CONFIG, CTX
 
 VERPATCH_PATH = epab.utils.resource_path('epab', './vendor/verpatch.exe')
