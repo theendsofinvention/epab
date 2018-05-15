@@ -27,7 +27,6 @@ class _ConfigProp:
         self.cast = cast
         self.help = help_str
 
-    # pylint: disable=inconsistent-return-statements
     def __set__(self, instance, value):
 
         components = self.name.split('__')
@@ -35,7 +34,9 @@ class _ConfigProp:
         target = getattr(instance, '_data')
         while components:
             com = components.pop(0)
-            target = target.get(com)
+            if com not in target:
+                target[com] = {}
+            target = target[com]
         target[key] = value
 
     def __get__(self, instance, owner):
@@ -179,6 +180,8 @@ class Config(_Config):
     verbose = _ConfigProp(default=False, cast=bool, help_str='More output')
     artifacts = _ConfigProp(cast=list, help_str='List of artifacts for AppVeyor')
     flake8__exclude = _ConfigProp(cast=str, default='', help_str='List of files excluded from flake8 analysis')
+    qt__res_src = _ConfigProp(cast=str, default='', help_str='Qt resource file (.qrc) location')
+    qt__res_tgt = _ConfigProp(cast=str, default='', help_str='Compiled Qt resource file (.py) target location')
 
 
 CONFIG = Config()
