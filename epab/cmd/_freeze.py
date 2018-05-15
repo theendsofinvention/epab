@@ -11,6 +11,7 @@ import click
 
 import epab.exc
 import epab.utils
+import epab.cmd
 from epab.core import CONFIG, CTX
 
 VERPATCH_PATH = epab.utils.resource_path('epab', './vendor/verpatch.exe')
@@ -96,23 +97,27 @@ def _clean_spec():
 
 
 @click.command()
+@click.pass_context
 @click.argument('version')
 @click.option('-c', '--clean', is_flag=True, default=False, help='Clean spec file before freezing')
-def freeze(version: str, clean: bool):
+def freeze(ctx, version: str, clean: bool):
     """
     Freeze current package into a single file
     """
     if clean:
         _clean_spec()
+    ctx.invoke(epab.cmd.compile_qt_resources)
     _freeze(version)
 
 
 @click.command()
+@click.pass_context
 @click.option('-c', '--clean', is_flag=True, default=False, help='Clean spec file before freezing')
-def flat_freeze(clean: bool):
+def flat_freeze(ctx, clean: bool):
     """
     Freeze current package into a directory
     """
     if clean:
         _clean_spec()
+    ctx.invoke(epab.cmd.compile_qt_resources)
     _flat_freeze()

@@ -12,3 +12,4 @@ from ._push import push
 from ._freeze import freeze, flat_freeze
 from ._next_version import next_version
 from ._print_version import print_version
+from ._compile_qt import compile_qt_resources

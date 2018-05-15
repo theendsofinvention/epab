@@ -179,6 +179,8 @@ class Config(_Config):
     verbose = _ConfigProp(default=False, cast=bool, help_str='More output')
     artifacts = _ConfigProp(cast=list, help_str='List of artifacts for AppVeyor')
     flake8__exclude = _ConfigProp(cast=str, default='', help_str='List of files excluded from flake8 analysis')
+    qt__res_src = _ConfigProp(cast=str, help_str='Qt resource file (.qrc) location')
+    qt__res_tgt = _ConfigProp(cast=str, help_str='Compiled Qt resource file (.py) target location')
 
 
 CONFIG = Config()
