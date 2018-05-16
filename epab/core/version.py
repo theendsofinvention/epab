@@ -13,7 +13,7 @@ try:
     VERSION = get_distribution('epab').version
 except DistributionNotFound:  # pragma: no cover
     if getattr(sys, 'frozen', False):
-        VERSION = get_product_version(sys.executable)
+        VERSION = get_product_version(sys.executable).file_version
     else:
         # package is not installed
         VERSION = 'not installed'

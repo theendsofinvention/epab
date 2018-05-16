@@ -5,6 +5,7 @@ Handles EPAB's config file
 
 import inspect
 import sys
+import typing
 from collections import defaultdict
 from pathlib import Path
 
@@ -103,7 +104,7 @@ class _Config:
 
     @classmethod
     def _gather_attributes(cls) -> dict:
-        attributes = defaultdict(list)
+        attributes: typing.DefaultDict = defaultdict(list)
         for attr_name, attr in inspect.getmembers(cls):
             if isinstance(attr, _ConfigProp):
                 try:
@@ -182,6 +183,7 @@ class Config(_Config):
     flake8__exclude = _ConfigProp(cast=str, default='', help_str='List of files excluded from flake8 analysis')
     qt__res_src = _ConfigProp(cast=str, default='', help_str='Qt resource file (.qrc) location')
     qt__res_tgt = _ConfigProp(cast=str, default='', help_str='Compiled Qt resource file (.py) target location')
+    mypy__args = _ConfigProp(cast=str, default='', help_str='Additional args for mypy linter')
 
 
 CONFIG = Config()

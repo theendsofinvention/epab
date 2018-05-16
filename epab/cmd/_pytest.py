@@ -146,6 +146,11 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     epab.utils.info('Running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'
     _Coverage.install()
+    epab.utils.add_to_gitignore('.coverage*')
+    epab.utils.add_to_gitignore('/.pytest_cache/')
+    epab.utils.add_to_gitignore('htmlcov')
+    epab.utils.add_to_gitignore('coverage.xml')
+    epab.utils.add_to_gitignore('.hypothesis/')
     cmd = f'pytest {test}'
 
     if CTX.appveyor and CONFIG.test__av_runner_options:

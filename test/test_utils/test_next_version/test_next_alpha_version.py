@@ -1,5 +1,7 @@
 # coding=utf-8
 
+import pytest
+
 from epab.utils import _next_version as nv
 
 
@@ -11,12 +13,14 @@ def _check_next_version(repo, expected_version, calver):
     repo.mark(f'next_version: {next_alpha}')
 
 
+@pytest.mark.long
 def test_next_alpha_version(repo):
     calver = '2018.1.1'
     repo.create_branch_and_checkout('test')
     _check_next_version(repo, f'{calver}.1a1+test', calver)
 
 
+@pytest.mark.long
 def test_next_alpha_version_with_existing_version(repo):
     calver = '2018.1.1'
     repo.tag(f'{calver}.1')
@@ -24,6 +28,7 @@ def test_next_alpha_version_with_existing_version(repo):
     _check_next_version(repo, f'{calver}.2a1+test', calver)
 
 
+@pytest.mark.long
 def test_next_stable_version_with_existing_mixed_version(repo):
     calver = '2018.1.1'
     repo.tag(f'{calver}.1')
@@ -33,6 +38,7 @@ def test_next_stable_version_with_existing_mixed_version(repo):
     _check_next_version(repo, f'{calver}.4a1+test', calver)
 
 
+@pytest.mark.long
 def test_next_stable_version_with_existing_alpha(repo):
     calver = '2018.1.1'
     repo.create_branch_and_checkout('test')
@@ -42,6 +48,7 @@ def test_next_stable_version_with_existing_alpha(repo):
     _check_next_version(repo, f'{calver}.1a4+test', calver)
 
 
+@pytest.mark.long
 def test_next_stable_version_with_existing_mixed_alpha(repo):
     calver = '2018.1.1'
     repo.tag(f'{calver}.1')

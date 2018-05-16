@@ -13,3 +13,4 @@ from ._stashed import stashed
 from ._resource_path import resource_path
 from ._av import AV
 from ._exe_version import get_product_version, VersionInfo
+from ._gitignore import add_to_gitignore

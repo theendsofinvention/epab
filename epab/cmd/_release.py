@@ -83,6 +83,7 @@ def _run_tests(ctx):
 
 def _create_wheel():
     python_exe = sys.executable.replace('\\', '/')
+    epab.utils.add_to_gitignore('*.egg-info/')
     epab.utils.run(f'{python_exe} setup.py bdist_wheel')
     epab.utils.AV.info('Setup OK')
 

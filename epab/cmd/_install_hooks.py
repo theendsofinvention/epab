@@ -46,8 +46,8 @@ exit 0"""
 
 def _make_venv_path() -> str:
     venv, _ = epab.utils.run('pipenv --venv', filters='Courtesy Notice:')
-    venv = Path(venv.rstrip(), 'Scripts').absolute()
-    return Path('/', venv.parts[0].replace(':', '').lower(), *venv.parts[1:]).as_posix()
+    venv_path = Path(venv.rstrip(), 'Scripts').absolute()
+    return Path('/', venv_path.parts[0].replace(':', '').lower(), *venv_path.parts[1:]).as_posix()
 
 
 def _install_hooks():
@@ -60,9 +60,5 @@ def _install_hooks():
 def install_hooks():
     """
     Install Git hooks
-
-    Args:
-        ctx: click Context
-
     """
     _install_hooks()

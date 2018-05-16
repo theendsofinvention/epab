@@ -67,6 +67,7 @@ def test_requirement_dry_run():
     assert not reqs_dev.exists()
 
 
+@pytest.mark.long
 def test_requirements_run_invocation():
     spy2(epab.utils.error)
     when(epab.utils).run(...).thenReturn(('', 0))

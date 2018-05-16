@@ -60,6 +60,8 @@ def get_product_version(path: typing.Union[str, Path]) -> VersionInfo:
                         file_version = string.entries[b'SpecialBuild'].decode('utf8')
                         full_version = string.entries[b'PrivateBuild'].decode('utf8')
                         return VersionInfo(file_version, full_version)
+
+        raise RuntimeError(f'unable to obtain version from {path}')
     except (KeyError, AttributeError) as exc:
         traceback.print_exc()
         raise RuntimeError(f'unable to obtain version from {path}') from exc

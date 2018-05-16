@@ -10,18 +10,15 @@ import git
 from git.exc import GitCommandError
 
 import epab.utils
+from epab.bases.repo import BaseRepo
 from epab.core import CTX
 
 
 # pylint: disable=too-many-public-methods
-class Repo:
+class Repo(BaseRepo):
     """
     Wrapper for git.Repo
     """
-
-    def __init__(self):
-        self.repo = git.Repo()
-        self.stashed = False
 
     def get_current_branch(self) -> str:
         """
@@ -259,7 +256,7 @@ class Repo:
         if not files_to_add:
             return None
 
-        if files_to_add and isinstance(files_to_add, str):
+        if isinstance(files_to_add, str):
             return [files_to_add]
 
         return files_to_add
@@ -514,7 +511,7 @@ class Repo:
             epab.utils.error(f'Repo has {len(changed_files)} modified files: {changed_files}')
             result = True
         if untracked:
-            result = result or self.untracked_files()
+            result = result or bool(self.untracked_files())
         if CTX.dry_run and result:
             epab.utils.info('Repo was dirty; DRY RUN')
             return False

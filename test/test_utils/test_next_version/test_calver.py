@@ -1,5 +1,5 @@
 # coding=utf-8
-
+import pytest
 from hypothesis import given
 from hypothesis import strategies as st
 from mockito import mock, verifyStubbedInvocationsAreUsed, when
@@ -7,6 +7,7 @@ from mockito import mock, verifyStubbedInvocationsAreUsed, when
 from epab.utils import _next_version as nv
 
 
+@pytest.mark.long
 @given(
     year=st.integers(min_value=1950, max_value=8000),
     month=st.integers(min_value=1, max_value=12),

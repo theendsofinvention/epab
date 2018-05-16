@@ -21,40 +21,38 @@ class Tag:
 
     _re_alpha = re.compile(r'a(?P<quantifier>\d+)\+(?P<branch>.+)')
 
-    def __init__(self, tag_str: str):
+    def __init__(self, tag_str: str) -> None:
         self._tag_str = tag_str
-        self._tag = self._re_tag.match(self._tag_str)
-        self._validate_tag_str()
-        if self._tag.group('alpha'):
+        self._tag: typing.Optional[typing.Match[str]] = self._re_tag.match(self._tag_str)
+        if not self._tag:
+            raise ValueError(f'Wrong value for tag string: {self._tag_str}')
+        else:
+            self._tag_match: typing.Match[str] = self._tag
+        if self._tag_match.group('alpha'):
             self._alpha_str = self._tag.group('alpha')
             self._is_alpha = True
-            self._alpha = self._re_alpha.match(self._alpha_str)
-            self._validate_alpha_str()
+            self._alpha: typing.Optional[typing.Match[str]] = self._re_alpha.match(self._alpha_str)
+            if not self._alpha:
+                raise ValueError(f'Wrong value for alpha string: {self._alpha_str}')
+            else:
+                self._alpha_match: typing.Match[str] = self._alpha
         else:
             self._alpha_str = ''
             self._is_alpha = False
-
-    def _validate_tag_str(self):
-        if not self._tag:
-            raise ValueError(f'Wrong value for tag string: {self._tag_str}')
-
-    def _validate_alpha_str(self):
-        if not self._alpha:
-            raise ValueError(f'Wrong value for alpha string: {self._alpha_str}')
 
     @property
     def calver(self) -> str:
         """
         Returns: calver part of the tag
         """
-        return self._tag.group('calver')
+        return self._tag_match.group('calver')
 
     @property
     def quantifier(self) -> int:
         """
         Returns: iteration of this calver (number of releases during that day
         """
-        return int(self._tag.group('quantifier'))
+        return int(self._tag_match.group('quantifier'))
 
     @property
     def branch(self):
@@ -72,7 +70,7 @@ class Tag:
         """
         if not self.is_alpha:
             return 0
-        return int(self._alpha.group('quantifier'))
+        return int(self._alpha_match.group('quantifier'))
 
     @property
     def is_alpha(self) -> bool:

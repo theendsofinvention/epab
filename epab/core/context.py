@@ -4,19 +4,22 @@ Global runtime CTX
 """
 
 import os
+import typing
+
+from epab.bases.repo import BaseRepo
 
 
 class CTX:
     """
     Global EPAB context
     """
-    run_once = {}
-    dry_run = False
-    known_executables = {}
-    repo = None
-    next_version = None
-    stash = False
-    appveyor = os.getenv('APPVEYOR')
+    run_once: dict = {}
+    dry_run: bool = False
+    known_executables: dict = {}
+    repo: BaseRepo
+    next_version: typing.Optional[str] = None
+    stash: bool = False
+    appveyor: typing.Optional[str] = os.getenv('APPVEYOR')
     prefix: str = 'EPAB'
 
     @staticmethod

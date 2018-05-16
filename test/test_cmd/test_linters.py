@@ -8,7 +8,7 @@ from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocat
 
 import epab.utils
 from epab.core import CONFIG, CTX
-from epab.linters import _flake8, _lint, _pep8, _pylint, _safety, _sort
+from epab.linters import _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort
 
 
 @pytest.fixture(autouse=True, name='repo')
@@ -29,6 +29,7 @@ def test_lint(amend_stage):
     verify(context).invoke(_safety.safety)
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
+    verify(context).invoke(_mypy.mypy)
     verify(context).invoke(_sort.sort, amend=amend, stage=stage)
     verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
     verifyNoMoreInteractions(context)
@@ -46,6 +47,7 @@ def test_lint_appveyor(amend_stage):
     verify(context).invoke(_safety.safety)
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
+    verify(context).invoke(_mypy.mypy)
     verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
     verifyNoMoreInteractions(context)
 
@@ -58,6 +60,7 @@ def test_pep8():
     verifyStubbedInvocationsAreUsed()
 
 
+@pytest.mark.long
 def test_pep8_amend():
     with when(CTX.repo).amend_commit(append_to_msg='pep8 [auto]'):
         CTX.run_once = {}
