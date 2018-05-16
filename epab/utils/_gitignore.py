@@ -13,7 +13,7 @@ def add_to_gitignore(line: str):
     Args:
         line: line to add
     """
-    line = f'\n# Added by EPAB\n{line}\n'
+    line = f'{line}\n'
     if GIT_IGNORE.exists():
         if line in GIT_IGNORE.read_text(encoding='utf8'):
             return

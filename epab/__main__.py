@@ -41,6 +41,11 @@ def cli(dry_run, dirty, stash):
     CTX.repo = epab.utils.Repo()
     CTX.repo.ensure()
     CTX.stash = stash
+    epab.utils.add_to_gitignore('.idea/')
+    epab.utils.add_to_gitignore('.cache')
+    epab.utils.add_to_gitignore('/dist/')
+    epab.utils.add_to_gitignore('/build/')
+    epab.utils.add_to_gitignore('__pycache__')
     if not dirty and CTX.repo.is_dirty():
         click.secho('Repository is dirty', err=True, fg='red')
         sys.exit(-1)
