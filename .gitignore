@@ -24,3 +24,6 @@ artifacts/
 /doitall.cmd
 test.yml
 .coverage*
+
+# Added by EPAB
+.mypy_cache
