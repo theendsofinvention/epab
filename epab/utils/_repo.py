@@ -253,15 +253,13 @@ class Repo(BaseRepo):
             files_to_add: typing.Optional[typing.Union[typing.List[str], str]] = None
     ) -> typing.Optional[typing.List[str]]:
 
-        result: typing.Optional[typing.List[str]]
-
         if not files_to_add:
-            result = None
+            return None
 
-        if files_to_add and isinstance(files_to_add, str):
-            result = [files_to_add]
+        if isinstance(files_to_add, str):
+            return [files_to_add]
 
-        return result
+        return files_to_add
 
     def commit(
             self,
