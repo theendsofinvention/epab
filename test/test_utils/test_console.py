@@ -15,6 +15,7 @@ from epab.core import CONFIG
 from epab.utils._console import _sanitize
 
 
+@pytest.mark.long
 @given(text=st.text())
 def test_sanitize(text):
     result = _sanitize(text)
@@ -22,6 +23,7 @@ def test_sanitize(text):
     result.encode('ascii')
 
 
+@pytest.mark.long
 @given(text=st.text(alphabet=string.printable))
 def test_info(text, capsys):
     epab.utils.info(text)
@@ -30,6 +32,7 @@ def test_info(text, capsys):
     assert err == ''
 
 
+@pytest.mark.long
 @given(text=st.text(alphabet=string.printable))
 def test_cmd_end(text, capsys):
     epab.utils.cmd_end(text)
@@ -38,6 +41,7 @@ def test_cmd_end(text, capsys):
     assert err == ''
 
 
+@pytest.mark.long
 @pytest.mark.parametrize(
     'func,out,err',
     [

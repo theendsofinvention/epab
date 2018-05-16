@@ -75,36 +75,42 @@ def _run_casting_test(value, caster):
     return instance
 
 
+@pytest.mark.long
 @given(value=st.text(alphabet=string.printable))
 @pytest.mark.parametrize('caster', [str])
 def test_with_text(value, caster):
     _run_casting_test(value, caster)
 
 
+@pytest.mark.long
 @given(value=st.booleans())
 @pytest.mark.parametrize('caster', [bool])
 def test_with_bool(value, caster):
     _run_casting_test(value, caster)
 
 
+@pytest.mark.long
 @given(value=st.lists(st.randoms()))
 @pytest.mark.parametrize('caster', [list])
 def test_with_list(value, caster):
     _run_casting_test(value, caster)
 
 
+@pytest.mark.long
 @given(value=st.integers())
 @pytest.mark.parametrize('caster', [int])
 def test_with_int(value, caster):
     _run_casting_test(value, caster)
 
 
+@pytest.mark.long
 @given(value=st.floats())
 @pytest.mark.parametrize('caster', [float])
 def test_with_float(value, caster):
     _run_casting_test(value, caster)
 
 
+@pytest.mark.long
 @given(value=st.dictionaries(keys=st.text(alphabet=string.ascii_lowercase), values=st.integers()))
 @pytest.mark.parametrize('caster', [dict])
 def test_with_dict(value, caster):

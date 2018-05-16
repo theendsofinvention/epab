@@ -60,6 +60,7 @@ def test_pep8():
     verifyStubbedInvocationsAreUsed()
 
 
+@pytest.mark.long
 def test_pep8_amend():
     with when(CTX.repo).amend_commit(append_to_msg='pep8 [auto]'):
         CTX.run_once = {}

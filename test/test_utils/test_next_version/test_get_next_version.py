@@ -40,12 +40,14 @@ def test_next_version_stable_older_calver(repo):
     _check_next_version(repo, f'{CALVER}.1')
 
 
+@pytest.mark.long
 def test_next_version_alpha_empty_repo(repo):
     assert repo.get_current_branch() == 'master'
     repo.create_branch_and_checkout('test')
     _check_next_version(repo, f'{CALVER}.1a1+test')
 
 
+@pytest.mark.long
 def test_next_version_alpha(repo):
     assert repo.get_current_branch() == 'master'
     repo.tag('2018.1.1.1')

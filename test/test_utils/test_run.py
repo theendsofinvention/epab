@@ -35,6 +35,7 @@ def _process():
     yield process
 
 
+@pytest.mark.long
 @given(text=st.text(alphabet=string.printable))
 def test_filter_line_raw(text):
     assert filter_line(text, None) == text
