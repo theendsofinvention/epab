@@ -1,8 +1,6 @@
 __pycache__
 .idea/
 .cache
-.tox/
-.eggs/
 .hypothesis/
 *.config
 *.debug
@@ -24,6 +22,4 @@ artifacts/
 /doitall.cmd
 test.yml
 .coverage*
-
-# Added by EPAB
 .mypy_cache
