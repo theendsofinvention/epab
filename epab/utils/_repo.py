@@ -10,18 +10,15 @@ import git
 from git.exc import GitCommandError
 
 import epab.utils
+from epab.bases.repo import BaseRepo
 from epab.core import CTX
 
 
 # pylint: disable=too-many-public-methods
-class Repo:
+class Repo(BaseRepo):
     """
     Wrapper for git.Repo
     """
-
-    def __init__(self):
-        self.repo = git.Repo()
-        self.stashed = False
 
     def get_current_branch(self) -> str:
         """

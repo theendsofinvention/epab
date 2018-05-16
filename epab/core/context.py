@@ -5,6 +5,7 @@ Global runtime CTX
 
 import os
 
+from epab.bases.repo import BaseRepo
 
 class CTX:
     """
@@ -13,7 +14,7 @@ class CTX:
     run_once = {}
     dry_run = False
     known_executables = {}
-    repo = None
+    repo: BaseRepo = None
     next_version = None
     stash = False
     appveyor = os.getenv('APPVEYOR')
