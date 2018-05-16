@@ -182,6 +182,7 @@ class Config(_Config):
     flake8__exclude = _ConfigProp(cast=str, default='', help_str='List of files excluded from flake8 analysis')
     qt__res_src = _ConfigProp(cast=str, default='', help_str='Qt resource file (.qrc) location')
     qt__res_tgt = _ConfigProp(cast=str, default='', help_str='Compiled Qt resource file (.py) target location')
+    mypy__args = _ConfigProp(cast=str, default='', help_str='Additional args for mypy linter')
 
 
 CONFIG = Config()

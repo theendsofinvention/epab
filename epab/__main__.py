@@ -53,6 +53,7 @@ _LINTERS = [
     epab.linters.pylint,
     epab.linters.safety,
     epab.linters.lint,
+    epab.linters.mypy,
 ]
 
 _COMMANDS = [

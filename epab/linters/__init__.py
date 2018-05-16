@@ -3,4 +3,4 @@
 Manages linters
 """
 
-from ._lint import lint, pep8, sort, flake8, pylint, safety
+from ._lint import lint, pep8, sort, flake8, pylint, safety, mypy
