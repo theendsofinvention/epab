@@ -8,11 +8,11 @@ import epab.utils
 from epab.core import CTX
 
 from ._flake8 import flake8
+from ._mypy import mypy
 from ._pep8 import pep8
 from ._pylint import pylint
 from ._safety import safety
 from ._sort import sort
-from ._mypy import mypy
 
 
 @epab.utils.run_once

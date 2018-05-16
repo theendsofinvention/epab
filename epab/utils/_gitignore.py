@@ -1,7 +1,9 @@
 # coding=utf-8
+"""
+Manages .gitignore file
+"""
 
 from pathlib import Path
-
 
 GIT_IGNORE = Path('.gitignore').absolute()
 

@@ -3,12 +3,11 @@
 Pep8 linter
 """
 import sys
-import click
-import webbrowser
 
-from pathlib import Path
+import click
+
 import epab.utils
-from epab.core import CONFIG, CTX
+from epab.core import CONFIG
 
 
 @epab.utils.run_once
@@ -26,9 +25,6 @@ def _mypy():
 @click.command()
 def mypy():
     """
-    Runs Pyup's Safety tool (https://pyup.io/safety/)
-
-    Args:
-        stage: whether or not to stage changes
+    Runs MyPy type-checker
     """
     _mypy()

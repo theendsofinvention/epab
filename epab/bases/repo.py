@@ -2,16 +2,18 @@
 """
 Base class for a Repo object
 """
-from abc import abstractmethod, ABCMeta
 import typing
+from abc import ABCMeta, abstractmethod
 
 import git
 
 
+# pylint: disable=too-many-public-methods
 class BaseRepo(metaclass=ABCMeta):
     """
     Base class for a Repo object
     """
+
     def __init__(self):
         self.stashed = False
         self.repo = git.Repo()
@@ -47,7 +49,7 @@ class BaseRepo(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def remove_tag(self, tag):
+    def remove_tag(self, *tag: str):
         """
         Deletes a tag from the repo
 
@@ -185,7 +187,7 @@ class BaseRepo(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def stage_subset(self, files_to_add):
+    def stage_subset(self, *files_to_add: str):
         """
         Stages a subset of files
         Args:

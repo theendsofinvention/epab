@@ -1,6 +1,7 @@
 # coding=utf-8
 import pytest
-from hypothesis import given, strategies as st
+from hypothesis import given
+from hypothesis import strategies as st
 from mockito import mock, verifyStubbedInvocationsAreUsed, when
 
 from epab.utils import _next_version as nv

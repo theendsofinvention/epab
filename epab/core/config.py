@@ -4,8 +4,8 @@ Handles EPAB's config file
 """
 
 import inspect
-import typing
 import sys
+import typing
 from collections import defaultdict
 from pathlib import Path
 
