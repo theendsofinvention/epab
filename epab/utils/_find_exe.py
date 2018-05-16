@@ -17,7 +17,7 @@ from epab.core import CTX
 def find_executable(executable: str, *paths: str) -> typing.Optional[Path]:  # noqa: C901
     # noinspection SpellCheckingInspection
     """
-    https://gist.github.com/4368898
+    Based on: https://gist.github.com/4368898
 
     Public domain code by anatoly techtonik <techtonik@gmail.com>
 
@@ -39,14 +39,14 @@ def find_executable(executable: str, *paths: str) -> typing.Optional[Path]:  # n
     if not executable.endswith('.exe'):
         executable = f'{executable}.exe'
 
-    if executable in CTX.known_executables:  # type: ignore
-        return CTX.known_executables[executable]  # type: ignore
+    if executable in CTX.known_executables:
+        return CTX.known_executables[executable]
 
     epab.utils.cmd_start(f'Looking for executable: {executable}')
 
     if not paths:
         path = os.environ['PATH']
-        paths = [Path(sys.exec_prefix, 'Scripts').absolute()] + path.split(os.pathsep)
+        paths = tuple([str(Path(sys.exec_prefix, 'Scripts').absolute())] + path.split(os.pathsep))
     executable_path = Path(executable).absolute()
     if not executable_path.is_file():
         for path_ in paths:

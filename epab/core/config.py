@@ -4,6 +4,7 @@ Handles EPAB's config file
 """
 
 import inspect
+import typing
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -103,7 +104,7 @@ class _Config:
 
     @classmethod
     def _gather_attributes(cls) -> dict:
-        attributes = defaultdict(list)
+        attributes: typing.DefaultDict = defaultdict(list)
         for attr_name, attr in inspect.getmembers(cls):
             if isinstance(attr, _ConfigProp):
                 try:

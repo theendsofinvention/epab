@@ -253,13 +253,15 @@ class Repo(BaseRepo):
             files_to_add: typing.Optional[typing.Union[typing.List[str], str]] = None
     ) -> typing.Optional[typing.List[str]]:
 
+        result: typing.Optional[typing.List[str]]
+
         if not files_to_add:
-            return None
+            result = None
 
         if files_to_add and isinstance(files_to_add, str):
-            return [files_to_add]
+            result = [files_to_add]
 
-        return files_to_add
+        return result
 
     def commit(
             self,
@@ -511,7 +513,7 @@ class Repo(BaseRepo):
             epab.utils.error(f'Repo has {len(changed_files)} modified files: {changed_files}')
             result = True
         if untracked:
-            result = result or self.untracked_files()
+            result = result or bool(self.untracked_files())
         if CTX.dry_run and result:
             epab.utils.info('Repo was dirty; DRY RUN')
             return False

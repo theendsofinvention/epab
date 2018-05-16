@@ -14,7 +14,7 @@ from epab.core import CONFIG, CTX
 @epab.utils.run_once
 @epab.utils.stashed
 def _mypy():
-    cmd = f'mypy -p {CONFIG.package}'
+    cmd = f'mypy -p {CONFIG.package} --ignore-missing-imports'
     if CONFIG.mypy__args:
         cmd += ' ' + CONFIG.mypy__args
     epab.utils.add_to_gitignore('.mypy_cache')
