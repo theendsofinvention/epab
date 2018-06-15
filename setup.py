@@ -27,6 +27,7 @@ requirements = [
     'setuptools-scm',
     'certifi',
     'pefile',
+    'mypy',
 ]
 test_requirements = []
 
