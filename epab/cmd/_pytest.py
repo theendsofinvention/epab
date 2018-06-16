@@ -151,7 +151,7 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     epab.utils.add_to_gitignore('htmlcov')
     epab.utils.add_to_gitignore('coverage.xml')
     epab.utils.add_to_gitignore('.hypothesis/')
-    cmd = f'pytest {test}'
+    cmd = f'python -m pytest {test}'
 
     if CTX.appveyor and CONFIG.test__av_runner_options:
         cmd = f'{cmd} {CONFIG.test__av_runner_options}'
