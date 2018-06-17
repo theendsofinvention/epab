@@ -78,7 +78,33 @@ def test_pep8_stage():
     verifyStubbedInvocationsAreUsed()
 
 
-def test_isort():
+def test_isort_package_dir():
+    Path(f'./{CONFIG.package}').mkdir()
+    test_file = Path(f'./{CONFIG.package}/test.py')
+    test_file.touch()
+    when(_sort.isort).SortImports(
+        file_path=test_file.absolute(),
+        known_first_party=CONFIG.package,
+        **_sort.SETTINGS
+    )
+    _sort._sort()
+    verify(_sort.isort).SortImports(...)
+
+
+def test_isort_test_dir():
+    Path('./test').mkdir()
+    test_file = Path('./test/test.py')
+    test_file.touch()
+    when(_sort.isort).SortImports(
+        file_path=test_file.absolute(),
+        known_first_party=CONFIG.package,
+        **_sort.SETTINGS
+    )
+    _sort._sort()
+    verify(_sort.isort).SortImports(...)
+
+
+def test_isort_ignore():
     test_file = Path('./test.py')
     test_file.touch()
     when(_sort.isort).SortImports(
@@ -88,7 +114,7 @@ def test_isort():
     )
     # when(epab.utils).run(contains('setup.py isort'))
     _sort._sort()
-    verifyStubbedInvocationsAreUsed()
+    verify(_sort.isort, times=0).SortImports(...)
 
 
 def test_isort_amend():
