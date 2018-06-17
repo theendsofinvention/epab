@@ -28,7 +28,7 @@ def test_freeze():
     when(freeze)._patch('version')
     when(epab.utils).run(...)
     when(epab.utils.AV).info(...)
-    CONFIG.entry_point = 'test'
+    CONFIG.freeze__entry_point = 'test'
     freeze._freeze('version')
     verifyStubbedInvocationsAreUsed()
 
@@ -36,7 +36,7 @@ def test_freeze():
 def test_flat_freeze():
     when(freeze)._install_pyinstaller()
     when(epab.utils).run(...)
-    CONFIG.entry_point = 'test'
+    CONFIG.freeze__entry_point = 'test'
     freeze._flat_freeze()
     verifyStubbedInvocationsAreUsed()
 
