@@ -14,6 +14,6 @@ Etcher's Python Application Builder
 [![CodeClimate maintainability](https://img.shields.io/codeclimate/maintainability/132nd-etcher/epab.svg)](https://codeclimate.com/github/132nd-etcher/epab)
 [![BetterCodeHub](https://bettercodehub.com/edge/badge/132nd-etcher/epab?branch=master)](https://bettercodehub.com/results/132nd-etcher/epab)
 [![OSI Best Practices](https://bestpractices.coreinfrastructure.org/projects/1548/badge)](https://bestpractices.coreinfrastructure.org/projects/1548)
-[![CodeFactor](https://www.codefactor.io/repository/github/132nd-etcher/edlm/badge)](https://www.codefactor.io/repository/github/132nd-etcher/epab)
+[![CodeFactor](https://www.codefactor.io/repository/github/132nd-etcher/epab/badge)](https://www.codefactor.io/repository/github/132nd-etcher/epab)
 
 [![Throughput Graph](https://graphs.waffle.io/132nd-etcher/epab/throughput.svg)](https://waffle.io/132nd-etcher/epab/metrics/throughput)
