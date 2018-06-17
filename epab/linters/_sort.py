@@ -19,9 +19,9 @@ def _sort_file(file_path: Path):
         **SETTINGS
     )
 
-    content = file_path.read_bytes()
-    content = content.replace(b'\r\n', b'\n')
-    file_path.write_text(content.decode('utf8'))
+    # content = file_path.read_bytes()
+    # content = content.replace(b'\r\n', b'\n')
+    # file_path.write_text(content.decode('utf8'))
 
 
 SETTINGS = {
@@ -33,7 +33,9 @@ SETTINGS = {
 @epab.utils.run_once
 @epab.utils.stashed
 def _sort(amend: bool = False, stage: bool = False):
-    for py_file in Path('.').rglob('*.py'):
+    for py_file in Path(f'./{epab.core.CONFIG.package}').rglob('*.py'):
+        _sort_file(py_file)
+    for py_file in Path('./test').rglob('*.py'):
         _sort_file(py_file)
 
     # python_exe = sys.executable.replace('\\', '/')
