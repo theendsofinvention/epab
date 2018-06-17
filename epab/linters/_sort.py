@@ -2,7 +2,6 @@
 """
 iSort linter
 """
-# import sys
 from pathlib import Path
 
 import click
@@ -19,10 +18,6 @@ def _sort_file(file_path: Path):
         **SETTINGS
     )
 
-    # content = file_path.read_bytes()
-    # content = content.replace(b'\r\n', b'\n')
-    # file_path.write_text(content.decode('utf8'))
-
 
 SETTINGS = {
     'line_ending': '\n',
@@ -37,9 +32,6 @@ def _sort(amend: bool = False, stage: bool = False):
         _sort_file(py_file)
     for py_file in Path('./test').rglob('*.py'):
         _sort_file(py_file)
-
-    # python_exe = sys.executable.replace('\\', '/')
-    # epab.utils.run(f'{python_exe} setup.py isort')
 
     if amend:
         epab.core.CTX.repo.amend_commit(append_to_msg='sorting imports [auto]')
