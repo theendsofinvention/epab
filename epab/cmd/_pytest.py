@@ -5,6 +5,7 @@ Manages the test suite
 import os
 import webbrowser
 from pathlib import Path
+import shutil
 
 import click
 
@@ -163,6 +164,8 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     last_failed = ' --last-failed' if last_failed else ''
     failed_first = ' --failed-first' if failed_first else ''
 
+    if Path('./htmlcov').exists():
+        shutil.rmtree('./htmlcov')
     cmd = f'{cmd} {pytest_options()}{long}{exitfirst}{last_failed}{failed_first}'
 
     try:
