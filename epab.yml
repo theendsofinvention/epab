@@ -21,7 +21,7 @@ changelog:
 artifacts:
   - 'test/uml/*'
 
-freeze:
-  entry_point: 'epab/__main__.py'
-  data_files:
-    - 'epab/vendor;vendor'
+#freeze:
+#  entry_point: 'epab/__main__.py'
+#  data_files:
+#    - 'epab/vendor;vendor'
