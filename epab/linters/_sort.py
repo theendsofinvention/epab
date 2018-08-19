@@ -12,11 +12,14 @@ import epab.utils
 
 
 def _sort_file(file_path: Path):
-    isort.SortImports(
-        file_path=file_path.absolute(),
-        known_first_party=epab.core.CONFIG.package,
-        **SETTINGS
-    )
+    try:
+        isort.SortImports(
+            file_path=file_path.absolute(),
+            known_first_party=epab.core.CONFIG.package,
+            **SETTINGS
+        )
+    except UnicodeDecodeError:
+        raise RuntimeError(f'failed to decode file: {file_path}')
 
 
 SETTINGS = {

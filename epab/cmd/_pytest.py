@@ -3,9 +3,9 @@
 Manages the test suite
 """
 import os
+import shutil
 import webbrowser
 from pathlib import Path
-import shutil
 
 import click
 
