@@ -11,6 +11,13 @@ import epab.core
 import epab.utils
 
 
+def _fix_newlines(file_path: Path):
+    with open(str(file_path)) as stream:
+        lines = stream.readlines()
+    with open(str(file_path), mode='w', newline='\n') as stream:
+        stream.writelines(lines)
+
+
 def _sort_file(file_path: Path):
     try:
         isort.SortImports(
@@ -18,6 +25,7 @@ def _sort_file(file_path: Path):
             known_first_party=epab.core.CONFIG.package,
             **SETTINGS
         )
+        _fix_newlines(file_path)
     except UnicodeDecodeError:
         raise RuntimeError(f'failed to decode file: {file_path}')
 
@@ -32,9 +40,9 @@ SETTINGS = {
 @epab.utils.stashed
 def _sort(amend: bool = False, stage: bool = False):
     for py_file in Path(f'./{epab.core.CONFIG.package}').rglob('*.py'):
-        _sort_file(py_file)
+        _sort_file(py_file.absolute())
     for py_file in Path('./test').rglob('*.py'):
-        _sort_file(py_file)
+        _sort_file(py_file.absolute())
 
     if amend:
         epab.core.CTX.repo.amend_commit(append_to_msg='sorting imports [auto]')
