@@ -189,7 +189,9 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:7ca43f68bbf0880600ca70d41c0f76fef65da0c02ad19241c15be74fb8988e83"
+                "sha256:7ca43f68bbf0880600ca70d41c0f76fef65da0c02ad19241c15be74fb8988e83",
+                "sha256:c29d9d0bed9d21d9de407f4044e8632708d3a911c06738a2ce346a49858eb55d",
+                "sha256:c734f263a5f35f4bd2acadf0e9a36511d4500286eae04ba0a090d1be47c7d1ba"
             ],
             "index": "pypi",
             "version": "==3.69.1"
