@@ -149,6 +149,10 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     _Coverage.install()
     cmd = f'python -m pytest {test}'
 
+    if CTX.appveyor:
+        epab.utils.info('running on AV; VCR recording disabled')
+        cmd = f'{cmd} --vcr-record=none'
+
     if CTX.appveyor and CONFIG.test__av_runner_options:
         cmd = f'{cmd} {CONFIG.test__av_runner_options}'
     elif CONFIG.test__runner_options:
