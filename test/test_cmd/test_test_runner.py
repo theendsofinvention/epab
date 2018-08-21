@@ -157,3 +157,14 @@ def test_config_appveyor(monkeypatch):
     CTX.run_once = {}
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
+
+
+def test_remove_coverage_dir():
+    CTX.appveyor = False
+    when(epab.utils).run(...)
+    cov_dir = Path('./htmlcov')
+    assert not cov_dir.exists()
+    cov_dir.mkdir()
+    assert cov_dir.exists()
+    _pytest('test', **DEFAULT_OPTS)
+    assert not cov_dir.exists()
