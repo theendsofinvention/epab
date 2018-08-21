@@ -26,7 +26,7 @@ def _sort_file(file_path: Path):
             **SETTINGS
         )
         _fix_newlines(file_path)
-    except UnicodeDecodeError:
+    except UnicodeDecodeError:  # pragma: no cover
         raise RuntimeError(f'failed to decode file: {file_path}')
 
 

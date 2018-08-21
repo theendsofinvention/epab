@@ -57,7 +57,7 @@ def test_cmd_with_coverage(monkeypatch):
     Path('coverage.xml').touch()
     when(epab.utils).run('appveyor AddMessage "Uploading coverage to Codacy" -Category Information', mute=True)
     when(epab.utils).run('appveyor AddMessage "Codacy coverage OK" -Category Information', mute=True)
-    when(epab.utils).run(f'python -m pytest test --long {pytest_options()}')
+    when(epab.utils).run(f'python -m pytest test --vcr-record=none --long {pytest_options()}')
     when(epab.utils).run('pip install --upgrade codacy-coverage')
     when(epab.utils).run('python-codacy-coverage -r coverage.xml')
     _pytest('test', **DEFAULT_OPTS)
@@ -71,7 +71,7 @@ def test_cmd_with_coverage_no_xml(monkeypatch):
         'appveyor AddMessage ""coverage.xml" not found, skipping codacy coverage" -Category Error',
         mute=True
     )
-    when(epab.utils).run(f'python -m pytest test --long {pytest_options()}')
+    when(epab.utils).run(f'python -m pytest test --vcr-record=none --long {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
@@ -132,7 +132,7 @@ def test_output(capsys):
 
 def test_output_on_appveyor(capsys):
     CTX.appveyor = True
-    when(epab.utils, strict=False).run(f'python -m pytest test --long {pytest_options()}')
+    when(epab.utils, strict=False).run(f'python -m pytest test --vcr-record=none --long {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     out, err = capsys.readouterr()
     assert 'RUN_ONCE: running _pytest' in out
@@ -157,3 +157,14 @@ def test_config_appveyor(monkeypatch):
     CTX.run_once = {}
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
+
+
+def test_remove_coverage_dir():
+    CTX.appveyor = False
+    when(epab.utils).run(...)
+    cov_dir = Path('./htmlcov')
+    assert not cov_dir.exists()
+    cov_dir.mkdir()
+    assert cov_dir.exists()
+    _pytest('test', **DEFAULT_OPTS)
+    assert not cov_dir.exists()

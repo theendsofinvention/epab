@@ -3,7 +3,7 @@ from pathlib import Path
 
 import git
 import pytest
-from hypothesis import given
+from hypothesis import given, settings
 from hypothesis import strategies as st
 
 from epab.core import CTX
@@ -16,6 +16,7 @@ def _dummy_commit(repo):
 
 
 @given(message=st.from_regex(r'^[a-zA-Z0-9_]{1,79}(\n\n[a-zA-Z0-9_]{1,300})?$'))
+@settings(deadline=600)
 def test_commit(repo, message):
     test_file = Path('./test')
     if test_file.exists():

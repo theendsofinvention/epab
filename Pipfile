@@ -23,6 +23,7 @@ pytest-cache = ">=1"
 pytest-cov = ">=2.5.1"
 pytest-pycharm = {version=">=0.5.0", os_name = "=='nt'"}
 pytest = ">=3.5.1"
+pytest-vcr = "*"
 gitchangelog = ">=3.0.3"
 gitpython = ">=2.1.9"
 mockito = ">=1.1"

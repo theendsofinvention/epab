@@ -3,7 +3,7 @@
 import datetime
 from pathlib import Path
 
-from mockito import mock, verify, verifyStubbedInvocationsAreUsed, when
+from mockito import and_, contains, mock, verify, verifyStubbedInvocationsAreUsed, when
 
 import epab.exc
 import epab.utils
@@ -128,3 +128,16 @@ def test_clean_spec(cli_runner):
     cli_runner.invoke(freeze.flat_freeze, ['-c'])
     assert not spec_file.exists()
     verifyStubbedInvocationsAreUsed()
+
+
+def test_with_data_files():
+    when(freeze)._install_pyinstaller()
+    when(freeze)._patch('version')
+    when(epab.utils).run(...)
+    when(epab.utils.AV).info(...)
+    CONFIG.freeze__entry_point = 'test'
+    CONFIG.package = 'test'
+    CONFIG.freeze__data_files = ['file1', 'file2']
+    freeze._freeze('version')
+    verifyStubbedInvocationsAreUsed()
+    verify(epab.utils).run(and_(contains('--add-data "file1"'), contains('--add-data "file2"')))
