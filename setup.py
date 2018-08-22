@@ -18,7 +18,7 @@ requirements = [
     'hypothesis',
     'pytest-cache',
     'pytest-cov',
-    'pytest-vcr'
+    'pytest-vcr',
     'pytest-pycharm',
     'pytest',
     'gitchangelog',
