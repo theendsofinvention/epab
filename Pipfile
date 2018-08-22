@@ -8,6 +8,7 @@ python_version = "3.6"
 platform = 'windows'
 
 [packages]
+pip = ">=18"
 click = ">=6.7"
 pyyaml = ">=3.12"
 wheel = ">=0.31.1"
