@@ -12,7 +12,8 @@ import click
 import epab.cmd
 import epab.linters
 import epab.utils
-from epab.core import CONFIG, CTX, VERSION
+from epab.core import CONFIG, CTX
+from epab import __version__
 
 
 @click.group(chain=True)
@@ -34,7 +35,7 @@ def cli(dry_run, dirty, stash):
 
     Just activate your venv and type the following in whatever shell you fancy:
     """
-    epab.utils.info(f'EPAB {VERSION}')
+    epab.utils.info(f'EPAB {__version__}')
     epab.utils.info(f'Running in {os.getcwd()}')
     CONFIG.load()
     CTX.dry_run = dry_run

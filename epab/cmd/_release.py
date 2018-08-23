@@ -12,7 +12,8 @@ import click
 import epab.cmd
 import epab.linters
 import epab.utils
-from epab.core import CONFIG, CTX, VERSION
+from epab.core import CONFIG, CTX
+from epab import __version__
 
 
 def _clean():
@@ -62,7 +63,7 @@ def _remove_av_artifacts():
 
 def _print_build_info(current_branch: str, next_version: str):
     info = [
-        f'Current version -> {VERSION}',
+        f'Current EPAB version -> {__version__}',
         f'Current branch  -> {current_branch}',
         f'Latest tag      -> {CTX.repo.get_latest_tag()}',
         f'Next version    -> {next_version}',

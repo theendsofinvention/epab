@@ -9,8 +9,9 @@ from mockito import mock, verify, when
 import epab.utils
 from epab.__main__ import cli
 from epab.cmd import _chglog, _install_hooks, _pytest, _release, _reqs
-from epab.core import CTX, VERSION
+from epab.core import CTX
 from epab.linters import _flake8, _lint, _pep8, _pylint, _safety, _sort
+from epab import __version__
 
 
 @pytest.fixture(name='setup')
@@ -54,7 +55,7 @@ def test_version(param, setup):
     runner, repo = setup
     result = runner.invoke(cli, [param])
     assert isinstance(result, Result)
-    assert result.output == f'{VERSION}\n'
+    assert result.output == f'{__version__}\n'
     verify(repo, times=0).ensure()
     assert result.exit_code == 0
     assert not result.exception
