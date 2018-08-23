@@ -108,19 +108,6 @@ def test_dirty_after_reqs(setup):
         epab.cmd._release._release(ctx)
 
 
-@pytest.mark.skip
-def test_dirty_after_chglog(setup):
-    ctx, _ = setup
-    when(CTX.repo).changed_files().thenReturn(list())
-    when(CTX.repo).is_dirty(untracked=True) \
-        .thenReturn(False) \
-        .thenReturn(False) \
-        .thenReturn(False) \
-        .thenReturn(True)
-    with pytest.raises(SystemExit):
-        epab.cmd._release._release(ctx)
-
-
 def test_dry(setup, capsys):
     ctx, _ = setup
     CTX.dry_run = True
