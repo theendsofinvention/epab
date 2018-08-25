@@ -23,3 +23,5 @@ artifacts/
 test.yml
 .coverage*
 .mypy_cache
+.venv
+pyproject.toml.example
