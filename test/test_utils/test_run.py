@@ -5,8 +5,7 @@ import string
 import delegator
 import pexpect
 import pytest
-from hypothesis import given
-from hypothesis import strategies as st
+from hypothesis import given, strategies as st
 from mockito import mock, unstub, verify, when
 
 import epab.exc

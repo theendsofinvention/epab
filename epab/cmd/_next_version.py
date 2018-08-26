@@ -3,7 +3,6 @@
 Prints next version (according to Gitversion run) then exits
 """
 
-
 import sys
 
 import click

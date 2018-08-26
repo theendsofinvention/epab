@@ -12,6 +12,7 @@ def stashed(func):
     """
     Simple decorator to stash changed files between a destructive repo operation
     """
+
     @functools.wraps(func)
     def _wrapper(*args, **kwargs):
         if CTX.stash and not CTX.repo.stashed:

@@ -9,7 +9,6 @@ import pytest
 from click.testing import CliRunner
 from mockito import unstub
 
-import elib_config
 from epab.core import CTX, config
 
 

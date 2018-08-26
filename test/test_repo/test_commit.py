@@ -3,8 +3,7 @@ from pathlib import Path
 
 import git
 import pytest
-from hypothesis import given, settings
-from hypothesis import strategies as st
+from hypothesis import given, settings, strategies as st
 
 from epab.core import CTX
 

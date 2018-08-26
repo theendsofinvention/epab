@@ -3,7 +3,6 @@
 Prints current version then exits
 """
 
-
 import sys
 
 import click

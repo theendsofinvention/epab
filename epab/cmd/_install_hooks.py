@@ -26,7 +26,6 @@ then
 fi
 exit 0"""
 
-
 PRE_COMMIT = """#!/bin/sh
 #
 # This Git hook was installed by EPAB {version}
