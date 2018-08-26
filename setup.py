@@ -6,7 +6,6 @@ from setuptools import find_packages, setup
 
 requirements = [
     'click',
-    'pyyaml',
     'wheel',
     'twine',
     'autopep8',
@@ -24,12 +23,16 @@ requirements = [
     'gitchangelog',
     'gitpython',
     'mockito',
-    'delegator.py',
     'setuptools-scm',
     'certifi',
     'pefile',
     'mypy',
-    'ruamel.yaml'
+    'elib_config',
+    'toml',
+    'sarge',
+    'pytest-repeat',
+    'pytest-faker',
+    'pytest-watch',
 ]
 test_requirements = []
 
