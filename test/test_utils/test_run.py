@@ -269,7 +269,7 @@ def test_polling(sarge_proc):
 
 
 def test_process_timeout(sarge_proc):
-    command, capture = sarge_proc
+    command, _ = sarge_proc
     when(command).poll().thenReturn(None)
     with pytest.raises(SystemExit):
         _RUN_FUNC('test', timeout=0.1)
