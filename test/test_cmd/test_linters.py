@@ -7,7 +7,7 @@ import pytest
 from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocationsAreUsed, when
 
 import epab.utils
-from epab.core import CONFIG, CTX
+from epab.core import CTX, config
 from epab.linters import _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort
 
 
@@ -54,8 +54,13 @@ def test_lint_appveyor(amend_stage):
 
 def test_pep8():
     when(epab.utils).run(
-        f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} {CONFIG.package}', mute=True)
-    when(epab.utils).run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} test', mute=True)
+        f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} {config.PACKAGE_NAME()}',
+        mute=True
+    )
+    when(epab.utils).run(
+        f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} test',
+        mute=True
+    )
     _pep8._pep8()
     verifyStubbedInvocationsAreUsed()
 
@@ -70,8 +75,11 @@ def test_pep8_amend():
 
 def test_pep8_stage():
     when(epab.utils).run(
-        f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} {CONFIG.package}', mute=True)
-    when(epab.utils).run(f'autopep8 -r --in-place --max-line-length {CONFIG.lint__line_length} test', mute=True)
+        f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} {config.PACKAGE_NAME()}', mute=True
+    )
+    when(epab.utils).run(
+        f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} test', mute=True
+    )
     with when(CTX.repo).stage_all():
         CTX.run_once = {}
         _pep8._pep8(stage=True)
@@ -79,29 +87,21 @@ def test_pep8_stage():
 
 
 def test_isort_package_dir():
-    Path(f'./{CONFIG.package}').mkdir()
-    test_file = Path(f'./{CONFIG.package}/test.py')
+    Path(f'./{config.PACKAGE_NAME()}').mkdir()
+    test_file = Path(f'./{config.PACKAGE_NAME()}/test.py')
     test_file.touch()
-    when(_sort.isort).SortImports(
-        file_path=test_file.absolute(),
-        known_first_party=CONFIG.package,
-        **_sort.SETTINGS
-    )
+    when(_sort)._sort_file(test_file.absolute())
     _sort._sort()
-    verify(_sort.isort).SortImports(...)
+    verifyStubbedInvocationsAreUsed()
 
 
 def test_isort_test_dir():
     Path('./test').mkdir()
     test_file = Path('./test/test.py')
     test_file.touch()
-    when(_sort.isort).SortImports(
-        file_path=test_file.absolute(),
-        known_first_party=CONFIG.package,
-        **_sort.SETTINGS
-    )
+    when(_sort)._sort_file(test_file.absolute())
     _sort._sort()
-    verify(_sort.isort).SortImports(...)
+    verifyStubbedInvocationsAreUsed()
 
 
 def test_isort_ignore():
@@ -109,7 +109,7 @@ def test_isort_ignore():
     test_file.touch()
     when(_sort.isort).SortImports(
         file_path=test_file.absolute(),
-        known_first_party=CONFIG.package,
+        known_first_party=config.PACKAGE_NAME(),
         **_sort.SETTINGS
     )
     # when(epab.utils).run(contains('setup.py isort'))
@@ -153,8 +153,7 @@ def test_safety():
     ]
 )
 def test_pylint(params, cmd):
-    CONFIG.load()
-    CONFIG.package = 'test'
+    config.PACKAGE_NAME.default = 'test'
     with when(epab.utils).run(f'{cmd} {_pylint.BASE_CMD}', mute=True):
         _pylint._pylint(*params)
         verify(epab.utils).run(...)

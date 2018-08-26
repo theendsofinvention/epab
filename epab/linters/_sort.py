@@ -9,6 +9,7 @@ import isort
 
 import epab.core
 import epab.utils
+from epab.core import config
 
 
 def _fix_newlines(file_path: Path):
@@ -22,7 +23,7 @@ def _sort_file(file_path: Path):
     try:
         isort.SortImports(
             file_path=file_path.absolute(),
-            known_first_party=epab.core.CONFIG.package,
+            known_first_party=config.PACKAGE_NAME(),
             **SETTINGS
         )
         _fix_newlines(file_path)
@@ -32,14 +33,14 @@ def _sort_file(file_path: Path):
 
 SETTINGS = {
     'line_ending': '\n',
-    'line_length': int(epab.core.CONFIG.lint__line_length),
+    'line_length': int(config.LINT_LINE_LENGTH()),
 }
 
 
 @epab.utils.run_once
 @epab.utils.stashed
 def _sort(amend: bool = False, stage: bool = False):
-    for py_file in Path(f'./{epab.core.CONFIG.package}').rglob('*.py'):
+    for py_file in Path(f'./{config.PACKAGE_NAME()}').rglob('*.py'):
         _sort_file(py_file.absolute())
     for py_file in Path('./test').rglob('*.py'):
         _sort_file(py_file.absolute())

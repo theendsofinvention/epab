@@ -9,7 +9,7 @@ import delegator
 
 import epab.exc
 import epab.utils
-from epab.core import CONFIG
+from epab.core import config
 
 
 def filter_line(
@@ -100,8 +100,7 @@ def run(
 
     cmd = ' '.join([f'"{exe.absolute()}"'] + cmd.split(' ')[1:])
 
-    mute = mute and not CONFIG.verbose
-
+    mute = mute and not config.VERBOSE()
     if mute:
         epab.utils.cmd_start(f'RUNNING: {cmd}')
     else:

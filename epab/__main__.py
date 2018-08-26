@@ -12,8 +12,10 @@ import click
 import epab.cmd
 import epab.linters
 import epab.utils
-from epab.core import CONFIG, CTX
 from epab import __version__
+from epab.core import CTX, config
+
+config.setup_config(__version__)
 
 
 @click.group(chain=True)
@@ -37,7 +39,7 @@ def cli(dry_run, dirty, stash):
     """
     epab.utils.info(f'EPAB {__version__}')
     epab.utils.info(f'Running in {os.getcwd()}')
-    CONFIG.load()
+
     CTX.dry_run = dry_run
     CTX.repo = epab.utils.Repo()
     CTX.repo.ensure()

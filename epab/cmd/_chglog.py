@@ -10,7 +10,7 @@ from pathlib import Path
 import click
 
 import epab.utils
-from epab.core import CONFIG, CTX
+from epab.core import CTX, config
 
 BOGUS_LINE_PATTERN = re.compile('^(- .*)(\n){2}', flags=re.MULTILINE)
 
@@ -68,7 +68,7 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, 
         amend: amend last commit with changes
         stage: stage changes
     """
-    if CONFIG.changelog__disable:
+    if config.CHANGELOG_DISABLE():
         epab.utils.info('Skipping changelog update as per config')
     else:
         epab.utils.ensure_exe('git')
@@ -81,11 +81,11 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, 
                 changelog, _ = epab.utils.run('gitchangelog', mute=True)
         # changelog = changelog.encode('utf8').replace(b'\r\n', b'\n').decode('utf8')
         changelog = re.sub(BOGUS_LINE_PATTERN, '\\1\n', changelog)
-        Path(CONFIG.changelog__file).write_text(changelog, encoding='utf8')
+        Path(config.CHANGELOG_FILE_PATH()).write_text(changelog, encoding='utf8')
         if amend:
-            CTX.repo.amend_commit(append_to_msg='update changelog [auto]', files_to_add=CONFIG.changelog__file)
+            CTX.repo.amend_commit(append_to_msg='update changelog [auto]', files_to_add=config.CHANGELOG_FILE_PATH())
         elif stage:
-            CTX.repo.stage_subset(CONFIG.changelog__file)
+            CTX.repo.stage_subset(config.CHANGELOG_FILE_PATH())
 
 
 @click.command()
@@ -104,7 +104,9 @@ def chglog(amend: bool = False, stage: bool = False, next_version: str = None, a
         auto_next_version: infer next version from VCS
     """
     changed_files = CTX.repo.changed_files()
-    if CONFIG.changelog__file in changed_files:
+    changelog_file_path: Path = config.CHANGELOG_FILE_PATH()
+    changelog_file_name = changelog_file_path.name
+    if changelog_file_name in changed_files:
         epab.utils.error('Changelog has changed; cannot update it')
         exit(-1)
     _chglog(amend, stage, next_version, auto_next_version)

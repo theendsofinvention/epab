@@ -6,10 +6,10 @@ Flake8 linter
 import click
 
 import epab.utils
-from epab.core import CONFIG
+from epab.core import config
 
 IGNORE = '--ignore=D203,E126'
-MAX_LINE_LENGTH = f'--max-line-length={CONFIG.lint__line_length}'
+MAX_LINE_LENGTH = f'--max-line-length={config.LINT_LINE_LENGTH()}'
 BASE_EXCLUDE = ".svn,CVS,.bzr,.hg,.git,__pycache__,.tox,__init__.py,build,dist,output,.cache," \
                ".hypothesis,./test/*,./.eggs/*,"
 EXCLUDE = '--exclude ' + BASE_EXCLUDE
@@ -18,7 +18,7 @@ MAX_COMPLEXITY = '--max-complexity=10'
 
 @epab.utils.run_once
 def _flake8():
-    exclude = EXCLUDE + CONFIG.flake8__exclude
+    exclude = EXCLUDE + config.FLAKE8_EXCLUDE()
     base_cmd = ' '.join((IGNORE, MAX_LINE_LENGTH, exclude, MAX_COMPLEXITY))
     epab.utils.run(f'flake8 {base_cmd}', mute=True)
 

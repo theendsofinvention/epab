@@ -6,7 +6,7 @@ Updates CHANGELOG.rst with the latest commits
 import click
 
 import epab.utils
-from epab.core import CONFIG
+from epab.core import config
 
 
 @epab.utils.run_once
@@ -15,10 +15,10 @@ def _compile_qt_resources():
     """
     Compiles PyQT resources file
     """
-    if CONFIG.qt__res_src:
+    if config.QT_RES_SRC():
         epab.utils.ensure_exe('pyrcc5')
         epab.utils.info('Compiling Qt resources')
-        epab.utils.run(f'pyrcc5 {CONFIG.qt__res_src} -o {CONFIG.qt__res_tgt}')
+        epab.utils.run(f'pyrcc5 {config.QT_RES_SRC()} -o {config.QT_RES_TGT()}')
 
 
 @click.command()

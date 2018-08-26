@@ -8,7 +8,7 @@ from mockito import mock, verify, when
 import epab.utils
 # noinspection PyProtectedMember
 from epab.cmd._chglog import _chglog
-from epab.core import CONFIG, CTX
+from epab.core import CTX, config
 
 
 @pytest.fixture(autouse=True, name='repo')
@@ -22,9 +22,8 @@ def _all():
 
 def test_changelog_config_disabled():
     changelog = Path('CHANGELOG.rst')
-    Path('epab.yml').write_text('changelog:\n  disable: true\npackage: test')
-    CONFIG.load()
-    assert CONFIG.changelog__disable is True
+    config.CHANGELOG_DISABLE.default = True
+    assert config.CHANGELOG_DISABLE() is True
     when(epab.utils).info(...)
     when(epab.utils).run('gitchangelog', mute=True).thenReturn('content', 0)
     _chglog(False, False)
@@ -43,8 +42,7 @@ def test_changelog_config_disabled():
 )
 def test_changelog(src, result):
     changelog = Path('CHANGELOG.rst')
-    CONFIG.load()
-    assert not CONFIG.changelog__disable
+    assert config.CHANGELOG_DISABLE() is False
     when(epab.utils).ensure_exe(...)
     when(epab.utils).info(...)
     when(epab.utils).run('gitchangelog', mute=True).thenReturn((src, 0))
@@ -56,12 +54,12 @@ def test_changelog(src, result):
 
 def test_straight_commit(repo):
     _chglog(True, False)
-    verify(repo).amend_commit(append_to_msg='update changelog [auto]', files_to_add=CONFIG.changelog__file)
+    verify(repo).amend_commit(append_to_msg='update changelog [auto]', files_to_add=config.CHANGELOG_FILE_PATH())
 
 
 def test_commit_amend(repo):
     _chglog(amend=False, stage=True)
-    verify(repo).stage_subset(CONFIG.changelog__file)
+    verify(repo).stage_subset(config.CHANGELOG_FILE_PATH())
 
 
 def test_flags_exclusion(repo):

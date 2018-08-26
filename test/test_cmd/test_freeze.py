@@ -8,7 +8,7 @@ from mockito import and_, contains, mock, verify, verifyStubbedInvocationsAreUse
 import epab.exc
 import epab.utils
 from epab.cmd import _freeze as freeze
-from epab.core import CONFIG, CTX
+from epab.core import CTX, config
 
 
 def test_freeze_cli(cli_runner):
@@ -28,7 +28,7 @@ def test_freeze():
     when(freeze)._patch('version')
     when(epab.utils).run(...)
     when(epab.utils.AV).info(...)
-    CONFIG.freeze__entry_point = 'test'
+    config.FREEZE_ENTRY_POINT.default = 'test'
     freeze._freeze('version')
     verifyStubbedInvocationsAreUsed()
 
@@ -36,7 +36,7 @@ def test_freeze():
 def test_flat_freeze():
     when(freeze)._install_pyinstaller()
     when(epab.utils).run(...)
-    CONFIG.freeze__entry_point = 'test'
+    config.FREEZE_ENTRY_POINT.default = 'test'
     freeze._flat_freeze()
     verifyStubbedInvocationsAreUsed()
 
@@ -47,7 +47,6 @@ def test_freeze_no_entry_point():
     when(epab.utils).run(...)
     when(epab.utils.AV).info(...)
     when(epab.utils.AV).error(...)
-    CONFIG.freeze__entry_point = ''
     freeze._freeze('version')
     verify(freeze, times=0)._install_pyinstaller()
     verify(freeze, times=0)._patch()
@@ -61,7 +60,6 @@ def test_flat_freeze_no_entry_point():
     when(epab.utils).run(...)
     when(epab.utils.AV).info(...)
     when(epab.utils.AV).error(...)
-    CONFIG.freeze__entry_point = ''
     freeze._flat_freeze()
     verify(freeze, times=0)._install_pyinstaller()
     verify(epab.utils, times=0).run(...)
@@ -76,16 +74,17 @@ def test_patch():
     CTX.repo = repo
     now = datetime.datetime.utcnow()
     timestamp = f'{now.year}{now.month}{now.day}{now.hour}{now.minute}'
+    package_name = config.PACKAGE_NAME()
     when(epab.utils).run(
         'dummy.exe '
-        './dist/epab.exe '
+        f'./dist/{package_name}.exe '
         '/high version '
         '/va /pv version '
-        '/s desc epab '
-        '/s product epab '
-        '/s title epab '
-        f'/s copyright {now.year}-132nd-etcher '
-        '/s company 132nd-etcher '
+        f'/s desc {package_name} '
+        f'/s product {package_name} '
+        f'/s title {package_name} '
+        f'/s copyright {now.year}-etcher '
+        '/s company etcher '
         '/s SpecialBuild version '
         f'/s PrivateBuild version-branch_sha-{timestamp} '
         '/langid 1033'
@@ -115,7 +114,8 @@ def test_install_pyinstaller_not_installed():
 
 
 def test_clean_spec(cli_runner):
-    CONFIG.package = 'test'
+    config.PACKAGE_NAME.default = 'test'
+    config.FREEZE_ENTRY_POINT.default = 'test'
     spec_file = Path('test.spec')
     spec_file.touch()
     version = '0.1.0'
@@ -135,9 +135,9 @@ def test_with_data_files():
     when(freeze)._patch('version')
     when(epab.utils).run(...)
     when(epab.utils.AV).info(...)
-    CONFIG.freeze__entry_point = 'test'
-    CONFIG.package = 'test'
-    CONFIG.freeze__data_files = ['file1', 'file2']
+    config.FREEZE_ENTRY_POINT.default = 'test'
+    config.PACKAGE_NAME.default = 'test'
+    config.FREEZE_DATA_FILES.default = ['file1', 'file2']
     freeze._freeze('version')
     verifyStubbedInvocationsAreUsed()
     verify(epab.utils).run(and_(contains('--add-data "file1"'), contains('--add-data "file2"')))

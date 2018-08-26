@@ -5,7 +5,7 @@ Manages console output functions
 
 import click
 
-from epab.core import CONFIG, CTX
+from epab.core import CTX, config
 
 
 class Colors:
@@ -26,7 +26,7 @@ def _sanitize(input_: str, prefix=True) -> str:
 
 
 def _output(txt, color, **kwargs) -> str:
-    if not CONFIG.quiet:
+    if not config.QUIET():
         click.secho(txt, fg=color, **kwargs)
     return txt
 

@@ -6,8 +6,8 @@ from pathlib import Path
 from mockito import when
 
 import epab.utils
-from epab.cmd._install_hooks import _install_hooks, _make_venv_path
 from epab import __version__
+from epab.cmd._install_hooks import _install_hooks, _make_venv_path
 
 
 def test_git_hooks_venv():
