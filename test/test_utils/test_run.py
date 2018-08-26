@@ -15,7 +15,6 @@ from epab.utils._run import filter_line
 _RUN_FUNC = epab.utils.run
 
 
-
 @pytest.fixture(name='sarge_proc')
 def _command():
     exe = mock()
