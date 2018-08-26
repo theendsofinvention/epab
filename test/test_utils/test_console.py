@@ -6,11 +6,10 @@ Pass
 import string
 
 import pytest
-from hypothesis import given
-from hypothesis import strategies as st
+from hypothesis import given, strategies as st
 
 import epab.utils
-from epab.core import CONFIG
+from epab.core import config
 # noinspection PyProtectedMember
 from epab.utils._console import _sanitize
 
@@ -41,7 +40,6 @@ def test_cmd_end(text, capsys):
     assert err == ''
 
 
-@pytest.mark.long
 @pytest.mark.parametrize(
     'func,out,err',
     [
@@ -55,13 +53,28 @@ def test_cmd_end(text, capsys):
     ids=['info', 'error', 'cmd_start', 'cmd_end', 'std_err', 'std_out']
 )
 @given(text=st.text(alphabet=string.printable))
-def test_quiet(func, out, err, text, capsys):
-    CONFIG.quiet = False
+def test_not_quiet(func, out, err, text, capsys):
     func(text)
     _out, _err = capsys.readouterr()
     assert _out == out.format(text)
     assert _err == err.format(text)
-    CONFIG.quiet = True
+
+
+@pytest.mark.parametrize(
+    'func',
+    [
+        epab.utils.info,
+        epab.utils.error,
+        epab.utils.cmd_start,
+        epab.utils.cmd_end,
+        epab.utils.std_err,
+        epab.utils.std_out,
+    ],
+    ids=['info', 'error', 'cmd_start', 'cmd_end', 'std_err', 'std_out']
+)
+@given(text=st.text(alphabet=string.printable))
+def test_quiet(func, text, capsys):
+    config.QUIET.default = True
     func(text)
     out, err = capsys.readouterr()
     assert out == ''

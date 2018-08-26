@@ -6,8 +6,8 @@ from pathlib import Path
 from mockito import when
 
 import epab.utils
+from epab import __version__
 from epab.cmd._install_hooks import _install_hooks, _make_venv_path
-from epab.core import VERSION
 
 
 def test_git_hooks_venv():
@@ -26,4 +26,4 @@ def test_git_hooks():
     when(epab.utils).run('pipenv --venv', filters='Courtesy Notice:').thenReturn(('.', 0))
     _install_hooks()
     assert pre_push.exists()
-    assert f'# This Git hook was installed by EPAB {VERSION}\n' in pre_push.read_text()
+    assert f'# This Git hook was installed by EPAB {__version__}\n' in pre_push.read_text()

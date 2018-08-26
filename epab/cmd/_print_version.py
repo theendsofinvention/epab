@@ -3,12 +3,11 @@
 Prints current version then exits
 """
 
-
 import sys
 
 import click
 
-from epab.core import VERSION
+from epab import __version__
 
 
 def print_version(ctx: click.Context, _, value):
@@ -18,5 +17,5 @@ def print_version(ctx: click.Context, _, value):
     if not value or ctx.resilient_parsing:
         return
 
-    print(VERSION)
+    print(__version__)
     sys.exit(0)

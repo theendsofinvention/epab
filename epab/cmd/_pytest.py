@@ -10,7 +10,7 @@ from pathlib import Path
 import click
 
 import epab.utils
-from epab.core import CONFIG, CTX
+from epab.core import CTX, config
 
 PYTEST_OPTIONS = ' '.join([
     '--cov={package}',
@@ -78,7 +78,7 @@ class _Coverage:
         """
         Installs coverage config file
         """
-        Path('.coveragerc').write_text(COVERAGE_CONFIG.format(package_name=CONFIG.package))
+        Path('.coveragerc').write_text(COVERAGE_CONFIG.format(package_name=config.PACKAGE_NAME()))
 
     @staticmethod
     def upload_coverage_to_codacy():
@@ -137,8 +137,8 @@ def pytest_options():
     Returns: PyTest standard command line options
     """
     return PYTEST_OPTIONS.format(
-        package=CONFIG.package,
-        test_duration=CONFIG.test__duration,
+        package=config.PACKAGE_NAME(),
+        test_duration=config.TEST_DURATION_COUNT(),
     )
 
 
@@ -153,10 +153,10 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
         epab.utils.info('running on AV; VCR recording disabled')
         cmd = f'{cmd} --vcr-record=none'
 
-    if CTX.appveyor and CONFIG.test__av_runner_options:
-        cmd = f'{cmd} {CONFIG.test__av_runner_options}'
-    elif CONFIG.test__runner_options:
-        cmd = f'{cmd} {CONFIG.test__runner_options}'
+    if CTX.appveyor and config.TEST_AV_RUNNER_OPTIONS():
+        cmd = f'{cmd} {config.TEST_AV_RUNNER_OPTIONS()}'
+    elif config.TEST_RUNNER_OPTIONS():
+        cmd = f'{cmd} {config.TEST_RUNNER_OPTIONS()}'
 
     long = ' --long' if long else ''
     exitfirst = ' --exitfirst' if exitfirst else ''
@@ -185,7 +185,7 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
 @click.option('--lf', '--last-failed', is_flag=True, default=False, help='Rerun only the tests that failed')
 @click.option('--ff', '--failed-first', is_flag=True, default=False,
               help='Run all tests but run the last failures first')
-@click.option('-t', '--test', default=CONFIG.test__target, help='Select which tests to run')
+@click.option('-t', '--test', default=config.TEST_TARGET(), help='Select which tests to run')
 def pytest(test, long, show, exitfirst, last_failed, failed_first):
     """
     Runs Pytest (https://docs.pytest.org/en/latest/)

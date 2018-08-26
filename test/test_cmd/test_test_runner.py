@@ -11,7 +11,7 @@ from mockito import verifyStubbedInvocationsAreUsed, when
 import epab.cmd._pytest
 import epab.utils
 from epab.cmd._pytest import _Coverage, _pytest, pytest_options
-from epab.core import CONFIG, CTX
+from epab.core import CTX, config
 
 DEFAULT_OPTS = dict(
     long=False,
@@ -97,7 +97,6 @@ def test_show():
 def test_config_exit_first():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'exitfirst': True})
-    CONFIG.test__runner_options = ''
     when(epab.utils).run(f'python -m pytest test {pytest_options()} --exitfirst')
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
@@ -106,7 +105,6 @@ def test_config_exit_first():
 def test_config_last_failed():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'last_failed': True})
-    CONFIG.test__runner_options = ''
     when(epab.utils).run(f'python -m pytest test {pytest_options()} --last-failed')
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
@@ -115,7 +113,6 @@ def test_config_last_failed():
 def test_config_failed_first():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'failed_first': True})
-    CONFIG.test__runner_options = ''
     when(epab.utils).run(f'python -m pytest test {pytest_options()} --failed-first')
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
@@ -143,14 +140,13 @@ def test_output_on_appveyor(capsys):
 
 
 def test_config_show():
-    CONFIG.test__runner_options = '-s'
+    config.TEST_RUNNER_OPTIONS.default = '-s'
     when(epab.utils).run(f'python -m pytest test -s {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
 
 def test_config_appveyor(monkeypatch):
-    CONFIG.test__av_runner_options = '--long'
     when(epab.utils).run(...)
     _pytest('test', **DEFAULT_OPTS)
     monkeypatch.setenv('APPVEYOR', 'test')

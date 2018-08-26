@@ -29,6 +29,7 @@ requirements = [
     'certifi',
     'pefile',
     'mypy',
+    'ruamel.yaml'
 ]
 test_requirements = []
 

@@ -9,10 +9,10 @@ from pathlib import Path
 import click
 
 import epab.utils
-from epab.core import CONFIG
+from epab.core import config
 
 IGNORE = '--ignore=CVS'
-LINE_LENGTH = f'--max-line-length={CONFIG.lint__line_length}'
+LINE_LENGTH = f'--max-line-length={config.LINT_LINE_LENGTH()}'
 JOBS = '-j 8'
 PERSISTENCE = '--persistent=y'
 _SITE_PACKAGES = str(Path(sys.executable).parent.parent.joinpath('lib/site-packages')).replace('\\', '/')
@@ -33,7 +33,7 @@ BASE_CMD = ' '.join((IGNORE, LINE_LENGTH, JOBS, PERSISTENCE, INIT_HOOK, DISABLE,
 @epab.utils.run_once
 def _pylint(src, reports):
     if src is None:
-        src = f'./{CONFIG.package}'
+        src = f'./{config.PACKAGE_NAME()}'
     epab.utils.error(Path(src).absolute())
     cmd = f'pylint {src}'
     if reports:

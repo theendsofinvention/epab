@@ -12,7 +12,7 @@ import click
 import epab.cmd
 import epab.exc
 import epab.utils
-from epab.core import CONFIG, CTX
+from epab.core import CTX, config
 
 VERPATCH_PATH = epab.utils.resource_path('epab', './vendor/verpatch.exe')
 ICO = epab.utils.resource_path('epab', './vendor/app.ico')
@@ -46,16 +46,16 @@ def _patch(version: str):
     year = now.year
     cmd = [
         str(epab.utils.resource_path('epab', './vendor/verpatch.exe')),
-        f'./dist/{CONFIG.package}.exe',
+        f'./dist/{config.PACKAGE_NAME()}.exe',
         '/high',
         version,
         '/va',
         '/pv', version,
-        '/s', 'desc', CONFIG.package,
-        '/s', 'product', CONFIG.package,
-        '/s', 'title', CONFIG.package,
-        '/s', 'copyright', f'{year}-132nd-etcher',
-        '/s', 'company', '132nd-etcher',
+        '/s', 'desc', config.PACKAGE_NAME(),
+        '/s', 'product', config.PACKAGE_NAME(),
+        '/s', 'title', config.PACKAGE_NAME(),
+        '/s', 'copyright', f'{year}-etcher',
+        '/s', 'company', 'etcher',
         '/s', 'SpecialBuild', version,
         '/s', 'PrivateBuild', f'{version}-'
                               f'{CTX.repo.get_current_branch()}_'
@@ -67,12 +67,12 @@ def _patch(version: str):
 
 
 def _freeze(version: str):
-    if not CONFIG.freeze__entry_point:
+    if not config.FREEZE_ENTRY_POINT():
         epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = BASE_CMD + [CONFIG.package, '--onefile', CONFIG.freeze__entry_point]
-    for data_file in CONFIG.freeze__data_files:
+    cmd = BASE_CMD + [config.PACKAGE_NAME(), '--onefile', config.FREEZE_ENTRY_POINT()]
+    for data_file in config.FREEZE_DATA_FILES():
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
     epab.utils.run('pipenv clean', failure_ok=True)
@@ -81,18 +81,18 @@ def _freeze(version: str):
 
 
 def _flat_freeze():
-    if not CONFIG.freeze__entry_point:
+    if not config.FREEZE_ENTRY_POINT():
         epab.utils.AV.error('No entry point define, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = BASE_CMD + [CONFIG.package, CONFIG.freeze__entry_point]
-    for data_file in CONFIG.freeze__data_files:
+    cmd = BASE_CMD + [config.PACKAGE_NAME(), config.FREEZE_ENTRY_POINT()]
+    for data_file in config.FREEZE_DATA_FILES():
         cmd.append(f'--add-data "{data_file}"')
     epab.utils.run(' '.join(cmd))
 
 
 def _clean_spec():
-    spec_file = Path(f'{CONFIG.package}.spec')
+    spec_file = Path(f'{config.PACKAGE_NAME()}.spec')
     spec_file.unlink()
 
 

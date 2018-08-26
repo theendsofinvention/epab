@@ -9,7 +9,7 @@ import epab.cmd
 import epab.cmd._release
 import epab.linters
 import epab.utils
-from epab.core import CONFIG, CTX
+from epab.core import CTX, config
 
 
 @pytest.fixture(autouse=True, name='setup')
@@ -60,7 +60,7 @@ def test_release(setup):
 def test_release_on_master(setup):
     ctx, repo = setup
     when(CTX.repo).get_current_branch().thenReturn('master')
-
+    config.PACKAGE_NAME.default = 'test'
     epab.cmd._release._release(ctx)
 
     verify(repo).get_current_branch()
@@ -108,19 +108,6 @@ def test_dirty_after_reqs(setup):
         epab.cmd._release._release(ctx)
 
 
-@pytest.mark.skip
-def test_dirty_after_chglog(setup):
-    ctx, _ = setup
-    when(CTX.repo).changed_files().thenReturn(list())
-    when(CTX.repo).is_dirty(untracked=True) \
-        .thenReturn(False) \
-        .thenReturn(False) \
-        .thenReturn(False) \
-        .thenReturn(True)
-    with pytest.raises(SystemExit):
-        epab.cmd._release._release(ctx)
-
-
 def test_dry(setup, capsys):
     ctx, _ = setup
     CTX.dry_run = True
@@ -130,7 +117,7 @@ def test_dry(setup, capsys):
 
 
 def test_cleanup():
-    CONFIG.package = 'package'
+    config.PACKAGE_NAME.default = 'package'
     _create_dummy_release_artifacts()
     for artifact in RELEASE_ARTIFACTS:
         assert Path(artifact).exists()
@@ -148,7 +135,6 @@ def test_appveyor(setup, monkeypatch):
     Path('appveyor.yml').touch()
     ctx, _ = setup
     CTX.appveyor = True
-    CONFIG.artifacts = None
     monkeypatch.setenv('APPVEYOR_REPO_BRANCH', 'branch')
     monkeypatch.setenv('APPVEYOR_BUILD_NUMBER', '0001')
     monkeypatch.setenv('APPVEYOR_REPO_COMMIT', 'ABCDEF')
@@ -158,6 +144,7 @@ def test_appveyor(setup, monkeypatch):
 
 
 def test_appveyor_artifacts(setup, monkeypatch):
+    config.PACKAGE_NAME.default = 'test'
     ctx, _ = setup
     CTX.appveyor = True
     when(shutil).copy(...)
@@ -168,7 +155,7 @@ def test_appveyor_artifacts(setup, monkeypatch):
     test_file_1.touch()
     test_file_2.touch()
     test_file_3.touch()
-    CONFIG.artifacts = ['./artifacts_src/*']
+    config.ARTIFACTS.default = ['./artifacts_src/*']
     monkeypatch.setenv('APPVEYOR_REPO_BRANCH', 'branch')
     monkeypatch.setenv('APPVEYOR_BUILD_NUMBER', '0001')
     monkeypatch.setenv('APPVEYOR_REPO_COMMIT', 'ABCDEF')
@@ -184,7 +171,6 @@ def test_appveyor_no_artifacts(setup, monkeypatch):
     CTX.appveyor = True
     when(shutil).copy(...)
     when(epab.utils.AV).info(...)
-    CONFIG.artifacts = []
     monkeypatch.setenv('APPVEYOR_REPO_BRANCH', 'branch')
     monkeypatch.setenv('APPVEYOR_BUILD_NUMBER', '0001')
     monkeypatch.setenv('APPVEYOR_REPO_COMMIT', 'ABCDEF')

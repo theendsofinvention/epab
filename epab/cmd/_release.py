@@ -12,7 +12,8 @@ import click
 import epab.cmd
 import epab.linters
 import epab.utils
-from epab.core import CONFIG, CTX, VERSION
+from epab import __version__
+from epab.core import CTX, config
 
 
 def _clean():
@@ -25,7 +26,7 @@ def _clean():
     folders_to_cleanup = [
         '.eggs',
         'build',
-        f'{CONFIG.package}.egg-info',
+        f'{config.PACKAGE_NAME()}.egg-info',
     ]
     for folder in folders_to_cleanup:
         if os.path.exists(folder):
@@ -34,10 +35,10 @@ def _clean():
 
 
 def _copy_artifacts():
-    if CONFIG.artifacts:
+    if config.ARTIFACTS():
         folder = Path('./artifacts')
         folder.mkdir(exist_ok=True)
-        for pattern in CONFIG.artifacts:
+        for pattern in config.ARTIFACTS():
             for artifact in Path('.').glob(pattern):
                 src = str(artifact.absolute())
                 dst = str(folder.absolute())
@@ -62,7 +63,7 @@ def _remove_av_artifacts():
 
 def _print_build_info(current_branch: str, next_version: str):
     info = [
-        f'Current version -> {VERSION}',
+        f'Current EPAB version -> {__version__}',
         f'Current branch  -> {current_branch}',
         f'Latest tag      -> {CTX.repo.get_latest_tag()}',
         f'Next version    -> {next_version}',

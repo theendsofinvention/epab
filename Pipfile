@@ -24,7 +24,7 @@ pytest-cache = ">=1"
 pytest-cov = ">=2.5.1"
 pytest-pycharm = {version=">=0.5.0", os_name = "=='nt'"}
 pytest = ">=3.5.1"
-pytest-vcr = "*"
+pytest-vcr = ">=0.3.0"
 gitchangelog = ">=3.0.3"
 gitpython = ">=2.1.9"
 mockito = ">=1.1"
@@ -33,3 +33,8 @@ setuptools-scm = ">=2.1.0"
 certifi = ">=2018.4.16"
 pefile = ">=2017.11.5"
 mypy = ">=0.600"
+elib_config = {git = "https://github.com/etcher-be/elib_config", ref = "master"}
+toml = ">=0.9.4"
+
+[dev-packages]
+"e1839a8" = {path = ".", editable = true}

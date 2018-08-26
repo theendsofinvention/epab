@@ -9,7 +9,7 @@ import pytest
 from click.testing import CliRunner
 from mockito import unstub
 
-from epab.core import CONFIG, CTX
+from epab.core import CTX, config
 
 
 def pytest_configure(config):
@@ -51,7 +51,16 @@ def _global_tear_down(tmpdir, monkeypatch):
     except KeyError:
         pass
     CTX._reset()
-    CONFIG.load()
+    config.CHANGELOG_DISABLE.default = False
+    config.ARTIFACTS.default = []
+    config.TEST_RUNNER_OPTIONS.default = ''
+    config.TEST_AV_RUNNER_OPTIONS.default = '--long'
+    config.PACKAGE_NAME.default = 'test_package'
+    config.FREEZE_ENTRY_POINT.default = ''
+    config.QT_RES_SRC.default = ''
+    config.QT_RES_TGT.default = ''
+    config.QUIET.default = False
+    # CONFIG.load()
     current_dir = os.getcwd()
     folder = Path(tmpdir).absolute()
     os.chdir(folder)
