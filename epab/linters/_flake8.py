@@ -11,7 +11,7 @@ from epab.core import config
 IGNORE = '--ignore=D203,E126'
 MAX_LINE_LENGTH = f'--max-line-length={config.LINT_LINE_LENGTH()}'
 BASE_EXCLUDE = ".svn,CVS,.bzr,.hg,.git,__pycache__,.tox,__init__.py,build,dist,output,.cache," \
-               ".hypothesis,./test/*,./.eggs/*,"
+               ".hypothesis,./test/*,./.eggs/*,.venv"
 EXCLUDE = '--exclude ' + BASE_EXCLUDE
 MAX_COMPLEXITY = '--max-complexity=10'
 

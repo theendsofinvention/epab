@@ -65,7 +65,7 @@ def cli(dry_run, dirty, stash):
 _LINTERS = [
     epab.linters.pep8,
     epab.linters.flake8,
-    epab.linters.sort,
+    # epab.linters.sort,
     epab.linters.pylint,
     epab.linters.safety,
     epab.linters.lint,
