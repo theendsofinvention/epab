@@ -48,7 +48,7 @@ def test_cmd_end(text, capsys):
         (epab.utils.cmd_start, 'EPAB: {}', ''),
         (epab.utils.cmd_end, '{}\n', ''),
         (epab.utils.std_err, '', '{}\n'),
-        (epab.utils.std_out, '{}', ''),
+        (epab.utils.std_out, '{}\n', ''),
     ],
     ids=['info', 'error', 'cmd_start', 'cmd_end', 'std_err', 'std_out']
 )
@@ -56,8 +56,8 @@ def test_cmd_end(text, capsys):
 def test_not_quiet(func, out, err, text, capsys):
     func(text)
     _out, _err = capsys.readouterr()
-    assert _out == out.format(text)
-    assert _err == err.format(text)
+    assert out.format(text) == _out
+    assert err.format(text) == _err
 
 
 @pytest.mark.parametrize(

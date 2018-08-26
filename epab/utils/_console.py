@@ -87,7 +87,7 @@ def std_out(txt: str, **kwargs):
     :param kwargs: additional arguments to `click.secho` command
     """
     txt = _sanitize(f'{txt}', prefix=False)
-    _output(txt, Colors.stdout, nl=False, **kwargs)
+    _output(txt, Colors.stdout, nl=True, **kwargs)
 
 
 def std_err(txt: str, **kwargs):
