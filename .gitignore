@@ -26,5 +26,3 @@ test.yml
 .venv
 .eggs
 pyproject.toml.example
-.tmon*
-.testmon*
