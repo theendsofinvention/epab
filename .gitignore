@@ -24,4 +24,7 @@ test.yml
 .coverage*
 .mypy_cache
 .venv
+.eggs
 pyproject.toml.example
+.tmon*
+.testmon*
