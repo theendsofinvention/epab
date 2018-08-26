@@ -40,7 +40,6 @@ def test_cmd_end(text, capsys):
     assert err == ''
 
 
-@pytest.mark.long
 @pytest.mark.parametrize(
     'func,out,err',
     [
@@ -54,19 +53,13 @@ def test_cmd_end(text, capsys):
     ids=['info', 'error', 'cmd_start', 'cmd_end', 'std_err', 'std_out']
 )
 @given(text=st.text(alphabet=string.printable))
-def test_quiet(func, out, err, text, capsys):
+def test_not_quiet(func, out, err, text, capsys):
     func(text)
     _out, _err = capsys.readouterr()
     assert _out == out.format(text)
     assert _err == err.format(text)
-    config.QUIET.default = True
-    func(text)
-    out, err = capsys.readouterr()
-    assert out == ''
-    assert err == ''
 
 
-# @pytest.mark.long
 @pytest.mark.parametrize(
     'func',
     [
