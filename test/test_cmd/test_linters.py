@@ -8,7 +8,8 @@ from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocat
 
 import epab.utils
 from epab.core import CTX, config
-from epab.linters import _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort
+# noinspection PyProtectedMember
+from epab.linters import _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort, _dead_fixtures
 
 
 @pytest.fixture(autouse=True, name='repo')
@@ -30,6 +31,7 @@ def test_lint(amend_stage):
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
     verify(context).invoke(_mypy.mypy)
+    verify(context).invoke(_dead_fixtures.pytest_dead_fixtures)
     # verify(context).invoke(_sort.sort, amend=amend, stage=stage)
     verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
     verifyNoMoreInteractions(context)
@@ -48,6 +50,7 @@ def test_lint_appveyor(amend_stage):
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
     verify(context).invoke(_mypy.mypy)
+    verify(context).invoke(_dead_fixtures.pytest_dead_fixtures)
     verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
     verifyNoMoreInteractions(context)
 
@@ -157,3 +160,9 @@ def test_pylint(params, cmd):
     with when(epab.utils).run(f'{cmd} {_pylint.BASE_CMD}', mute=True):
         _pylint._pylint(*params)
         verify(epab.utils).run(...)
+
+
+def test_dead_fixtures():
+    when(epab.utils).run('pytest test --dead-fixtures --dup-fixtures', mute=True)
+    _dead_fixtures._pytest_dead_fixtures()
+    verifyStubbedInvocationsAreUsed()

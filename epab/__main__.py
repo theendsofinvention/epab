@@ -70,6 +70,7 @@ _LINTERS = [
     epab.linters.safety,
     epab.linters.lint,
     epab.linters.mypy,
+    epab.linters.pytest_dead_fixtures,
 ]
 
 _COMMANDS = [
