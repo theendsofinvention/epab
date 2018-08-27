@@ -33,6 +33,7 @@ requirements = [
     'pytest-repeat',
     'pytest-faker',
     'pytest-watch',
+    'pytest-deadfixtures',
 ]
 test_requirements = []
 
