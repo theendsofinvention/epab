@@ -10,6 +10,7 @@ from ._mypy import mypy
 from ._pep8 import pep8
 from ._pylint import pylint
 from ._safety import safety
+from ._dead_fixtures import pytest_dead_fixtures
 
 
 # from epab.core import CTX
@@ -21,6 +22,7 @@ from ._safety import safety
 def _lint(ctx: click.Context, amend: bool = False, stage: bool = False):
     epab.utils.info('Running all linters')
     ctx.invoke(safety)
+    ctx.invoke(pytest_dead_fixtures)
     ctx.invoke(pep8, amend=amend, stage=stage)
     ctx.invoke(pylint)
     ctx.invoke(flake8)
