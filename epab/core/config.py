@@ -88,6 +88,7 @@ def setup_config(epab_version: str):
 
     :param epab_version: installed version of EPAB as as string
     """
+    elib_config.write_example_config('pyproject.toml.example')
     if not pathlib.Path('pyproject.toml').exists():
         raise FileNotFoundError('pyproject.toml')
     elib_config.ELIBConfig.setup(
@@ -98,4 +99,3 @@ def setup_config(epab_version: str):
         root_path=['tool', 'epab']
     )
     elib_config.validate_config()
-    elib_config.write_example_config('pyproject.toml.example')
