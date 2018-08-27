@@ -37,6 +37,7 @@ sarge = ">=0.1.5.post0"
 pytest-repeat = ">=0.7.0"
 pytest-faker = ">=2.0.0"
 pytest-watch = ">=4.2.0"
+pytest-deadfixtures = "*"
 
 [dev-packages]
 "e1839a8" = {path = ".", editable = true}
