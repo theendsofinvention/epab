@@ -10,7 +10,7 @@ from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocat
 import epab.utils
 from epab.core import CTX, config
 # noinspection PyProtectedMember
-from epab.linters import _dead_fixtures, _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort, _bandit
+from epab.linters import _bandit, _dead_fixtures, _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort
 
 
 @pytest.fixture(autouse=True, name='repo')

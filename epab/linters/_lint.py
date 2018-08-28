@@ -5,13 +5,13 @@ Runs all linters
 import click
 
 import epab.utils
+from ._bandit import bandit
 from ._dead_fixtures import pytest_dead_fixtures
 from ._flake8 import flake8
 from ._mypy import mypy
 from ._pep8 import pep8
 from ._pylint import pylint
 from ._safety import safety
-from ._bandit import bandit
 
 
 # from epab.core import CTX
