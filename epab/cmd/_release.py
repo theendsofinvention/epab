@@ -50,6 +50,8 @@ def _copy_artifacts():
 def _check_dirty(reason: str):
     epab.utils.AV.info('Checking repo')
     if CTX.repo.is_dirty(untracked=True):
+        for changed_file in CTX.repo.changed_files():
+            epab.utils.info(CTX.repo.diff(changed_file))
         epab.utils.AV.error('Repository is dirty', reason)
         sys.exit(1)
 
