@@ -38,4 +38,3 @@ def test_diff_with_files(repo: Repo):
     assert '+++ b/test.file1' in single_diff
     assert '-test' in single_diff
     assert '+changed' in single_diff
-
