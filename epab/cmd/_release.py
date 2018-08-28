@@ -115,7 +115,7 @@ def _release(ctx: click.Context):
 
     _print_build_info(current_branch, next_version)
 
-    _check_dirty('repository is dirty')
+    _check_dirty('initial repo check failed')
 
     if CTX.dry_run:
         epab.utils.AV.info('Skipping release; DRY RUN')
@@ -123,11 +123,11 @@ def _release(ctx: click.Context):
 
     epab.utils.AV.info(f'Running on commit: {CTX.repo.latest_commit()}')
 
+    _check_txt_reqs(ctx)
+
     _run_linters(ctx)
 
     _run_tests(ctx)
-
-    _check_txt_reqs(ctx)
 
     if CTX.appveyor:
         _copy_artifacts()
@@ -136,7 +136,7 @@ def _release(ctx: click.Context):
 
     _clean()
 
-    _check_dirty('last check before build')
+    _check_dirty('last check failed')
 
     _create_wheel()
 
