@@ -4,7 +4,7 @@ from pathlib import Path
 
 import elib_run
 import pytest
-from mockito import ANY, and_, contains, mock, verify, verifyNoUnwantedInteractions, when
+from mockito import ANY, and_, contains, mock, verify, verifyNoUnwantedInteractions, when, verifyStubbedInvocationsAreUsed
 
 import epab.cmd
 import epab.cmd._release
@@ -82,31 +82,37 @@ def test_release_on_master(setup):
 
 def test_dirty_initial_check(setup):
     ctx, _ = setup
+    when(epab.utils.AV).error(...)
     when(CTX.repo).changed_files().thenReturn(list())
     when(CTX.repo).is_dirty(untracked=True).thenReturn(True)
     with pytest.raises(SystemExit):
         epab.cmd._release._release(ctx)
+    verify(epab.utils.AV).error('Repository is dirty', 'initial check failed')
 
 
 def test_dirty_after_lint(setup):
     ctx, _ = setup
+    when(epab.utils.AV).error(...)
     when(CTX.repo).changed_files().thenReturn(list())
     when(CTX.repo).is_dirty(untracked=True) \
         .thenReturn(False) \
         .thenReturn(True)
     with pytest.raises(SystemExit):
         epab.cmd._release._release(ctx)
+    verify(epab.utils.AV).error('Repository is dirty', 'linters produced artifacts')
 
 
-def test_dirty_after_reqs(setup):
+def test_dirty_final_check(setup):
     ctx, _ = setup
     when(CTX.repo).changed_files().thenReturn(list())
+    when(epab.utils.AV).error(...)
     when(CTX.repo).is_dirty(untracked=True) \
         .thenReturn(False) \
         .thenReturn(False) \
         .thenReturn(True)
     with pytest.raises(SystemExit):
         epab.cmd._release._release(ctx)
+    verify(epab.utils.AV).error('Repository is dirty', 'last check before build')
 
 
 def test_dry(setup, capsys):

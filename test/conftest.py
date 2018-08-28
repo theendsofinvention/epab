@@ -60,6 +60,7 @@ def _global_tear_down(tmpdir, monkeypatch):
     config.QT_RES_SRC.default = ''
     config.QT_RES_TGT.default = ''
     config.QUIET.default = False
+    config.MYPY_ARGS.default = ''
     # CONFIG.load()
     current_dir = os.getcwd()
     folder = Path(tmpdir).absolute()

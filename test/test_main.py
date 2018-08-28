@@ -11,8 +11,8 @@ import epab.utils
 from epab import __version__
 from epab.__main__ import cli
 from epab.cmd import _chglog, _install_hooks, _pytest, _release, _reqs
-from epab.core import CTX
-from epab.linters import _flake8, _lint, _pep8, _pylint, _safety
+from epab.core import CTX, config
+from epab.linters import _flake8, _lint, _pep8, _pylint, _safety, _mypy, _bandit, _dead_fixtures
 
 
 @pytest.fixture(name='setup')
@@ -153,6 +153,18 @@ def test_reqs():
     verify(_reqs)._write_reqs(...)
 
 
+def test_mypy():
+    when(_mypy)._mypy(...)
+    assert succesfull_run2('mypy')
+    verify(_mypy)._mypy(...)
+
+
+def test_bandit():
+    when(_bandit)._bandit(...)
+    assert succesfull_run2('bandit')
+    verify(_bandit)._bandit(...)
+
+
 def test_reqs_changed(setup):
     runner, repo = setup
 
@@ -207,3 +219,14 @@ def test_install_hooks():
     when(_install_hooks)._install_hooks(...)
     assert succesfull_run2('install_hooks')
     verify(_install_hooks)._install_hooks(...)
+
+
+def test_dead_fixtures():
+    when(_dead_fixtures)._pytest_dead_fixtures(...)
+    assert succesfull_run2('pytest_dead_fixtures')
+    verify(_dead_fixtures)._pytest_dead_fixtures(...)
+
+
+def test_setup_config():
+    with pytest.raises(FileNotFoundError):
+        config.setup_config('0.0.1')
