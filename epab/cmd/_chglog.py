@@ -8,6 +8,7 @@ import re
 from pathlib import Path
 
 import click
+import elib_run
 
 import epab.utils
 from epab.core import CTX, config
@@ -78,7 +79,7 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, 
             next_version = epab.utils.get_next_version()
         with gitchangelog_config():
             with temporary_tag(next_version):
-                changelog, _ = epab.utils.run('gitchangelog', mute=True)
+                changelog, _ = elib_run.run('gitchangelog', mute=True)
         # changelog = changelog.encode('utf8').replace(b'\r\n', b'\n').decode('utf8')
         changelog = re.sub(BOGUS_LINE_PATTERN, '\\1\n', changelog)
         Path(config.CHANGELOG_FILE_PATH()).write_text(changelog, encoding='utf8')

@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 import click
+import elib_run
 
 import epab.utils
 from epab.core import config
@@ -40,7 +41,7 @@ def _pylint(src, reports):
         reports = '--reports=y'
     else:
         reports = '--reports=n'
-    epab.utils.run(f'{cmd} {reports} {BASE_CMD}', mute=True)
+    elib_run.run(f'{cmd} {reports} {BASE_CMD}', mute=True)
 
 
 @click.command()

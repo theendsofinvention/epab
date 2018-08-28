@@ -8,6 +8,7 @@ import webbrowser
 from pathlib import Path
 
 import click
+import elib_run
 
 import epab.utils
 from epab.core import CTX, config
@@ -87,8 +88,8 @@ class _Coverage:
         """
         if Path('coverage.xml').exists():
             epab.utils.AV.info('Uploading coverage to Codacy')
-            epab.utils.run('pip install --upgrade codacy-coverage')
-            epab.utils.run('python-codacy-coverage -r coverage.xml')
+            elib_run.run('pip install --upgrade codacy-coverage')
+            elib_run.run('python-codacy-coverage -r coverage.xml')
             epab.utils.AV.info('Codacy coverage OK')
         else:
             epab.utils.AV.error('"coverage.xml" not found, skipping codacy coverage')
@@ -102,9 +103,9 @@ class _Coverage:
     #     if os.getenv('SCRUT_TOK', False):
     #         if Path('coverage.xml').exists():
     #             epab.utils.AV.info('Uploading coverage to Scrutinizer')
-    #             epab.utils.run('pip install git+https://github.com/etcher-vault/ocular.py.git#egg=ocular')
+    #             elib_run.run('pip install git+https://github.com/etcher-vault/ocular.py.git#egg=ocular')
     #             token = os.getenv('SCRUT_TOK')
-    #             epab.utils.run(
+    #             elib_run.run(
     #                 f'ocular --access-token "{token}" --data-file "coverage.xml" --config-file ".coveragerc"'
     #             )
     #             epab.utils.AV.info('Scrutinizer coverage OK')
@@ -147,7 +148,7 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     epab.utils.info('Running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'
     _Coverage.install()
-    cmd = f'python -m pytest {test}'
+    cmd = f'pytest {test}'
 
     if CTX.appveyor:
         epab.utils.info('running on AV; VCR recording disabled')
@@ -168,7 +169,7 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     cmd = f'{cmd} {pytest_options()}{long}{exitfirst}{last_failed}{failed_first}'
 
     try:
-        epab.utils.run(cmd)
+        elib_run.run(cmd)
     finally:
         upload_coverage()
         _Coverage.remove_config_file()

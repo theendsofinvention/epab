@@ -5,8 +5,8 @@ Installs Git hooks
 from pathlib import Path
 
 import click
+import elib_run
 
-import epab.utils
 from epab import __version__
 
 PRE_PUSH = """#!/bin/sh
@@ -44,7 +44,7 @@ exit 0"""
 
 
 def _make_venv_path() -> str:
-    venv, _ = epab.utils.run('pipenv --venv', filters='Courtesy Notice:')
+    venv, _ = elib_run.run('pipenv --venv', filters='Courtesy Notice:')
     venv_path = Path(venv.rstrip(), 'Scripts').absolute()
     return Path('/', venv_path.parts[0].replace(':', '').lower(), *venv_path.parts[1:]).as_posix()
 

@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 import click
+import elib_run
 
 import epab.cmd
 import epab.linters
@@ -84,18 +85,18 @@ def _run_tests(ctx):
 
 def _create_wheel():
     python_exe = sys.executable.replace('\\', '/')
-    epab.utils.run(f'{python_exe} setup.py bdist_wheel')
+    elib_run.run(f'{python_exe} setup.py bdist_wheel')
     epab.utils.AV.info('Setup OK')
 
 
 def _upload_to_twine():
-    epab.utils.run(f'twine upload dist/* --skip-existing', mute=True)
+    elib_run.run(f'twine upload dist/* --skip-existing', mute=True)
     epab.utils.AV.info('Twine OK')
 
 
 def _update_av_build_name(next_version):
     build_version = f'{next_version}-{os.getenv("APPVEYOR_BUILD_NUMBER")}-{os.getenv("APPVEYOR_REPO_COMMIT")}'
-    epab.utils.run(f'appveyor UpdateBuild -Version {build_version}')
+    elib_run.run(f'appveyor UpdateBuild -Version {build_version}')
     epab.utils.AV.info('Build version', build_version)
 
 

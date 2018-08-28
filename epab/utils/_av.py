@@ -2,6 +2,7 @@
 """
 Convenience methods for AV
 """
+import elib_run
 
 import epab.utils
 from epab.core import CTX
@@ -16,9 +17,9 @@ class AV:
     def _out(level, msg: str, details: str = None):
         if CTX.appveyor:
             if details:
-                epab.utils.run(f'appveyor AddMessage "{msg}" -Category {level} -Details "{details}"', mute=True)
+                elib_run.run(f'appveyor AddMessage "{msg}" -Category {level} -Details "{details}"', mute=True)
             else:
-                epab.utils.run(f'appveyor AddMessage "{msg}" -Category {level}', mute=True)
+                elib_run.run(f'appveyor AddMessage "{msg}" -Category {level}', mute=True)
             epab.utils.info(f'{level}: {msg} {details if details else ""}')
         else:
             if level == 'Information':
@@ -62,7 +63,7 @@ class AV:
         Args:
             build_version: new version
         """
-        epab.utils.run(f'appveyor UpdateBuild -Version {build_version}')
+        elib_run.run(f'appveyor UpdateBuild -Version {build_version}')
 
     @staticmethod
     def set_env_var(key: str, value: str):
@@ -73,5 +74,5 @@ class AV:
             key: variable name
             value: variable value
         """
-        epab.utils.run(f'appveyor SetVariable -Name {key} -Value {value}')
+        elib_run.run(f'appveyor SetVariable -Name {key} -Value {value}')
         AV.info('Env', f'set "{key}" -> "{value}"')
