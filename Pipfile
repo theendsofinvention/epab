@@ -39,6 +39,7 @@ pytest-faker = ">=2.0.0"
 pytest-watch = ">=4.2.0"
 pytest-deadfixtures = "*"
 elib-run = "*"
+bandit = "*"
 
 [dev-packages]
 epab = {editable = true, path = "."}
