@@ -119,7 +119,10 @@ class _Coverage:
         """
         Removes coverage config file
         """
-        Path('.coveragerc').unlink()
+        try:
+            Path('.coveragerc').unlink()
+        except FileNotFoundError:
+            pass
 
 
 def upload_coverage():
