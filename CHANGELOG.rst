@@ -2,15 +2,22 @@ Changelog
 =========
 (unreleased)
 ------------
+New
+~~~
+- Pipenv commands and prepush (#80) [etcher]
+  * add pipenv and prepush commands
+  * update chglog
+Other
+~~~~~
+- Remove deprecated freeze_flat command. [etcher]
+2018.08.28.6 (2018-08-28)
+-------------------------
 Fix
 ~~~
 - Fix removal of htmlcov (#79) [etcher]
   * fix: ignore missing htmlcov when removing it
   * chg: made removal of htmlcov optional
   Useful with pytest-watch in between runs
-Other
-~~~~~
-- Add pipenv and prepush commands. [etcher]
 2018.08.28.5 (2018-08-28)
 -------------------------
 Fix
