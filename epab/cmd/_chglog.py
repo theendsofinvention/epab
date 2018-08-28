@@ -17,7 +17,7 @@ BOGUS_LINE_PATTERN = re.compile('^(- .*)(\n){2}', flags=re.MULTILINE)
 
 GITCHANGELOG_CONFIG = r"""
 body_process = ReSub(r'((^|\n)[A-Z]\w+(-\w+)*: .*(\n\s+.*)*)+$', r'') | strip
-tag_filter_regexp = r'^[0-9]+\.[0-9]+(\.[0-9]+)?.*$'
+tag_filter_regexp = r'^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'
 include_merge = False
 ignore_regexps = [
     r'@minor', r'!minor',
@@ -84,9 +84,11 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, 
         changelog = re.sub(BOGUS_LINE_PATTERN, '\\1\n', changelog)
         Path(config.CHANGELOG_FILE_PATH()).write_text(changelog, encoding='utf8')
         if amend:
-            CTX.repo.amend_commit(append_to_msg='update changelog [auto]', files_to_add=config.CHANGELOG_FILE_PATH())
+            CTX.repo.amend_commit(
+                append_to_msg='update changelog [auto]', files_to_add=str(config.CHANGELOG_FILE_PATH())
+            )
         elif stage:
-            CTX.repo.stage_subset(config.CHANGELOG_FILE_PATH())
+            CTX.repo.stage_subset(str(config.CHANGELOG_FILE_PATH()))
 
 
 @click.command()

@@ -47,20 +47,20 @@ def test_changelog(src, result):
     when(epab.utils).ensure_exe(...)
     when(epab.utils).info(...)
     when(elib_run).run('gitchangelog', mute=True).thenReturn((src, 0))
-    _chglog(False, False)
+    _chglog()
     verify(epab.utils).info('Writing changelog')
     assert changelog.exists()
     assert changelog.read_text() == result
 
 
 def test_straight_commit(repo):
-    _chglog(True, False)
-    verify(repo).amend_commit(append_to_msg='update changelog [auto]', files_to_add=config.CHANGELOG_FILE_PATH())
+    _chglog(True)
+    verify(repo).amend_commit(append_to_msg='update changelog [auto]', files_to_add=str(config.CHANGELOG_FILE_PATH()))
 
 
 def test_commit_amend(repo):
-    _chglog(amend=False, stage=True)
-    verify(repo).stage_subset(config.CHANGELOG_FILE_PATH())
+    _chglog(stage=True)
+    verify(repo).stage_subset(str(config.CHANGELOG_FILE_PATH()))
 
 
 def test_flags_exclusion(repo):
