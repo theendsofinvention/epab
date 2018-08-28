@@ -2,14 +2,22 @@ Changelog
 =========
 (unreleased)
 ------------
+Fix
+~~~
+- Pre_push: update should happen before reqs. [etcher]
+Other
+~~~~~
+- Improved pre_push command. [etcher]
+  Added optional push to remote
+- Update chglog. [etcher]
+- Remove deprecated freeze_flat command. [etcher]
+2018.08.28.7 (2018-08-28)
+-------------------------
 New
 ~~~
 - Pipenv commands and prepush (#80) [etcher]
   * add pipenv and prepush commands
   * update chglog
-Other
-~~~~~
-- Remove deprecated freeze_flat command. [etcher]
 2018.08.28.6 (2018-08-28)
 -------------------------
 Fix
@@ -435,45 +443,3 @@ Fix
 - Remove 'EPAB: ' string from console output. [132nd-etcher]
 - Remove 'EPAB: ' string from console output. [132nd-etcher]
 - Make sure all commands are run only once. [132nd-etcher]
-- Remove 'EPAB: ' string from console output. [132nd-etcher]
-- Pylint options. [132nd-etcher]
-- Add site-package to pylint to include imports. [132nd-etcher]
-- Run test suite from EPAB to generate coverage. [132nd-etcher]
-- Sanitize console output. [132nd-etcher]
-- Sanitize console output. [132nd-etcher]
-- Appveyor release. [132nd-etcher]
-- Install requirements using pip. [132nd-etcher]
-- Fix runner options. [132nd-etcher]
-- Spelling and imports. [132nd-etcher]
-- Fix reqs ref. [132nd-etcher]
-- Remove leftover appveyor.yml file. [132nd-etcher]
-- Fix run_once. [132nd-etcher]
-- Apparently, --all and --tags are incompatible ... [132nd-etcher]
-- Push all refs after release. [132nd-etcher]
-- Fix tests. [132nd-etcher]
-- Fixed pre_build exiting early. [132nd-etcher]
-- Fix package name for get_version. [132nd-etcher]
-Other
-~~~~~
-- Linting. [132nd-etcher]
-- Update reqs. [132nd-etcher]
-- Disable isort setup.py feature for now. [132nd-etcher]
-- Add iPython. [132nd-etcher]
-- Add entry point. [132nd-etcher]
-- Create LICENSE. [132nd-etcher]
-- Delete LICENSE. [132nd-etcher]
-- Update requirements-dev.txt. [132nd-etcher]
-- Update reqs-dev.txt [skip ci] [132nd-etcher]
-- Update requirements-dev.txt. [132nd-etcher]
-- Trivia. [132nd-etcher]
-- Chg do not write hashes to requirements. [132nd-etcher]
-- Add pre_build, wheel, sdist and upload commands. [132nd-etcher]
-- Clean build folder. [132nd-etcher]
-- Add ctx obj. [132nd-etcher]
-- Update changelog. [132nd-etcher]
-- Update requirements. [132nd-etcher]
-- Rename wheel -> build and add sdist command. [132nd-etcher]
-- Added wheel command. [132nd-etcher]
-- Add auto install of pip-tools. [132nd-etcher]
-- Add auto install of pip-tools. [132nd-etcher]
-- Initial commit. [132nd-etcher]
