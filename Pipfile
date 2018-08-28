@@ -37,8 +37,8 @@ sarge = ">=0.1.5.post0"
 pytest-repeat = ">=0.7.0"
 pytest-faker = ">=2.0.0"
 pytest-watch = ">=4.2.0"
-pytest-deadfixtures = "*"
-elib-run = "*"
+pytest-deadfixtures = ">=2.0.1"
+elib-run = ">=2018.8.27.2"
 
 [dev-packages]
 epab = {editable = true, path = "."}
