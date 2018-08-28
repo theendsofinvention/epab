@@ -12,7 +12,7 @@ from epab.core import config
 
 @epab.utils.run_once
 def _bandit():
-    elib_run.run(f'bandit {config.PACKAGE_NAME} -r', mute=True)
+    elib_run.run(f'bandit {config.PACKAGE_NAME()} -r', mute=True)
 
 
 @click.command()

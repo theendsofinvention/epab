@@ -71,6 +71,7 @@ _LINTERS = [
     epab.linters.lint,
     epab.linters.mypy,
     epab.linters.pytest_dead_fixtures,
+    epab.linters.bandit
 ]
 
 _COMMANDS = [
