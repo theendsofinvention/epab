@@ -46,7 +46,7 @@ def test_release(setup):
 
     verify(repo).get_current_branch()
     when(epab.utils).get_next_version()
-    verify(CTX.repo, times=3).is_dirty(untracked=True)
+    verify(CTX.repo, times=4).is_dirty(untracked=True)
     verify(ctx).invoke(epab.linters.lint)
     verify(ctx).invoke(epab.cmd.pytest, long=True)
     # verify(ctx).invoke(epab.cmd.reqs)
@@ -66,7 +66,7 @@ def test_release_on_master(setup):
 
     verify(repo).get_current_branch()
     when(epab.utils).get_next_version()
-    verify(CTX.repo, times=3).is_dirty(untracked=True)
+    verify(CTX.repo, times=4).is_dirty(untracked=True)
     verify(ctx).invoke(epab.linters.lint)
     verify(ctx).invoke(epab.cmd.pytest, long=True)
     # verify(ctx).invoke(epab.cmd.reqs)

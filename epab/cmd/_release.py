@@ -83,6 +83,11 @@ def _run_tests(ctx):
     epab.utils.AV.info('Tests OK')
 
 
+def _check_txt_reqs(ctx):
+    ctx.invoke(epab.cmd.reqs)
+    _check_dirty('requirements(-dev).txt outdated')
+
+
 def _create_wheel():
     python_exe = sys.executable.replace('\\', '/')
     elib_run.run(f'{python_exe} setup.py bdist_wheel')
@@ -121,6 +126,8 @@ def _release(ctx: click.Context):
     _run_linters(ctx)
 
     _run_tests(ctx)
+
+    _check_txt_reqs(ctx)
 
     if CTX.appveyor:
         _copy_artifacts()
