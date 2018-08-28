@@ -10,7 +10,7 @@ from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocat
 import epab.utils
 from epab.core import CTX, config
 # noinspection PyProtectedMember
-from epab.linters import _dead_fixtures, _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort
+from epab.linters import _bandit, _dead_fixtures, _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort
 
 
 @pytest.fixture(autouse=True, name='repo')
@@ -18,6 +18,18 @@ def _all():
     repo = mock(spec=epab.utils.Repo)
     CTX.repo = repo
     yield repo
+
+
+def _check_invocations(context, amend, stage):
+    verify(context).invoke(_safety.safety)
+    verify(context).invoke(_pylint.pylint)
+    verify(context).invoke(_flake8.flake8)
+    verify(context).invoke(_mypy.mypy)
+    verify(context).invoke(_bandit.bandit)
+    verify(context).invoke(_dead_fixtures.pytest_dead_fixtures)
+    # verify(context).invoke(_sort.sort, amend=amend, stage=stage)
+    verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
+    verifyNoMoreInteractions(context)
 
 
 @pytest.mark.parametrize(
@@ -28,14 +40,7 @@ def test_lint(amend_stage):
     amend, stage = amend_stage
     context = mock()
     _lint._lint(context, amend, stage)
-    verify(context).invoke(_safety.safety)
-    verify(context).invoke(_pylint.pylint)
-    verify(context).invoke(_flake8.flake8)
-    verify(context).invoke(_mypy.mypy)
-    verify(context).invoke(_dead_fixtures.pytest_dead_fixtures)
-    # verify(context).invoke(_sort.sort, amend=amend, stage=stage)
-    verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
-    verifyNoMoreInteractions(context)
+    _check_invocations(context, amend, stage)
 
 
 @pytest.mark.parametrize(
@@ -47,13 +52,7 @@ def test_lint_appveyor(amend_stage):
     CTX.appveyor = True
     context = mock()
     _lint._lint(context, amend, stage)
-    verify(context).invoke(_safety.safety)
-    verify(context).invoke(_pylint.pylint)
-    verify(context).invoke(_flake8.flake8)
-    verify(context).invoke(_mypy.mypy)
-    verify(context).invoke(_dead_fixtures.pytest_dead_fixtures)
-    verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
-    verifyNoMoreInteractions(context)
+    _check_invocations(context, amend, stage)
 
 
 def test_pep8():
@@ -165,4 +164,10 @@ def test_pylint(params, cmd):
 def test_dead_fixtures():
     when(elib_run).run('pytest test --dead-fixtures --dup-fixtures', mute=True)
     _dead_fixtures._pytest_dead_fixtures()
+    verifyStubbedInvocationsAreUsed()
+
+
+def test_bandit():
+    when(elib_run).run('bandit test_package -r', mute=True)
+    _bandit._bandit()
     verifyStubbedInvocationsAreUsed()

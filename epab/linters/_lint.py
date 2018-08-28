@@ -5,6 +5,7 @@ Runs all linters
 import click
 
 import epab.utils
+from ._bandit import bandit
 from ._dead_fixtures import pytest_dead_fixtures
 from ._flake8 import flake8
 from ._mypy import mypy
@@ -22,6 +23,7 @@ from ._safety import safety
 def _lint(ctx: click.Context, amend: bool = False, stage: bool = False):
     epab.utils.info('Running all linters')
     ctx.invoke(safety)
+    ctx.invoke(bandit)
     ctx.invoke(pytest_dead_fixtures)
     ctx.invoke(pep8, amend=amend, stage=stage)
     ctx.invoke(pylint)
