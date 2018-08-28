@@ -528,5 +528,5 @@ class Repo(BaseRepo):
         """
         if not path:
             return self.repo.git.diff()
-        else:
-            return self.repo.git.diff(path)
+
+        return self.repo.git.diff(path)
