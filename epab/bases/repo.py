@@ -249,7 +249,7 @@ class BaseRepo(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def push(self):
+    def push(self, set_upstream: bool = True):
         """
         Pushes all refs (branches and tags) to origin
         """
