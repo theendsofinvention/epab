@@ -5,6 +5,7 @@ Pep8 linter
 import sys
 
 import click
+import elib_run
 
 import epab.utils
 from epab.core import config
@@ -16,7 +17,7 @@ def _mypy():
     cmd = f'mypy -p {config.PACKAGE_NAME()} --ignore-missing-imports'
     if config.MYPY_ARGS():
         cmd += ' ' + config.MYPY_ARGS()
-    _, code = epab.utils.run(cmd, failure_ok=True)
+    _, code = elib_run.run(cmd, failure_ok=True)
     if code:
         sys.exit(code)
 

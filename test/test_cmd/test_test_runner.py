@@ -5,11 +5,10 @@ import pathlib
 import webbrowser
 from pathlib import Path
 
+import elib_run
 import pytest
 from mockito import verifyStubbedInvocationsAreUsed, when
 
-import epab.cmd._pytest
-import epab.utils
 from epab.cmd._pytest import _Coverage, _pytest, pytest_options
 from epab.core import CTX, config
 
@@ -23,14 +22,14 @@ DEFAULT_OPTS = dict(
 
 
 def test_environ():
-    when(epab.utils).run(f'python -m pytest test {pytest_options()}')
+    when(elib_run).run(f'pytest test {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     assert os.environ.get('PYTEST_QT_API') == 'pyqt5'
     verifyStubbedInvocationsAreUsed()
 
 
 def test_coverage_config_creation():
-    when(epab.utils).run(f'python -m pytest test {pytest_options()}')
+    when(elib_run).run(f'pytest test {pytest_options()}')
     when(_Coverage).remove_config_file()
     _pytest('test', **DEFAULT_OPTS)
     assert pathlib.Path('.coveragerc').exists()
@@ -39,14 +38,14 @@ def test_coverage_config_creation():
 
 def test_coverage_config_removal_despite_error():
     with pytest.raises(RuntimeError):
-        when(epab.utils).run(f'python -m pytest test {pytest_options()}').thenRaise(RuntimeError('test'))
+        when(elib_run).run(f'pytest test {pytest_options()}').thenRaise(RuntimeError('test'))
         _pytest('test', **DEFAULT_OPTS)
     assert not pathlib.Path('.coveragerc').exists()
     verifyStubbedInvocationsAreUsed()
 
 
 def test_cmd():
-    when(epab.utils).run(f'python -m pytest test {pytest_options()}')
+    when(elib_run).run(f'pytest test {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
@@ -55,11 +54,11 @@ def test_cmd_with_coverage(monkeypatch):
     CTX.appveyor = True
     monkeypatch.setenv('SCRUT_TOK', 'test')
     Path('coverage.xml').touch()
-    when(epab.utils).run('appveyor AddMessage "Uploading coverage to Codacy" -Category Information', mute=True)
-    when(epab.utils).run('appveyor AddMessage "Codacy coverage OK" -Category Information', mute=True)
-    when(epab.utils).run(f'python -m pytest test --vcr-record=none --long {pytest_options()}')
-    when(epab.utils).run('pip install --upgrade codacy-coverage')
-    when(epab.utils).run('python-codacy-coverage -r coverage.xml')
+    when(elib_run).run('appveyor AddMessage "Uploading coverage to Codacy" -Category Information', mute=True)
+    when(elib_run).run('appveyor AddMessage "Codacy coverage OK" -Category Information', mute=True)
+    when(elib_run).run(f'pytest test --vcr-record=none --long {pytest_options()}')
+    when(elib_run).run('pip install --upgrade codacy-coverage')
+    when(elib_run).run('python-codacy-coverage -r coverage.xml')
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
@@ -67,11 +66,11 @@ def test_cmd_with_coverage(monkeypatch):
 def test_cmd_with_coverage_no_xml(monkeypatch):
     CTX.appveyor = True
     monkeypatch.setenv('SCRUT_TOK', 'test')
-    when(epab.utils).run(
+    when(elib_run).run(
         'appveyor AddMessage ""coverage.xml" not found, skipping codacy coverage" -Category Error',
         mute=True
     )
-    when(epab.utils).run(f'python -m pytest test --vcr-record=none --long {pytest_options()}')
+    when(elib_run).run(f'pytest test --vcr-record=none --long {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
@@ -79,7 +78,7 @@ def test_cmd_with_coverage_no_xml(monkeypatch):
 def test_long():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'long': True})
-    when(epab.utils).run(f'python -m pytest test {pytest_options()} --long')
+    when(elib_run).run(f'pytest test {pytest_options()} --long')
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
 
@@ -89,7 +88,7 @@ def test_show():
     opts.update({'show': True})
     cov_file = pathlib.Path('./htmlcov/index.html').absolute()
     when(webbrowser).open(f'file://{cov_file}')
-    when(epab.utils).run(f'python -m pytest test {pytest_options()}')
+    when(elib_run).run(f'pytest test {pytest_options()}')
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
 
@@ -97,7 +96,7 @@ def test_show():
 def test_config_exit_first():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'exitfirst': True})
-    when(epab.utils).run(f'python -m pytest test {pytest_options()} --exitfirst')
+    when(elib_run).run(f'pytest test {pytest_options()} --exitfirst')
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
 
@@ -105,7 +104,7 @@ def test_config_exit_first():
 def test_config_last_failed():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'last_failed': True})
-    when(epab.utils).run(f'python -m pytest test {pytest_options()} --last-failed')
+    when(elib_run).run(f'pytest test {pytest_options()} --last-failed')
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
 
@@ -113,13 +112,13 @@ def test_config_last_failed():
 def test_config_failed_first():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'failed_first': True})
-    when(epab.utils).run(f'python -m pytest test {pytest_options()} --failed-first')
+    when(elib_run).run(f'pytest test {pytest_options()} --failed-first')
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
 
 
 def test_output(capsys):
-    when(epab.utils).run(f'python -m pytest test {pytest_options()}')
+    when(elib_run).run(f'pytest test {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     out, err = capsys.readouterr()
     assert out == 'EPAB: RUN_ONCE: running _pytest\nEPAB: Running test suite\nEPAB: skipping coverage upload\n'
@@ -129,7 +128,7 @@ def test_output(capsys):
 
 def test_output_on_appveyor(capsys):
     CTX.appveyor = True
-    when(epab.utils, strict=False).run(f'python -m pytest test --vcr-record=none --long {pytest_options()}')
+    when(elib_run, strict=False).run(f'pytest test --vcr-record=none --long {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     out, err = capsys.readouterr()
     assert 'RUN_ONCE: running _pytest' in out
@@ -141,13 +140,13 @@ def test_output_on_appveyor(capsys):
 
 def test_config_show():
     config.TEST_RUNNER_OPTIONS.default = '-s'
-    when(epab.utils).run(f'python -m pytest test -s {pytest_options()}')
+    when(elib_run).run(f'pytest test -s {pytest_options()}')
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
 
 def test_config_appveyor(monkeypatch):
-    when(epab.utils).run(...)
+    when(elib_run).run(...)
     _pytest('test', **DEFAULT_OPTS)
     monkeypatch.setenv('APPVEYOR', 'test')
     CTX.run_once = {}
@@ -157,7 +156,7 @@ def test_config_appveyor(monkeypatch):
 
 def test_remove_coverage_dir():
     CTX.appveyor = False
-    when(epab.utils).run(...)
+    when(elib_run).run(...)
     cov_dir = Path('./htmlcov')
     assert not cov_dir.exists()
     cov_dir.mkdir()

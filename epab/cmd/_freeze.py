@@ -8,6 +8,7 @@ from pathlib import Path
 
 import certifi
 import click
+import elib_run
 
 import epab.cmd
 import epab.exc
@@ -31,12 +32,12 @@ BASE_CMD = [
 
 def _install_pyinstaller():
     epab.utils.info('checking PyInstaller installation')
-    _get_version = functools.partial(epab.utils.run, 'pyinstaller --version')
+    _get_version = functools.partial(elib_run.run, 'pyinstaller --version')
     try:
         _get_version()
     except epab.exc.ExecutableNotFoundError:
         epab.utils.AV.info('Installing PyInstaller')
-        epab.utils.run('pip install pyinstaller==3.3.1')
+        elib_run.run('pip install pyinstaller==3.3.1')
         _get_version()
 
 
@@ -62,7 +63,7 @@ def _patch(version: str):
                               f'{CTX.repo.get_sha()}-{timestamp}',
         '/langid', '1033',
     ]
-    epab.utils.run(' '.join(cmd))
+    elib_run.run(' '.join(cmd))
     epab.utils.AV.info('Patch OK')
 
 
@@ -74,8 +75,8 @@ def _freeze(version: str):
     cmd = BASE_CMD + [config.PACKAGE_NAME(), '--onefile', config.FREEZE_ENTRY_POINT()]
     for data_file in config.FREEZE_DATA_FILES():
         cmd.append(f'--add-data "{data_file}"')
-    epab.utils.run(' '.join(cmd))
-    epab.utils.run('pipenv clean', failure_ok=True)
+    elib_run.run(' '.join(cmd))
+    elib_run.run('pipenv clean', failure_ok=True)
     epab.utils.AV.info('Freeze OK')
     _patch(version)
 
@@ -88,7 +89,7 @@ def _flat_freeze():
     cmd = BASE_CMD + [config.PACKAGE_NAME(), config.FREEZE_ENTRY_POINT()]
     for data_file in config.FREEZE_DATA_FILES():
         cmd.append(f'--add-data "{data_file}"')
-    epab.utils.run(' '.join(cmd))
+    elib_run.run(' '.join(cmd))
 
 
 def _clean_spec():

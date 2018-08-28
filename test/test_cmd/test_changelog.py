@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+import elib_run
 import pytest
 from mockito import mock, verify, when
 
@@ -14,7 +15,7 @@ from epab.core import CTX, config
 @pytest.fixture(autouse=True, name='repo')
 def _all():
     repo = mock(spec=epab.utils.Repo)
-    when(epab.utils).run(...).thenReturn(('', 0))
+    when(elib_run).run(...).thenReturn(('', 0))
     CTX.repo = repo
     when(epab.utils).ensure_exe(...)
     yield repo
@@ -25,7 +26,7 @@ def test_changelog_config_disabled():
     config.CHANGELOG_DISABLE.default = True
     assert config.CHANGELOG_DISABLE() is True
     when(epab.utils).info(...)
-    when(epab.utils).run('gitchangelog', mute=True).thenReturn('content', 0)
+    when(elib_run).run('gitchangelog', mute=True).thenReturn('content', 0)
     _chglog(False, False)
     verify(epab.utils).info('Skipping changelog update as per config')
     assert not changelog.exists()
@@ -45,7 +46,7 @@ def test_changelog(src, result):
     assert config.CHANGELOG_DISABLE() is False
     when(epab.utils).ensure_exe(...)
     when(epab.utils).info(...)
-    when(epab.utils).run('gitchangelog', mute=True).thenReturn((src, 0))
+    when(elib_run).run('gitchangelog', mute=True).thenReturn((src, 0))
     _chglog(False, False)
     verify(epab.utils).info('Writing changelog')
     assert changelog.exists()

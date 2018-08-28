@@ -2,6 +2,7 @@
 
 import traceback
 
+import elib_run
 import pytest
 from click.testing import CliRunner, Result
 from mockito import mock, verify, when
@@ -19,7 +20,7 @@ def _setup():
     repo = mock()
     when(repo).ensure()
     when(repo).changed_files().thenReturn(list())
-    when(epab.utils).run(...).thenReturn(('', 0))
+    when(elib_run).run(...).thenReturn(('', 0))
     when(epab.utils).Repo(...).thenReturn(repo)
     return CliRunner(), repo
 

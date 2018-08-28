@@ -4,6 +4,7 @@ Flake8 linter
 """
 
 import click
+import elib_run
 
 import epab.utils
 from epab.core import config
@@ -20,7 +21,7 @@ MAX_COMPLEXITY = '--max-complexity=10'
 def _flake8():
     exclude = EXCLUDE + config.FLAKE8_EXCLUDE()
     base_cmd = ' '.join((IGNORE, MAX_LINE_LENGTH, exclude, MAX_COMPLEXITY))
-    epab.utils.run(f'flake8 {base_cmd}', mute=True)
+    elib_run.run(f'flake8 {base_cmd}', mute=True)
 
 
 @click.command()

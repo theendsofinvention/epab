@@ -3,8 +3,9 @@
 Handles EPAB's config file
 """
 
-import elib_config
 import pathlib
+
+import elib_config
 
 CHANGELOG_DISABLE = elib_config.ConfigValueBool(
     'changelog', 'disable', description='Disable changelog building', default=False

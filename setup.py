@@ -34,6 +34,7 @@ requirements = [
     'pytest-faker',
     'pytest-watch',
     'pytest-deadfixtures',
+    'pycodestyle>=2.0.0,<2.4.0',
 ]
 test_requirements = []
 

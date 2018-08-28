@@ -1,4 +1,5 @@
 # coding=utf-8
+import elib_run
 import pytest
 from mockito import verifyStubbedInvocationsAreUsed, when
 
@@ -26,28 +27,28 @@ def test_error():
 
 def test_av_info():
     CTX.appveyor = True
-    when(epab.utils).run(f'appveyor AddMessage "message" -Category Information', mute=True)
+    when(elib_run).run(f'appveyor AddMessage "message" -Category Information', mute=True)
     epab.utils.AV.info('message')
     verifyStubbedInvocationsAreUsed()
 
 
 def test_av_info_details():
     CTX.appveyor = True
-    when(epab.utils).run(f'appveyor AddMessage "message" -Category Information -Details "details"', mute=True)
+    when(elib_run).run(f'appveyor AddMessage "message" -Category Information -Details "details"', mute=True)
     epab.utils.AV.info('message', 'details')
     verifyStubbedInvocationsAreUsed()
 
 
 def test_av_error():
     CTX.appveyor = True
-    when(epab.utils).run(f'appveyor AddMessage "message" -Category Error', mute=True)
+    when(elib_run).run(f'appveyor AddMessage "message" -Category Error', mute=True)
     epab.utils.AV.error('message')
     verifyStubbedInvocationsAreUsed()
 
 
 def test_av_error_details():
     CTX.appveyor = True
-    when(epab.utils).run(f'appveyor AddMessage "message" -Category Error -Details "details"', mute=True)
+    when(elib_run).run(f'appveyor AddMessage "message" -Category Error -Details "details"', mute=True)
     epab.utils.AV.error('message', 'details')
     verifyStubbedInvocationsAreUsed()
 
@@ -58,6 +59,6 @@ def test_av_unknown_level():
 
 
 def test_update_build_version():
-    when(epab.utils).run('appveyor UpdateBuild -Version version')
+    when(elib_run).run('appveyor UpdateBuild -Version version')
     epab.utils.AV.update_build_version('version')
     verifyStubbedInvocationsAreUsed()

@@ -4,6 +4,7 @@ Manages console output functions
 """
 
 import click
+import elib_run
 
 from epab.core import CTX, config
 
@@ -99,3 +100,11 @@ def std_err(txt: str, **kwargs):
     """
     txt = _sanitize(txt, prefix=False)
     _output(txt, Colors.stderr, err=True, **kwargs)
+
+
+elib_run.register_hook_cmd_start(cmd_start)
+elib_run.register_hook_cmd_end(cmd_end)
+elib_run.register_hook_std_out(std_out)
+elib_run.register_hook_std_err(std_err)
+elib_run.register_hook_info(info)
+elib_run.register_hook_error(error)

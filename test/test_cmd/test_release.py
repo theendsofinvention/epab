@@ -2,6 +2,7 @@
 import shutil
 from pathlib import Path
 
+import elib_run
 import pytest
 from mockito import ANY, and_, contains, mock, verify, verifyNoUnwantedInteractions, when
 
@@ -25,7 +26,7 @@ def _all():
     when(CTX.repo).remove_tag(...)
     when(CTX.repo).commit(...)
     when(CTX.repo).push(...)
-    when(epab.utils).run(...)
+    when(elib_run).run(...)
     yield ctx, repo
 
 
@@ -51,7 +52,7 @@ def test_release(setup):
     # verify(ctx).invoke(epab.cmd.reqs)
     verify(repo).tag('next_version', overwrite=True)
     # verify(ctx).invoke(epab.cmd.chglog, next_version='next_version')
-    verify(epab.utils).run(and_(ANY(str), contains('setup.py bdist_wheel')))
+    verify(elib_run).run(and_(ANY(str), contains('setup.py bdist_wheel')))
     verifyNoUnwantedInteractions(epab.utils)
     verify(repo).push_tags(...)
     verifyNoUnwantedInteractions(repo)
@@ -71,8 +72,8 @@ def test_release_on_master(setup):
     # verify(ctx).invoke(epab.cmd.reqs)
     verify(repo).tag('next_version', overwrite=True)
     # verify(ctx).invoke(epab.cmd.chglog, next_version='next_version')
-    verify(epab.utils).run(and_(ANY(str), contains('setup.py bdist_wheel')))
-    verify(epab.utils).run(
+    verify(elib_run).run(and_(ANY(str), contains('setup.py bdist_wheel')))
+    verify(elib_run).run(
         f'twine upload dist/* --skip-existing',
         mute=True
     )
@@ -139,7 +140,7 @@ def test_appveyor(setup, monkeypatch):
     monkeypatch.setenv('APPVEYOR_BUILD_NUMBER', '0001')
     monkeypatch.setenv('APPVEYOR_REPO_COMMIT', 'ABCDEF')
     epab.cmd._release._release(ctx)
-    verify(epab.utils).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
+    verify(elib_run).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
     assert not Path('appveyor.yml').exists()
 
 
@@ -160,7 +161,7 @@ def test_appveyor_artifacts(setup, monkeypatch):
     monkeypatch.setenv('APPVEYOR_BUILD_NUMBER', '0001')
     monkeypatch.setenv('APPVEYOR_REPO_COMMIT', 'ABCDEF')
     epab.cmd._release._release(ctx)
-    verify(epab.utils).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
+    verify(elib_run).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
     verify(shutil).copy(str(test_file_1), str(Path('./artifacts').absolute()))
     verify(shutil).copy(str(test_file_2), str(Path('./artifacts').absolute()))
     verify(shutil).copy(str(test_file_3), str(Path('./artifacts').absolute()))

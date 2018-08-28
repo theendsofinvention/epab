@@ -38,6 +38,7 @@ pytest-repeat = ">=0.7.0"
 pytest-faker = ">=2.0.0"
 pytest-watch = ">=4.2.0"
 pytest-deadfixtures = "*"
+elib-run = "*"
 
 [dev-packages]
-"e1839a8" = {path = ".", editable = true}
+epab = {editable = true, path = "."}

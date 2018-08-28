@@ -3,13 +3,14 @@
 import itertools
 from pathlib import Path
 
+import elib_run
 import pytest
 from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocationsAreUsed, when
 
 import epab.utils
 from epab.core import CTX, config
 # noinspection PyProtectedMember
-from epab.linters import _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort, _dead_fixtures
+from epab.linters import _dead_fixtures, _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort
 
 
 @pytest.fixture(autouse=True, name='repo')
@@ -56,11 +57,11 @@ def test_lint_appveyor(amend_stage):
 
 
 def test_pep8():
-    when(epab.utils).run(
+    when(elib_run).run(
         f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} {config.PACKAGE_NAME()}',
         mute=True
     )
-    when(epab.utils).run(
+    when(elib_run).run(
         f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} test',
         mute=True
     )
@@ -77,10 +78,10 @@ def test_pep8_amend():
 
 
 def test_pep8_stage():
-    when(epab.utils).run(
+    when(elib_run).run(
         f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} {config.PACKAGE_NAME()}', mute=True
     )
-    when(epab.utils).run(
+    when(elib_run).run(
         f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} test', mute=True
     )
     with when(CTX.repo).stage_all():
@@ -115,20 +116,19 @@ def test_isort_ignore():
         known_first_party=config.PACKAGE_NAME(),
         **_sort.SETTINGS
     )
-    # when(epab.utils).run(contains('setup.py isort'))
+    # when(elib_run).run(contains('setup.py isort'))
     _sort._sort()
     verify(_sort.isort, times=0).SortImports(...)
 
 
 def test_isort_amend():
-    # when(epab.utils).run(contains('setup.py isort'))
+    # when(elib_run).run(contains('setup.py isort'))
     when(CTX.repo).amend_commit(append_to_msg='sorting imports [auto]')
     _sort._sort(amend=True)
     verifyStubbedInvocationsAreUsed()
 
 
 def test_isort_stage():
-    # when(epab.utils).run(contains('setup.py isort'))
     when(CTX.repo).stage_all()
     _sort._sort(stage=True)
     verifyStubbedInvocationsAreUsed()
@@ -136,13 +136,13 @@ def test_isort_stage():
 
 def test_flake8():
     base_cmd = ' '.join((_flake8.IGNORE, _flake8.MAX_LINE_LENGTH, _flake8.EXCLUDE, _flake8.MAX_COMPLEXITY))
-    when(epab.utils).run(f'flake8 {base_cmd}', mute=True)
+    when(elib_run).run(f'flake8 {base_cmd}', mute=True)
     _flake8._flake8()
     verifyStubbedInvocationsAreUsed()
 
 
 def test_safety():
-    when(epab.utils).run('safety check --bare', mute=True)
+    when(elib_run).run('safety check --bare', mute=True)
     _safety._safety()
     verifyStubbedInvocationsAreUsed()
 
@@ -157,12 +157,12 @@ def test_safety():
 )
 def test_pylint(params, cmd):
     config.PACKAGE_NAME.default = 'test'
-    with when(epab.utils).run(f'{cmd} {_pylint.BASE_CMD}', mute=True):
+    with when(elib_run).run(f'{cmd} {_pylint.BASE_CMD}', mute=True):
         _pylint._pylint(*params)
-        verify(epab.utils).run(...)
+        verify(elib_run).run(...)
 
 
 def test_dead_fixtures():
-    when(epab.utils).run('pytest test --dead-fixtures --dup-fixtures', mute=True)
+    when(elib_run).run('pytest test --dead-fixtures --dup-fixtures', mute=True)
     _dead_fixtures._pytest_dead_fixtures()
     verifyStubbedInvocationsAreUsed()

@@ -3,6 +3,7 @@
 import datetime
 from pathlib import Path
 
+import elib_run
 from mockito import and_, contains, mock, verify, verifyStubbedInvocationsAreUsed, when
 
 import epab.exc
@@ -26,7 +27,7 @@ def test_freeze_flat_cli(cli_runner):
 def test_freeze():
     when(freeze)._install_pyinstaller()
     when(freeze)._patch('version')
-    when(epab.utils).run(...)
+    when(elib_run).run(...)
     when(epab.utils.AV).info(...)
     config.FREEZE_ENTRY_POINT.default = 'test'
     freeze._freeze('version')
@@ -35,7 +36,7 @@ def test_freeze():
 
 def test_flat_freeze():
     when(freeze)._install_pyinstaller()
-    when(epab.utils).run(...)
+    when(elib_run).run(...)
     config.FREEZE_ENTRY_POINT.default = 'test'
     freeze._flat_freeze()
     verifyStubbedInvocationsAreUsed()
@@ -44,25 +45,25 @@ def test_flat_freeze():
 def test_freeze_no_entry_point():
     when(freeze)._install_pyinstaller()
     when(freeze)._patch(...)
-    when(epab.utils).run(...)
+    when(elib_run).run(...)
     when(epab.utils.AV).info(...)
     when(epab.utils.AV).error(...)
     freeze._freeze('version')
     verify(freeze, times=0)._install_pyinstaller()
     verify(freeze, times=0)._patch()
-    verify(epab.utils, times=0).run(...)
+    verify(elib_run, times=0).run(...)
     verify(epab.utils.AV, times=0).info(...)
     verify(epab.utils.AV).error(...)
 
 
 def test_flat_freeze_no_entry_point():
     when(freeze)._install_pyinstaller()
-    when(epab.utils).run(...)
+    when(elib_run).run(...)
     when(epab.utils.AV).info(...)
     when(epab.utils.AV).error(...)
     freeze._flat_freeze()
     verify(freeze, times=0)._install_pyinstaller()
-    verify(epab.utils, times=0).run(...)
+    verify(elib_run, times=0).run(...)
     verify(epab.utils.AV, times=0).info(...)
     verify(epab.utils.AV).error(...)
 
@@ -75,7 +76,7 @@ def test_patch():
     now = datetime.datetime.utcnow()
     timestamp = f'{now.year}{now.month}{now.day}{now.hour}{now.minute}'
     package_name = config.PACKAGE_NAME()
-    when(epab.utils).run(
+    when(elib_run).run(
         'dummy.exe '
         f'./dist/{package_name}.exe '
         '/high version '
@@ -97,16 +98,16 @@ def test_patch():
 
 def test_install_pyinstaller_installed():
     when(epab.utils).info('checking PyInstaller installation')
-    when(epab.utils).run('pyinstaller --version').thenReturn(('version   ', 0))
+    when(elib_run).run('pyinstaller --version').thenReturn(('version   ', 0))
     freeze._install_pyinstaller()
     verifyStubbedInvocationsAreUsed()
 
 
 def test_install_pyinstaller_not_installed():
     when(epab.utils).info('checking PyInstaller installation')
-    when(epab.utils).run('pip install pyinstaller==3.3.1')
+    when(elib_run).run('pip install pyinstaller==3.3.1')
     when(epab.utils.AV).info('Installing PyInstaller')
-    when(epab.utils).run('pyinstaller --version') \
+    when(elib_run).run('pyinstaller --version') \
         .thenRaise(epab.exc.ExecutableNotFoundError) \
         .thenReturn(('version   ', 0))
     freeze._install_pyinstaller()
@@ -133,11 +134,11 @@ def test_clean_spec(cli_runner):
 def test_with_data_files():
     when(freeze)._install_pyinstaller()
     when(freeze)._patch('version')
-    when(epab.utils).run(...)
+    when(elib_run).run(...)
     when(epab.utils.AV).info(...)
     config.FREEZE_ENTRY_POINT.default = 'test'
     config.PACKAGE_NAME.default = 'test'
     config.FREEZE_DATA_FILES.default = ['file1', 'file2']
     freeze._freeze('version')
     verifyStubbedInvocationsAreUsed()
-    verify(epab.utils).run(and_(contains('--add-data "file1"'), contains('--add-data "file2"')))
+    verify(elib_run).run(and_(contains('--add-data "file1"'), contains('--add-data "file2"')))

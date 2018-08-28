@@ -4,13 +4,14 @@ Safety linter
 """
 
 import click
+import elib_run
 
 import epab.utils
 
 
 @epab.utils.run_once
 def _safety():
-    epab.utils.run('safety check --bare', mute=True)
+    elib_run.run('safety check --bare', mute=True)
 
 
 @click.command()

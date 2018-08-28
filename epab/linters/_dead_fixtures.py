@@ -4,13 +4,14 @@ Flake8 linter
 """
 
 import click
+import elib_run
 
 import epab.utils
 
 
 @epab.utils.run_once
 def _pytest_dead_fixtures():
-    epab.utils.run(f'pytest test --dead-fixtures --dup-fixtures', mute=True)
+    elib_run.run(f'pytest test --dead-fixtures --dup-fixtures', mute=True)
 
 
 @click.command()
