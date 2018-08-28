@@ -77,6 +77,7 @@ def _pre_push(ctx: click.core.Context, push: bool):
     ctx.invoke(epab.cmd.chglog)
     if push:
         CTX.repo.push()
+        
 
 
 @cli.command()
