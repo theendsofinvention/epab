@@ -171,3 +171,25 @@ def test_bandit():
     when(elib_run).run('bandit test_package -r', mute=True)
     _bandit._bandit()
     verifyStubbedInvocationsAreUsed()
+
+
+def test_mypy():
+    when(elib_run).run('mypy -p test_package --ignore-missing-imports', failure_ok=True).thenReturn(('', 0))
+    _mypy._mypy()
+    verifyStubbedInvocationsAreUsed()
+
+
+def test_mypy_fails():
+    when(elib_run).run('mypy -p test_package --ignore-missing-imports', failure_ok=True).thenReturn(('', 1))
+    with pytest.raises(SystemExit):
+        _mypy._mypy()
+    verifyStubbedInvocationsAreUsed()
+
+
+def test_mypy_config():
+    config.MYPY_ARGS.default = 'some --params'
+    when(elib_run).run(
+        'mypy -p test_package --ignore-missing-imports some --params', failure_ok=True
+    ).thenReturn(('', 0))
+    _mypy._mypy()
+    verifyStubbedInvocationsAreUsed()
