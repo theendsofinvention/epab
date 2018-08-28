@@ -169,7 +169,7 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     cmd = f'{cmd} {pytest_options()}{long}{exitfirst}{last_failed}{failed_first}'
 
     try:
-        elib_run.run(cmd)
+        elib_run.run(cmd, timeout=config.TEST_PYTEST_TIMEOUT())
     finally:
         upload_coverage()
         _Coverage.remove_config_file()

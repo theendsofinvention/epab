@@ -23,7 +23,7 @@ def _write_reqs_file(cmd, file_path):
     for line in raw_output.splitlines():
         if RE_REQ_PATTERN.match(line):
             output.append(line)
-    Path(file_path).write_text('\n'.join(output) + '\n')
+    Path(file_path).write_text('\n'.join(output) + '\n' if output else '')
 
 
 @epab.utils.run_once

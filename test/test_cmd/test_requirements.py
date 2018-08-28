@@ -41,7 +41,7 @@ def test_requirements_no_dev_packages():
     epab.cmd._reqs._write_reqs(False, False)
     assert reqs.exists()
     assert reqs_dev.exists()
-    assert reqs.read_text() == 'reqs==0.1.0'
+    assert reqs.read_text() == 'reqs==0.1.0\n'
     assert not reqs_dev.read_text()
 
 
@@ -49,14 +49,14 @@ def test_requirements_with_dev_packages():
     reqs = Path('requirements.txt')
     reqs_dev = Path('requirements-dev.txt')
     when(elib_run).run('pipenv lock -r', mute=True, filters='Courtesy Notice: ') \
-        .thenReturn(('bad line\nreqs==0.1.0', 0))
+        .thenReturn(('bad line\nreqs==0.1.0\n', 0))
     when(elib_run).run('pipenv lock -r -d', mute=True, filters='Courtesy Notice: ') \
-        .thenReturn(('bad line\nreqs==0.1.1', 0))
+        .thenReturn(('bad line\nreqs==0.1.1\n', 0))
     epab.cmd._reqs._write_reqs(False, False)
     assert reqs.exists()
     assert reqs_dev.exists()
-    assert reqs.read_text() == 'reqs==0.1.0'
-    assert reqs_dev.read_text() == 'reqs==0.1.1'
+    assert reqs.read_text() == 'reqs==0.1.0\n'
+    assert reqs_dev.read_text() == 'reqs==0.1.1\n'
 
 
 def test_requirement_dry_run():
