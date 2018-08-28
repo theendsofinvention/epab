@@ -17,7 +17,7 @@ BOGUS_LINE_PATTERN = re.compile('^(- .*)(\n){2}', flags=re.MULTILINE)
 
 GITCHANGELOG_CONFIG = r"""
 body_process = ReSub(r'((^|\n)[A-Z]\w+(-\w+)*: .*(\n\s+.*)*)+$', r'') | strip
-tag_filter_regexp = r'^[0-9]+\.[0-9]+(\.[0-9]+)?.*$'
+tag_filter_regexp = r'^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'
 include_merge = False
 ignore_regexps = [
     r'@minor', r'!minor',
