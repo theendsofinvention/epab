@@ -8,6 +8,7 @@ from ._compile_qt import compile_qt_resources
 from ._freeze import flat_freeze, freeze
 from ._install_hooks import install_hooks
 from ._next_version import next_version
+from ._pipenv import check as pipenv_check, clean as pipenv_clean, lock as pipenv_lock, pipenv, update as pipenv_update
 from ._print_version import print_version
 from ._push import push
 from ._pytest import pytest
