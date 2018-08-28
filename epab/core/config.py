@@ -30,6 +30,10 @@ TEST_COVERAGE_FAIL_UNDER = elib_config.ConfigValueInteger(
     'test', 'coverage_fail_under', description='Minimal coverage to pass tests', default=20
 )
 TEST_COVERAGE_FAIL_UNDER.set_limits(min_=0, max_=100)
+TEST_PYTEST_TIMEOUT = elib_config.ConfigValueInteger(
+    'test', 'timeout', description='Timeout in seconds for pytest runner', default=300
+)
+TEST_PYTEST_TIMEOUT.set_limits(min_=0, max_=3600)
 
 LINT_LINE_LENGTH = elib_config.ConfigValueInteger(
     'lint', 'line_length', description='Linter max line width', default=120

@@ -20,16 +20,18 @@ DEFAULT_OPTS = dict(
     failed_first=False,
 )
 
+_TIMEOUT = config.TEST_PYTEST_TIMEOUT()
+
 
 def test_environ():
-    when(elib_run).run(f'pytest test {pytest_options()}')
+    when(elib_run).run(f'pytest test {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
     assert os.environ.get('PYTEST_QT_API') == 'pyqt5'
     verifyStubbedInvocationsAreUsed()
 
 
 def test_coverage_config_creation():
-    when(elib_run).run(f'pytest test {pytest_options()}')
+    when(elib_run).run(f'pytest test {pytest_options()}', timeout=_TIMEOUT)
     when(_Coverage).remove_config_file()
     _pytest('test', **DEFAULT_OPTS)
     assert pathlib.Path('.coveragerc').exists()
@@ -38,14 +40,14 @@ def test_coverage_config_creation():
 
 def test_coverage_config_removal_despite_error():
     with pytest.raises(RuntimeError):
-        when(elib_run).run(f'pytest test {pytest_options()}').thenRaise(RuntimeError('test'))
+        when(elib_run).run(f'pytest test {pytest_options()}', timeout=_TIMEOUT).thenRaise(RuntimeError('test'))
         _pytest('test', **DEFAULT_OPTS)
     assert not pathlib.Path('.coveragerc').exists()
     verifyStubbedInvocationsAreUsed()
 
 
 def test_cmd():
-    when(elib_run).run(f'pytest test {pytest_options()}')
+    when(elib_run).run(f'pytest test {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
@@ -56,7 +58,7 @@ def test_cmd_with_coverage(monkeypatch):
     Path('coverage.xml').touch()
     when(elib_run).run('appveyor AddMessage "Uploading coverage to Codacy" -Category Information', mute=True)
     when(elib_run).run('appveyor AddMessage "Codacy coverage OK" -Category Information', mute=True)
-    when(elib_run).run(f'pytest test --vcr-record=none --long {pytest_options()}')
+    when(elib_run).run(f'pytest test --vcr-record=none --long {pytest_options()}', timeout=_TIMEOUT)
     when(elib_run).run('pip install --upgrade codacy-coverage')
     when(elib_run).run('python-codacy-coverage -r coverage.xml')
     _pytest('test', **DEFAULT_OPTS)
@@ -70,7 +72,7 @@ def test_cmd_with_coverage_no_xml(monkeypatch):
         'appveyor AddMessage ""coverage.xml" not found, skipping codacy coverage" -Category Error',
         mute=True
     )
-    when(elib_run).run(f'pytest test --vcr-record=none --long {pytest_options()}')
+    when(elib_run).run(f'pytest test --vcr-record=none --long {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
@@ -78,7 +80,7 @@ def test_cmd_with_coverage_no_xml(monkeypatch):
 def test_long():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'long': True})
-    when(elib_run).run(f'pytest test {pytest_options()} --long')
+    when(elib_run).run(f'pytest test {pytest_options()} --long', timeout=_TIMEOUT)
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
 
@@ -88,7 +90,7 @@ def test_show():
     opts.update({'show': True})
     cov_file = pathlib.Path('./htmlcov/index.html').absolute()
     when(webbrowser).open(f'file://{cov_file}')
-    when(elib_run).run(f'pytest test {pytest_options()}')
+    when(elib_run).run(f'pytest test {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
 
@@ -96,7 +98,7 @@ def test_show():
 def test_config_exit_first():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'exitfirst': True})
-    when(elib_run).run(f'pytest test {pytest_options()} --exitfirst')
+    when(elib_run).run(f'pytest test {pytest_options()} --exitfirst', timeout=_TIMEOUT)
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
 
@@ -104,7 +106,7 @@ def test_config_exit_first():
 def test_config_last_failed():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'last_failed': True})
-    when(elib_run).run(f'pytest test {pytest_options()} --last-failed')
+    when(elib_run).run(f'pytest test {pytest_options()} --last-failed', timeout=_TIMEOUT)
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
 
@@ -112,13 +114,13 @@ def test_config_last_failed():
 def test_config_failed_first():
     opts = dict(**DEFAULT_OPTS)
     opts.update({'failed_first': True})
-    when(elib_run).run(f'pytest test {pytest_options()} --failed-first')
+    when(elib_run).run(f'pytest test {pytest_options()} --failed-first', timeout=_TIMEOUT)
     _pytest('test', **opts)
     verifyStubbedInvocationsAreUsed()
 
 
 def test_output(capsys):
-    when(elib_run).run(f'pytest test {pytest_options()}')
+    when(elib_run).run(f'pytest test {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
     out, err = capsys.readouterr()
     assert out == 'EPAB: RUN_ONCE: running _pytest\nEPAB: Running test suite\nEPAB: skipping coverage upload\n'
@@ -128,7 +130,7 @@ def test_output(capsys):
 
 def test_output_on_appveyor(capsys):
     CTX.appveyor = True
-    when(elib_run, strict=False).run(f'pytest test --vcr-record=none --long {pytest_options()}')
+    when(elib_run, strict=False).run(f'pytest test --vcr-record=none --long {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
     out, err = capsys.readouterr()
     assert 'RUN_ONCE: running _pytest' in out
@@ -140,7 +142,7 @@ def test_output_on_appveyor(capsys):
 
 def test_config_show():
     config.TEST_RUNNER_OPTIONS.default = '-s'
-    when(elib_run).run(f'pytest test -s {pytest_options()}')
+    when(elib_run).run(f'pytest test -s {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
     verifyStubbedInvocationsAreUsed()
 
