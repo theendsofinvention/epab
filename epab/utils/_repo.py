@@ -516,3 +516,17 @@ class Repo(BaseRepo):
             epab.utils.info('Repo was dirty; DRY RUN')
             return False
         return result
+
+    def diff(self, path: typing.Optional[str] = None) -> str:
+        """
+        Returns doff as string for the whole repo or a specific path
+
+        :param path: optional path
+        :type path: str
+        :return: diff
+        :rtype: str
+        """
+        if not path:
+            return self.repo.git.diff()
+        else:
+            return self.repo.git.diff(path)
