@@ -20,14 +20,7 @@ def _all():
     yield repo
 
 
-@pytest.mark.parametrize(
-    'amend_stage',
-    itertools.product([False, True], repeat=2),
-)
-def test_lint(amend_stage):
-    amend, stage = amend_stage
-    context = mock()
-    _lint._lint(context, amend, stage)
+def _check_invocations(context, amend, stage):
     verify(context).invoke(_safety.safety)
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
@@ -43,19 +36,23 @@ def test_lint(amend_stage):
     'amend_stage',
     itertools.product([False, True], repeat=2),
 )
+def test_lint(amend_stage):
+    amend, stage = amend_stage
+    context = mock()
+    _lint._lint(context, amend, stage)
+    _check_invocations(context, amend, stage)
+
+
+@pytest.mark.parametrize(
+    'amend_stage',
+    itertools.product([False, True], repeat=2),
+)
 def test_lint_appveyor(amend_stage):
     amend, stage = amend_stage
     CTX.appveyor = True
     context = mock()
     _lint._lint(context, amend, stage)
-    verify(context).invoke(_safety.safety)
-    verify(context).invoke(_pylint.pylint)
-    verify(context).invoke(_flake8.flake8)
-    verify(context).invoke(_mypy.mypy)
-    verify(context).invoke(_bandit.bandit)
-    verify(context).invoke(_dead_fixtures.pytest_dead_fixtures)
-    verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
-    verifyNoMoreInteractions(context)
+    _check_invocations(context, amend, stage)
 
 
 def test_pep8():
