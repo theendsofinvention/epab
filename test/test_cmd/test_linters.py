@@ -10,7 +10,7 @@ from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocat
 import epab.utils
 from epab.core import CTX, config
 # noinspection PyProtectedMember
-from epab.linters import _dead_fixtures, _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort
+from epab.linters import _dead_fixtures, _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort, _bandit
 
 
 @pytest.fixture(autouse=True, name='repo')
@@ -165,4 +165,10 @@ def test_pylint(params, cmd):
 def test_dead_fixtures():
     when(elib_run).run('pytest test --dead-fixtures --dup-fixtures', mute=True)
     _dead_fixtures._pytest_dead_fixtures()
+    verifyStubbedInvocationsAreUsed()
+
+
+def test_bandit():
+    when(elib_run).run('bandit test_package -r', mute=True)
+    _bandit._bandit()
     verifyStubbedInvocationsAreUsed()
