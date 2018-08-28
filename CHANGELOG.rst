@@ -1,16 +1,121 @@
 Changelog
 =========
+(unreleased)
+------------
+Fix
+~~~
+- Fix removal of htmlcov (#79) [etcher]
+  * fix: ignore missing htmlcov when removing it
+  * chg: made removal of htmlcov optional
+  Useful with pytest-watch in between runs
+Other
+~~~~~
+- Add pipenv and prepush commands. [etcher]
+2018.08.28.5 (2018-08-28)
+-------------------------
+Fix
+~~~
+- Fix gitchangelog tag regex (#78) [etcher]
+  * fix: fix gitchangelog tag regex
+  * fix error in chglog command
+2018.08.28.3 (2018-08-28)
+-------------------------
+New
+~~~
+- Add bandit (#74) [etcher]
+  * add bandit to reqs
+  * add bandit command
+  * re-add bandit to Pipfile
+  * add bandit click command
+  * add test for bandit
+  * linting
+  * update reqs
+  * fix linter tests
+  * remove duplicate code
+Changes
+~~~~~~~
+- Increase pytest cmd timeout (#76) [etcher]
+  * increase pytest cmd timeout
+  For those super long tests I like =)
+  * update pipfile.lock
+2018.08.28.2 (2018-08-28)
+-------------------------
+Fix
+~~~
+- Fix README.md [skip ci] [etcher]
+2018.08.27.4 (2018-08-27)
+-------------------------
+Fix
+~~~
+- Fix missing reqs in setup.py. [etcher]
+2018.08.27.3 (2018-08-27)
+-------------------------
+- Fix config (#71) [etcher]
+  Config setup should happen before writing the example file
+2018.08.27.2 (2018-08-27)
+-------------------------
+New
+~~~
+- Pytest deadfixtures (#70) [etcher]
+  * update reqs
+  * add pytest_deadfixture as a linter
+  * add basic test for pytest_deadfixture
+  * update reqs
+  * fix tests
+  Fixes #10
+Other
+~~~~~
+- Fix pipfile.lock. [etcher]
+2018.08.27.1 (2018-08-27)
+-------------------------
+Fix
+~~~
+- Fix config setup (#69) [etcher]
+  * update reqs
+  * check for "pyproject.toml" existence
+  * write examples before potentially raising
+2018.08.26.2 (2018-08-26)
+-------------------------
+Changes
+~~~~~~~
+- Sarge runner (#68) [etcher]
+  * restore newline to stdout func
+  * update reqs
+  * linting
+2018.08.26.1 (2018-08-26)
+-------------------------
+Changes
+~~~~~~~
+- New config (#67) [etcher]
+  * move version inference to root __init__.py
+  * remove old test
+  * add ruamel.yaml to reqs
+  * update .gitignore
+  * update reqs
+  * switch to elib_config
+  * Merge branch 'master' into feature/new_config
+  * update .gitignore
+  * ignore root venv during flake8 run
+  * linting
+  * add BCH config
+  * fix console tests
+2018.08.25.2 (2018-08-25)
+-------------------------
+Changes
+~~~~~~~
+- Disable iSort (#66) [etcher]
+  * disable iSort during linting
+  * remove iSort altogether
+2018.08.25.1 (2018-08-25)
+-------------------------
+Changes
+~~~~~~~
+- Flake8 ignore venv (#65) [etcher]
+  * update gitignore
+  * ingore local .venv during flake8 check
 2018.08.22.1 (2018-08-22)
 -------------------------
 - Autopep8 should run before flake8 (#63) [etcher]
-2018.08.22.1a2+feature/fix_pytest-vcr_reqs (2018-08-22)
--------------------------------------------------------
-- Update pipfile.lock. [132nd-etcher]
-- Add missing pytest-vcr dependency to setup.py. [132nd-etcher]
-- Add pip>=18 to Pipfile. [132nd-etcher]
-2018.08.22.1a1+feature/lint_order (2018-08-21)
-----------------------------------------------
-- Autopep8 should run before flake8. [132nd-etcher]
 2018.08.21.1 (2018-08-21)
 -------------------------
 New
@@ -26,28 +131,11 @@ New
   * add deadline setting for hypothesis
   Deprecation warning pending
   * update hypothesis hash so AV doesn't complain
-2018.08.21.1a1+feature/add_pytest-vcr (2018-08-21)
---------------------------------------------------
-- Update hypothesis hash so AV doesn't complain. [132nd-etcher]
-- Add deadline setting for hypothesis. [132nd-etcher]
-  Deprecation warning pending
-- Add test for removal of htmlcov dir. [132nd-etcher]
-- Disable VCR recording on AV. [132nd-etcher]
-- Add test for data file freeze. [132nd-etcher]
-- Fix exe_version for latest pefile. [132nd-etcher]
-- Remove coverage of iSort unicode exception. [132nd-etcher]
-- Update reqs. [132nd-etcher]
-- Add pytest-vcr to reqs. [132nd-etcher]
 2018.08.20.1 (2018-08-20)
 -------------------------
 Fix
 ~~~
 - Fix line endings when using isort (#61) [etcher]
-2018.08.20.1a1+feature/fix_isort_newlines (2018-08-20)
-------------------------------------------------------
-Fix
-~~~
-- Fix line endings when using isort. [132nd-etcher]
 2018.08.19.1 (2018-08-19)
 -------------------------
 Changes
@@ -56,36 +144,14 @@ Changes
   * chg: dev: sort imports
   * chg: pylint: ignore fstring logging errors
   * chg: add dummy except for iSort errors
-2018.08.19.1a1+feature/trivia (2018-08-19)
-------------------------------------------
-Changes
-~~~~~~~
-- Add dummy except for iSort errors. [132nd-etcher]
-- Pylint: ignore fstring logging errors. [132nd-etcher]
-2018.06.17.5a2+feature/sort_only_project_files (2018-06-17)
------------------------------------------------------------
-- Fix freeze tests. [132nd-etcher]
-- Disable freezeing. [132nd-etcher]
-2018.06.17.5a1+feature/sort_only_project_files (2018-06-17)
------------------------------------------------------------
-- Fix isort tests. [132nd-etcher]
-- Cleanup comments. [132nd-etcher]
 2018.06.17.3 (2018-06-17)
 -------------------------
 Fix
 ~~~
 - Fix isort encoding (#57) [132nd-etcher]
-2018.06.17.3a1+feature/fix_isort_encoding (2018-06-17)
-------------------------------------------------------
-Fix
-~~~
-- Fix isort encoding. [132nd-etcher]
 2018.06.15.2 (2018-06-15)
 -------------------------
 - Add mypy to setup.py. [132nd-etcher]
-2018.06.15.1a1+feature/update_reqs (2018-06-15)
------------------------------------------------
-- Update reqs. [132nd-etcher]
 2018.05.16.1 (2018-05-16)
 -------------------------
 New
@@ -103,22 +169,6 @@ New
   * fixed mypy issues
   * linting
   * fixed issue
-2018.05.16.1a2+feature/mypy (2018-05-16)
-----------------------------------------
-- Fixed issue. [132nd-etcher]
-- Linting. [132nd-etcher]
-- Fixed mypy issues. [132nd-etcher]
-- Marked a few tests as long. [132nd-etcher]
-- Add BaseRepo for typing purposes. [132nd-etcher]
-- Fix linters test. [132nd-etcher]
-- Peppered a few ignore lines. [132nd-etcher]
-- Cleanup gitignore. [132nd-etcher]
-- Update git ignore. [132nd-etcher]
-- Add git ignore util. [132nd-etcher]
-- Add mypy linter. [132nd-etcher]
-2018.05.16.1a1+feature/mypy (2018-05-16)
-----------------------------------------
-- Update reqs. [132nd-etcher]
 2018.05.15.1 (2018-05-15)
 -------------------------
 New
@@ -128,16 +178,6 @@ New
   * ignore coverage artifacts
   * linting
   * fix issues and add tests
-2018.05.15.1a1+feature/compile_qt_resources (2018-05-15)
---------------------------------------------------------
-New
-~~~
-- Add command to compile Qt resources. [132nd-etcher]
-Other
-~~~~~
-- Fix issues and add tests. [132nd-etcher]
-- Linting. [132nd-etcher]
-- Ignore coverage artifacts. [132nd-etcher]
 2018.05.13.1 (2018-05-13)
 -------------------------
 New
@@ -147,12 +187,6 @@ New
   * oopsies
   * linting
   * fix lil' mistake
-2018.05.11.2a1+feature/config_sample (2018-05-11)
--------------------------------------------------
-- Fix lil' mistake. [132nd-etcher]
-- Linting. [132nd-etcher]
-- Oopsies. [132nd-etcher]
-- Create sample config if it doesn't exist. [132nd-etcher]
 2018.05.11.1 (2018-05-11)
 -------------------------
 Changes
@@ -162,12 +196,6 @@ Changes
   * rename config attributes for freezing
   * clean spec file
   * clean env after freeze
-2018.05.11.1a1+feature/clean_after_pyinstaller (2018-05-11)
------------------------------------------------------------
-- Clean env after freeze. [132nd-etcher]
-- Clean spec file. [132nd-etcher]
-- Rename config attributes for freezing. [132nd-etcher]
-- Update reqs. [132nd-etcher]
 2018.04.28.1 (2018-04-28)
 -------------------------
 Changes
@@ -176,11 +204,6 @@ Changes
   * un-ignore pipfile.lock
   * do not delete pifile.lock during reqs update
   * update reqs
-2018.04.28.1a1+feature/pipfile_lock (2018-04-28)
-------------------------------------------------
-- Update reqs. [132nd-etcher]
-- Do not delete pifile.lock during reqs update. [132nd-etcher]
-- Un-ignore pipfile.lock. [132nd-etcher]
 2018.04.14.2 (2018-04-14)
 -------------------------
 Changes
@@ -188,14 +211,6 @@ Changes
 - Switch to pyinstaller command (#47) [132nd-etcher]
   * chg: switch to pyinstaller command
   * linting
-2018.04.14.2a1+feature/switch_to_pyinstaller_cmd (2018-04-14)
--------------------------------------------------------------
-Changes
-~~~~~~~
-- Switch to pyinstaller command. [132nd-etcher]
-Other
-~~~~~
-- Linting. [132nd-etcher]
 2018.04.14.1 (2018-04-14)
 -------------------------
 New
@@ -230,39 +245,6 @@ New
   * linting
   * disable ocular coverage
   * fix tests
-Changes
-~~~~~~~
-- Disable pylint wrong import order check (#45) [132nd-etcher]
-- Switch from semver to calver (#43) [132nd-etcher]
-  * fix license issue in setup.py
-  * add missing test for find_exe
-  * add repo.list_of_tags
-  * add test for repo.short_sha
-  * remove dummy test file
-  * comment out scrutinizer coverage upload
-  * fix error in find_exe
-  * fix repo.get_latest_tag
-  * switch to calver
-  * update reqs
-  * sanitize AV output
-  * make console prefix a variable
-  * update reqs
-  * remove unused file
-  * fix assertions
-  * add name of skipped tests
-Fix
-~~~
-- Fix freeze version (#46) [132nd-etcher]
-  * ignore test artifact
-  * write requirements in setup.py
-  * update reqs
-  * linting
-  * fix: fix epab freeze version
-  * switch calver to padded
-0.3.34 (2018-03-03)
--------------------
-New
-~~~
 - Freeze (#34) [132nd-etcher]
   * add methods to retrieve version from exe
   * add certifi as a req
@@ -287,8 +269,39 @@ New
   sorting imports [auto]
   update requirements [auto]
   update changelog [auto]
+- Add status cmd to Repo. [132nd-etcher]
+- Chglog: add option to infer next version. [132nd-etcher]
+  pep8 [auto]
+  sorting imports [auto]
+  update requirements [auto]
+  update changelog [auto]
+- Add "stage" options for autopep8 and isort. [132nd-etcher]
+- Create artifacts on AV. [132nd-etcher]
+- Release tagged versions without bump. [132nd-etcher]
+- Add "--long" option for pytest. [132nd-etcher]
+- Add flake8 params as default. [132nd-etcher]
+- Add appveyor command. [132nd-etcher]
+- Add isort command. [132nd-etcher]
 Changes
 ~~~~~~~
+- Disable pylint wrong import order check (#45) [132nd-etcher]
+- Switch from semver to calver (#43) [132nd-etcher]
+  * fix license issue in setup.py
+  * add missing test for find_exe
+  * add repo.list_of_tags
+  * add test for repo.short_sha
+  * remove dummy test file
+  * comment out scrutinizer coverage upload
+  * fix error in find_exe
+  * fix repo.get_latest_tag
+  * switch to calver
+  * update reqs
+  * sanitize AV output
+  * make console prefix a variable
+  * update reqs
+  * remove unused file
+  * fix assertions
+  * add name of skipped tests
 - Disable logging-format-interpolation (#33) [132nd-etcher]
 - Re-enable isort (#29) [132nd-etcher]
 - Be more specific with autopep8 (#28) [132nd-etcher]
@@ -324,83 +337,11 @@ Changes
 - Print status on checkout when repo is dirty. [132nd-etcher]
 - Release should push tags only (#16) [132nd-etcher]
   chg: release should push tags only
-Fix
-~~~
-- Skipping freeze should not raise SystemExit (#38) [132nd-etcher]
-- Fix app.ico (#37) [132nd-etcher]
-  * move app.ico to vendor subfolder
-  * fix av build info string
-  * remove dupe logging
-  * forgot to remove resource from epab.yml
-- Frozen version (#35) [132nd-etcher]
-  * fix missing resource
-  * trying to fix av issue with tag name
-  * fix frozen version
-- Fix isort issues (#31) [132nd-etcher]
-  * fixing isort 1st party
-  * add isort setup.py check
-  * ignore bacth
-  * update reqs
-  * fix tests
-  * linting
-- Sort linting (#24) [132nd-etcher]
-- Fix sorting of imports (#22) [132nd-etcher]
-  Due to iSort update, a bunch of double line endings were inserted.
-  I switched to programmatic iSort instead of calling the cmd line.
-  * fix: dev: fix isort
-  * convert line endings
-  * fix tests
-  * fix one more test
-Other
-~~~~~
-- Linting. [132nd-etcher]
-- Update reqs. [132nd-etcher]
-- Disable isort setup.py feature for now. [132nd-etcher]
-- Add iPython. [132nd-etcher]
-- Add entry point. [132nd-etcher]
-- Create LICENSE. [132nd-etcher]
-- Delete LICENSE. [132nd-etcher]
-0.2.5 (2018-01-28)
-------------------
-New
-~~~
-- Add status cmd to Repo. [132nd-etcher]
-- Chglog: add option to infer next version. [132nd-etcher]
-  pep8 [auto]
-  sorting imports [auto]
-  update requirements [auto]
-  update changelog [auto]
-- Add "stage" options for autopep8 and isort. [132nd-etcher]
-- Create artifacts on AV. [132nd-etcher]
-Changes
-~~~~~~~
 - Disable changelog during release. [132nd-etcher]
 - Upload to Pypi only from master. [132nd-etcher]
 - Eliminate remote commits. [132nd-etcher]
   pep8 [auto]
   sorting imports [auto]
-Fix
-~~~
-- Fix changelog write. [132nd-etcher]
-- Fix unsafe YAML loading. [132nd-etcher]
-- Fix ctx.obj initialization. [132nd-etcher]
-- Fix error with no extended commit msg. [132nd-etcher]
-Other
-~~~~~
-- Update requirements-dev.txt. [132nd-etcher]
-- Update reqs-dev.txt [skip ci] [132nd-etcher]
-- Update requirements-dev.txt. [132nd-etcher]
-0.1.52 (2018-01-02)
--------------------
-New
-~~~
-- Release tagged versions without bump. [132nd-etcher]
-- Add "--long" option for pytest. [132nd-etcher]
-- Add flake8 params as default. [132nd-etcher]
-- Add appveyor command. [132nd-etcher]
-- Add isort command. [132nd-etcher]
-Changes
-~~~~~~~
 - Set new version based on AV tag. [132nd-etcher]
 - Bump pylint jobs from 2 to 8. [132nd-etcher]
 - Add faker to reqs. [132nd-etcher]
@@ -445,6 +386,42 @@ Changes
 - Add check so EPAB does not try reinstalling itself. [132nd-etcher]
 Fix
 ~~~
+- Fix freeze version (#46) [132nd-etcher]
+  * ignore test artifact
+  * write requirements in setup.py
+  * update reqs
+  * linting
+  * fix: fix epab freeze version
+  * switch calver to padded
+- Skipping freeze should not raise SystemExit (#38) [132nd-etcher]
+- Fix app.ico (#37) [132nd-etcher]
+  * move app.ico to vendor subfolder
+  * fix av build info string
+  * remove dupe logging
+  * forgot to remove resource from epab.yml
+- Frozen version (#35) [132nd-etcher]
+  * fix missing resource
+  * trying to fix av issue with tag name
+  * fix frozen version
+- Fix isort issues (#31) [132nd-etcher]
+  * fixing isort 1st party
+  * add isort setup.py check
+  * ignore bacth
+  * update reqs
+  * fix tests
+  * linting
+- Sort linting (#24) [132nd-etcher]
+- Fix sorting of imports (#22) [132nd-etcher]
+  Due to iSort update, a bunch of double line endings were inserted.
+  I switched to programmatic iSort instead of calling the cmd line.
+  * fix: dev: fix isort
+  * convert line endings
+  * fix tests
+  * fix one more test
+- Fix changelog write. [132nd-etcher]
+- Fix unsafe YAML loading. [132nd-etcher]
+- Fix ctx.obj initialization. [132nd-etcher]
+- Fix error with no extended commit msg. [132nd-etcher]
 - Fix tagged release. [132nd-etcher]
 - Omit versioneer files during coverage. [132nd-etcher]
 - Skip ci only on AV builds. [132nd-etcher]
@@ -471,6 +448,16 @@ Fix
 - Fix package name for get_version. [132nd-etcher]
 Other
 ~~~~~
+- Linting. [132nd-etcher]
+- Update reqs. [132nd-etcher]
+- Disable isort setup.py feature for now. [132nd-etcher]
+- Add iPython. [132nd-etcher]
+- Add entry point. [132nd-etcher]
+- Create LICENSE. [132nd-etcher]
+- Delete LICENSE. [132nd-etcher]
+- Update requirements-dev.txt. [132nd-etcher]
+- Update reqs-dev.txt [skip ci] [132nd-etcher]
+- Update requirements-dev.txt. [132nd-etcher]
 - Trivia. [132nd-etcher]
 - Chg do not write hashes to requirements. [132nd-etcher]
 - Add pre_build, wheel, sdist and upload commands. [132nd-etcher]
