@@ -110,7 +110,7 @@ def _release(ctx: click.Context):
 
     _print_build_info(current_branch, next_version)
 
-    _check_dirty('repository is dirty')
+    _check_dirty('initial check failed')
 
     if CTX.dry_run:
         epab.utils.AV.info('Skipping release; DRY RUN')
