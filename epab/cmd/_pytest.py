@@ -119,7 +119,10 @@ class _Coverage:
         """
         Removes coverage config file
         """
-        Path('.coveragerc').unlink()
+        try:
+            Path('.coveragerc').unlink()
+        except FileNotFoundError:
+            pass
 
 
 def upload_coverage():
@@ -144,7 +147,7 @@ def pytest_options():
 
 
 @epab.utils.run_once
-def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
+def _pytest(test, *, long, show, exitfirst, last_failed, failed_first, rm_cov):
     epab.utils.info('Running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'
     _Coverage.install()
@@ -164,7 +167,7 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
     last_failed = ' --last-failed' if last_failed else ''
     failed_first = ' --failed-first' if failed_first else ''
 
-    if Path('./htmlcov').exists():
+    if rm_cov and Path('./htmlcov').exists():
         shutil.rmtree('./htmlcov')
     cmd = f'{cmd} {pytest_options()}{long}{exitfirst}{last_failed}{failed_first}'
 
@@ -183,11 +186,12 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first):
 @click.option('-l', '--long', is_flag=True, default=False, help='Long tests')
 @click.option('-s', '--show', is_flag=True, default=False, help='Show coverage in browser')
 @click.option('-x', '--exitfirst', is_flag=True, default=False, help='Exit instantly on first error')
+@click.option('-r', '--rm-cov', is_flag=True, default=False, help='Delete coverage report from previous runs')
 @click.option('--lf', '--last-failed', is_flag=True, default=False, help='Rerun only the tests that failed')
 @click.option('--ff', '--failed-first', is_flag=True, default=False,
               help='Run all tests but run the last failures first')
 @click.option('-t', '--test', default=config.TEST_TARGET(), help='Select which tests to run')
-def pytest(test, long, show, exitfirst, last_failed, failed_first):
+def pytest(test, long, show, exitfirst, last_failed, failed_first, rm_cov):
     """
     Runs Pytest (https://docs.pytest.org/en/latest/)
     """
@@ -198,4 +202,5 @@ def pytest(test, long, show, exitfirst, last_failed, failed_first):
         exitfirst=exitfirst,
         last_failed=last_failed,
         failed_first=failed_first,
+        rm_cov=rm_cov,
     )

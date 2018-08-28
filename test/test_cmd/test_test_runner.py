@@ -18,6 +18,7 @@ DEFAULT_OPTS = dict(
     exitfirst=False,
     last_failed=False,
     failed_first=False,
+    rm_cov=False,
 )
 
 _TIMEOUT = config.TEST_PYTEST_TIMEOUT()
@@ -156,7 +157,7 @@ def test_config_appveyor(monkeypatch):
     verifyStubbedInvocationsAreUsed()
 
 
-def test_remove_coverage_dir():
+def test_remove_coverage_dir_disabled():
     CTX.appveyor = False
     when(elib_run).run(...)
     cov_dir = Path('./htmlcov')
@@ -164,4 +165,16 @@ def test_remove_coverage_dir():
     cov_dir.mkdir()
     assert cov_dir.exists()
     _pytest('test', **DEFAULT_OPTS)
+
+
+def test_remove_coverage():
+    CTX.appveyor = False
+    when(elib_run).run(...)
+    cov_dir = Path('./htmlcov')
+    assert not cov_dir.exists()
+    cov_dir.mkdir()
+    assert cov_dir.exists()
+    new_opts = DEFAULT_OPTS.copy()
+    new_opts.update({'rm_cov': True})
+    _pytest('test', **new_opts)
     assert not cov_dir.exists()
