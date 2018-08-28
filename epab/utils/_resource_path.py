@@ -14,8 +14,7 @@ def _get_from_dev(package_name: str, relative_path: Path) -> Path:
     return Path(package_name, relative_path).absolute()
 
 
-def _get_from_sys(package_name: str, relative_path: Path) -> Path:
-    assert package_name
+def _get_from_sys(_: str, relative_path: Path) -> Path:
     return Path(getattr(sys, '_MEIPASS', '.'), relative_path).absolute()
 
 
