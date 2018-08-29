@@ -393,7 +393,7 @@ class Repo(BaseRepo):
             return
         self.repo.git.merge(ref_name)
 
-    def push(self):
+    def push(self, set_upstream: bool = True):
         """
         Pushes all refs (branches and tags) to origin
         """
@@ -401,7 +401,13 @@ class Repo(BaseRepo):
         if CTX.dry_run:
             return
 
-        self.repo.git.push()
+        try:
+            self.repo.git.push()
+        except GitCommandError as error:
+            if 'has no upstream branch' in error.stderr and set_upstream:
+                self.repo.git.push(f'--set-upstream origin {self.get_current_branch()}')
+            else:
+                raise
         self.push_tags()
 
     def push_tags(self):

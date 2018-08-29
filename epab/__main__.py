@@ -62,7 +62,7 @@ def cli(dry_run, dirty, stash):
         sys.exit(-1)
 
 
-def _pre_push(ctx: click.core.Context):
+def _pre_push(ctx: click.core.Context, push: bool):
     if not sys.argv[0].endswith('__main__.py'):
         epab.utils.error('This command cannot be run as a script. Use this instead:\n\n\t'
                          'python -m epab (-d) pre_push')
@@ -71,28 +71,32 @@ def _pre_push(ctx: click.core.Context):
     ctx.invoke(epab.cmd.pipenv_clean)
     ctx.invoke(epab.linters.lint)
     ctx.invoke(epab.cmd.pytest, long=True)
-    ctx.invoke(epab.cmd.reqs)
     ctx.invoke(epab.cmd.pipenv_update)
+    ctx.invoke(epab.cmd.reqs)
     ctx.invoke(epab.cmd.pipenv_check)
-    ctx.invoke(epab.cmd.chglog)
+    # ctx.invoke(epab.cmd.chglog)
+    if push:
+        CTX.repo.push()
 
 
 @cli.command()
 @click.pass_context
-def pre_push(ctx):
+@click.option('-p', '--push', is_flag=True, default=False, help='Push to remote origin')
+def pre_push(ctx, push: bool):
     """
     Runs a series of tests & checks before pushing to Git remote
     """
-    _pre_push(ctx)
+    _pre_push(ctx, push)
 
 
 @cli.command()
 @click.pass_context
-def pp(ctx):  # pylint: disable=invalid-name
+@click.option('-p', '--push', is_flag=True, default=False, help='Push to remote origin')
+def pp(ctx, push: bool):  # pylint: disable=invalid-name
     """
     Alias for "pre_push"
     """
-    _pre_push(ctx)
+    _pre_push(ctx, push)
 
 
 _LINTERS = [
@@ -115,7 +119,6 @@ _COMMANDS = [
     epab.cmd.install_hooks,
     epab.cmd.push,
     epab.cmd.freeze,
-    epab.cmd.flat_freeze,
     epab.cmd.pipenv,
 ]
 

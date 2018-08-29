@@ -284,10 +284,10 @@
         },
         "mockito": {
             "hashes": [
-                "sha256:ebd57a053f6e9f08c37d915d751dd6611365d501e5973ba1de0ad2596e91c5a2"
+                "sha256:142f5e8865a422ad2d67b9c67a382e3296e8f1633dbccd0e322180fba7d5303d"
             ],
             "index": "pypi",
-            "version": "==1.1.0"
+            "version": "==1.1.1"
         },
         "more-itertools": {
             "hashes": [
@@ -931,10 +931,10 @@
         },
         "mockito": {
             "hashes": [
-                "sha256:ebd57a053f6e9f08c37d915d751dd6611365d501e5973ba1de0ad2596e91c5a2"
+                "sha256:142f5e8865a422ad2d67b9c67a382e3296e8f1633dbccd0e322180fba7d5303d"
             ],
             "index": "pypi",
-            "version": "==1.1.0"
+            "version": "==1.1.1"
         },
         "more-itertools": {
             "hashes": [

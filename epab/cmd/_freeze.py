@@ -81,17 +81,6 @@ def _freeze(version: str):
     _patch(version)
 
 
-def _flat_freeze():
-    if not config.FREEZE_ENTRY_POINT():
-        epab.utils.AV.error('No entry point define, skipping freeze')
-        return
-    _install_pyinstaller()
-    cmd = BASE_CMD + [config.PACKAGE_NAME(), config.FREEZE_ENTRY_POINT()]
-    for data_file in config.FREEZE_DATA_FILES():
-        cmd.append(f'--add-data "{data_file}"')
-    elib_run.run(' '.join(cmd))
-
-
 def _clean_spec():
     spec_file = Path(f'{config.PACKAGE_NAME()}.spec')
     spec_file.unlink()
@@ -109,16 +98,3 @@ def freeze(ctx, version: str, clean: bool):
         _clean_spec()
     ctx.invoke(epab.cmd.compile_qt_resources)
     _freeze(version)
-
-
-@click.command()
-@click.pass_context
-@click.option('-c', '--clean', is_flag=True, default=False, help='Clean spec file before freezing')
-def flat_freeze(ctx, clean: bool):
-    """
-    Freeze current package into a directory
-    """
-    if clean:
-        _clean_spec()
-    ctx.invoke(epab.cmd.compile_qt_resources)
-    _flat_freeze()

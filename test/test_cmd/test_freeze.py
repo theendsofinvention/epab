@@ -18,12 +18,6 @@ def test_freeze_cli(cli_runner):
     verifyStubbedInvocationsAreUsed()
 
 
-def test_freeze_flat_cli(cli_runner):
-    when(freeze)._flat_freeze()
-    cli_runner.invoke(freeze.flat_freeze)
-    verifyStubbedInvocationsAreUsed()
-
-
 def test_freeze():
     when(freeze)._install_pyinstaller()
     when(freeze)._patch('version')
@@ -31,14 +25,6 @@ def test_freeze():
     when(epab.utils.AV).info(...)
     config.FREEZE_ENTRY_POINT.default = 'test'
     freeze._freeze('version')
-    verifyStubbedInvocationsAreUsed()
-
-
-def test_flat_freeze():
-    when(freeze)._install_pyinstaller()
-    when(elib_run).run(...)
-    config.FREEZE_ENTRY_POINT.default = 'test'
-    freeze._flat_freeze()
     verifyStubbedInvocationsAreUsed()
 
 
@@ -51,18 +37,6 @@ def test_freeze_no_entry_point():
     freeze._freeze('version')
     verify(freeze, times=0)._install_pyinstaller()
     verify(freeze, times=0)._patch()
-    verify(elib_run, times=0).run(...)
-    verify(epab.utils.AV, times=0).info(...)
-    verify(epab.utils.AV).error(...)
-
-
-def test_flat_freeze_no_entry_point():
-    when(freeze)._install_pyinstaller()
-    when(elib_run).run(...)
-    when(epab.utils.AV).info(...)
-    when(epab.utils.AV).error(...)
-    freeze._flat_freeze()
-    verify(freeze, times=0)._install_pyinstaller()
     verify(elib_run, times=0).run(...)
     verify(epab.utils.AV, times=0).info(...)
     verify(epab.utils.AV).error(...)
@@ -121,14 +95,8 @@ def test_clean_spec(cli_runner):
     spec_file.touch()
     version = '0.1.0'
     when(freeze)._freeze(version)
-    when(freeze)._flat_freeze()
     cli_runner.invoke(freeze.freeze, [version, '-c'])
     assert not spec_file.exists()
-    spec_file.touch()
-    assert spec_file.exists()
-    cli_runner.invoke(freeze.flat_freeze, ['-c'])
-    assert not spec_file.exists()
-    verifyStubbedInvocationsAreUsed()
 
 
 def test_with_data_files():
