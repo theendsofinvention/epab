@@ -38,7 +38,7 @@ pytest-repeat = ">=0.7.0"
 pytest-faker = ">=2.0.0"
 pytest-watch = ">=4.2.0"
 pytest-deadfixtures = ">=2.0.1"
-elib-run = {editable = true, git = "https://github.com/etcher-be/elib_run.git", ref="05f7b6a5f08da138d938717d191d892f1e0255e1"}
+elib-run = {editable = true, git = "https://github.com/etcher-be/elib_run.git", ref="12b2b664b7431be01a6e8d826e03d5ebe048ce87"}
 bandit = ">=1.5.0"
 
 [dev-packages]

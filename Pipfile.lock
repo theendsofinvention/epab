@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "90ef08b19fb402e4266812f373f656d3662294fb52b4f4780fc18b75cd59844f"
+            "sha256": "ecdd8ce7ba8aed850e5ccf56af8aa79a22e4f0310f2c9cdc9c53dc7255045ab2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -167,7 +167,7 @@
         "elib-run": {
             "editable": true,
             "git": "https://github.com/etcher-be/elib_run.git",
-            "ref": "05f7b6a5f08da138d938717d191d892f1e0255e1"
+            "ref": "12b2b664b7431be01a6e8d826e03d5ebe048ce87"
         },
         "execnet": {
             "hashes": [
