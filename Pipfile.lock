@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "47a7c1f4660b90305a9a99dd5ea9d38fb80db352eebfbbac7d6c8b23c3854e80"
+            "sha256": "ddfb734ef7e1f7fe0a76a80141681d7e717c887d7e49174b8b982af0dea999c0"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -160,7 +160,7 @@
         "elib-run": {
             "editable": true,
             "git": "https://github.com/etcher-be/elib_run.git",
-            "ref": "54f815381dc511f2f51e59cbe7510ac009f1ae82"
+            "ref": "56efa84873f5b43b4ae9b5fd68e3571632456980"
         },
         "execnet": {
             "hashes": [
@@ -660,7 +660,7 @@
                 "sha256:f17495e6fe3d377e3faac68121caef6f974fcb9e046bc075bcff40d8e5cc69a4",
                 "sha256:f85900b9cca0c67767bb61b2b9bd53208aaa7373dae633dbe25d179b4bf38aa7"
             ],
-            "markers": "python_version >= '3.4'",
+            "markers": "python_version >= '3.4.1'",
             "version": "==1.2.6"
         }
     },
@@ -1307,7 +1307,7 @@
                 "sha256:f17495e6fe3d377e3faac68121caef6f974fcb9e046bc075bcff40d8e5cc69a4",
                 "sha256:f85900b9cca0c67767bb61b2b9bd53208aaa7373dae633dbe25d179b4bf38aa7"
             ],
-            "markers": "python_version >= '3.4'",
+            "markers": "python_version >= '3.4.1'",
             "version": "==1.2.6"
         }
     }
