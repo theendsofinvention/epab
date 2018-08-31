@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "cc356d45d394fca6b99eff09f214df9efad78d5d38feb341dd5c75ad315f8d35"
+            "sha256": "181709822238e1a370f390e680de8a1798b9b0cd3a55ee47e484294078d32ddf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -137,6 +137,13 @@
             "index": "pypi",
             "version": "==4.5.1"
         },
+        "dataclasses": {
+            "hashes": [
+                "sha256:454a69d788c7fda44efd71e259be79577822f5e3f53f029a22d08004e951dc9f",
+                "sha256:6988bd2b895eef432d562370bb707d540f32f7360ab13da45340101bc2307d84"
+            ],
+            "version": "==0.6"
+        },
         "docopt": {
             "hashes": [
                 "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"
@@ -158,11 +165,9 @@
             "version": "==2018.8.27.4"
         },
         "elib-run": {
-            "hashes": [
-                "sha256:e7b75a447b24d083e1dc79971215cc6133ceee6b0928285f76c960bcebd37654"
-            ],
-            "index": "pypi",
-            "version": "==2018.8.27.2"
+            "editable": true,
+            "git": "https://github.com/etcher-be/elib_run@feature/reafactor",
+            "ref": "54f815381dc511f2f51e59cbe7510ac009f1ae82"
         },
         "execnet": {
             "hashes": [
@@ -662,7 +667,7 @@
                 "sha256:f17495e6fe3d377e3faac68121caef6f974fcb9e046bc075bcff40d8e5cc69a4",
                 "sha256:f85900b9cca0c67767bb61b2b9bd53208aaa7373dae633dbe25d179b4bf38aa7"
             ],
-            "markers": "python_version >= '3.4'",
+            "markers": "python_version >= '3.4.1'",
             "version": "==1.2.6"
         }
     },
@@ -1309,7 +1314,7 @@
                 "sha256:f17495e6fe3d377e3faac68121caef6f974fcb9e046bc075bcff40d8e5cc69a4",
                 "sha256:f85900b9cca0c67767bb61b2b9bd53208aaa7373dae633dbe25d179b4bf38aa7"
             ],
-            "markers": "python_version >= '3.4'",
+            "markers": "python_version >= '3.4.1'",
             "version": "==1.2.6"
         }
     }
