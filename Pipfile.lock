@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "181709822238e1a370f390e680de8a1798b9b0cd3a55ee47e484294078d32ddf"
+            "sha256": "e93238a784e70bd4adac6714589de7adaef10bfe3e16b27a6974536b56b85713"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -166,7 +166,7 @@
         },
         "elib-run": {
             "editable": true,
-            "git": "https://github.com/etcher-be/elib_run@feature/reafactor",
+            "git": "https://github.com/etcher-be/elib_run.git@feature/reafactor",
             "ref": "54f815381dc511f2f51e59cbe7510ac009f1ae82"
         },
         "execnet": {
