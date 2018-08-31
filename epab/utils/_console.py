@@ -102,4 +102,4 @@ def std_err(txt: str, **kwargs):
     _output(txt, Colors.stderr, err=True, **kwargs)
 
 
-elib_run.register_hooks()
+elib_run.register_console_hooks()
