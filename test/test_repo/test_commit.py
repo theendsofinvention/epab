@@ -15,7 +15,7 @@ def _dummy_commit(repo):
 
 
 @given(message=st.from_regex(r'^[a-zA-Z0-9_]{1,79}(\n\n[a-zA-Z0-9_]{1,300})?$'))
-@settings(deadline=600)
+@settings(deadline=None)
 def test_commit(repo, message):
     test_file = Path('./test')
     if test_file.exists():
