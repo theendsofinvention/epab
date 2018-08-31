@@ -38,7 +38,7 @@ pytest-repeat = ">=0.7.0"
 pytest-faker = ">=2.0.0"
 pytest-watch = ">=4.2.0"
 pytest-deadfixtures = ">=2.0.1"
-elib-run = {editable = true, git = "https://github.com/etcher-be/elib_run.git@feature/reafactor"}
+elib-run = {editable = true, git = "https://github.com/etcher-be/elib_run.git@54f815381dc511f2f51e59cbe7510ac009f1ae82"}
 bandit = ">=1.5.0"
 
 [dev-packages]

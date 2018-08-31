@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e93238a784e70bd4adac6714589de7adaef10bfe3e16b27a6974536b56b85713"
+            "sha256": "47a7c1f4660b90305a9a99dd5ea9d38fb80db352eebfbbac7d6c8b23c3854e80"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -137,13 +137,6 @@
             "index": "pypi",
             "version": "==4.5.1"
         },
-        "dataclasses": {
-            "hashes": [
-                "sha256:454a69d788c7fda44efd71e259be79577822f5e3f53f029a22d08004e951dc9f",
-                "sha256:6988bd2b895eef432d562370bb707d540f32f7360ab13da45340101bc2307d84"
-            ],
-            "version": "==0.6"
-        },
         "docopt": {
             "hashes": [
                 "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"
@@ -166,7 +159,7 @@
         },
         "elib-run": {
             "editable": true,
-            "git": "https://github.com/etcher-be/elib_run.git@feature/reafactor",
+            "git": "https://github.com/etcher-be/elib_run.git",
             "ref": "54f815381dc511f2f51e59cbe7510ac009f1ae82"
         },
         "execnet": {
@@ -667,7 +660,7 @@
                 "sha256:f17495e6fe3d377e3faac68121caef6f974fcb9e046bc075bcff40d8e5cc69a4",
                 "sha256:f85900b9cca0c67767bb61b2b9bd53208aaa7373dae633dbe25d179b4bf38aa7"
             ],
-            "markers": "python_version >= '3.4.1'",
+            "markers": "python_version >= '3.4'",
             "version": "==1.2.6"
         }
     },
@@ -1314,7 +1307,7 @@
                 "sha256:f17495e6fe3d377e3faac68121caef6f974fcb9e046bc075bcff40d8e5cc69a4",
                 "sha256:f85900b9cca0c67767bb61b2b9bd53208aaa7373dae633dbe25d179b4bf38aa7"
             ],
-            "markers": "python_version >= '3.4.1'",
+            "markers": "python_version >= '3.4'",
             "version": "==1.2.6"
         }
     }
