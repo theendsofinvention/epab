@@ -4,11 +4,13 @@ from pathlib import Path
 
 import elib_run
 import pytest
+# noinspection PyProtectedMember
 from mockito import (
     ANY, and_, contains, mock, verify, verifyNoUnwantedInteractions, when,
 )
 
 import epab.cmd
+# noinspection PyProtectedMember
 import epab.cmd._release
 import epab.linters
 import epab.utils
