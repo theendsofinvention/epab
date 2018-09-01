@@ -4,7 +4,9 @@ from pathlib import Path
 
 import elib_run
 import pytest
-from mockito import ANY, and_, contains, mock, verify, verifyNoUnwantedInteractions, when, verifyStubbedInvocationsAreUsed
+from mockito import (
+    ANY, and_, contains, mock, verify, verifyNoUnwantedInteractions, when,
+)
 
 import epab.cmd
 import epab.cmd._release
