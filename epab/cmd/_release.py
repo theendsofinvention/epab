@@ -131,6 +131,8 @@ def _release(ctx: click.Context):
 
     _check_dirty('last check before build')
 
+    ctx.invoke(epab.cmd.graph)
+
     _create_wheel()
 
     if current_branch == 'master':
