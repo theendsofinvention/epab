@@ -120,6 +120,7 @@ _COMMANDS = [
     epab.cmd.push,
     epab.cmd.freeze,
     epab.cmd.pipenv,
+    epab.cmd.graph,
 ]
 
 for command in _COMMANDS + _LINTERS:
