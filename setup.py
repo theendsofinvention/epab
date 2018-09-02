@@ -36,6 +36,7 @@ requirements = [
     'pytest-deadfixtures',
     'pycodestyle>=2.0.0,<2.4.0',
     'bandit',
+    'elib_run',
 ]
 test_requirements = []
 
