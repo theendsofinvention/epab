@@ -50,6 +50,7 @@ def _global_tear_down(tmpdir, monkeypatch):
         monkeypatch.delenv('APPVEYOR')
     except KeyError:
         pass
+    # noinspection PyProtectedMember
     CTX._reset()
     config.CHANGELOG_DISABLE.default = False
     config.ARTIFACTS.default = []
@@ -61,7 +62,6 @@ def _global_tear_down(tmpdir, monkeypatch):
     config.QT_RES_TGT.default = ''
     config.QUIET.default = False
     config.MYPY_ARGS.default = ''
-    # CONFIG.load()
     current_dir = os.getcwd()
     folder = Path(tmpdir).absolute()
     os.chdir(folder)
@@ -70,21 +70,38 @@ def _global_tear_down(tmpdir, monkeypatch):
     os.chdir(current_dir)
 
 
+@pytest.fixture(autouse=True)
+def _clean_os_env():
+    env = os.environ.copy()
+    yield
+    for key, value in env.items():
+        os.environ[key] = value
+    for key in os.environ.keys():
+        if key not in env.keys():
+            del os.environ[key]
+
+
 @pytest.fixture()
 def dummy_git_repo():
+    """
+    Creates a dummy Git repo in the current directory
+    """
     null = open(os.devnull, 'w')
 
-    def create():
+    def _create():
         subprocess.check_call(('git', 'init'), stdout=null)
         Path('./init').touch()
         subprocess.check_call(('git', 'add', './init'), stdout=null)
         subprocess.check_call(('git', 'commit', '-m', 'init commit'), stdout=null)
 
-    dummy_git_repo.create = create
+    dummy_git_repo.create = _create
 
     yield dummy_git_repo
 
 
 @pytest.fixture()
 def cli_runner():
+    """
+    Click CLI runner for tests
+    """
     yield CliRunner()
