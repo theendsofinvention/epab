@@ -26,6 +26,5 @@ test.yml
 .venv
 .eggs
 pyproject.toml.example
-packages_<elib_config._value._config_value_string.ConfigValueString object at 0x00000000041D8EF0>.png
 packages_epab.png
 classes_epab.png
