@@ -81,8 +81,11 @@ def _clean_os_env():
             del os.environ[key]
 
 
-@pytest.fixture(name='_dummy_git_repo')
-def _dummy_git_repo():
+@pytest.fixture()
+def dummy_git_repo():
+    """
+    Creates a dummy Git repo in the current directory
+    """
     null = open(os.devnull, 'w')
 
     def _create():
@@ -91,11 +94,14 @@ def _dummy_git_repo():
         subprocess.check_call(('git', 'add', './init'), stdout=null)
         subprocess.check_call(('git', 'commit', '-m', 'init commit'), stdout=null)
 
-    _dummy_git_repo.create = _create
+    dummy_git_repo.create = _create
 
-    yield _dummy_git_repo
+    yield dummy_git_repo
 
 
-@pytest.fixture(name='cli_runner')
-def _cli_runner():
+@pytest.fixture()
+def cli_runner():
+    """
+    Click CLI runner for tests
+    """
     yield CliRunner()
