@@ -25,10 +25,9 @@ config.setup_config(__version__)
 @click.option('-nv', '--next-version',
               is_flag=True, is_eager=True, expose_value=False, callback=epab.cmd.next_version, default=False,
               help='Print next version and exit')
-@click.option('-n', '--dry-run', is_flag=True, default=False, help='Dry run')
 @click.option('-d', '--dirty', is_flag=True, default=False, help='Allow dirty repository')
 @click.option('-s', '--stash', 'stash', is_flag=True, default=False, help='No stashing')
-def cli(dry_run, dirty, stash):
+def cli(dirty, stash):
     """
     This is a tool that handles all the tasks to build a Python application
 
