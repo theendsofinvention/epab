@@ -11,7 +11,6 @@ from git.exc import GitCommandError
 
 import epab.utils
 from epab.bases.repo import BaseRepo
-from epab.core import CTX
 
 
 # pylint: disable=too-many-public-methods
@@ -35,9 +34,7 @@ class Repo(BaseRepo):
             overwrite: replace existing tag
         """
         epab.utils.info(f'Tagging repo: {tag}')
-        if CTX.dry_run:
-            epab.utils.info('Not tagging; DRY RUN')
-            return
+
         try:
             self.repo.create_tag(tag)
         except GitCommandError as exc:
@@ -70,8 +67,7 @@ class Repo(BaseRepo):
             tag: tag to remove
         """
         epab.utils.info(f'Removing tag: {tag}')
-        if CTX.dry_run:
-            return
+
         self.repo.delete_tag(*tag)
 
     def get_latest_tag(self) -> typing.Optional[str]:
@@ -156,9 +152,6 @@ class Repo(BaseRepo):
         """
         epab.utils.cmd_start('checking repository')
         if not os.path.exists('.git'):
-            if CTX.dry_run:
-                epab.utils.cmd_end(' -> DRY RUN')
-                return
             epab.utils.cmd_end(' -> ERROR')
             epab.utils.error('This command is meant to be ran in a Git repository.')
             sys.exit(-1)
@@ -222,14 +215,14 @@ class Repo(BaseRepo):
         Stages all changed and untracked files
         """
         epab.utils.info('Staging all files')
-        self.repo.git.add(A=True, n=CTX.dry_run)
+        self.repo.git.add(A=True)
 
     def stage_modified(self):
         """
         Stages modified files only (no untracked)
         """
         epab.utils.info('Staging modified files')
-        self.repo.git.add(u=True, n=CTX.dry_run)
+        self.repo.git.add(u=True)
 
     def stage_subset(self, *files_to_add: str):
         """
@@ -238,7 +231,7 @@ class Repo(BaseRepo):
             *files_to_add: files to stage
         """
         epab.utils.info(f'Staging files: {files_to_add}')
-        self.repo.git.add(*files_to_add, A=True, n=CTX.dry_run)
+        self.repo.git.add(*files_to_add, A=True)
         # self.repo.index.add(files_to_add)
 
     @staticmethod
@@ -287,9 +280,6 @@ class Repo(BaseRepo):
             message = self._add_skip_ci_to_commit_msg(message)
 
             epab.utils.info(f'Committing with message: {message}')
-
-        if CTX.dry_run:
-            return
 
         if files_to_add is None:
             self.stage_all()
@@ -354,9 +344,7 @@ class Repo(BaseRepo):
 
         epab.utils.info(f'Amending commit with new message: {message}')
         latest_tag = self.get_current_tag()
-        if CTX.dry_run:
-            epab.utils.info('Aborting commit amend: DRY RUN')
-            return
+
         if latest_tag:
             epab.utils.info(f'Removing tag: {latest_tag}')
             self.remove_tag(latest_tag)
@@ -388,9 +376,6 @@ class Repo(BaseRepo):
             epab.utils.error(f'Repository is dirty; cannot merge "{ref_name}"')
             sys.exit(-1)
         epab.utils.info(f'Merging {ref_name} into {self.get_current_branch()}')
-        if CTX.dry_run:
-            epab.utils.info('Skipping merge: DRY RUN')
-            return
         self.repo.git.merge(ref_name)
 
     def push(self, set_upstream: bool = True):
@@ -398,8 +383,6 @@ class Repo(BaseRepo):
         Pushes all refs (branches and tags) to origin
         """
         epab.utils.info('Pushing repo to origin')
-        if CTX.dry_run:
-            return
 
         try:
             self.repo.git.push()
@@ -415,8 +398,6 @@ class Repo(BaseRepo):
         Pushes tags to origin
         """
         epab.utils.info('Pushing tags to origin')
-        if CTX.dry_run:  # pragma: no cover
-            return
 
         self.repo.git.push('--tags')
 
@@ -463,9 +444,6 @@ class Repo(BaseRepo):
             epab.utils.error(f'Repository is dirty; cannot checkout "{reference}"')
             print(self.status())
             sys.exit(-1)
-        if CTX.dry_run:
-            epab.utils.info('DRY RUN: aborting checkout')
-            return
         epab.utils.info(f'Checking out: {reference}')
         for head in self.repo.heads:
             if head.name == reference:
@@ -518,7 +496,4 @@ class Repo(BaseRepo):
             result = True
         if untracked:
             result = result or bool(self.untracked_files())
-        if CTX.dry_run and result:
-            epab.utils.info('Repo was dirty; DRY RUN')
-            return False
         return result

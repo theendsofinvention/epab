@@ -119,24 +119,11 @@ def test_dirty_final_check(setup):
     verify(epab.utils.AV).error('Repository is dirty', 'last check before build')
 
 
-def test_dry(setup, capsys):
-    ctx, _ = setup
-    CTX.dry_run = True
-    epab.cmd._release._release(ctx)
-    out, _ = capsys.readouterr()
-    assert 'Skipping release; DRY RUN' in out
-
-
 def test_cleanup():
     config.PACKAGE_NAME.default = 'package'
     _create_dummy_release_artifacts()
     for artifact in RELEASE_ARTIFACTS:
         assert Path(artifact).exists()
-    CTX.dry_run = True
-    epab.cmd._release._clean()
-    for artifact in RELEASE_ARTIFACTS:
-        assert Path(artifact).exists()
-    CTX.dry_run = False
     epab.cmd._release._clean()
     for artifact in RELEASE_ARTIFACTS:
         assert not Path(artifact).exists()

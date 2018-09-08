@@ -6,7 +6,6 @@ from pathlib import Path
 import pytest
 
 import epab.utils
-from epab.core import CTX
 
 
 def test_ensure(repo):
@@ -15,8 +14,6 @@ def test_ensure(repo):
     os.chdir(str(subdir))
     with pytest.raises(SystemExit):
         repo.ensure()
-    CTX.dry_run = True
-    repo.ensure()
 
 
 def test_git_init(repo):
@@ -43,12 +40,6 @@ def test_push(dummy_git_repo):
     origin_repo.create_branch_and_checkout('develop')
     fork_repo.push()
     origin_repo.checkout('master')
-    assert fork_repo.get_sha() == origin_repo.get_sha()
-    CTX.dry_run = True
-    Path('caribou').write_text('plop')
-    fork_repo.commit('msg')
-    assert fork_repo.get_sha() == origin_repo.get_sha()
-    fork_repo.push()
     assert fork_repo.get_sha() == origin_repo.get_sha()
 
 
@@ -90,9 +81,6 @@ def test_dirty_repo(repo):
     repo.stage_all()
     assert repo.is_dirty(untracked=True)
     assert repo.is_dirty()
-    CTX.dry_run = True
-    assert not repo.is_dirty(untracked=True)
-    assert not repo.is_dirty()
 
 
 def test_status(repo):

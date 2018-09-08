@@ -59,15 +59,6 @@ def test_requirements_with_dev_packages():
     assert reqs_dev.read_text() == 'reqs==0.1.1'
 
 
-def test_requirement_dry_run():
-    CTX.dry_run = True
-    reqs = Path('requirements.txt')
-    reqs_dev = Path('requirements-dev.txt')
-    epab.cmd._reqs._write_reqs(False, False)
-    assert not reqs.exists()
-    assert not reqs_dev.exists()
-
-
 @pytest.mark.long
 def test_requirements_run_invocation():
     spy2(epab.utils.error)

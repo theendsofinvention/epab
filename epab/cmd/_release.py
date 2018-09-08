@@ -22,8 +22,6 @@ def _clean():
     Cleans up build dir
     """
     epab.utils.AV.info('Cleaning project directory...')
-    if CTX.dry_run:
-        return
     folders_to_cleanup = [
         '.eggs',
         'build',
@@ -111,10 +109,6 @@ def _release(ctx: click.Context):
     _print_build_info(current_branch, next_version)
 
     _check_dirty('initial check failed')
-
-    if CTX.dry_run:
-        epab.utils.AV.info('Skipping release; DRY RUN')
-        return
 
     epab.utils.AV.info(f'Running on commit: {CTX.repo.latest_commit()}')
 

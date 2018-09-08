@@ -40,7 +40,6 @@ def cli(dry_run, dirty, stash):
     epab.utils.info(f'EPAB {__version__}')
     epab.utils.info(f'Running in {os.getcwd()}')
 
-    CTX.dry_run = dry_run
     CTX.repo = epab.utils.Repo()
     CTX.repo.ensure()
     CTX.stash = stash

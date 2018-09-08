@@ -3,8 +3,6 @@ from pathlib import Path
 
 import pytest
 
-from epab.core import CTX
-
 
 def test_merge(repo):
     repo.create_branch_and_checkout('develop')
@@ -16,8 +14,6 @@ def test_merge(repo):
     repo.merge('develop')
     assert sha == repo.get_sha()
     assert short_sha == repo.get_short_sha()
-    CTX.dry_run = True
-    repo.merge('develop')
 
 
 def test_merge_dry_run(repo):
@@ -26,9 +22,6 @@ def test_merge_dry_run(repo):
     repo.commit('test')
     sha = repo.get_sha()
     repo.checkout('master')
-    CTX.dry_run = True
-    repo.merge('develop')
-    assert sha != repo.get_sha()
 
 
 def test_merge_dirty(repo):

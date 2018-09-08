@@ -5,8 +5,6 @@ import git
 import pytest
 from hypothesis import given, settings, strategies as st
 
-from epab.core import CTX
-
 
 def _dummy_commit(repo):
     Path('caribou').touch()
@@ -60,14 +58,6 @@ def test_commit_subset(repo, file_set):
         assert str(other) in untracked_files
 
 
-def test_commit_dry(repo):
-    sha = repo.get_sha()
-    CTX.dry_run = True
-    Path('test').touch()
-    repo.commit('msg')
-    assert repo.get_sha() == sha
-
-
 def test_commit_amend_new_message(repo):
     _dummy_commit(repo)
     assert len(list(repo.repo.iter_commits())) == 2
@@ -100,11 +90,6 @@ def test_commit_amend_with_tag(repo):
     assert repo.is_on_tag()
     assert len(list(repo.repo.iter_commits())) == 2
     repo.amend_commit(append_to_msg='msg')
-
-
-def test_amend_commit_dry_run(repo):
-    CTX.dry_run = True
-    repo.amend_commit(new_message='test')
 
 
 def test_amend_commit_add_files(repo):

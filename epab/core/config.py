@@ -3,6 +3,7 @@
 Handles EPAB's config file
 """
 
+import logging
 import pathlib
 
 import elib_config
@@ -93,6 +94,8 @@ def setup_config(epab_version: str):
 
     :param epab_version: installed version of EPAB as as string
     """
+    logger = logging.getLogger('EPAB')
+    logger.debug('setting up config')
     elib_config.ELIBConfig.setup(
         app_name='EPAB',
         app_version=epab_version,

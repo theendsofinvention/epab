@@ -14,7 +14,6 @@ class CTX:
     Global EPAB context
     """
     run_once: dict = {}
-    dry_run: bool = False
     known_executables: dict = {}
     repo: BaseRepo
     next_version: typing.Optional[str] = None
@@ -25,7 +24,6 @@ class CTX:
     @staticmethod
     def _reset():
         CTX.known_executables = {}
-        CTX.dry_run = False
         CTX.run_once = {}
         CTX.repo = None
         CTX.next_version = None

@@ -37,9 +37,6 @@ def _write_reqs(amend: bool = False, stage: bool = False):
         stage: stage changes
     """
     epab.utils.info('Writing requirements')
-    if CTX.dry_run:
-        epab.utils.info('Skipping requirements; DRY RUN')
-        return
 
     base_cmd = 'pipenv lock -r'
     _write_reqs_file(f'{base_cmd}', 'requirements.txt')
