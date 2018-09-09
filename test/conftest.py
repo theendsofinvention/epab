@@ -7,8 +7,9 @@ from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
-from mockito import unstub
+from mockito import unstub, verifyNoUnwantedInteractions, verifyStubbedInvocationsAreUsed
 
+from epab._logging import _setup_logging
 from epab.core import CTX, config
 
 
@@ -62,12 +63,23 @@ def _global_tear_down(tmpdir, monkeypatch):
     config.QT_RES_TGT.default = ''
     config.QUIET.default = False
     config.MYPY_ARGS.default = ''
-    current_dir = os.getcwd()
     folder = Path(tmpdir).absolute()
     os.chdir(folder)
     yield
+
+
+@pytest.fixture(autouse=True, scope='session')
+def _logging():
+    _setup_logging()
+
+
+@pytest.fixture(autouse=True)
+def _mockito():
     unstub()
-    os.chdir(current_dir)
+    yield
+    verifyNoUnwantedInteractions()
+    verifyStubbedInvocationsAreUsed()
+    unstub()
 
 
 @pytest.fixture(autouse=True)

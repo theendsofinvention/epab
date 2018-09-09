@@ -2,6 +2,7 @@
 """
 Click command to write the requirements
 """
+import logging
 import re
 import sys
 from pathlib import Path
@@ -12,11 +13,13 @@ import elib_run
 import epab.utils
 from epab.core import CTX
 
+LOGGER = logging.getLogger('EPAB')
+
 RE_REQ_PATTERN = re.compile(r'^.*==[\d\.]')
 
 
 def _write_reqs_file(cmd, file_path):
-    epab.utils.info(f'Writing {file_path}')
+    LOGGER.info('writing: %s', file_path)
     output = []
     raw_output, _ = elib_run.run(cmd, mute=True, filters='Courtesy Notice: ')
     # raw_output = raw_output.encode('utf8').replace(b'\r\n', b'\n').decode('utf8')
@@ -36,10 +39,7 @@ def _write_reqs(amend: bool = False, stage: bool = False):
         amend: amend last commit with changes
         stage: stage changes
     """
-    epab.utils.info('Writing requirements')
-    if CTX.dry_run:
-        epab.utils.info('Skipping requirements; DRY RUN')
-        return
+    LOGGER.info('writing requirements')
 
     base_cmd = 'pipenv lock -r'
     _write_reqs_file(f'{base_cmd}', 'requirements.txt')
@@ -65,6 +65,6 @@ def reqs(amend: bool = False, stage: bool = False):
     """
     changed_files = CTX.repo.changed_files()
     if 'requirements.txt' in changed_files or 'requirements-dev.txt' in changed_files:
-        epab.utils.error('Requirements have changed; cannot update them')
+        LOGGER.error('Requirements have changed; cannot update them')
         sys.exit(-1)
     _write_reqs(amend, stage)

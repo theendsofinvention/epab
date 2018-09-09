@@ -2,10 +2,9 @@
 """
 Convenience methods for AV
 """
-import elib_run
+import subprocess  # nosec
 
-import epab.utils
-from epab.core import CTX
+import elib_run
 
 
 class AV:
@@ -15,23 +14,12 @@ class AV:
 
     @staticmethod
     def _out(level, msg: str, details: str = None):
-        if CTX.appveyor:
-            if details:
-                elib_run.run(f'appveyor AddMessage "{msg}" -Category {level} -Details "{details}"', mute=True)
-            else:
-                elib_run.run(f'appveyor AddMessage "{msg}" -Category {level}', mute=True)
-            epab.utils.info(f'{level}: {msg} {details if details else ""}')
+        if level not in ('Information', 'Error'):
+            raise ValueError(f'unknown level: {level}')
+        if details:
+            subprocess.call(f'appveyor AddMessage "{msg}" -Category {level} -Details "{details}"')  # nosec
         else:
-            if level == 'Information':
-                method = epab.utils.info
-            elif level == 'Error':
-                method = epab.utils.error
-            else:
-                raise ValueError(f'unknown level: {level}')
-            if details:
-                method(f'{msg}: {details}')
-            else:
-                method(f'{msg}')
+            subprocess.call(f'appveyor AddMessage "{msg}" -Category {level}')  # nosec
 
     @staticmethod
     def info(msg: str, details: str = None):

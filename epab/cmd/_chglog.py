@@ -4,6 +4,7 @@ Updates CHANGELOG.rst with the latest commits
 """
 
 import contextlib
+import logging
 import re
 from pathlib import Path
 
@@ -12,6 +13,8 @@ import elib_run
 
 import epab.utils
 from epab.core import CTX, config
+
+LOGGER = logging.getLogger('EPAB')
 
 BOGUS_LINE_PATTERN = re.compile('^(- .*)(\n){2}', flags=re.MULTILINE)
 
@@ -70,11 +73,11 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, 
         stage: stage changes
     """
     if config.CHANGELOG_DISABLE():
-        epab.utils.info('Skipping changelog update as per config')
+        LOGGER.info('skipping changelog update as per config')
     else:
         epab.utils.ensure_exe('git')
         epab.utils.ensure_exe('gitchangelog')
-        epab.utils.info('Writing changelog')
+        LOGGER.info('writing changelog')
         if auto_next_version:
             next_version = epab.utils.get_next_version()
         with gitchangelog_config():
@@ -110,6 +113,6 @@ def chglog(amend: bool = False, stage: bool = False, next_version: str = None, a
     changelog_file_path: Path = config.CHANGELOG_FILE_PATH()
     changelog_file_name = changelog_file_path.name
     if changelog_file_name in changed_files:
-        epab.utils.error('Changelog has changed; cannot update it')
+        LOGGER.error('changelog has changed; cannot update it')
         exit(-1)
     _chglog(amend, stage, next_version, auto_next_version)

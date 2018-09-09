@@ -3,8 +3,11 @@
 Simple decorator to ensure a function is ran only once
 """
 
-import epab.utils
+import logging
+
 from epab.core import CTX
+
+LOGGER = logging.getLogger('EPAB')
 
 
 def run_once(func):
@@ -14,10 +17,10 @@ def run_once(func):
 
     def _inner(*args, **kwargs):
         if func.__name__ in CTX.run_once:
-            epab.utils.info(f'RUN_ONCE: skipping {func.__name__}')
+            LOGGER.info('skipping %s', func.__name__)
             return CTX.run_once[func.__name__]
 
-        epab.utils.info(f'RUN_ONCE: running {func.__name__}')
+        LOGGER.info('running: %s', func.__name__)
         result = func(*args, **kwargs)
         CTX.run_once[func.__name__] = result
         return result

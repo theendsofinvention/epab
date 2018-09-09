@@ -2,6 +2,7 @@
 """
 Creates a wheel from a Github repo
 """
+import logging
 import os
 import shutil
 import sys
@@ -16,14 +17,14 @@ import epab.utils
 from epab import __version__
 from epab.core import CTX, config
 
+LOGGER = logging.getLogger('EPAB')
+
 
 def _clean():
     """
     Cleans up build dir
     """
-    epab.utils.AV.info('Cleaning project directory...')
-    if CTX.dry_run:
-        return
+    LOGGER.info('Cleaning project directory...')
     folders_to_cleanup = [
         '.eggs',
         'build',
@@ -31,7 +32,7 @@ def _clean():
     ]
     for folder in folders_to_cleanup:
         if os.path.exists(folder):
-            epab.utils.AV.info(f'\tremoving: {folder}')
+            LOGGER.info('\tremoving: %s', folder)
             shutil.rmtree(folder)
 
 
@@ -44,19 +45,19 @@ def _copy_artifacts():
                 src = str(artifact.absolute())
                 dst = str(folder.absolute())
                 shutil.copy(src, dst)
-                epab.utils.AV.info('Copying artifact', f'{src} -> {dst}')
+                LOGGER.info('copying artifact: %s', f'{src} -> {dst}')
 
 
 def _check_dirty(reason: str):
-    epab.utils.AV.info('Checking repo')
+    LOGGER.info('checking repo')
     if CTX.repo.is_dirty(untracked=True):
-        epab.utils.AV.error('Repository is dirty', reason)
+        LOGGER.error('repository is dirty: %s', reason)
         sys.exit(1)
 
 
 def _remove_av_artifacts():
     if CTX.appveyor:
-        epab.utils.info(f'Running on APPVEYOR')
+        LOGGER.info(f'running on APPVEYOR')
         if Path('appveyor.yml').exists():
             Path('appveyor.yml').unlink()
         CTX.repo.checkout(os.getenv('APPVEYOR_REPO_BRANCH'))
@@ -69,35 +70,35 @@ def _print_build_info(current_branch: str, next_version: str):
         f'Latest tag      -> {CTX.repo.get_latest_tag()}',
         f'Next version    -> {next_version}',
     ]
-    epab.utils.AV.info('Build info', ','.join(info))
+    LOGGER.info('build info: %s', ','.join(info))
 
 
 def _run_linters(ctx):
     ctx.invoke(epab.linters.lint)
     _check_dirty('linters produced artifacts')
-    epab.utils.AV.info('Linters OK')
+    LOGGER.info('linters OK')
 
 
 def _run_tests(ctx):
     ctx.invoke(epab.cmd.pytest, long=True)
-    epab.utils.AV.info('Tests OK')
+    LOGGER.info('tests OK')
 
 
 def _create_wheel():
     python_exe = sys.executable.replace('\\', '/')
     elib_run.run(f'{python_exe} setup.py bdist_wheel')
-    epab.utils.AV.info('Setup OK')
+    LOGGER.info('setup OK')
 
 
 def _upload_to_twine():
     elib_run.run(f'twine upload dist/* --skip-existing', mute=True)
-    epab.utils.AV.info('Twine OK')
+    LOGGER.info('twine OK')
 
 
 def _update_av_build_name(next_version):
     build_version = f'{next_version}-{os.getenv("APPVEYOR_BUILD_NUMBER")}-{os.getenv("APPVEYOR_REPO_COMMIT")}'
     elib_run.run(f'appveyor UpdateBuild -Version {build_version}')
-    epab.utils.AV.info('Build version', build_version)
+    LOGGER.info('build version: %s', build_version)
 
 
 def _release(ctx: click.Context):
@@ -112,11 +113,7 @@ def _release(ctx: click.Context):
 
     _check_dirty('initial check failed')
 
-    if CTX.dry_run:
-        epab.utils.AV.info('Skipping release; DRY RUN')
-        return
-
-    epab.utils.AV.info(f'Running on commit: {CTX.repo.latest_commit()}')
+    LOGGER.info('running on commit: %s', CTX.repo.latest_commit())
 
     _run_linters(ctx)
 

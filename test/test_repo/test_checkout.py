@@ -3,8 +3,6 @@ from pathlib import Path
 
 import pytest
 
-from epab.core import CTX
-
 
 def test_checkout(repo):
     repo.checkout('master')
@@ -34,7 +32,4 @@ def test_checkout_dry(repo):
     repo.create_branch_and_checkout('develop')
     assert repo.get_current_branch() == 'develop'
     repo.checkout('master')
-    assert repo.get_current_branch() == 'master'
-    CTX.dry_run = True
-    repo.checkout('develop')
     assert repo.get_current_branch() == 'master'

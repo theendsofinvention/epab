@@ -197,8 +197,15 @@ class BaseRepo(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
-    def _add_skip_ci_to_commit_msg(message):
-        pass
+    def add_skip_ci_to_commit_msg(message):
+        """
+        Adds a "[skip ci]" tag at the end of a (possibly multi-line) commit message
+
+        :param message: commit message
+        :type message: str
+        :return: edited commit message
+        :rtype: str
+        """
 
     @staticmethod
     @abstractmethod

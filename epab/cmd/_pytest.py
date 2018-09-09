@@ -2,6 +2,7 @@
 """
 Manages the test suite
 """
+import logging
 import os
 import shutil
 import webbrowser
@@ -13,6 +14,7 @@ import elib_run
 import epab.utils
 from epab.core import CTX, config
 
+LOGGER = logging.getLogger('EPAB')
 PYTEST_OPTIONS = ' '.join([
     '--cov={package}',
     '--cov-report xml',
@@ -87,12 +89,12 @@ class _Coverage:
         Uploads the coverage to Codacy
         """
         if Path('coverage.xml').exists():
-            epab.utils.AV.info('Uploading coverage to Codacy')
+            LOGGER.info('uploading coverage to Codacy')
             elib_run.run('pip install --upgrade codacy-coverage')
             elib_run.run('python-codacy-coverage -r coverage.xml')
-            epab.utils.AV.info('Codacy coverage OK')
+            LOGGER.info('codacy coverage OK')
         else:
-            epab.utils.AV.error('"coverage.xml" not found, skipping codacy coverage')
+            LOGGER.error('coverage.xml not found, skipping codacy coverage')
 
     # Disabled for the time being
     # @staticmethod
@@ -102,17 +104,17 @@ class _Coverage:
     #     """
     #     if os.getenv('SCRUT_TOK', False):
     #         if Path('coverage.xml').exists():
-    #             epab.utils.AV.info('Uploading coverage to Scrutinizer')
+    #             LOGGER.info('Uploading coverage to Scrutinizer')
     #             elib_run.run('pip install git+https://github.com/etcher-vault/ocular.py.git#egg=ocular')
     #             token = os.getenv('SCRUT_TOK')
     #             elib_run.run(
     #                 f'ocular --access-token "{token}" --data-file "coverage.xml" --config-file ".coveragerc"'
     #             )
-    #             epab.utils.AV.info('Scrutinizer coverage OK')
+    #             LOGGER.info('Scrutinizer coverage OK')
     #         else:
-    #             epab.utils.AV.error('"coverage.xml" not found, skipping ocular coverage')
+    #             LOGGER.error('"coverage.xml" not found, skipping ocular coverage')
     #     else:
-    #         epab.utils.AV.error('no "SCRUT_TOK" in environment, skipping ocular coverage')
+    #         LOGGER.error('no "SCRUT_TOK" in environment, skipping ocular coverage')
 
     @staticmethod
     def remove_config_file():
@@ -133,7 +135,7 @@ def upload_coverage():
         # _Coverage.upload_coverage_to_scrutinizer()
         _Coverage.upload_coverage_to_codacy()
     else:
-        epab.utils.info('skipping coverage upload')
+        LOGGER.info('skipping coverage upload')
 
 
 def pytest_options():
@@ -148,13 +150,13 @@ def pytest_options():
 
 @epab.utils.run_once
 def _pytest(test, *, long, show, exitfirst, last_failed, failed_first, rm_cov):
-    epab.utils.info('Running test suite')
+    LOGGER.info('running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'
     _Coverage.install()
     cmd = f'pytest {test}'
 
     if CTX.appveyor:
-        epab.utils.info('running on AV; VCR recording disabled')
+        LOGGER.debug('running on AV; VCR recording disabled')
         cmd = f'{cmd} --vcr-record=none'
 
     if CTX.appveyor and config.TEST_AV_RUNNER_OPTIONS():

@@ -4,6 +4,7 @@
 """
 Collections of tools to build a python app
 """
+import logging
 import os
 import sys
 
@@ -13,9 +14,12 @@ import epab.cmd
 import epab.linters
 import epab.utils
 from epab import __version__
+from epab._logging import _setup_logging
 from epab.core import CTX, config
 
 config.setup_config(__version__)
+
+LOGGER = logging.getLogger('EPAB')
 
 
 @click.group()
@@ -25,22 +29,20 @@ config.setup_config(__version__)
 @click.option('-nv', '--next-version',
               is_flag=True, is_eager=True, expose_value=False, callback=epab.cmd.next_version, default=False,
               help='Print next version and exit')
-@click.option('-n', '--dry-run', is_flag=True, default=False, help='Dry run')
 @click.option('-d', '--dirty', is_flag=True, default=False, help='Allow dirty repository')
 @click.option('-s', '--stash', 'stash', is_flag=True, default=False, help='No stashing')
-def cli(dry_run, dirty, stash):
+def cli(dirty, stash):
     """
     This is a tool that handles all the tasks to build a Python application
 
     This tool is installed as a setuptools entry point, which means it should be accessible from your terminal once
     this application is installed in develop mode.
-
-    Just activate your venv and type the following in whatever shell you fancy:
     """
-    epab.utils.info(f'EPAB {__version__}')
-    epab.utils.info(f'Running in {os.getcwd()}')
+    _setup_logging()
 
-    CTX.dry_run = dry_run
+    LOGGER.info('EPAB %s', __version__)
+    LOGGER.info('Running in %s', os.getcwd())
+
     CTX.repo = epab.utils.Repo()
     CTX.repo.ensure()
     CTX.stash = stash
@@ -58,14 +60,14 @@ def cli(dry_run, dirty, stash):
     epab.utils.add_to_gitignore('*.egg-info/')
     epab.utils.add_to_gitignore('.mypy_cache')
     if not dirty and CTX.repo.is_dirty():
-        click.secho('Repository is dirty', err=True, fg='red')
+        LOGGER.error('Repository is dirty')
         sys.exit(-1)
 
 
 def _pre_push(ctx: click.core.Context, push: bool):
     if not sys.argv[0].endswith('__main__.py'):
-        epab.utils.error('This command cannot be run as a script. Use this instead:\n\n\t'
-                         'python -m epab (-d) pre_push')
+        LOGGER.error('This command cannot be run as a script. Use this instead:\n\n\t'
+                     'python -m epab (-d) pre_push')
         sys.exit(1)
 
     ctx.invoke(epab.cmd.pipenv_update)

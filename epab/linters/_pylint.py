@@ -24,7 +24,7 @@ DISABLE = "-d disable=logging-format-interpolation,fixme,backtick,long-suffix,ra
 locally-disabled,locally-enabled,suppressed-message,coerce-method,delslice-method,getslice-method,setslice-method,\
 next-method-called,too-many-arguments,too-few-public-methods,reload-builtin,oct-method,hex-method,nonzero-method,\
 cmp-method,using-cmp-argument,eq-without-hash,exception-message-attribute,sys-max-int,bad-python3-import,\
-logging-format-interpolation,wrong-import-order,logging-fstring-interpolation,"
+wrong-import-order,"
 EVALUATION = '--evaluation="10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)"'
 OUTPUT = '--output-format=text'
 SCORE = '--score=n'
@@ -35,7 +35,6 @@ BASE_CMD = ' '.join((IGNORE, LINE_LENGTH, JOBS, PERSISTENCE, INIT_HOOK, DISABLE,
 def _pylint(src, reports):
     if src is None:
         src = f'./{config.PACKAGE_NAME()}'
-    epab.utils.error(Path(src).absolute())
     cmd = f'pylint {src}'
     if reports:
         reports = '--reports=y'
