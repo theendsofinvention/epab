@@ -76,7 +76,9 @@ def _freeze(version: str):
     _install_pyinstaller()
     cmd = BASE_CMD + [config.PACKAGE_NAME(), '--onefile', config.FREEZE_ENTRY_POINT()]
     for data_file in config.FREEZE_DATA_FILES():
+        LOGGER.debug('appending data file: %s', data_file)
         cmd.append(f'--add-data "{data_file}"')
+    LOGGER.info('freezing %s', config.PACKAGE_NAME)
     elib_run.run(' '.join(cmd), timeout=300)
     elib_run.run('pipenv clean', failure_ok=True)
     LOGGER.info('freeze OK')
