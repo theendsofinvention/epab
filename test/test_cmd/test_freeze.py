@@ -24,7 +24,7 @@ def test_freeze():
     when(freeze)._patch('version')
 
     expect(elib_run).run('pipenv clean', failure_ok=True)
-    expect(elib_run).run(contains('pyinstaller --log-level=WARN'))
+    expect(elib_run).run(contains('pyinstaller --log-level=WARN'), timeout=300)
 
     freeze._freeze('version')
 
@@ -74,8 +74,8 @@ def test_install_pyinstaller_installed():
 def test_install_pyinstaller_not_installed():
     when(elib_run).run('pip install pyinstaller==3.3.1')
     when(elib_run).run('pyinstaller --version') \
-        .thenRaise(epab.exc.ExecutableNotFoundError) \
-        .thenReturn(('version   ', 0))
+        .thenRaise(elib_run.ExecutableNotFoundError('pyinstaller')) \
+        .thenReturn(('version', 0))
 
     freeze._install_pyinstaller()
 
@@ -102,6 +102,10 @@ def test_with_data_files():
     when(freeze)._install_pyinstaller()
     when(freeze)._patch('version')
     expect(elib_run).run('pipenv clean', failure_ok=True)
-    expect(elib_run).run(and_(contains('--add-data "file1"'), contains('--add-data "file2"')))
+    expect(elib_run).run(and_(
+        contains('pyinstaller --log-level=WARN'),
+        contains('--add-data "file1"'),
+        contains('--add-data "file2"'))
+        , timeout=300)
 
     freeze._freeze('version')
