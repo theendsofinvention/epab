@@ -2,6 +2,8 @@
 """
 Runs all linters
 """
+import logging
+
 import click
 
 import epab.utils
@@ -13,15 +15,17 @@ from ._pep8 import pep8
 from ._pylint import pylint
 from ._safety import safety
 
-
 # from epab.core import CTX
 # from ._sort import sort
+
+
+LOGGER = logging.getLogger('EPAB')
 
 
 @epab.utils.run_once
 @epab.utils.stashed
 def _lint(ctx: click.Context, amend: bool = False, stage: bool = False):
-    epab.utils.info('Running all linters')
+    LOGGER.info('running all linters')
     ctx.invoke(safety)
     ctx.invoke(bandit)
     ctx.invoke(pytest_dead_fixtures)

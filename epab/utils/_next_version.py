@@ -3,11 +3,13 @@
 Computes next version
 """
 import datetime
+import logging
 import re
 import typing
 
-import epab.utils
 from epab.core import CTX
+
+LOGGER = logging.getLogger('EPAB')
 
 
 class Tag:
@@ -129,15 +131,15 @@ def get_next_version() -> str:
     """
     Returns: next version for this Git repository
     """
-    epab.utils.info('computing next version')
+    LOGGER.info('computing next version')
     should_be_alpha = bool(CTX.repo.get_current_branch() != 'master')
-    epab.utils.info(f'alpha: {should_be_alpha}')
+    LOGGER.info('alpha: %s', should_be_alpha)
     calver = _get_calver()
-    epab.utils.info(f'current calver: {calver}')
+    LOGGER.info('current calver: %s', calver)
     calver_tags = _get_current_calver_tags(calver)
-    epab.utils.info(f'found {len(calver_tags)} matching tags for this calver')
+    LOGGER.info('found %s matching tags for this calver', len(calver_tags))
     next_stable_version = _next_stable_version(calver, calver_tags)
-    epab.utils.info(f'next stable version: {next_stable_version}')
+    LOGGER.info('next stable version: %s', next_stable_version)
     if should_be_alpha:
         return _next_alpha_version(next_stable_version, calver_tags)
 

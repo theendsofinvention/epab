@@ -4,6 +4,7 @@ Freeze package into exe
 """
 import datetime
 import functools
+import logging
 from pathlib import Path
 
 import certifi
@@ -15,6 +16,7 @@ import epab.exc
 import epab.utils
 from epab.core import CTX, config
 
+LOGGER = logging.getLogger('EPAB')
 VERPATCH_PATH = epab.utils.resource_path('epab', './vendor/verpatch.exe')
 ICO = epab.utils.resource_path('epab', './vendor/app.ico')
 BASE_CMD = [
@@ -31,12 +33,12 @@ BASE_CMD = [
 
 
 def _install_pyinstaller():
-    epab.utils.info('checking PyInstaller installation')
+    LOGGER.info('checking PyInstaller installation')
     _get_version = functools.partial(elib_run.run, 'pyinstaller --version')
     try:
         _get_version()
     except epab.exc.ExecutableNotFoundError:
-        epab.utils.AV.info('Installing PyInstaller')
+        LOGGER.info('installing PyInstaller')
         elib_run.run('pip install pyinstaller==3.3.1')
         _get_version()
 
@@ -64,12 +66,12 @@ def _patch(version: str):
         '/langid', '1033',
     ]
     elib_run.run(' '.join(cmd))
-    epab.utils.AV.info('Patch OK')
+    LOGGER.info('patch OK')
 
 
 def _freeze(version: str):
     if not config.FREEZE_ENTRY_POINT():
-        epab.utils.AV.error('No entry point define, skipping freeze')
+        LOGGER.error('no entry point defined, skipping freeze')
         return
     _install_pyinstaller()
     cmd = BASE_CMD + [config.PACKAGE_NAME(), '--onefile', config.FREEZE_ENTRY_POINT()]
@@ -77,7 +79,7 @@ def _freeze(version: str):
         cmd.append(f'--add-data "{data_file}"')
     elib_run.run(' '.join(cmd))
     elib_run.run('pipenv clean', failure_ok=True)
-    epab.utils.AV.info('Freeze OK')
+    LOGGER.info('freeze OK')
     _patch(version)
 
 

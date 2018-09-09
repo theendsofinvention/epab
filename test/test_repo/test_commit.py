@@ -130,9 +130,9 @@ def test_commit_amend_appveyor(repo, monkeypatch):
 
 def test_make_skip_ci_commit(repo):
     message = 'test'
-    assert repo._add_skip_ci_to_commit_msg(message) == 'test [skip ci]'
+    assert repo.add_skip_ci_to_commit_msg(message) == 'test [skip ci]'
     message = 'test\n\ncaribou'
-    assert repo._add_skip_ci_to_commit_msg(message) == 'test [skip ci]\n\ncaribou'
+    assert repo.add_skip_ci_to_commit_msg(message) == 'test [skip ci]\n\ncaribou'
 
 
 def test__sanitize_amend_commit_message(repo):

@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import itertools
+import subprocess
 from pathlib import Path
 
 import elib_run
@@ -50,6 +51,8 @@ def test_lint(amend_stage):
 def test_lint_appveyor(amend_stage):
     amend, stage = amend_stage
     CTX.appveyor = True
+    when(subprocess).call('appveyor AddMessage "running: _lint" -Category Information')
+    when(subprocess).call('appveyor AddMessage "running all linters" -Category Information')
     context = mock()
     _lint._lint(context, amend, stage)
     _check_invocations(context, amend, stage)

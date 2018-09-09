@@ -3,11 +3,15 @@
 Updates CHANGELOG.rst with the latest commits
 """
 
+import logging
+
 import click
 import elib_run
 
 import epab.utils
 from epab.core import config
+
+LOGGER = logging.getLogger('EPAB')
 
 
 @epab.utils.run_once
@@ -18,7 +22,7 @@ def _compile_qt_resources():
     """
     if config.QT_RES_SRC():
         epab.utils.ensure_exe('pyrcc5')
-        epab.utils.info('Compiling Qt resources')
+        LOGGER.info('compiling Qt resources')
         elib_run.run(f'pyrcc5 {config.QT_RES_SRC()} -o {config.QT_RES_TGT()}')
 
 

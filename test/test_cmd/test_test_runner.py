@@ -2,6 +2,7 @@
 
 import os
 import pathlib
+import subprocess
 import webbrowser
 from pathlib import Path
 
@@ -9,6 +10,7 @@ import elib_run
 import pytest
 from mockito import verifyStubbedInvocationsAreUsed, when
 
+from epab._logging import _setup_logging
 from epab.cmd._pytest import _Coverage, _pytest, pytest_options
 from epab.core import CTX, config
 
@@ -53,29 +55,31 @@ def test_cmd():
     verifyStubbedInvocationsAreUsed()
 
 
-def test_cmd_with_coverage(monkeypatch):
+def test_cmd_with_coverage(monkeypatch, caplog):
+    caplog.set_level(10)
     CTX.appveyor = True
     monkeypatch.setenv('SCRUT_TOK', 'test')
     Path('coverage.xml').touch()
-    when(elib_run).run('appveyor AddMessage "Uploading coverage to Codacy" -Category Information', mute=True)
-    when(elib_run).run('appveyor AddMessage "Codacy coverage OK" -Category Information', mute=True)
+    when(subprocess).call('appveyor AddMessage "running: _pytest" -Category Information')
+    when(subprocess).call('appveyor AddMessage "running test suite" -Category Information')
+    when(subprocess).call('appveyor AddMessage "uploading coverage to Codacy" -Category Information')
+    when(subprocess).call('appveyor AddMessage "codacy coverage OK" -Category Information')
     when(elib_run).run(f'pytest test --vcr-record=none --long {pytest_options()}', timeout=_TIMEOUT)
     when(elib_run).run('pip install --upgrade codacy-coverage')
     when(elib_run).run('python-codacy-coverage -r coverage.xml')
     _pytest('test', **DEFAULT_OPTS)
-    verifyStubbedInvocationsAreUsed()
+    assert 'uploading coverage to Codacy' in caplog.text
+    assert 'codacy coverage OK' in caplog.text
 
 
-def test_cmd_with_coverage_no_xml(monkeypatch):
+def test_cmd_with_coverage_no_xml(monkeypatch, caplog):
+    _setup_logging()
     CTX.appveyor = True
     monkeypatch.setenv('SCRUT_TOK', 'test')
-    when(elib_run).run(
-        'appveyor AddMessage ""coverage.xml" not found, skipping codacy coverage" -Category Error',
-        mute=True
-    )
+    when(subprocess).call(...)
     when(elib_run).run(f'pytest test --vcr-record=none --long {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
-    verifyStubbedInvocationsAreUsed()
+    assert 'coverage.xml not found, skipping codacy coverage' in caplog.text
 
 
 def test_long():
@@ -120,32 +124,34 @@ def test_config_failed_first():
     verifyStubbedInvocationsAreUsed()
 
 
-def test_output(capsys):
+def test_output(capsys, caplog):
+    caplog.set_level(10)
     when(elib_run).run(f'pytest test {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
     out, err = capsys.readouterr()
-    assert out == 'EPAB: RUN_ONCE: running _pytest\nEPAB: Running test suite\nEPAB: skipping coverage upload\n'
+    assert 'running: _pytest' in caplog.text
+    assert 'running test suite' in caplog.text
+    assert 'skipping coverage upload' in caplog.text
+    # assert 'running _pytest\nEPAB: Running test suite\nEPAB: skipping coverage upload\n' in out
     assert err == ''
-    verifyStubbedInvocationsAreUsed()
 
 
-def test_output_on_appveyor(capsys):
+def test_output_on_appveyor(caplog):
     CTX.appveyor = True
+    when(subprocess).call('appveyor AddMessage "running: _pytest" -Category Information')
+    when(subprocess).call('appveyor AddMessage "running test suite" -Category Information')
+    when(subprocess).call('appveyor AddMessage "coverage.xml not found, skipping codacy coverage" -Category Error')
     when(elib_run, strict=False).run(f'pytest test --vcr-record=none --long {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
-    out, err = capsys.readouterr()
-    assert 'RUN_ONCE: running _pytest' in out
-    assert 'EPAB: Running test suite' in out
-    assert 'EPAB: Error: "coverage.xml" not found, skipping codacy coverage' in out
-    assert err == ''
-    verifyStubbedInvocationsAreUsed()
+    assert 'running: _pytest' in caplog.text
+    assert 'running test suite' in caplog.text
+    assert 'coverage.xml not found, skipping codacy coverage' in caplog.text
 
 
 def test_config_show():
     config.TEST_RUNNER_OPTIONS.default = '-s'
     when(elib_run).run(f'pytest test -s {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
-    verifyStubbedInvocationsAreUsed()
 
 
 def test_config_appveyor(monkeypatch):
@@ -154,7 +160,6 @@ def test_config_appveyor(monkeypatch):
     monkeypatch.setenv('APPVEYOR', 'test')
     CTX.run_once = {}
     _pytest('test', **DEFAULT_OPTS)
-    verifyStubbedInvocationsAreUsed()
 
 
 def test_remove_coverage_dir_disabled():
