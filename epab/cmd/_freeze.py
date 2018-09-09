@@ -37,7 +37,7 @@ def _install_pyinstaller():
     _get_version = functools.partial(elib_run.run, 'pyinstaller --version')
     try:
         _get_version()
-    except epab.exc.ExecutableNotFoundError:
+    except elib_run.ExecutableNotFoundError:
         LOGGER.info('installing PyInstaller')
         elib_run.run('pip install pyinstaller==3.3.1')
         _get_version()
