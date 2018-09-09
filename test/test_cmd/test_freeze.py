@@ -105,7 +105,6 @@ def test_with_data_files():
     expect(elib_run).run(and_(
         contains('pyinstaller --log-level=WARN'),
         contains('--add-data "file1"'),
-        contains('--add-data "file2"'))
-        , timeout=300)
+        contains('--add-data "file2"')), timeout=300)
 
     freeze._freeze('version')
