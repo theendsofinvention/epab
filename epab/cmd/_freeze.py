@@ -77,7 +77,7 @@ def _freeze(version: str):
     cmd = BASE_CMD + [config.PACKAGE_NAME(), '--onefile', config.FREEZE_ENTRY_POINT()]
     for data_file in config.FREEZE_DATA_FILES():
         cmd.append(f'--add-data "{data_file}"')
-    elib_run.run(' '.join(cmd))
+    elib_run.run(' '.join(cmd), timeout=300)
     elib_run.run('pipenv clean', failure_ok=True)
     LOGGER.info('freeze OK')
     _patch(version)
