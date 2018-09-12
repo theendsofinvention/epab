@@ -39,7 +39,7 @@ def _install_pyinstaller():
         _get_version()
     except elib_run.ExecutableNotFoundError:
         LOGGER.info('installing PyInstaller')
-        elib_run.run('pip install pyinstaller==3.3.1')
+        elib_run.run('pip install pyinstaller==3.4')
         _get_version()
 
 
@@ -74,7 +74,7 @@ def _freeze(version: str):
         LOGGER.error('no entry point defined, skipping freeze')
         return
     _install_pyinstaller()
-    cmd = BASE_CMD + [config.PACKAGE_NAME(), '--onefile', config.FREEZE_ENTRY_POINT()]
+    cmd = BASE_CMD + [config.PACKAGE_NAME(), '--noupx --onefile', config.FREEZE_ENTRY_POINT()]
     for data_file in config.FREEZE_DATA_FILES():
         LOGGER.debug('appending data file: %s', data_file)
         cmd.append(f'--add-data "{data_file}"')

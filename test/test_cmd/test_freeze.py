@@ -72,7 +72,7 @@ def test_install_pyinstaller_installed():
 
 
 def test_install_pyinstaller_not_installed():
-    when(elib_run).run('pip install pyinstaller==3.3.1')
+    when(elib_run).run('pip install pyinstaller==3.4')
     when(elib_run).run('pyinstaller --version') \
         .thenRaise(elib_run.ExecutableNotFoundError('pyinstaller')) \
         .thenReturn(('version', 0))
