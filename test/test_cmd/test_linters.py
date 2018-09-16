@@ -22,6 +22,8 @@ def _all():
 
 
 def _check_invocations(context, amend, stage):
+    assert isinstance(amend, bool)
+    assert isinstance(stage, bool)
     verify(context).invoke(_safety.safety)
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
@@ -29,7 +31,7 @@ def _check_invocations(context, amend, stage):
     verify(context).invoke(_bandit.bandit)
     verify(context).invoke(_dead_fixtures.pytest_dead_fixtures)
     # verify(context).invoke(_sort.sort, amend=amend, stage=stage)
-    verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
+    # verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
     verifyNoMoreInteractions(context)
 
 
@@ -52,7 +54,9 @@ def test_lint_appveyor(amend_stage):
     amend, stage = amend_stage
     CTX.appveyor = True
     when(subprocess).call('appveyor AddMessage "running: _lint" -Category Information')
-    when(subprocess).call('appveyor AddMessage "running all linters" -Category Information')
+    when(subprocess).call(
+        f'appveyor AddMessage "running all linters; stage: {stage}; amend: {amend}" -Category Information'
+    )
     context = mock()
     _lint._lint(context, amend, stage)
     _check_invocations(context, amend, stage)

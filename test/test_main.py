@@ -104,13 +104,13 @@ def test_no_stash():
     assert not CTX.stash
 
 
-def test_pep8():
-    repo = mock()
-    when(repo).ensure()
-    when(epab.utils).Repo(...).thenReturn(repo)
-    when(repo).is_dirty().thenReturn(False)
-    when(_pep8)._pep8(...)
-    _check_runner_result(['pep8'])
+# def test_pep8():
+#     repo = mock()
+#     when(repo).ensure()
+#     when(epab.utils).Repo(...).thenReturn(repo)
+#     when(repo).is_dirty().thenReturn(False)
+#     when(_pep8)._pep8(...)
+#     _check_runner_result(['pep8'])
 
 
 def test_flake8():
