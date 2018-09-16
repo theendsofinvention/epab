@@ -7,7 +7,6 @@ from pathlib import Path
 import click
 import elib_run
 
-from epab import utils
 from epab.core import config
 
 

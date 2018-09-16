@@ -21,7 +21,6 @@ config.setup_config(__version__)
 
 LOGGER = logging.getLogger('EPAB')
 
-
 _GIT_IGNORE = (
     '.idea/',
     '.cache',
