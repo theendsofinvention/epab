@@ -25,8 +25,7 @@ LOGGER = logging.getLogger('EPAB')
 @epab.utils.run_once
 @epab.utils.stashed
 def _lint(ctx: click.Context, amend: bool = False, stage: bool = False):
-    _ = stage and amend
-    LOGGER.info('running all linters')
+    LOGGER.info('running all linters; stage: %s; amend: %s', stage, amend)
     ctx.invoke(safety)
     ctx.invoke(bandit)
     ctx.invoke(pytest_dead_fixtures)

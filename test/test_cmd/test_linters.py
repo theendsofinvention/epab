@@ -54,7 +54,9 @@ def test_lint_appveyor(amend_stage):
     amend, stage = amend_stage
     CTX.appveyor = True
     when(subprocess).call('appveyor AddMessage "running: _lint" -Category Information')
-    when(subprocess).call('appveyor AddMessage "running all linters" -Category Information')
+    when(subprocess).call(
+        f'appveyor AddMessage "running all linters; stage: {stage}; amend: {amend}" -Category Information'
+    )
     context = mock()
     _lint._lint(context, amend, stage)
     _check_invocations(context, amend, stage)
