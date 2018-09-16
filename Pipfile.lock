@@ -159,9 +159,9 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:9acc089309467ff79c9d277c431838313dac039385686494a8ea7d6ce51508f3"
+                "sha256:709d9a6d9ec309968e17146056dbd6f6a9e2ff435dce30768772ad06f172d38f"
             ],
-            "version": "==2018.9.2.1"
+            "version": "==2018.9.16.1"
         },
         "elib-run": {
             "hashes": [
@@ -180,10 +180,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:ea7cfd3aeb1544732d08bd9cfba40c5b78e3a91e17b1a0698ab81bfc5554c628",
-                "sha256:f6d67f04abfb2b4bea7afc7fa6c18cf4c523a67956e455668be9ae42bccc21ad"
+                "sha256:74b32991f8e08e4f2f84858b919eca253becfaec4b3fa5fcff7fdbd70d5d78b1",
+                "sha256:c2ce42dd8361e6d392276006d757532562463c8642b1086709584200b7fd7758"
             ],
-            "version": "==0.9.0"
+            "markers": "python_version >= '2.7' and python_version != '3.1.*' and python_version != '3.0.*' and python_version != '3.2.*'",
+            "version": "==0.9.1"
         },
         "flake8": {
             "hashes": [
@@ -224,12 +225,12 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:0b6d0c348fa6ebc475626571dff0eb5cf118e098cb25a54c82d40c303ddae4cd",
-                "sha256:57329f7e361c1e2ddded5a759cc0347a245269cd47345322b818b16680f47bf0",
-                "sha256:7112e161bdc615fe8a9912887eded3a3c77708086082d8817a29a322a34fd3f1"
+                "sha256:68eb97e15faab2f9e2245a0626be3bd4d5a805162a6aa7b581f711f7ac8347c6",
+                "sha256:8b0ccf78c66637de6805071686183d6ac6f4ccfd032c92325f50074f8c26fdfb",
+                "sha256:e986622aac608edc234ac98df1c52c56a294900fee02d60270d58a74711a8e63"
             ],
             "index": "pypi",
-            "version": "==3.71.3"
+            "version": "==3.71.6"
         },
         "idna": {
             "hashes": [
@@ -687,7 +688,7 @@
                 "sha256:f17495e6fe3d377e3faac68121caef6f974fcb9e046bc075bcff40d8e5cc69a4",
                 "sha256:f85900b9cca0c67767bb61b2b9bd53208aaa7373dae633dbe25d179b4bf38aa7"
             ],
-            "markers": "python_version >= '3.4'",
+            "markers": "python_version >= '3.4.1'",
             "version": "==1.2.6"
         }
     },
@@ -834,9 +835,9 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:9acc089309467ff79c9d277c431838313dac039385686494a8ea7d6ce51508f3"
+                "sha256:709d9a6d9ec309968e17146056dbd6f6a9e2ff435dce30768772ad06f172d38f"
             ],
-            "version": "==2018.9.2.1"
+            "version": "==2018.9.16.1"
         },
         "elib-run": {
             "hashes": [
@@ -859,10 +860,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:ea7cfd3aeb1544732d08bd9cfba40c5b78e3a91e17b1a0698ab81bfc5554c628",
-                "sha256:f6d67f04abfb2b4bea7afc7fa6c18cf4c523a67956e455668be9ae42bccc21ad"
+                "sha256:74b32991f8e08e4f2f84858b919eca253becfaec4b3fa5fcff7fdbd70d5d78b1",
+                "sha256:c2ce42dd8361e6d392276006d757532562463c8642b1086709584200b7fd7758"
             ],
-            "version": "==0.9.0"
+            "markers": "python_version >= '2.7' and python_version != '3.1.*' and python_version != '3.0.*' and python_version != '3.2.*'",
+            "version": "==0.9.1"
         },
         "flake8": {
             "hashes": [
@@ -903,12 +905,12 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:0b6d0c348fa6ebc475626571dff0eb5cf118e098cb25a54c82d40c303ddae4cd",
-                "sha256:57329f7e361c1e2ddded5a759cc0347a245269cd47345322b818b16680f47bf0",
-                "sha256:7112e161bdc615fe8a9912887eded3a3c77708086082d8817a29a322a34fd3f1"
+                "sha256:68eb97e15faab2f9e2245a0626be3bd4d5a805162a6aa7b581f711f7ac8347c6",
+                "sha256:8b0ccf78c66637de6805071686183d6ac6f4ccfd032c92325f50074f8c26fdfb",
+                "sha256:e986622aac608edc234ac98df1c52c56a294900fee02d60270d58a74711a8e63"
             ],
             "index": "pypi",
-            "version": "==3.71.3"
+            "version": "==3.71.6"
         },
         "idna": {
             "hashes": [
@@ -1366,7 +1368,7 @@
                 "sha256:f17495e6fe3d377e3faac68121caef6f974fcb9e046bc075bcff40d8e5cc69a4",
                 "sha256:f85900b9cca0c67767bb61b2b9bd53208aaa7373dae633dbe25d179b4bf38aa7"
             ],
-            "markers": "python_version >= '3.4'",
+            "markers": "python_version >= '3.4.1'",
             "version": "==1.2.6"
         }
     }
