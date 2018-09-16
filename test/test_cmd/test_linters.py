@@ -29,7 +29,7 @@ def _check_invocations(context, amend, stage):
     verify(context).invoke(_bandit.bandit)
     verify(context).invoke(_dead_fixtures.pytest_dead_fixtures)
     # verify(context).invoke(_sort.sort, amend=amend, stage=stage)
-    verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
+    # verify(context).invoke(_pep8.pep8, amend=amend, stage=stage)
     verifyNoMoreInteractions(context)
 
 
