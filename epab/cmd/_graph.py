@@ -17,8 +17,6 @@ def _graph():
         Path(f'classes_{config.PACKAGE_NAME()}.png'),
 
     ]
-    for file in out_files:
-        utils.add_to_gitignore(file.name)
     elib_run.run(f'pyreverse -o png -p {config.PACKAGE_NAME()} {config.PACKAGE_NAME()}')
     if any((file.exists() for file in out_files)):
         out_dir = Path('graphs')

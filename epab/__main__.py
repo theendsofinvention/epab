@@ -22,6 +22,26 @@ config.setup_config(__version__)
 LOGGER = logging.getLogger('EPAB')
 
 
+_GIT_IGNORE = (
+    '.idea/',
+    '.cache',
+    '/dist/',
+    '/build/',
+    '__pycache__',
+    '*.spec',
+    '.coverage*',
+    '/.pytest_cache/',
+    'htmlcov',
+    'coverage.xml',
+    '.hypothesis/',
+    '*.egg-info/',
+    '.mypy_cache',
+    f'packages_{config.PACKAGE_NAME()}.png',
+    f'classes_{config.PACKAGE_NAME()}.png',
+
+)
+
+
 @click.group()
 @click.option('-v', '--version',
               is_flag=True, is_eager=True, expose_value=False, callback=epab.cmd.print_version, default=False,
@@ -46,19 +66,8 @@ def cli(dirty, stash):
     CTX.repo = epab.utils.Repo()
     CTX.repo.ensure()
     CTX.stash = stash
-    epab.utils.add_to_gitignore('.idea/')
-    epab.utils.add_to_gitignore('.cache')
-    epab.utils.add_to_gitignore('/dist/')
-    epab.utils.add_to_gitignore('/build/')
-    epab.utils.add_to_gitignore('__pycache__')
-    epab.utils.add_to_gitignore('*.spec')
-    epab.utils.add_to_gitignore('.coverage*')
-    epab.utils.add_to_gitignore('/.pytest_cache/')
-    epab.utils.add_to_gitignore('htmlcov')
-    epab.utils.add_to_gitignore('coverage.xml')
-    epab.utils.add_to_gitignore('.hypothesis/')
-    epab.utils.add_to_gitignore('*.egg-info/')
-    epab.utils.add_to_gitignore('.mypy_cache')
+    for filename in _GIT_IGNORE:
+        epab.utils.add_to_gitignore(filename)
     if not dirty and CTX.repo.is_dirty():
         LOGGER.error('Repository is dirty')
         sys.exit(-1)
