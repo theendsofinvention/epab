@@ -22,6 +22,8 @@ def _all():
 
 
 def _check_invocations(context, amend, stage):
+    assert isinstance(amend, bool)
+    assert isinstance(stage, bool)
     verify(context).invoke(_safety.safety)
     verify(context).invoke(_pylint.pylint)
     verify(context).invoke(_flake8.flake8)
