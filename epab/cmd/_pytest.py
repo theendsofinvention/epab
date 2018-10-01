@@ -189,8 +189,8 @@ def _pytest(test, *, long, show, exitfirst, last_failed, failed_first, rm_cov):
 @click.option('-s', '--show', is_flag=True, default=False, help='Show coverage in browser')
 @click.option('-x', '--exitfirst', is_flag=True, default=False, help='Exit instantly on first error')
 @click.option('-r', '--rm-cov', is_flag=True, default=False, help='Delete coverage report from previous runs')
-@click.option('--lf', '--last-failed', is_flag=True, default=False, help='Rerun only the tests that failed')
-@click.option('--ff', '--failed-first', is_flag=True, default=False,
+@click.option('-lf', '--last-failed', is_flag=True, default=False, help='Rerun only the tests that failed')
+@click.option('-ff', '--failed-first', is_flag=True, default=False,
               help='Run all tests but run the last failures first')
 @click.option('-t', '--test', default=config.TEST_TARGET(), help='Select which tests to run')
 def pytest(test, long, show, exitfirst, last_failed, failed_first, rm_cov):
