@@ -13,8 +13,6 @@ LOGGER = logging.getLogger('EPAB')
 
 _LOGGING_CONSOLE_FORMAT = '%(relativeCreated)10d ms ' \
                           '%(levelname)8s ' \
-                          '%(name)s ' \
-                          '[%(pathname)s@%(lineno)d %(funcName)s]: ' \
                           '%(message)s'
 
 
