@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import datetime
+import pytest
 from pathlib import Path
 
 import elib_run
@@ -10,6 +11,7 @@ import epab.exc
 import epab.utils
 from epab.cmd import _freeze as freeze
 from epab.core import CTX, config
+from epab.cmd._freeze import site_package, _format_data_file
 
 
 def test_freeze_cli(cli_runner):
@@ -108,3 +110,17 @@ def test_with_data_files():
         contains('--add-data "file2"')), timeout=300)
 
     freeze._freeze('version')
+
+
+@pytest.mark.parametrize(
+    'data_file_src, expected',
+    [
+        ('{site_package}/pytest.py', site_package() + '/pytest.py')
+    ]
+
+
+)
+def test_format_data_file(data_file_src, expected):
+    actual = _format_data_file(data_file_src)
+    assert expected == actual
+    assert Path(actual).exists()

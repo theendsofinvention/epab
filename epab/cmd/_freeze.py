@@ -5,6 +5,7 @@ Freeze package into exe
 import datetime
 import functools
 import logging
+from distutils.sysconfig import get_python_lib as site_package  # pylint: disable=import-error
 from pathlib import Path
 
 import certifi
@@ -30,6 +31,22 @@ BASE_CMD = [
     '--add-data', f'"{certifi.where()};."',
     '--name'
 ]
+
+
+def _get_site_package_directory() -> str:
+    return site_package()
+
+
+_DATA_FILE_REPLACE = {
+    '{site_package}': _get_site_package_directory(),
+}
+
+
+def _format_data_file(data_file: str) -> str:
+    for _replacement_src, _replacement_tgt in _DATA_FILE_REPLACE.items():
+        data_file = data_file.replace(_replacement_src, _replacement_tgt)
+    LOGGER.debug('formatted data file str: %s', data_file)
+    return data_file
 
 
 def _install_pyinstaller():
@@ -77,6 +94,7 @@ def _freeze(version: str):
     cmd = BASE_CMD + [config.PACKAGE_NAME(), '--noupx --onefile', config.FREEZE_ENTRY_POINT()]
     for data_file in config.FREEZE_DATA_FILES():
         LOGGER.debug('appending data file: %s', data_file)
+        data_file = _format_data_file(data_file)
         cmd.append(f'--add-data "{data_file}"')
     LOGGER.info('freezing %s', config.PACKAGE_NAME)
     elib_run.run(' '.join(cmd), timeout=300)
@@ -94,6 +112,7 @@ def _clean_spec():
 @click.pass_context
 @click.argument('version')
 @click.option('-c', '--clean', is_flag=True, default=False, help='Clean spec file before freezing')
+@click.option('-v', '--version', default=None, help='Specify the version number for freezing')
 def freeze(ctx, version: str, clean: bool):
     """
     Freeze current package into a single file
