@@ -5,7 +5,7 @@ Freeze package into exe
 import datetime
 import functools
 import logging
-from distutils.sysconfig import get_python_lib as site_package
+from distutils.sysconfig import get_python_lib as site_package  # pylint: disable=import-error
 from pathlib import Path
 
 import certifi
