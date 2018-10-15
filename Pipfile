@@ -38,7 +38,7 @@ pytest-repeat = ">=0.7.0"
 pytest-faker = ">=2.0.0"
 pytest-watch = ">=4.2.0"
 pytest-deadfixtures = ">=2.0.1"
-elib-run = ">=2018.8.31.1"
+elib-run = "==2018.9.9.1"
 bandit = ">=1.5.0"
 
 [dev-packages]
