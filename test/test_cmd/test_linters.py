@@ -62,40 +62,6 @@ def test_lint_appveyor(amend_stage):
     _check_invocations(context, amend, stage)
 
 
-def test_pep8():
-    when(elib_run).run(
-        f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} {config.PACKAGE_NAME()}',
-        mute=True
-    )
-    when(elib_run).run(
-        f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} test',
-        mute=True
-    )
-    _pep8._pep8()
-    verifyStubbedInvocationsAreUsed()
-
-
-@pytest.mark.long
-def test_pep8_amend():
-    with when(CTX.repo).amend_commit(append_to_msg='pep8 [auto]'):
-        CTX.run_once = {}
-        _pep8._pep8(amend=True)
-        verify(CTX.repo).amend_commit(...)
-
-
-def test_pep8_stage():
-    when(elib_run).run(
-        f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} {config.PACKAGE_NAME()}', mute=True
-    )
-    when(elib_run).run(
-        f'autopep8 -r --in-place --max-line-length {config.LINT_LINE_LENGTH()} test', mute=True
-    )
-    with when(CTX.repo).stage_all():
-        CTX.run_once = {}
-        _pep8._pep8(stage=True)
-    verifyStubbedInvocationsAreUsed()
-
-
 def test_isort_package_dir():
     Path(f'./{config.PACKAGE_NAME()}').mkdir()
     test_file = Path(f'./{config.PACKAGE_NAME()}/test.py')
