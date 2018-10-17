@@ -8,7 +8,7 @@ requirements = [
     'click',
     'wheel',
     'twine',
-    'autopep8',
+    # 'autopep8',
     'pylint',
     'isort',
     'safety',
