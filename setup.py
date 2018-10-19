@@ -34,7 +34,7 @@ requirements = [
     'pytest-faker',
     'pytest-watch',
     'pytest-deadfixtures',
-    'pycodestyle>=2.0.0,<2.4.0',
+    'pycodestyle>=2.0.0,<2.5.0',
     'bandit',
     'elib_run==2018.9.9.1',
 ]
