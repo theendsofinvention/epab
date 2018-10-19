@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "19b33b5b897573276b36ad208b022c34f467bec5898ad2778addd6f1993b0390"
+            "sha256": "2b6c5405f16d2e0150d5ef706a86a85c3cfdffbc6d37154a95e9ca92e55b64c5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -165,7 +165,6 @@
                 "sha256:a3d89af5db9e9806a779a50296b5fdb466e281147c2c235e8225ecc6dbf7bbf3",
                 "sha256:c9b54bebe91a6a803e0772c8561d53f2926bfeb17cd141fbabcb08424086595c"
             ],
-            "markers": "sys_platform == 'win32'",
             "version": "==0.4.0"
         },
         "coverage": {
@@ -242,10 +241,10 @@
         },
         "elib-run": {
             "hashes": [
-                "sha256:c46a2910b4222c5ad717eec00871f2671a1c463f7dd17484d7318d68e9b0ce6a"
+                "sha256:ce3d85037c07cc894b00480706fe9079bec58557c1ba4e749596074d31df2f85"
             ],
             "index": "pypi",
-            "version": "==2018.9.9.1"
+            "version": "==2018.10.17.1"
         },
         "execnet": {
             "hashes": [
@@ -621,10 +620,10 @@
         },
         "requests": {
             "hashes": [
-                "sha256:63b52e3c866428a224f97cab011de738c36aec0185aa91cfacd418b5d58911d1",
-                "sha256:ec22d826a36ed72a7358ff3fe56cbd4ba69dd7a6718ffd450ff0e9df7a47ce6a"
+                "sha256:99dcfdaaeb17caf6e526f32b6a7b780461512ab3f1d992187801694cba42770c",
+                "sha256:a84b8c9ab6239b578f22d1c21d51b696dcfe004032bb80ea832398d6909d7279"
             ],
-            "version": "==2.19.1"
+            "version": "==2.20.0"
         },
         "requests-toolbelt": {
             "hashes": [
@@ -738,10 +737,10 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:a68ac5e15e76e7e5dd2b8f94007233e01effe3e50e8daddf69acfd81cb686baf",
-                "sha256:b5725a0bd4ba422ab0e66e89e030c806576753ea3ee08554382c14e685d117b5"
+                "sha256:41c3db2fc01e5b907288010dec72f9d0a74e37d6994e6eb56849f59fea2265ae",
+                "sha256:8819bba37a02d143296a4d032373c4dd4aca11f6d4c9973335ca75f9c8475f59"
             ],
-            "version": "==1.23"
+            "version": "==1.24"
         },
         "vcrpy": {
             "hashes": [
@@ -942,7 +941,6 @@
                 "sha256:a3d89af5db9e9806a779a50296b5fdb466e281147c2c235e8225ecc6dbf7bbf3",
                 "sha256:c9b54bebe91a6a803e0772c8561d53f2926bfeb17cd141fbabcb08424086595c"
             ],
-            "markers": "sys_platform == 'win32'",
             "version": "==0.4.0"
         },
         "coverage": {
@@ -1019,10 +1017,10 @@
         },
         "elib-run": {
             "hashes": [
-                "sha256:c46a2910b4222c5ad717eec00871f2671a1c463f7dd17484d7318d68e9b0ce6a"
+                "sha256:ce3d85037c07cc894b00480706fe9079bec58557c1ba4e749596074d31df2f85"
             ],
             "index": "pypi",
-            "version": "==2018.9.9.1"
+            "version": "==2018.10.17.1"
         },
         "epab": {
             "editable": true,
@@ -1402,10 +1400,10 @@
         },
         "requests": {
             "hashes": [
-                "sha256:63b52e3c866428a224f97cab011de738c36aec0185aa91cfacd418b5d58911d1",
-                "sha256:ec22d826a36ed72a7358ff3fe56cbd4ba69dd7a6718ffd450ff0e9df7a47ce6a"
+                "sha256:99dcfdaaeb17caf6e526f32b6a7b780461512ab3f1d992187801694cba42770c",
+                "sha256:a84b8c9ab6239b578f22d1c21d51b696dcfe004032bb80ea832398d6909d7279"
             ],
-            "version": "==2.19.1"
+            "version": "==2.20.0"
         },
         "requests-toolbelt": {
             "hashes": [
@@ -1519,10 +1517,10 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:a68ac5e15e76e7e5dd2b8f94007233e01effe3e50e8daddf69acfd81cb686baf",
-                "sha256:b5725a0bd4ba422ab0e66e89e030c806576753ea3ee08554382c14e685d117b5"
+                "sha256:41c3db2fc01e5b907288010dec72f9d0a74e37d6994e6eb56849f59fea2265ae",
+                "sha256:8819bba37a02d143296a4d032373c4dd4aca11f6d4c9973335ca75f9c8475f59"
             ],
-            "version": "==1.23"
+            "version": "==1.24"
         },
         "vcrpy": {
             "hashes": [
