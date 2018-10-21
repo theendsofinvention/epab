@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "19b33b5b897573276b36ad208b022c34f467bec5898ad2778addd6f1993b0390"
+            "sha256": "2b6c5405f16d2e0150d5ef706a86a85c3cfdffbc6d37154a95e9ca92e55b64c5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -241,10 +241,10 @@
         },
         "elib-run": {
             "hashes": [
-                "sha256:c46a2910b4222c5ad717eec00871f2671a1c463f7dd17484d7318d68e9b0ce6a"
+                "sha256:ce3d85037c07cc894b00480706fe9079bec58557c1ba4e749596074d31df2f85"
             ],
             "index": "pypi",
-            "version": "==2018.9.9.1"
+            "version": "==2018.10.17.1"
         },
         "execnet": {
             "hashes": [
@@ -1016,10 +1016,10 @@
         },
         "elib-run": {
             "hashes": [
-                "sha256:c46a2910b4222c5ad717eec00871f2671a1c463f7dd17484d7318d68e9b0ce6a"
+                "sha256:ce3d85037c07cc894b00480706fe9079bec58557c1ba4e749596074d31df2f85"
             ],
             "index": "pypi",
-            "version": "==2018.9.9.1"
+            "version": "==2018.10.17.1"
         },
         "epab": {
             "editable": true,
