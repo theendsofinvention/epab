@@ -68,10 +68,6 @@ exclude_lines =
 [html]
 directory = ./htmlcov
 title = Coverage report
-
-[paths]
-source=
-    ./epab
 """
 
 
