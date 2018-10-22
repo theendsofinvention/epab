@@ -53,6 +53,7 @@ def _global_tear_down(tmpdir, monkeypatch):
         pass
     # noinspection PyProtectedMember
     CTX._reset()
+    orig_dir = os.getcwd()
     config.CHANGELOG_DISABLE.default = False
     config.ARTIFACTS.default = []
     config.TEST_RUNNER_OPTIONS.default = ''
@@ -66,6 +67,7 @@ def _global_tear_down(tmpdir, monkeypatch):
     folder = Path(tmpdir).absolute()
     os.chdir(folder)
     yield
+    os.chdir(orig_dir)
 
 
 @pytest.fixture(autouse=True, scope='session')
