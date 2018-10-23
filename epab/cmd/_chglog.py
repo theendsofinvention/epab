@@ -20,6 +20,7 @@ BOGUS_LINE_PATTERN = re.compile('^(- .*)(\n){2}', flags=re.MULTILINE)
 
 GITCHANGELOG_CONFIG = r"""
 body_process = ReSub(r'((^|\n)[A-Z]\w+(-\w+)*: .*(\n\s+.*)*)+$', r'') | strip
+output_engine = mustache("markdown")
 tag_filter_regexp = r'^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'
 include_merge = False
 ignore_regexps = [
@@ -32,6 +33,24 @@ ignore_regexps = [
     r'^(.{3,3}\s*:)?\s*[fF]irst commit.?\s*$',
     r'^release .*$',
     r'^$',  ## ignore commits with empty messages
+]
+
+section_regexps = [
+    ('New', [
+        r'^[nN]ew\s*:\s*((dev|use?r|pkg|test|doc)\s*:\s*)?([^\n]*)$',
+     ]),
+    ('Changes', [
+        r'^[cC]hg\s*:\s*((dev|use?r|pkg|test|doc)\s*:\s*)?([^\n]*)$',
+     ]),
+    ('Fix', [
+        r'^[fF]ix\s*:\s*((dev|use?r|pkg|test|doc)\s*:\s*)?([^\n]*)$',
+     ]),
+    ('Dependency update', [
+        r'^[Bb]uild.*',
+     ]),
+
+    ('Other', None ## Match all lines
+     ),
 ]
 """
 
@@ -65,7 +84,11 @@ def temporary_tag(tag):
 @epab.utils.run_once
 @epab.utils.stashed
 @epab.utils.timeit
-def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, auto_next_version: bool = False):
+def _chglog(amend: bool = False,
+            stage: bool = False,
+            next_version: str = None,
+            auto_next_version: bool = False,
+            ):
     """
     Writes the changelog
 
@@ -85,7 +108,7 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, 
             with temporary_tag(next_version):
                 changelog, _ = elib_run.run('gitchangelog', mute=True)
         # changelog = changelog.encode('utf8').replace(b'\r\n', b'\n').decode('utf8')
-        changelog = re.sub(BOGUS_LINE_PATTERN, '\\1\n', changelog)
+        # changelog = re.sub(BOGUS_LINE_PATTERN, '\\1\n', changelog)
         Path(config.CHANGELOG_FILE_PATH()).write_text(changelog, encoding='utf8')
         if amend:
             CTX.repo.amend_commit(
@@ -98,9 +121,15 @@ def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, 
 @click.command()
 @click.option('-a', '--amend', is_flag=True, help='Amend last commit')
 @click.option('-s', '--stage', is_flag=True, help='Stage changed files')
+@click.option('-f', '--force', is_flag=True, help='Force overwriting un-committed changelog')
 @click.option('-n', '--next_version', default=None, help='Indicates next version')
 @click.option('-anv', '--auto_next_version', default=False, is_flag=True, help='Auto-nump version')
-def chglog(amend: bool = False, stage: bool = False, next_version: str = None, auto_next_version: bool = False):
+def chglog(amend: bool = False,
+           stage: bool = False,
+           next_version: str = None,
+           auto_next_version: bool = False,
+           force: bool = False,
+           ):
     """
     Writes the changelog
 
@@ -113,7 +142,7 @@ def chglog(amend: bool = False, stage: bool = False, next_version: str = None, a
     changed_files = CTX.repo.changed_files()
     changelog_file_path: Path = config.CHANGELOG_FILE_PATH()
     changelog_file_name = changelog_file_path.name
-    if changelog_file_name in changed_files:
+    if not force and changelog_file_name in changed_files:
         LOGGER.error('changelog has changed; cannot update it')
         exit(-1)
     _chglog(amend, stage, next_version, auto_next_version)

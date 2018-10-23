@@ -12,7 +12,7 @@ CHANGELOG_DISABLE = elib_config.ConfigValueBool(
     'changelog', 'disable', description='Disable changelog building', default=False
 )
 CHANGELOG_FILE_PATH = elib_config.ConfigValuePath(
-    'changelog', 'file_path', description='Path to changelog file', default='CHANGELOG.rst'
+    'changelog', 'file_path', description='Path to changelog file', default='CHANGELOG.md'
 )
 CHANGELOG_FILE_PATH.must_be_file()
 TEST_RUNNER_OPTIONS = elib_config.ConfigValueString(
