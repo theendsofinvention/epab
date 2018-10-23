@@ -68,10 +68,6 @@ exclude_lines =
 [html]
 directory = ./htmlcov
 title = Coverage report
-
-[paths]
-source=
-    ./epab
 """
 
 
@@ -88,13 +84,17 @@ class _Coverage:
         """
         Uploads the coverage to Codacy
         """
-        if Path('coverage.xml').exists():
-            LOGGER.info('uploading coverage to Codacy')
-            elib_run.run('pip install --upgrade codacy-coverage')
-            elib_run.run('python-codacy-coverage -r coverage.xml')
-            LOGGER.info('codacy coverage OK')
-        else:
+        if not Path('coverage.xml').exists():
             LOGGER.error('coverage.xml not found, skipping codacy coverage')
+            return
+        if os.getenv('CODACY_PROJECT_TOKEN') is None:
+            LOGGER.error('"CODACY_PROJECT_TOKEN" env var not defined, skipping codacy coverage')
+            return
+
+        LOGGER.info('uploading coverage to Codacy')
+        elib_run.run('pip install --upgrade codacy-coverage')
+        elib_run.run('python-codacy-coverage -r coverage.xml')
+        LOGGER.info('codacy coverage OK')
 
     # Disabled for the time being
     # @staticmethod
