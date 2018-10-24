@@ -111,7 +111,7 @@ def pp(ctx, push: bool):  # pylint: disable=invalid-name
 
 _LINTERS = [
     # epab.linters.pep8,
-    epab.linters.flake8,
+    # epab.linters.flake8,
     # epab.linters.sort,
     epab.linters.pylint,
     epab.linters.safety,

@@ -17,7 +17,7 @@ twine = ">=1.11.0"
 pylint = ">=1.9.0"
 isort = ">=4.3.4"
 safety = ">=1.8.1"
-"flake8" = ">=3.5"
+#"flake8" = ">=3.5"
 coverage = ">=4.5.1"
 hypothesis = ">=3.56"
 pytest-cache = ">=1"
@@ -43,4 +43,4 @@ elib-run = ">=2018.10.21.1"
 bandit = ">=1.5.0"
 
 [dev-packages]
-#epab = {editable = true, path = "."}
+epab = {editable = true, path = "."}
