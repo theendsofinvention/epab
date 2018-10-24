@@ -9,8 +9,9 @@ import pytest
 from click.testing import CliRunner
 from mockito import unstub, verifyNoUnwantedInteractions, verifyStubbedInvocationsAreUsed
 
+# noinspection PyProtectedMember
 from epab._logging import _setup_logging
-from epab.core import CTX, config
+from epab.core import CTX, config as epab_config
 
 
 def pytest_configure(config):
@@ -54,16 +55,16 @@ def _global_tear_down(tmpdir, monkeypatch):
     # noinspection PyProtectedMember
     CTX._reset()
     orig_dir = os.getcwd()
-    config.CHANGELOG_DISABLE.default = False
-    config.ARTIFACTS.default = []
-    config.TEST_RUNNER_OPTIONS.default = ''
-    config.TEST_AV_RUNNER_OPTIONS.default = '--long'
-    config.PACKAGE_NAME.default = 'test_package'
-    config.FREEZE_ENTRY_POINT.default = ''
-    config.QT_RES_SRC.default = ''
-    config.QT_RES_TGT.default = ''
-    config.QUIET.default = False
-    config.MYPY_ARGS.default = ''
+    epab_config.CHANGELOG_DISABLE.default = False
+    epab_config.ARTIFACTS.default = []
+    epab_config.TEST_RUNNER_OPTIONS.default = ''
+    epab_config.TEST_AV_RUNNER_OPTIONS.default = '--long'
+    epab_config.PACKAGE_NAME.default = 'test_package'
+    epab_config.FREEZE_ENTRY_POINT.default = ''
+    epab_config.QT_RES_SRC.default = ''
+    epab_config.QT_RES_TGT.default = ''
+    epab_config.QUIET.default = False
+    epab_config.MYPY_ARGS.default = ''
     folder = Path(tmpdir).absolute()
     os.chdir(folder)
     yield

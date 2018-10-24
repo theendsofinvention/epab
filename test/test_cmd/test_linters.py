@@ -11,7 +11,7 @@ from mockito import mock, verify, verifyNoMoreInteractions, verifyStubbedInvocat
 import epab.utils
 from epab.core import CTX, config
 # noinspection PyProtectedMember
-from epab.linters import _bandit, _dead_fixtures, _flake8, _lint, _mypy, _pep8, _pylint, _safety, _sort
+from epab.linters import _bandit, _dead_fixtures, _lint, _mypy, _pylint, _safety, _sort
 
 
 @pytest.fixture(autouse=True, name='repo')
@@ -26,7 +26,7 @@ def _check_invocations(context, amend, stage):
     assert isinstance(stage, bool)
     verify(context).invoke(_safety.safety)
     verify(context).invoke(_pylint.pylint)
-    verify(context).invoke(_flake8.flake8)
+    # verify(context).invoke(_flake8.flake8)
     verify(context).invoke(_mypy.mypy)
     verify(context).invoke(_bandit.bandit)
     verify(context).invoke(_dead_fixtures.pytest_dead_fixtures)
@@ -106,11 +106,11 @@ def test_isort_stage():
     verifyStubbedInvocationsAreUsed()
 
 
-def test_flake8():
-    base_cmd = ' '.join((_flake8.IGNORE, _flake8.MAX_LINE_LENGTH, _flake8.EXCLUDE, _flake8.MAX_COMPLEXITY))
-    when(elib_run).run(f'flake8 {base_cmd}', mute=True)
-    _flake8._flake8()
-    verifyStubbedInvocationsAreUsed()
+# def test_flake8():
+#     base_cmd = ' '.join((_flake8.IGNORE, _flake8.MAX_LINE_LENGTH, _flake8.EXCLUDE, _flake8.MAX_COMPLEXITY))
+#     when(elib_run).run(f'flake8 {base_cmd}', mute=True)
+#     _flake8._flake8()
+#     verifyStubbedInvocationsAreUsed()
 
 
 def test_safety():

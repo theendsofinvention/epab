@@ -59,6 +59,7 @@ def test_cmd_with_coverage(monkeypatch, caplog):
     caplog.set_level(10)
     CTX.appveyor = True
     monkeypatch.setenv('SCRUT_TOK', 'test')
+    monkeypatch.setenv('CODACY_PROJECT_TOKEN', 'test')
     Path('coverage.xml').touch()
     when(subprocess).call('appveyor AddMessage "running: _pytest" -Category Information')
     when(subprocess).call('appveyor AddMessage "running test suite" -Category Information')

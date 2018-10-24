@@ -13,7 +13,7 @@ from epab.__main__ import cli
 from epab.cmd import _chglog, _install_hooks, _pytest, _release, _reqs
 from epab.core import CTX, config
 # noinspection PyProtectedMember
-from epab.linters import _bandit, _dead_fixtures, _flake8, _lint, _mypy, _pep8, _pylint, _safety
+from epab.linters import _bandit, _dead_fixtures, _lint, _mypy, _pylint, _safety
 
 
 def _succesfull_run(result):
@@ -27,12 +27,6 @@ def _succesfull_run(result):
 
     assert result.exit_code == 0
     return True
-
-
-def _succesfull_run2(command):
-    runner, _ = _setup()
-    result = runner.invoke(cli, [command])
-    return _succesfull_run(result)
 
 
 def _check_runner_result(cmd):
@@ -113,13 +107,13 @@ def test_no_stash():
 #     _check_runner_result(['pep8'])
 
 
-def test_flake8():
-    repo = mock()
-    when(repo).ensure()
-    when(epab.utils).Repo(...).thenReturn(repo)
-    when(repo).is_dirty().thenReturn(False)
-    when(_flake8)._flake8(...)
-    _check_runner_result(['flake8'])
+# def test_flake8():
+#     repo = mock()
+#     when(repo).ensure()
+#     when(epab.utils).Repo(...).thenReturn(repo)
+#     when(repo).is_dirty().thenReturn(False)
+#     when(_flake8)._flake8(...)
+#     _check_runner_result(['flake8'])
 
 
 # def test_sort():
@@ -249,7 +243,7 @@ def test_install_hooks():
     when(repo).ensure()
     when(epab.utils).Repo(...).thenReturn(repo)
     when(_install_hooks)._install_hooks(...)
-    _check_runner_result(['install-hooks'])
+    _check_runner_result(['install_hooks'])
 
 
 def test_dead_fixtures():
@@ -257,7 +251,7 @@ def test_dead_fixtures():
     when(repo).ensure()
     when(epab.utils).Repo(...).thenReturn(repo)
     when(_dead_fixtures)._pytest_dead_fixtures(...)
-    _check_runner_result(['pytest-dead-fixtures'])
+    _check_runner_result(['pytest_dead_fixtures'])
 
 
 def test_setup_config():
