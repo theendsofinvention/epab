@@ -12,6 +12,7 @@ from epab.core import CTX
 
 
 @epab.utils.stashed
+@epab.utils.timeit
 def _push(ctx: click.Context):
     ctx.invoke(epab.linters.lint, amend=True)
     ctx.invoke(epab.cmd.pytest, long=True, exitfirst=True, failed_first=True)

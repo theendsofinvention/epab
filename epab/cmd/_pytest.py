@@ -149,6 +149,7 @@ def pytest_options():
 
 
 @epab.utils.run_once
+@epab.utils.timeit
 def _pytest(test, *, long, show, exitfirst, last_failed, failed_first, rm_cov):
     LOGGER.info('running test suite')
     os.environ['PYTEST_QT_API'] = 'pyqt5'

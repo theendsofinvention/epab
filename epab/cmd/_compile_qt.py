@@ -16,6 +16,7 @@ LOGGER = logging.getLogger('EPAB')
 
 @epab.utils.run_once
 @epab.utils.stashed
+@epab.utils.timeit
 def _compile_qt_resources():
     """
     Compiles PyQT resources file

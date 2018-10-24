@@ -11,3 +11,4 @@ from ._repo import Repo
 from ._resource_path import resource_path
 from ._run_once import run_once
 from ._stashed import stashed
+from ._timeit import timeit
