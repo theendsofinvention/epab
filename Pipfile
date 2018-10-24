@@ -8,7 +8,7 @@ python_version = "3.6"
 platform = 'windows'
 
 [packages]
-pycodestyle = "==2.3.1"
+#pycodestyle = "==2.3.1"
 pip = ">=18"
 click = ">=6.7"
 wheel = ">=0.31.1"
@@ -43,4 +43,4 @@ elib-run = ">=2018.10.21.1"
 bandit = ">=1.5.0"
 
 [dev-packages]
-epab = {editable = true, path = "."}
+#epab = {editable = true, path = "."}
