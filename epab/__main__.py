@@ -84,7 +84,6 @@ def _pre_push(ctx: click.core.Context, push: bool):
     ctx.invoke(epab.cmd.pytest, long=True)
     ctx.invoke(epab.cmd.reqs)
     ctx.invoke(epab.cmd.pipenv_check)
-    # ctx.invoke(epab.cmd.chglog)
     if push:
         CTX.repo.push()
 
