@@ -243,7 +243,7 @@ def test_install_hooks():
     when(repo).ensure()
     when(epab.utils).Repo(...).thenReturn(repo)
     when(_install_hooks)._install_hooks(...)
-    _check_runner_result(['install_hooks'])
+    _check_runner_result(['install-hooks'])
 
 
 def test_dead_fixtures():
@@ -251,7 +251,7 @@ def test_dead_fixtures():
     when(repo).ensure()
     when(epab.utils).Repo(...).thenReturn(repo)
     when(_dead_fixtures)._pytest_dead_fixtures(...)
-    _check_runner_result(['pytest_dead_fixtures'])
+    _check_runner_result(['pytest-dead-fixtures'])
 
 
 def test_setup_config():
