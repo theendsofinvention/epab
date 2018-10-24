@@ -26,7 +26,7 @@ def timeit(func):
         result = func(*args, **kwargs)
 
         elapsed = time.time() - start
-        LOGGER.info(f'{func.__name__} took {elapsed:0.2f} seconds to complete')
+        LOGGER.info('%s took %S seconds to complete', func.__name__, round(elapsed, 2))
         return result
 
     return _wrapper
