@@ -138,9 +138,7 @@ def test_output(capsys, caplog):
 
 def test_output_on_appveyor(caplog):
     CTX.appveyor = True
-    when(subprocess).call('appveyor AddMessage "running: _pytest" -Category Information')
-    when(subprocess).call('appveyor AddMessage "running test suite" -Category Information')
-    when(subprocess).call('appveyor AddMessage "coverage.xml not found, skipping codacy coverage" -Category Error')
+    when(subprocess).call(...)
     when(elib_run, strict=False).run(f'pytest test --vcr-record=none --long {pytest_options()}', timeout=_TIMEOUT)
     _pytest('test', **DEFAULT_OPTS)
     assert 'running: _pytest' in caplog.text
