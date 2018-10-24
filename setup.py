@@ -27,15 +27,14 @@ requirements = [
     'certifi',
     'pefile',
     'mypy',
-    'elib_config',
     'toml',
     'sarge',
     'pytest-repeat',
     'pytest-faker',
     'pytest-watch',
     'pytest-deadfixtures',
-    'pycodestyle>=2.0.0,<2.4.0',
     'bandit',
+    'elib_config',
     'elib_run',
 ]
 test_requirements = []
