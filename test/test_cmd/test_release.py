@@ -125,7 +125,7 @@ def test_appveyor(monkeypatch):
 
     when(epab.utils).get_next_version().thenReturn('next_version')
 
-    expect(elib_run).run('appveyor SetVariable -Name RELEASE_DESCRIPTION -Value '),
+    expect(elib_run).run('appveyor SetVariable -Name RELEASE_DESCRIPTION -Value nil'),
     expect(elib_run).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
     expect(elib_run).run(contains('python.exe setup.py bdist_wheel'))
     expect(elib_run).run('appveyor SetVariable -Name EPAB_VERSION -Value next_version')
@@ -160,7 +160,7 @@ def test_appveyor_artifacts(monkeypatch):
     when(epab.utils).get_next_version().thenReturn('next_version')
 
     expect(elib_run).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
-    expect(elib_run).run('appveyor SetVariable -Name RELEASE_DESCRIPTION -Value ')
+    expect(elib_run).run('appveyor SetVariable -Name RELEASE_DESCRIPTION -Value nil')
     expect(elib_run).run(contains('python.exe setup.py bdist_wheel'))
     expect(elib_run).run('appveyor SetVariable -Name EPAB_VERSION -Value next_version')
     expect(subprocess, atleast=1).call(...)
@@ -182,7 +182,7 @@ def test_appveyor_no_artifacts(monkeypatch):
 
     when(epab.utils).get_next_version().thenReturn('next_version')
 
-    expect(elib_run).run('appveyor SetVariable -Name RELEASE_DESCRIPTION -Value '),
+    expect(elib_run).run('appveyor SetVariable -Name RELEASE_DESCRIPTION -Value nil'),
     expect(elib_run).run('appveyor UpdateBuild -Version next_version-0001-ABCDEF')
     expect(elib_run).run(contains('python.exe setup.py bdist_wheel'))
     expect(elib_run).run('appveyor SetVariable -Name EPAB_VERSION -Value next_version')
