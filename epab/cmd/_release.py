@@ -101,10 +101,21 @@ def _update_av_build_name(next_version):
     LOGGER.info('build version: %s', build_version)
 
 
+def _set_release_description():
+    # Check for empty extended commit message
+    _extended_commit_message = os.getenv('APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED')
+    if _extended_commit_message is not None:
+        os.putenv('RELEASE_DESCRIPTION', _extended_commit_message)
+    else:
+        os.putenv('RELEASE_DESCRIPTION', '')
+
+
 def _release(ctx: click.Context):
     CTX.stash = False
 
     _remove_av_artifacts()
+
+    _set_release_description()
 
     current_branch = CTX.repo.get_current_branch()
     next_version = epab.utils.get_next_version()
