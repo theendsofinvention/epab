@@ -102,14 +102,15 @@ def _update_av_build_name(next_version):
 
 
 def _set_release_description():
-    # Check for empty extended commit message
-    _extended_commit_message = os.getenv('APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED')
-    if _extended_commit_message is not None:
-        epab.utils.AV.set_env_var('RELEASE_DESCRIPTION', _extended_commit_message)
-        os.putenv('RELEASE_DESCRIPTION', _extended_commit_message)
-    else:
-        epab.utils.AV.set_env_var('RELEASE_DESCRIPTION', '')
-        os.putenv('RELEASE_DESCRIPTION', '')
+    if CTX.appveyor:
+        # Check for empty extended commit message
+        _extended_commit_message = os.getenv('APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED')
+        if _extended_commit_message is not None:
+            epab.utils.AV.set_env_var('RELEASE_DESCRIPTION', _extended_commit_message)
+            os.putenv('RELEASE_DESCRIPTION', _extended_commit_message)
+        else:
+            epab.utils.AV.set_env_var('RELEASE_DESCRIPTION', '')
+            os.putenv('RELEASE_DESCRIPTION', '')
 
 
 def _release(ctx: click.Context):
