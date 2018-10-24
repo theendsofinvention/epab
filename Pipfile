@@ -8,6 +8,7 @@ python_version = "3.6"
 platform = 'windows'
 
 [packages]
+pycodestyle = "==2.3.1"
 pip = ">=18"
 click = ">=6.7"
 wheel = ">=0.31.1"
