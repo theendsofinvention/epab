@@ -2,6 +2,7 @@
 """
 Freeze package into exe
 """
+import typing
 import datetime
 import functools
 import logging
@@ -9,6 +10,7 @@ from distutils.sysconfig import get_python_lib as site_package  # pylint: disabl
 from pathlib import Path
 
 import certifi
+import dataclasses
 import click
 import elib_run
 
@@ -33,13 +35,40 @@ BASE_CMD = [
 ]
 
 
+@dataclasses.dataclass
+class _FrozenContext:
+    app_version: str
+    pyinstaller_version: str
+    installed_packages: str
+
+    def write(self):
+        """
+        Writes the '__frozen__.py' file
+        """
+        output = [
+            f'__version__ = "{self.app_version}"',
+            f'py_installer_version = "{self.pyinstaller_version}"',
+            "installed_packages = [",
+        ]
+        for package_line in self.installed_packages:
+            output.append(' ' * 4 + f'"{package_line}",')
+        output.append(']')
+        Path('__frozen__.py').write_text('\n'.join(output))
+
+
 def _get_site_package_directory() -> str:
     return site_package()
+
 
 
 _DATA_FILE_REPLACE = {
     '{site_package}': _get_site_package_directory(),
 }
+
+
+def _get_installed_packages() -> typing.List[str]:
+    packages, _ = elib_run.run('pip freeze')
+    return packages.split('\n')
 
 
 def _format_data_file(data_file: str) -> str:
@@ -50,15 +79,15 @@ def _format_data_file(data_file: str) -> str:
 
 
 @epab.utils.timeit
-def _install_pyinstaller():
+def _install_pyinstaller() -> str:
     LOGGER.info('checking PyInstaller installation')
     _get_version = functools.partial(elib_run.run, 'pyinstaller --version')
     try:
-        _get_version()
+        return _get_version()
     except elib_run.ExecutableNotFoundError:
         LOGGER.info('installing PyInstaller')
         elib_run.run('pip install pyinstaller==3.4')
-        _get_version()
+        return _get_version()
 
 
 @epab.utils.timeit
@@ -93,7 +122,7 @@ def _freeze(version: str):
     if not config.FREEZE_ENTRY_POINT():
         LOGGER.error('no entry point defined, skipping freeze')
         return
-    _install_pyinstaller()
+    pyinstaller_version = _install_pyinstaller()
     cmd = BASE_CMD + [config.PACKAGE_NAME(), '--noupx --onefile', config.FREEZE_ENTRY_POINT()]
     for data_file in config.FREEZE_DATA_FILES():
         LOGGER.debug('appending data file: %s', data_file)
@@ -125,3 +154,12 @@ def freeze(ctx, version: str, clean: bool):
         _clean_spec()
     ctx.invoke(epab.cmd.compile_qt_resources)
     _freeze(version)
+
+
+if __name__ == '__main__':
+    frozen_context = _FrozenContext(
+        'app version',
+        pyinstaller_version='py installer version',
+        installed_packages=_get_installed_packages(),
+    )
+    frozen_context.write()
