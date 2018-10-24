@@ -59,11 +59,9 @@ def test_cmd_with_coverage(monkeypatch, caplog):
     caplog.set_level(10)
     CTX.appveyor = True
     monkeypatch.setenv('SCRUT_TOK', 'test')
+    monkeypatch.setenv('CODACY_PROJECT_TOKEN', 'test')
     Path('coverage.xml').touch()
-    when(subprocess).call('appveyor AddMessage "running: _pytest" -Category Information')
-    when(subprocess).call('appveyor AddMessage "running test suite" -Category Information')
-    when(subprocess).call('appveyor AddMessage "uploading coverage to Codacy" -Category Information')
-    when(subprocess).call('appveyor AddMessage "codacy coverage OK" -Category Information')
+    when(subprocess).call(...)
     when(elib_run).run(f'pytest test --vcr-record=none --long {pytest_options()}', timeout=_TIMEOUT)
     when(elib_run).run('pip install --upgrade codacy-coverage')
     when(elib_run).run('python-codacy-coverage -r coverage.xml')
