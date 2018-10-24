@@ -88,7 +88,7 @@ class _Coverage:
             LOGGER.error('coverage.xml not found, skipping codacy coverage')
             return
         if os.getenv('CODACY_PROJECT_TOKEN') is None:
-            LOGGER.error('"CODACY_PROJECT_TOKEN" env var not defined, skipping codacy coverage')
+            LOGGER.error('CODACY_PROJECT_TOKEN env var not defined, skipping codacy coverage')
             return
 
         LOGGER.info('uploading coverage to Codacy')
