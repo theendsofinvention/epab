@@ -11,9 +11,11 @@ from epab.core import CTX
 
 LOGGER = logging.getLogger('EPAB')
 
-_LOGGING_CONSOLE_FORMAT = '%(relativeCreated)10d ms ' \
+_LOGGING_CONSOLE_FORMAT = '%(asctime)10s ' \
                           '%(levelname)8s ' \
                           '%(message)s'
+
+_LOGGING_TIME_FORMAT = '%H:%M:%S'
 
 
 class _ClickHandler(logging.StreamHandler):
@@ -48,7 +50,7 @@ class _AVHandler(logging.Handler):
 
 
 def _setup_logging():
-    formatter = logging.Formatter(fmt=_LOGGING_CONSOLE_FORMAT)
+    formatter = logging.Formatter(fmt=_LOGGING_CONSOLE_FORMAT, datefmt=_LOGGING_TIME_FORMAT)
     click_handler = _ClickHandler()
     click_handler.setLevel(logging.DEBUG)
     av_handler = _AVHandler()

@@ -64,6 +64,7 @@ def temporary_tag(tag):
 
 @epab.utils.run_once
 @epab.utils.stashed
+@epab.utils.timeit
 def _chglog(amend: bool = False, stage: bool = False, next_version: str = None, auto_next_version: bool = False):
     """
     Writes the changelog

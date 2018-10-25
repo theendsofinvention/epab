@@ -113,6 +113,7 @@ def _set_release_description():
             os.putenv('RELEASE_DESCRIPTION', 'nil')
 
 
+@epab.utils.timeit
 def _release(ctx: click.Context):
     CTX.stash = False
 

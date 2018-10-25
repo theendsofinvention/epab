@@ -49,6 +49,7 @@ def _format_data_file(data_file: str) -> str:
     return data_file
 
 
+@epab.utils.timeit
 def _install_pyinstaller():
     LOGGER.info('checking PyInstaller installation')
     _get_version = functools.partial(elib_run.run, 'pyinstaller --version')
@@ -60,6 +61,7 @@ def _install_pyinstaller():
         _get_version()
 
 
+@epab.utils.timeit
 def _patch(version: str):
     now = datetime.datetime.utcnow()
     timestamp = f'{now.year}{now.month}{now.day}{now.hour}{now.minute}'
@@ -86,6 +88,7 @@ def _patch(version: str):
     LOGGER.info('patch OK')
 
 
+@epab.utils.timeit
 def _freeze(version: str):
     if not config.FREEZE_ENTRY_POINT():
         LOGGER.error('no entry point defined, skipping freeze')
@@ -103,6 +106,7 @@ def _freeze(version: str):
     _patch(version)
 
 
+@epab.utils.timeit
 def _clean_spec():
     spec_file = Path(f'{config.PACKAGE_NAME()}.spec')
     spec_file.unlink()

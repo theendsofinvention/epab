@@ -8,11 +8,13 @@ from pathlib import Path
 import click
 import elib_run
 
+import epab.utils
 from epab.core import config
 
 LOGGER = logging.getLogger('EPAB')
 
 
+@epab.utils.timeit
 def _graph():
     out_files = [
         Path(f'packages_{config.PACKAGE_NAME()}.png').absolute(),

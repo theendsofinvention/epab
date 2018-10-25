@@ -31,6 +31,7 @@ def _write_reqs_file(cmd, file_path):
 
 @epab.utils.run_once
 @epab.utils.stashed
+@epab.utils.timeit
 def _write_reqs(amend: bool = False, stage: bool = False):
     """
     Writes the requirement files
