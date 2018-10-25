@@ -1,17 +1,17 @@
 # coding=utf-8
 
 import datetime
-import pytest
 from pathlib import Path
 
 import elib_run
+import pytest
 from mockito import and_, contains, expect, mock, when
 
 import epab.exc
 import epab.utils
 from epab.cmd import _freeze as freeze
+from epab.cmd._freeze import _format_data_file, site_package
 from epab.core import CTX, config
-from epab.cmd._freeze import site_package, _format_data_file
 
 
 def test_freeze_cli(cli_runner):
@@ -117,7 +117,6 @@ def test_with_data_files():
     [
         ('{site_package}/pytest.py', site_package() + '/pytest.py')
     ]
-
 
 )
 def test_format_data_file(data_file_src, expected):

@@ -9,7 +9,7 @@ import click
 import epab.utils
 from ._bandit import bandit
 from ._dead_fixtures import pytest_dead_fixtures
-from ._flake8 import flake8
+# from ._flake8 import flake8
 from ._mypy import mypy
 # from ._pep8 import pep8
 from ._pylint import pylint
@@ -31,7 +31,7 @@ def _lint(ctx: click.Context, amend: bool = False, stage: bool = False):
     ctx.invoke(pytest_dead_fixtures)
     # ctx.invoke(pep8, amend=amend, stage=stage)
     ctx.invoke(pylint)
-    ctx.invoke(flake8)
+    # ctx.invoke(flake8)
     ctx.invoke(mypy)
     # if not CTX.appveyor:
     #     ctx.invoke(sort, amend=amend, stage=stage)
