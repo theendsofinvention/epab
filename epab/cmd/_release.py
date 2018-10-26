@@ -109,8 +109,8 @@ def _set_release_description():
             epab.utils.AV.set_env_var('RELEASE_DESCRIPTION', _extended_commit_message)
             os.putenv('RELEASE_DESCRIPTION', _extended_commit_message)
         else:
-            epab.utils.AV.set_env_var('RELEASE_DESCRIPTION', 'nil')
-            os.putenv('RELEASE_DESCRIPTION', 'nil')
+            epab.utils.AV.set_env_var('RELEASE_DESCRIPTION', 'No description')
+            os.putenv('RELEASE_DESCRIPTION', 'No description')
 
 
 @epab.utils.timeit
