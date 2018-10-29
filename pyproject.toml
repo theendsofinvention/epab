@@ -169,7 +169,7 @@ verbose = true
 # value type: List of strings
 # This configuration is optional and comes with a default setting
 # default: []
-# artifacts = 
+artifacts = ['test/uml/*',]
 
 # Additional command line options for tests run on AV
 # value type: string
