@@ -70,7 +70,7 @@ def _print_build_info(current_branch: str, next_version: str):
         f'Latest tag      -> {CTX.repo.get_latest_tag()}',
         f'Next version    -> {next_version}',
     ]
-    LOGGER.info('build info: %s', ','.join(info))
+    LOGGER.info('build info: %s', ',\n'.join(info))
 
 
 def _run_linters(ctx):
