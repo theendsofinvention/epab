@@ -86,6 +86,10 @@ QT_RES_SRC = elib_config.ConfigValueString(
 QT_RES_TGT = elib_config.ConfigValueString(
     'qt', 'res_tgt', description='Compiled Qt resource file (.py) target location', default=''
 )
+UPLOAD_TO_TWINE = elib_config.ConfigValueBool(
+    'twine', 'upload', description='Upload package to Twine after build',
+    default=True,
+)
 
 
 def setup_config(epab_version: str):

@@ -91,8 +91,9 @@ def _create_wheel():
 
 
 def _upload_to_twine():
-    elib_run.run(f'twine upload dist/* --skip-existing', mute=True)
-    LOGGER.info('twine OK')
+    if config.UPLOAD_TO_TWINE():
+        elib_run.run(f'twine upload dist/* --skip-existing', mute=True)
+        LOGGER.info('twine OK')
 
 
 def _update_av_build_name(next_version):
