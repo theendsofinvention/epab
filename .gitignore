@@ -28,3 +28,4 @@ test.yml
 pyproject.toml.example
 packages_epab.png
 classes_epab.png
+__frozen__.py
