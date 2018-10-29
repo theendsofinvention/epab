@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-Updates CHANGELOG.rst with the latest commits
+Updates the changelog with the latest commits
 """
 
 import contextlib
@@ -19,6 +19,7 @@ LOGGER = logging.getLogger('EPAB')
 BOGUS_LINE_PATTERN = re.compile('^(- .*)(\n){2}', flags=re.MULTILINE)
 
 GITCHANGELOG_CONFIG = r"""
+output_engine = mustache("markdown")
 body_process = ReSub(r'((^|\n)[A-Z]\w+(-\w+)*: .*(\n\s+.*)*)+$', r'') | strip
 tag_filter_regexp = r'^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'
 include_merge = False

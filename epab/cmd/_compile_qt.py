@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-Updates CHANGELOG.rst with the latest commits
+Compiles PyQT file
 """
 
 import logging
