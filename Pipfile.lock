@@ -173,10 +173,10 @@
         },
         "elib-run": {
             "hashes": [
-                "sha256:5ff498ad7d20c144525dec9622934726c8af672fe219609500a7aae19100831f"
+                "sha256:3256412f8d77f259ad367dc0481e83bbf75c0840dfd167b641801539a46904ee"
             ],
             "index": "pypi",
-            "version": "==2018.10.21.1"
+            "version": "==2018.10.26.1"
         },
         "execnet": {
             "hashes": [
@@ -860,10 +860,10 @@
         },
         "elib-run": {
             "hashes": [
-                "sha256:5ff498ad7d20c144525dec9622934726c8af672fe219609500a7aae19100831f"
+                "sha256:3256412f8d77f259ad367dc0481e83bbf75c0840dfd167b641801539a46904ee"
             ],
             "index": "pypi",
-            "version": "==2018.10.21.1"
+            "version": "==2018.10.26.1"
         },
         "epab": {
             "editable": true,
