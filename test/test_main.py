@@ -223,7 +223,7 @@ def test_chglog_changed():
     expect(_chglog, times=0)._chglog(...)
     runner = CliRunner()
 
-    when(repo).changed_files().thenReturn(['CHANGELOG.rst'])
+    when(repo).changed_files().thenReturn(['CHANGELOG.md'])
     result = runner.invoke(cli, ['chglog'])
     assert result.exception
     assert result.exc_info[0] is SystemExit

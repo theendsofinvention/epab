@@ -26,7 +26,7 @@ class BaseRepo(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def tag(self, tag, overwrite):
+    def tag(self, tag, overwrite: bool = False):
         """
         Tags the repo
 

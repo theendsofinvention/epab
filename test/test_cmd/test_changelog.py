@@ -23,7 +23,7 @@ from epab.core import CTX, config
 
 def test_changelog_config_disabled(caplog):
     caplog.set_level(10)
-    changelog = Path('CHANGELOG.rst')
+    changelog = Path('CHANGELOG.md')
     config.CHANGELOG_DISABLE.default = True
     assert config.CHANGELOG_DISABLE() is True
     expect(elib_run, times=0).run(...)
@@ -43,7 +43,7 @@ def test_changelog_config_disabled(caplog):
 )
 def test_changelog(src, result, caplog):
     caplog.set_level(10)
-    changelog = Path('CHANGELOG.rst')
+    changelog = Path('CHANGELOG.md')
     assert config.CHANGELOG_DISABLE() is False
     when(epab.utils).ensure_exe(...)
     when(elib_run).run('gitchangelog', mute=True).thenReturn((src, 0))
