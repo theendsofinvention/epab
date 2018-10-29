@@ -21,9 +21,12 @@ def test_freeze_cli(cli_runner):
 
 def test_freeze():
     config.FREEZE_ENTRY_POINT.default = 'test'
+    Path(config.PACKAGE_NAME()).mkdir()
 
     when(freeze)._install_pyinstaller()
     when(freeze)._patch('version')
+    when(elib_run).run('pip freeze').thenReturn(('', 0))
+    when(elib_run).run('pyinstaller --version').thenReturn(('3.4', 0))
 
     expect(elib_run).run('pipenv clean', failure_ok=True)
     expect(elib_run).run(contains('pyinstaller --log-level=WARN'), timeout=300)
@@ -100,9 +103,13 @@ def test_with_data_files():
     config.FREEZE_ENTRY_POINT.default = 'test'
     config.PACKAGE_NAME.default = 'test'
     config.FREEZE_DATA_FILES.default = ['file1', 'file2']
+    Path('test').mkdir()
 
     when(freeze)._install_pyinstaller()
     when(freeze)._patch('version')
+    when(elib_run).run('pip freeze').thenReturn(('', 0))
+    when(elib_run).run('pyinstaller --version').thenReturn(('3.4', 0))
+
     expect(elib_run).run('pipenv clean', failure_ok=True)
     expect(elib_run).run(and_(
         contains('pyinstaller --log-level=WARN'),
