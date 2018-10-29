@@ -42,6 +42,7 @@ pytest-deadfixtures = ">=2.0.1"
 elib-run = ">=2018.10.21.1"
 bandit = ">=1.5.0"
 pystache = "*"
+"jinja2" = "*"
 
 [dev-packages]
 epab = {editable = true, path = "."}

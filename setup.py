@@ -37,6 +37,7 @@ requirements = [
     'elib_config',
     'elib_run',
     'pystache',
+    'jinja2',
 ]
 test_requirements = []
 
@@ -90,14 +91,14 @@ epab=epab.__main__:cli
 
 setup(
     name='EPAB',
-    author='132nd-etcher',
+    author='etcher-be',
     zip_safe=False,
     author_email='epab@daribouca.net',
     platforms=['win32'],
-    url=r'https://github.com/132nd-etcher/EPAB',
-    download_url=r'https://github.com/132nd-etcher/EPAB/releases',
+    url=r'https://github.com/etcher-be/EPAB',
+    download_url=r'https://github.com/etcher-be/EPAB/releases',
     description="Etcher's Python Application Builder",
-    license='GPLv3',
+    license='MIT',
     long_description=read_local_files('README.md'),
     packages=find_packages(),
     package_data={
