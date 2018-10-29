@@ -23,7 +23,7 @@ future==0.17.0
 gitchangelog==3.0.3
 gitdb2==2.0.5
 gitpython==2.1.11
-hypothesis==3.80.0
+hypothesis==3.81.0
 idna==2.7
 isort==4.3.4
 lazy-object-proxy==1.3.1
@@ -52,9 +52,9 @@ pytest-repeat==0.7.0
 pytest-vcr==0.3.0
 pytest-watch==4.2.0
 pytest==3.9.3
-python-dateutil==2.7.4
+python-dateutil==2.7.5
 pyyaml==3.13
-readme-renderer==23.0
+readme-renderer==24.0
 requests-toolbelt==0.8.0
 requests==2.20.0
 safety==1.8.4
