@@ -41,6 +41,7 @@ pytest-watch = ">=4.2.0"
 pytest-deadfixtures = ">=2.0.1"
 elib-run = ">=2018.10.21.1"
 bandit = ">=1.5.0"
+pystache = "*"
 
 [dev-packages]
 epab = {editable = true, path = "."}

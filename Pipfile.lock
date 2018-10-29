@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9395e8646cd5bd3e0181d189fa7289401cac8e365237a71dd1be73a95463ecb0"
+            "sha256": "3231959fd9b24bd4582dc4b5b66227d5ac43d9eb3a97aa639e4cdba1db78877e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -167,10 +167,10 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:a85eae907da84bebd6e3ffa2db8fa63317f2c4562770dfb21c8236b73634b16b"
+                "sha256:31a714afeceb819289c2f64eadc656350a86590928b362998ce8cc5cd52b0657"
             ],
             "index": "pypi",
-            "version": "==2018.10.26.1"
+            "version": "==2018.10.29.1"
         },
         "elib-run": {
             "hashes": [
@@ -421,6 +421,13 @@
                 "sha256:d29593d8ebe7b57d6967b62494f8c72b03ac0262b1eed63826c6f788b3606401"
             ],
             "version": "==2.2.2"
+        },
+        "pystache": {
+            "hashes": [
+                "sha256:f7bbc265fb957b4d6c7c042b336563179444ab313fb93a719759111eabd3b85a"
+            ],
+            "index": "pypi",
+            "version": "==0.5.4"
         },
         "pytest": {
             "hashes": [
@@ -855,10 +862,10 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:a85eae907da84bebd6e3ffa2db8fa63317f2c4562770dfb21c8236b73634b16b"
+                "sha256:31a714afeceb819289c2f64eadc656350a86590928b362998ce8cc5cd52b0657"
             ],
             "index": "pypi",
-            "version": "==2018.10.26.1"
+            "version": "==2018.10.29.1"
         },
         "elib-run": {
             "hashes": [
