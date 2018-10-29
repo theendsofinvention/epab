@@ -144,7 +144,8 @@ def _release(ctx: click.Context):
 
     _check_dirty('last check before build')
 
-    ctx.invoke(epab.cmd.graph)
+    if config.MAKE_GRAPH():
+        ctx.invoke(epab.cmd.graph)
 
     _create_wheel()
 

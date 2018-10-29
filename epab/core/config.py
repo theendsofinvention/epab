@@ -90,6 +90,11 @@ UPLOAD_TO_TWINE = elib_config.ConfigValueBool(
     'twine', 'upload', description='Upload package to Twine after build',
     default=True,
 )
+MAKE_GRAPH = elib_config.ConfigValueBool(
+    'graph', 'make',
+    description='Generate graphs using PyReverse',
+    default=True,
+)
 
 
 def setup_config(epab_version: str):
