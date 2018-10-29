@@ -37,7 +37,7 @@ _GIT_IGNORE = (
     '.mypy_cache',
     f'packages_{config.PACKAGE_NAME()}.png',
     f'classes_{config.PACKAGE_NAME()}.png',
-
+    '__frozen__.py',
 )
 
 
