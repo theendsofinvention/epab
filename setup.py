@@ -36,6 +36,7 @@ requirements = [
     'bandit',
     'elib_config',
     'elib_run',
+    'pystache',
 ]
 test_requirements = []
 
