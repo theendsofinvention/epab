@@ -166,10 +166,10 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:6ec722a038c6438c7b85caef233feeacb246bcb449bca33a9ec246d1e1a3d9ab"
+                "sha256:a85eae907da84bebd6e3ffa2db8fa63317f2c4562770dfb21c8236b73634b16b"
             ],
             "index": "pypi",
-            "version": "==2018.10.24.1"
+            "version": "==2018.10.26.1"
         },
         "elib-run": {
             "hashes": [
@@ -494,10 +494,10 @@
         },
         "python-dateutil": {
             "hashes": [
-                "sha256:2f13d3ea236aeb237e7258d5729c46eafe1506fd7f8507f34730734ed8b37454",
-                "sha256:f7cde3aecf8a797553d6ec49b65f0fbcffe7ffb971ccac452d181c28fd279936"
+                "sha256:063df5763652e21de43de7d9e00ccf239f953a832941e37be541614732cdfc93",
+                "sha256:88f9287c0174266bb0d8cedd395cfba9c58e87e5ad86b2ce58859bc11be3cf02"
             ],
-            "version": "==2.7.4"
+            "version": "==2.7.5"
         },
         "pyyaml": {
             "hashes": [
@@ -517,10 +517,10 @@
         },
         "readme-renderer": {
             "hashes": [
-                "sha256:219a02f5359b6631f5ab952f6906c6c105bdd8bc4bf19c1ec5ee8bd9ea2dc1eb",
-                "sha256:f8f122ad9fd6d138337531379575a01a0b6ca70aedca78f094cb833da38c8c0c"
+                "sha256:bb16f55b259f27f75f640acf5e00cf897845a8b3e4731b5c1a436e4b8529202f",
+                "sha256:c8532b79afc0375a85f10433eca157d6b50f7d6990f337fa498c96cd4bfc203d"
             ],
-            "version": "==23.0"
+            "version": "==24.0"
         },
         "requests": {
             "hashes": [
@@ -853,10 +853,10 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:6ec722a038c6438c7b85caef233feeacb246bcb449bca33a9ec246d1e1a3d9ab"
+                "sha256:a85eae907da84bebd6e3ffa2db8fa63317f2c4562770dfb21c8236b73634b16b"
             ],
             "index": "pypi",
-            "version": "==2018.10.24.1"
+            "version": "==2018.10.26.1"
         },
         "elib-run": {
             "hashes": [
@@ -1206,10 +1206,10 @@
         },
         "python-dateutil": {
             "hashes": [
-                "sha256:2f13d3ea236aeb237e7258d5729c46eafe1506fd7f8507f34730734ed8b37454",
-                "sha256:f7cde3aecf8a797553d6ec49b65f0fbcffe7ffb971ccac452d181c28fd279936"
+                "sha256:063df5763652e21de43de7d9e00ccf239f953a832941e37be541614732cdfc93",
+                "sha256:88f9287c0174266bb0d8cedd395cfba9c58e87e5ad86b2ce58859bc11be3cf02"
             ],
-            "version": "==2.7.4"
+            "version": "==2.7.5"
         },
         "pyyaml": {
             "hashes": [
@@ -1229,10 +1229,10 @@
         },
         "readme-renderer": {
             "hashes": [
-                "sha256:219a02f5359b6631f5ab952f6906c6c105bdd8bc4bf19c1ec5ee8bd9ea2dc1eb",
-                "sha256:f8f122ad9fd6d138337531379575a01a0b6ca70aedca78f094cb833da38c8c0c"
+                "sha256:bb16f55b259f27f75f640acf5e00cf897845a8b3e4731b5c1a436e4b8529202f",
+                "sha256:c8532b79afc0375a85f10433eca157d6b50f7d6990f337fa498c96cd4bfc203d"
             ],
-            "version": "==23.0"
+            "version": "==24.0"
         },
         "requests": {
             "hashes": [
