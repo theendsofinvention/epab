@@ -49,16 +49,26 @@ def _format_data_file(data_file: str) -> str:
     return data_file
 
 
+def _get_pyinstaller_version() -> str:
+    version, code = elib_run.run('pyinstaller --version')
+
+    # Assuming the executable was found, check the error code
+    # (if the exe wasn't found, `elib_run.ExecutableNotFoundError` will be raised)
+    if code != 0:
+        raise RuntimeError('failed to obtain pyinstaller version')
+
+    return version
+
+
 @epab.utils.timeit
 def _install_pyinstaller():
     LOGGER.info('checking PyInstaller installation')
-    _get_version = functools.partial(elib_run.run, 'pyinstaller --version')
     try:
-        _get_version()
+        _get_pyinstaller_version()
     except elib_run.ExecutableNotFoundError:
         LOGGER.info('installing PyInstaller')
         elib_run.run('pip install pyinstaller==3.4')
-        _get_version()
+        _get_pyinstaller_version()
 
 
 @epab.utils.timeit
