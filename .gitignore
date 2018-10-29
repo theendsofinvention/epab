@@ -14,7 +14,7 @@ htmlcov
 /doc/html/
 .pylint.d/
 /~/
-*.puml
+/test/**/*.puml
 !/epab/vendor/**
 appveyor.yml
 artifacts/
