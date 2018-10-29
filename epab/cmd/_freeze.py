@@ -3,21 +3,22 @@
 Freeze package into exe
 """
 import datetime
-import functools
-import logging
+import platform
 from distutils.sysconfig import get_python_lib as site_package  # pylint: disable=import-error
 from pathlib import Path
 
 import certifi
 import click
 import elib_run
+import jinja2
 
 import epab.cmd
 import epab.exc
 import epab.utils
+from epab import __version__
+from epab._logging import LOGGER
 from epab.core import CTX, config
 
-LOGGER = logging.getLogger('EPAB')
 VERPATCH_PATH = epab.utils.resource_path('epab', './vendor/verpatch.exe')
 ICO = epab.utils.resource_path('epab', './vendor/app.ico')
 BASE_CMD = [
