@@ -159,6 +159,8 @@ def _release(ctx: click.Context):
         epab.utils.AV.set_env_var('EPAB_VERSION', next_version)
         _update_av_build_name(next_version)
 
+    ctx.invoke(epab.cmd.freeze, next_version, clean=True)
+
 
 @click.command()
 @click.pass_context
