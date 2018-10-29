@@ -1,0 +1,50 @@
+@startuml
+title Frozen version
+center header %date%
+file ""__frozen__.py"" as file
+node ""__info__"" as info
+folder epab [
+version
+]
+folder pyinstaller [
+version
+]
+folder python [
+version
+build
+implementation
+compiler
+]
+folder platform [
+name
+architecture
+]
+folder uname [
+system
+node
+release
+version
+machine
+processor
+]
+folder dependencies [
+list of dependencies as a list of tuple:
+(name, version)
+]
+
+file <- __version__
+platform <- uname
+note right of __version__
+This is the version of the application that has been built.
+It's the one that should be read instead of dissecting the built exe.
+end note
+file <-- info
+info <- epab
+info <- pyinstaller
+info <-- python
+info <-- platform
+info <-- dependencies
+
+
+
+@enduml
