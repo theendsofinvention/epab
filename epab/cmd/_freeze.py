@@ -203,11 +203,19 @@ def _clean_spec():
 @click.pass_context
 @click.argument('version')
 @click.option('-c', '--clean', is_flag=True, default=False, help='Clean spec file before freezing')
-@click.option('-v', '--version', default=None, help='Specify the version number for freezing')
-def freeze(ctx, version: str, clean: bool):
+@click.option('-i', '--info', is_flag=True, default=False, help='Write "_frozen.py" then exits')
+def freeze(ctx, version: str, clean: bool, info: bool):
     """
     Freeze current package into a single file
+
+    :param ctx: click context object
+    :param version: version to use for tagging the exe after freeze
+    :param clean: remove artifacts from previous builds before freezing
+    :param info: write "__frozen__.py" file then exit
     """
+    if info:
+        write_frozen_version_file(version)
+        exit(0)
     if clean:
         _clean_spec()
     ctx.invoke(epab.cmd.compile_qt_resources)
