@@ -35,6 +35,10 @@ jobs:
           command: pipenv lock -r -d > requirements-dev.txt
 
       - store_artifacts:
+          path: Pipfile.lock
+          destination: Pipfile.lock
+
+      - store_artifacts:
           path: requirements.txt
           destination: requirements.txt
 
