@@ -12,7 +12,7 @@ jobs:
     matrix:
       Python36:
         python.version: '3.6'
-    maxParallel: 
+    maxParallel: 1
 
   steps:
   - task: UsePythonVersion@0
