@@ -166,10 +166,10 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:31a714afeceb819289c2f64eadc656350a86590928b362998ce8cc5cd52b0657"
+                "sha256:f34f7da01a60166464ff90387fb4ac6e8bd2c1f777289560e6a3a5901fe63067"
             ],
             "index": "pypi",
-            "version": "==2018.10.29.1"
+            "version": "==2018.11.2.1"
         },
         "elib-run": {
             "hashes": [
@@ -194,9 +194,9 @@
         },
         "future": {
             "hashes": [
-                "sha256:eb6d4df04f1fb538c99f69c9a28b255d1ee4e825d479b9c62fc38c0cf38065a4"
+                "sha256:67045236dcfd6816dc439556d009594abf643e5eb48992e36beac09c2ca659b8"
             ],
-            "version": "==0.17.0"
+            "version": "==0.17.1"
         },
         "gitchangelog": {
             "hashes": [
@@ -416,10 +416,10 @@
         },
         "pyparsing": {
             "hashes": [
-                "sha256:bc6c7146b91af3f567cf6daeaec360bc07d45ffec4cf5353f4d7a208ce7ca30a",
-                "sha256:d29593d8ebe7b57d6967b62494f8c72b03ac0262b1eed63826c6f788b3606401"
+                "sha256:40856e74d4987de5d01761a22d1621ae1c7f8774585acae358aa5c5936c6c90b",
+                "sha256:f353aab21fd474459d97b709e527b5571314ee5f067441dc9f88e33eecd96592"
             ],
-            "version": "==2.2.2"
+            "version": "==2.3.0"
         },
         "pystache": {
             "hashes": [
@@ -655,10 +655,10 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:41c3db2fc01e5b907288010dec72f9d0a74e37d6994e6eb56849f59fea2265ae",
-                "sha256:8819bba37a02d143296a4d032373c4dd4aca11f6d4c9973335ca75f9c8475f59"
+                "sha256:61bf29cada3fc2fbefad4fdf059ea4bd1b4a86d2b6d15e1c7c0b582b9752fe39",
+                "sha256:de9529817c93f27c8ccbfead6985011db27bd0ddfcdb2d86f3f663385c6a9c22"
             ],
-            "version": "==1.24"
+            "version": "==1.24.1"
         },
         "vcrpy": {
             "hashes": [
@@ -860,10 +860,10 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:31a714afeceb819289c2f64eadc656350a86590928b362998ce8cc5cd52b0657"
+                "sha256:f34f7da01a60166464ff90387fb4ac6e8bd2c1f777289560e6a3a5901fe63067"
             ],
             "index": "pypi",
-            "version": "==2018.10.29.1"
+            "version": "==2018.11.2.1"
         },
         "elib-run": {
             "hashes": [
@@ -899,9 +899,9 @@
         },
         "future": {
             "hashes": [
-                "sha256:eb6d4df04f1fb538c99f69c9a28b255d1ee4e825d479b9c62fc38c0cf38065a4"
+                "sha256:67045236dcfd6816dc439556d009594abf643e5eb48992e36beac09c2ca659b8"
             ],
-            "version": "==0.17.0"
+            "version": "==0.17.1"
         },
         "gitchangelog": {
             "hashes": [
@@ -1135,10 +1135,10 @@
         },
         "pyparsing": {
             "hashes": [
-                "sha256:bc6c7146b91af3f567cf6daeaec360bc07d45ffec4cf5353f4d7a208ce7ca30a",
-                "sha256:d29593d8ebe7b57d6967b62494f8c72b03ac0262b1eed63826c6f788b3606401"
+                "sha256:40856e74d4987de5d01761a22d1621ae1c7f8774585acae358aa5c5936c6c90b",
+                "sha256:f353aab21fd474459d97b709e527b5571314ee5f067441dc9f88e33eecd96592"
             ],
-            "version": "==2.2.2"
+            "version": "==2.3.0"
         },
         "pystache": {
             "hashes": [
@@ -1374,10 +1374,10 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:41c3db2fc01e5b907288010dec72f9d0a74e37d6994e6eb56849f59fea2265ae",
-                "sha256:8819bba37a02d143296a4d032373c4dd4aca11f6d4c9973335ca75f9c8475f59"
+                "sha256:61bf29cada3fc2fbefad4fdf059ea4bd1b4a86d2b6d15e1c7c0b582b9752fe39",
+                "sha256:de9529817c93f27c8ccbfead6985011db27bd0ddfcdb2d86f3f663385c6a9c22"
             ],
-            "version": "==1.24"
+            "version": "==1.24.1"
         },
         "vcrpy": {
             "hashes": [
