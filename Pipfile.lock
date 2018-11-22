@@ -453,11 +453,11 @@
         },
         "pytest-deadfixtures": {
             "hashes": [
-                "sha256:cac3975fa3ac27d6e58f39ae18cbd5bc58396d8319a4c4f603a4220dd6eb27d9",
-                "sha256:d436f4c6d2d9fb6977eb6aed6e3f7120ee2bd4fdc117f699cf5c296ddf2a3d95"
+                "sha256:458b2314862696af11223d869c97814e63db8a7b9f61dcf42fe07a72a7ff9bd8",
+                "sha256:61e34fb0f777bc0f321c7d45f39447e965fb1a6d2de243e47aa034387229d9d3"
             ],
             "index": "pypi",
-            "version": "==2.0.1"
+            "version": "==2.1.0"
         },
         "pytest-faker": {
             "hashes": [
@@ -1171,11 +1171,11 @@
         },
         "pytest-deadfixtures": {
             "hashes": [
-                "sha256:cac3975fa3ac27d6e58f39ae18cbd5bc58396d8319a4c4f603a4220dd6eb27d9",
-                "sha256:d436f4c6d2d9fb6977eb6aed6e3f7120ee2bd4fdc117f699cf5c296ddf2a3d95"
+                "sha256:458b2314862696af11223d869c97814e63db8a7b9f61dcf42fe07a72a7ff9bd8",
+                "sha256:61e34fb0f777bc0f321c7d45f39447e965fb1a6d2de243e47aa034387229d9d3"
             ],
             "index": "pypi",
-            "version": "==2.0.1"
+            "version": "==2.1.0"
         },
         "pytest-faker": {
             "hashes": [
