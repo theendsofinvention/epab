@@ -41,7 +41,7 @@ pkginfo==1.4.2
 pluggy==0.8.0
 py==1.7.0
 pygments==2.3.0
-pylint==2.1.1
+pylint==2.2.0
 pyparsing==2.3.0
 pystache==0.5.4
 pytest-cache==1.0
