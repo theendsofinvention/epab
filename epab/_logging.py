@@ -32,9 +32,10 @@ class _ClickHandler(logging.StreamHandler):
         text = self.format(record)
         level = record.levelno
         foreground, background = level_to_color[level]
-        if hasattr(text, 'decode'):
-            text = text.decode(errors='replace')
-        click.secho(text, fg=foreground, bg=background)
+        try:
+            click.secho(text, fg=foreground, bg=background)
+        except UnicodeEncodeError:
+            print(text)
 
 
 class _AVHandler(logging.Handler):
