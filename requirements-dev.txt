@@ -45,6 +45,7 @@ pyflakes==2.0.0
 pygments==2.3.0
 pylint==2.2.2
 pyparsing==2.3.0
+pystache==0.5.4
 pytest-cache==1.0
 pytest-cov==2.6.0
 pytest-deadfixtures==2.1.0
