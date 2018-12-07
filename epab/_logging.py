@@ -36,7 +36,6 @@ class _ClickHandler(logging.StreamHandler):
             click.secho(text, fg=foreground, bg=background)
         except UnicodeEncodeError:
             LOGGER.warning('a message could not be printed on the console (UnicodeDecodeError)')
-            pass
 
 
 class _AVHandler(logging.Handler):
