@@ -80,8 +80,8 @@ def _patch(version: str):
         '/s', 'company', 'etcher',
         '/s', 'SpecialBuild', version,
         '/s', 'PrivateBuild', f'{version}-'
-                              f'{CTX.repo.get_current_branch()}_'
-                              f'{CTX.repo.get_sha()}-{timestamp}',
+        f'{CTX.repo.get_current_branch()}_'
+        f'{CTX.repo.get_sha()}-{timestamp}',
         '/langid', '1033',
     ]
     elib_run.run(' '.join(cmd))
