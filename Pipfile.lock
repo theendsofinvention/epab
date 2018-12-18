@@ -95,7 +95,6 @@
                 "sha256:05eed71e2e327246ad6b38c540c4a3117230b19679b875190486ddd2d721422d",
                 "sha256:f8ac84de7840f5b9c4e3347b3c1eaa50f7e49c2b07596221daec5edaabbd7c48"
             ],
-            "markers": "sys_platform == 'win32'",
             "version": "==0.4.1"
         },
         "coverage": {
@@ -165,10 +164,10 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:d80eecabd0c5c37fcfd0adcb4393f72643b98c06183b989727d16c6271123920"
+                "sha256:54f31f53307ef19335c5e76f8fad219bdbf9a2fa0b6ae34ac6b739fd93a4b4aa"
             ],
             "index": "pypi",
-            "version": "==2018.12.15.1"
+            "version": "==2018.12.18.1"
         },
         "elib-run": {
             "hashes": [
@@ -787,7 +786,6 @@
                 "sha256:05eed71e2e327246ad6b38c540c4a3117230b19679b875190486ddd2d721422d",
                 "sha256:f8ac84de7840f5b9c4e3347b3c1eaa50f7e49c2b07596221daec5edaabbd7c48"
             ],
-            "markers": "sys_platform == 'win32'",
             "version": "==0.4.1"
         },
         "coverage": {
@@ -857,10 +855,10 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:d80eecabd0c5c37fcfd0adcb4393f72643b98c06183b989727d16c6271123920"
+                "sha256:54f31f53307ef19335c5e76f8fad219bdbf9a2fa0b6ae34ac6b739fd93a4b4aa"
             ],
             "index": "pypi",
-            "version": "==2018.12.15.1"
+            "version": "==2018.12.18.1"
         },
         "elib-run": {
             "hashes": [
