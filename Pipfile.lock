@@ -95,7 +95,6 @@
                 "sha256:05eed71e2e327246ad6b38c540c4a3117230b19679b875190486ddd2d721422d",
                 "sha256:f8ac84de7840f5b9c4e3347b3c1eaa50f7e49c2b07596221daec5edaabbd7c48"
             ],
-            "markers": "sys_platform == 'win32'",
             "version": "==0.4.1"
         },
         "coverage": {
@@ -222,12 +221,12 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:0dc026a7b2861a8c02764a0a1f33e7d1fc2f6a5cd395285fde0baf10d3dc3b24",
-                "sha256:2f73a9e4974acbbe1530a662e55c77fb368a240590f468c3a0cea61669143b37",
-                "sha256:fbca61297dcb454af7ea1b7e32ca5438562e9eba6b5ab7dda4ce4bed7d354fc3"
+                "sha256:3726eb7b052c68fd745a58c86bcb9c8758852e54e454eeba72fc0a125eb5c761",
+                "sha256:b3fa305ecd4b174a4a5f3b72bc521b6fcdb7ce17d5213bb00f4e375eba850206",
+                "sha256:da3a01b7f92043e75ad4565354f1f603f82e7c395365e366ee63314debf8e19f"
             ],
             "index": "pypi",
-            "version": "==3.83.2"
+            "version": "==3.84.2"
         },
         "idna": {
             "hashes": [
@@ -787,7 +786,6 @@
                 "sha256:05eed71e2e327246ad6b38c540c4a3117230b19679b875190486ddd2d721422d",
                 "sha256:f8ac84de7840f5b9c4e3347b3c1eaa50f7e49c2b07596221daec5edaabbd7c48"
             ],
-            "markers": "sys_platform == 'win32'",
             "version": "==0.4.1"
         },
         "coverage": {
@@ -925,12 +923,12 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:0dc026a7b2861a8c02764a0a1f33e7d1fc2f6a5cd395285fde0baf10d3dc3b24",
-                "sha256:2f73a9e4974acbbe1530a662e55c77fb368a240590f468c3a0cea61669143b37",
-                "sha256:fbca61297dcb454af7ea1b7e32ca5438562e9eba6b5ab7dda4ce4bed7d354fc3"
+                "sha256:3726eb7b052c68fd745a58c86bcb9c8758852e54e454eeba72fc0a125eb5c761",
+                "sha256:b3fa305ecd4b174a4a5f3b72bc521b6fcdb7ce17d5213bb00f4e375eba850206",
+                "sha256:da3a01b7f92043e75ad4565354f1f603f82e7c395365e366ee63314debf8e19f"
             ],
             "index": "pypi",
-            "version": "==3.83.2"
+            "version": "==3.84.2"
         },
         "idna": {
             "hashes": [
