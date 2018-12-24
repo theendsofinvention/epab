@@ -95,7 +95,6 @@
                 "sha256:05eed71e2e327246ad6b38c540c4a3117230b19679b875190486ddd2d721422d",
                 "sha256:f8ac84de7840f5b9c4e3347b3c1eaa50f7e49c2b07596221daec5edaabbd7c48"
             ],
-            "markers": "sys_platform == 'win32'",
             "version": "==0.4.1"
         },
         "coverage": {
@@ -199,11 +198,11 @@
         },
         "gitchangelog": {
             "hashes": [
-                "sha256:71832b8c15360a7d89e117566858b77fc4e46ea767c097e0e776415c7bc8bae7",
-                "sha256:a6fce44f7405d04497bd81e99173831a34c7362344c4836da9ae17d0d98e00ae"
+                "sha256:3d8d6a730450fbd5b0a9bc58d0dd3e269c967d7eb4fece0c5cff4372a3f77421",
+                "sha256:45f8b8e64cece0d9bb03a35ecd8ee62c1c7157f8dac0ef3cb68381bfcc1bde29"
             ],
             "index": "pypi",
-            "version": "==3.0.3"
+            "version": "==3.0.4"
         },
         "gitdb2": {
             "hashes": [
@@ -787,7 +786,6 @@
                 "sha256:05eed71e2e327246ad6b38c540c4a3117230b19679b875190486ddd2d721422d",
                 "sha256:f8ac84de7840f5b9c4e3347b3c1eaa50f7e49c2b07596221daec5edaabbd7c48"
             ],
-            "markers": "sys_platform == 'win32'",
             "version": "==0.4.1"
         },
         "coverage": {
@@ -902,11 +900,11 @@
         },
         "gitchangelog": {
             "hashes": [
-                "sha256:71832b8c15360a7d89e117566858b77fc4e46ea767c097e0e776415c7bc8bae7",
-                "sha256:a6fce44f7405d04497bd81e99173831a34c7362344c4836da9ae17d0d98e00ae"
+                "sha256:3d8d6a730450fbd5b0a9bc58d0dd3e269c967d7eb4fece0c5cff4372a3f77421",
+                "sha256:45f8b8e64cece0d9bb03a35ecd8ee62c1c7157f8dac0ef3cb68381bfcc1bde29"
             ],
             "index": "pypi",
-            "version": "==3.0.3"
+            "version": "==3.0.4"
         },
         "gitdb2": {
             "hashes": [
