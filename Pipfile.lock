@@ -95,7 +95,6 @@
                 "sha256:05eed71e2e327246ad6b38c540c4a3117230b19679b875190486ddd2d721422d",
                 "sha256:f8ac84de7840f5b9c4e3347b3c1eaa50f7e49c2b07596221daec5edaabbd7c48"
             ],
-            "markers": "sys_platform == 'win32'",
             "version": "==0.4.1"
         },
         "coverage": {
@@ -222,12 +221,12 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:0dc026a7b2861a8c02764a0a1f33e7d1fc2f6a5cd395285fde0baf10d3dc3b24",
-                "sha256:2f73a9e4974acbbe1530a662e55c77fb368a240590f468c3a0cea61669143b37",
-                "sha256:fbca61297dcb454af7ea1b7e32ca5438562e9eba6b5ab7dda4ce4bed7d354fc3"
+                "sha256:2fb066b34afe4fe6bf543416ddfe5f10bea2758da994bfb925851dd65f95a8e3",
+                "sha256:41a802714ab6353cc1377f4d2616e68d1d3f6779de3666efdf3989f3d6140185",
+                "sha256:fbf88df345eb17db5b4498f8a811da1a5155926ca8abf9d298ed36153934498f"
             ],
             "index": "pypi",
-            "version": "==3.83.2"
+            "version": "==3.86.4"
         },
         "idna": {
             "hashes": [
@@ -295,11 +294,11 @@
         },
         "more-itertools": {
             "hashes": [
-                "sha256:c187a73da93e7a8acc0001572aebc7e3c69daf7bf6881a2cea10650bd4420092",
-                "sha256:c476b5d3a34e12d40130bc2f935028b5f636df8f372dc2c1c01dc19681b2039e",
-                "sha256:fcbfeaea0be121980e15bc97b3817b5202ca73d0eae185b4550cbfce2a3ebb3d"
+                "sha256:38a936c0a6d98a38bcc2d03fdaaedaba9f412879461dd2ceff8d37564d6522e4",
+                "sha256:c0a5785b1109a6bd7fac76d6837fd1feca158e54e521ccd2ae8bfe393cc9d4fc",
+                "sha256:fe7a7cae1ccb57d33952113ff4fa1bc5f879963600ed74918f1236e212ee50b9"
             ],
-            "version": "==4.3.0"
+            "version": "==5.0.0"
         },
         "multidict": {
             "hashes": [
@@ -787,7 +786,6 @@
                 "sha256:05eed71e2e327246ad6b38c540c4a3117230b19679b875190486ddd2d721422d",
                 "sha256:f8ac84de7840f5b9c4e3347b3c1eaa50f7e49c2b07596221daec5edaabbd7c48"
             ],
-            "markers": "sys_platform == 'win32'",
             "version": "==0.4.1"
         },
         "coverage": {
@@ -925,12 +923,12 @@
         },
         "hypothesis": {
             "hashes": [
-                "sha256:0dc026a7b2861a8c02764a0a1f33e7d1fc2f6a5cd395285fde0baf10d3dc3b24",
-                "sha256:2f73a9e4974acbbe1530a662e55c77fb368a240590f468c3a0cea61669143b37",
-                "sha256:fbca61297dcb454af7ea1b7e32ca5438562e9eba6b5ab7dda4ce4bed7d354fc3"
+                "sha256:2fb066b34afe4fe6bf543416ddfe5f10bea2758da994bfb925851dd65f95a8e3",
+                "sha256:41a802714ab6353cc1377f4d2616e68d1d3f6779de3666efdf3989f3d6140185",
+                "sha256:fbf88df345eb17db5b4498f8a811da1a5155926ca8abf9d298ed36153934498f"
             ],
             "index": "pypi",
-            "version": "==3.83.2"
+            "version": "==3.86.4"
         },
         "idna": {
             "hashes": [
@@ -998,11 +996,11 @@
         },
         "more-itertools": {
             "hashes": [
-                "sha256:c187a73da93e7a8acc0001572aebc7e3c69daf7bf6881a2cea10650bd4420092",
-                "sha256:c476b5d3a34e12d40130bc2f935028b5f636df8f372dc2c1c01dc19681b2039e",
-                "sha256:fcbfeaea0be121980e15bc97b3817b5202ca73d0eae185b4550cbfce2a3ebb3d"
+                "sha256:38a936c0a6d98a38bcc2d03fdaaedaba9f412879461dd2ceff8d37564d6522e4",
+                "sha256:c0a5785b1109a6bd7fac76d6837fd1feca158e54e521ccd2ae8bfe393cc9d4fc",
+                "sha256:fe7a7cae1ccb57d33952113ff4fa1bc5f879963600ed74918f1236e212ee50b9"
             ],
-            "version": "==4.3.0"
+            "version": "==5.0.0"
         },
         "multidict": {
             "hashes": [
