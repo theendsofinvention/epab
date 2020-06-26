@@ -51,7 +51,7 @@ pytest-pycharm==0.6.0; os_name == 'nt'
 pytest-repeat==0.8.0
 pytest-vcr==1.0.2
 pytest-watch==4.2.0
-pytest==4.0.2
+pytest==5.4.3
 python-dateutil==2.7.5
 pyyaml==5.3.1
 readme-renderer==24.0
